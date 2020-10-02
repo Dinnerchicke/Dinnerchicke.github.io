@@ -67,33 +67,11 @@
 <li>函数名.length表示接收参数的个数</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
       <tags>
         <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comRegEx</title>
-    <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
-]]></content>
-      <tags>
-        <tag>DevOps</tag>
       </tags>
   </entry>
   <entry>
@@ -132,6 +110,37 @@
 <h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
 <p>分开绑定</p>
 ]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comRegEx</title>
+    <url>/2020/10/01/comRegEx/</url>
+    <content><![CDATA[<p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
       <tags>
         <tag>DevOps</tag>
       </tags>
@@ -149,6 +158,9 @@
 <p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
 <p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
 ]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
       <tags>
         <tag>DevOps</tag>
       </tags>
@@ -403,6 +415,9 @@
 <li>this.logger：logger 对象，上面有四个方法（debug，info，warn，error），分别代表打印四个不同级别的日志，使用方法和效果与 <a href="https://eggjs.org/zh-cn/core/logger.html#context-logger">context logger</a> 中介绍的一样，但是通过这个 logger 对象记录的日志，在日志前面会加上打印该日志的文件路径，以便快速定位日志打印位置。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
       <tags>
         <tag>back-design</tag>
       </tags>
