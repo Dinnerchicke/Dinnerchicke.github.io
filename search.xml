@@ -97,7 +97,7 @@
       </tags>
   </entry>
   <entry>
-    <title>authentication</title>
+    <title>Authentication</title>
     <url>/2020/10/02/authentication/</url>
     <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
 <h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
@@ -137,7 +137,7 @@
       </tags>
   </entry>
   <entry>
-    <title>shell</title>
+    <title>Shell</title>
     <url>/2020/09/30/shell/</url>
     <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
 <p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换</p>
