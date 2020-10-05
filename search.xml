@@ -76,133 +76,242 @@
       </tags>
   </entry>
   <entry>
-    <title>Shell</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comRegEx</title>
-    <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Authentication</title>
-    <url>/2020/10/02/authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
-<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
-<ol>
-<li>登陆Post/login{“登陆信息”}</li>
-<li>创建token</li>
-<li>调用接口时在header里有token</li>
-<li>服务器检查token，验证</li>
-<li>返回结果给浏览器</li>
-</ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
-<p>服务器收到信息后与数据库进行比对</p>
-<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
-<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
-<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
-<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
-<li>判断当前接口是否在白名单</li>
-<li>浏览器是否传递token</li>
-<li>token签名认证</li>
-<li>解密出的信息与后端存储数据对比</li>
-</ol>
-<p>3、4步即可完成验证，一起执行更好保障</p>
-<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
-<p>为用户分配角色，为角色绑定功能</p>
-<p>具体实现：</p>
-<ol>
-<li>查询角色拥有的角色</li>
-<li>查询角色绑定功能</li>
-<li>查询当前访问接口所属功能</li>
-<li>判断用户是否拥有权限访问当前接口</li>
-</ol>
-<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
-<p>分开绑定</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>back-Design</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MacOS安装win7</title>
-    <url>/2020/10/03/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h1 id="双系统"><a href="#双系统" class="headerlink" title="双系统"></a>双系统</h1><p>今天被差遣去给太上皇装双系统，macOS加个Win7</p>
-<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><ul>
-<li><p>电脑：Mac mini 2014，系统10.14.6，四核i5 4G，500G机械硬盘</p>
+    <title>Linux文件、目录与磁盘格式</title>
+    <url>/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="Linux的文件权限与目录配置"><a href="#Linux的文件权限与目录配置" class="headerlink" title="Linux的文件权限与目录配置"></a>Linux的文件权限与目录配置</h1><p>r(读权限)：表示你可以查询该目录下的文件名，如ls指令</p>
+<p>w(写指令)：</p>
+<ul>
+<li>建立新的文件与目录</li>
+<li>删除已存在的文件或目录(不论权限如何，就算只有w也可以！！！)</li>
+<li>将已经存在的文件或目录进行更名</li>
+<li>移动该目录内的文件、目录位置</li>
+</ul>
+<p>x(执行权限)</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>内容</th>
+<th>r</th>
+<th>w</th>
+<th>x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件</td>
+<td>详细数据data</td>
+<td>读到文件内容</td>
+<td>修改文件内容</td>
+<td>执行文件内容</td>
+</tr>
+<tr>
+<td>目录</td>
+<td>文件名</td>
+<td>读到文件名</td>
+<td>修改文件名</td>
+<td>进入该目录的权限</td>
+</tr>
+</tbody></table>
+<h2 id="Linux文件权限"><a href="#Linux文件权限" class="headerlink" title="Linux文件权限"></a>Linux文件权限</h2><p>使用命令ls -al，文件类型权限如下图-rw-r–r–.</p>
+<p><img src="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/1.jpg"></p>
+<p>第一个字符代表这个文件类型，常见的如下：</p>
+<ul>
+<li>[d]：目录</li>
+<li>[-]：文件</li>
+<li>[l]：链接文件</li>
+</ul>
+<p>接下来的三个为一组：</p>
+<ul>
+<li>第一组为文件拥有者可具备的权限：rw-表示读写权限，但不可执行</li>
+<li>第二组为加入此用户组账号的权限</li>
+<li>第三组为非本人且没有加入本用户组的其他账号的权限</li>
+</ul>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><p>chgrp：修改文件所属用户组</p>
+<p>chown：修改文件拥有者，用此命令需要用数字指代权限，r=4，w=2，x=1，如rwx=7</p>
+<p>chmod：修改文件的权限</p>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>文件名之前多一个(.)，说明此文件为隐藏文件</li>
+<li>root不受系统的权限限制，所有无论文件权限是什么，默认root都可以读写</li>
+<li>通常开放的目录至少会具备rx这两个权限</li>
+<li>Linux的文件没有扩展名，一个文件能否被执行，与属性有关系，与文件名没关系</li>
+</ul>
+<h2 id="Linux目录配置–FHS"><a href="#Linux目录配置–FHS" class="headerlink" title="Linux目录配置–FHS"></a>Linux目录配置–FHS</h2><blockquote>
+<p>根目录(/)所在的分区应该越小越好，且应用程序所安装的软件最好不要与根目录放在同一个分区内</p>
+</blockquote>
+<h3 id="根目录下："><a href="#根目录下：" class="headerlink" title="根目录下："></a>根目录下：</h3><p>FHS要求必须要存在的目录：</p>
+<ul>
+<li>/bin：存放执行文件，此目录下放置的是单人维护模式下还能够使用的命令</li>
+<li>/boot：此目录放置启动会使用到的文件</li>
+<li>/dev：任何设备和接口设备都以文件形式存在于此目录</li>
+<li>/etc：系统内的配置文件几乎都放置在这个目录，FHS建议不要放置可执行文件在这个目录</li>
+<li>/lib：此目录放置的是启动时会用到的函数库</li>
+<li>/media：此目录放置的是可删除的设备，包括软盘、光盘、DVD等设备</li>
+<li>/mnt：暂时挂载某些额外的设备可以放在此目录</li>
+<li>/opt：第三方辅助软件放置的目录，如KDE桌面管理系统</li>
+<li>/run：系统启动后产生的各项信息</li>
+<li>/sbin：启动过程需要的，里面包括了启动、修复、还原系统所需要的命令</li>
+<li>/srv：一些网络服务启动后，这些服务所需要使用的数据目录</li>
+<li>/tmp：让一般用户或是正在执行的程序暂时放置文件的地方，这个目录任何人都能够存取</li>
+<li>/usr：后续介绍</li>
+<li>/var：后续介绍</li>
+</ul>
+<p>FHS建议可以存在的目录：</p>
+<ul>
+<li>/home：系统默认家目录</li>
+<li>/root：系统管理员的家目录</li>
+</ul>
+<h3 id="usr目录下："><a href="#usr目录下：" class="headerlink" title="usr目录下："></a>usr目录下：</h3><p><em>usr指的是UNIX Software Resource，即操作系统软件资源放置的目录，而不是user用户数据</em></p>
+<p>FHS要求必须要存在的目录：</p>
+<ul>
+<li>/usr/bin/：所有一般用户能够使用的命令都放在这里</li>
+<li>/usr/lib/：与/lib功能相同，/lib链接到此目录</li>
+<li>/usr/local/：管理员在本机安装自己下载的软件，建议安装到此目录</li>
+<li>/usr/sbin/：非系统正常运行所需要的系统命令</li>
+<li>/usr/share/：主要放置只读的数据文件，当然也包括共享文件</li>
+</ul>
+<p>FHS建议可以存在的目录：</p>
+<ul>
+<li>/usr/include/：C/C++等程序语言的头文件(header)与包含文件(include)放置处</li>
+<li>/usr/libexec/：某些不被一般用户常用的执行文件或脚本</li>
+<li>/usr/src/：一般源代码建议放置到这里</li>
+</ul>
+<h3 id="var目录下："><a href="#var目录下：" class="headerlink" title="var目录下："></a>var目录下：</h3><p><em>var目录主要针对经常性变动的文件</em></p>
+<p>​    FHS要求必须要存在的目录：</p>
+<ul>
+<li>/var/cache/：应用程序运行过程中的缓存</li>
+<li>/var/lib/：程序执行过程中，需要使用的数据文件放置的目录</li>
+<li>/var/lock/：给设备上锁</li>
+<li>/var/log/：日志文件</li>
+<li>/var/mail/：个人电子邮箱</li>
+<li>/var/run/：某些程序或是服务启动后，会将PID放到这个目录下</li>
+<li>/var/spool/：这个目录通常放置一些队列数据，即排队等待其他程序使用的数据</li>
+</ul>
+<h3 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>. ：代表当前目录，也可以用./表示</li>
+<li>.. ：代表上一层目录，也可以用../表示</li>
+<li>当出现找不到命令时，代表该命令不在环境变量$PATH目录下</li>
+</ul>
+<h1 id="Linux文件与目录管理"><a href="#Linux文件与目录管理" class="headerlink" title="Linux文件与目录管理"></a>Linux文件与目录管理</h1><p>有关命令：</p>
+<ul>
+<li>ls：查看文件与目录名称</li>
+<li>cp：复制;注意：在默认的条件下，cp的源文件与目标文件的权限不同，目标文件的拥有者是操作者本身</li>
+<li>rm：删除文件或目录</li>
+<li>mv：移动文件或目录，也可以修改文件名</li>
+</ul>
+<h2 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h2><ul>
+<li>cat：由第一行开始显示文件内容</li>
+<li>tac：从最后一行开始显示</li>
+<li>nl：显示时，同时输出行号</li>
+<li>more：一页一页显示文件内容</li>
+<li>less：与more类似，但是可以往前翻</li>
+<li>head：只看前几行</li>
+<li>tail：只看后几行</li>
+<li>od：以二进制的方式读取文件内容</li>
+<li>touch：修改文件时间或创建新文件</li>
+</ul>
+<h2 id="文件与目录的默认权限与隐藏权限"><a href="#文件与目录的默认权限与隐藏权限" class="headerlink" title="文件与目录的默认权限与隐藏权限"></a>文件与目录的默认权限与隐藏权限</h2><p>umask：查看文件默认权限，指的是该默认值需要减掉的权限，如umask0022，默认权限为7755</p>
+<p>chattr：配置文件隐藏属性</p>
+<p>lsattr：显示文件隐藏属性</p>
+<h3 id="文件特殊权限"><a href="#文件特殊权限" class="headerlink" title="文件特殊权限"></a>文件特殊权限</h3><p>SUID</p>
+<p>SGID</p>
+<p>SBIT</p>
+<h2 id="命令与文件查找"><a href="#命令与文件查找" class="headerlink" title="命令与文件查找"></a>命令与文件查找</h2><ul>
+<li><p>which：脚本文件查找，即查找执行文件</p>
 </li>
-<li><p>系统iso镜像–GHOST win7</p>
+<li><p>whereis：特定目录中查找文件</p>
 </li>
-<li><p>PE：给系统分区，重要是分成NTFS格式以供Win使用</p>
+<li><p>locate：依据/var/lib/mlocate内的数据库记录</p>
 </li>
-<li><p>磁盘：需要NTFS格式</p>
-</li>
-<li><p>u盘：主流以UEFI方式安装</p>
+<li><p>find：常用查找</p>
 </li>
 </ul>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>按实际步骤来：</p>
+<h1 id="Linux磁盘与文件管理系统"><a href="#Linux磁盘与文件管理系统" class="headerlink" title="Linux磁盘与文件管理系统"></a>Linux磁盘与文件管理系统</h1><h2 id="文件系统特性"><a href="#文件系统特性" class="headerlink" title="文件系统特性"></a>文件系统特性</h2><blockquote>
+<p>磁盘分区完毕后还需要格式化，因为每种操作系统所设置的文件属性/权限并不同，所以需要格式化以成为操作系统可以使用的</p>
+<p>文件系统通常会将文件权限(rwx)与文件属性(拥有者、用户组等)放在不同的区块，权限与属性放到inode中，实际数据则放置到数据区块中。</p>
+<p>而超级区块会记录整个文件系统的整体信息，包括inode与数据区块的总量、使用量、剩余量等。</p>
+<p>inode记录文件的属性，一个文件占用一个inode，同时记录此文件的数据所在的区块号码。</p>
+</blockquote>
+<p><em>inode记录的信息：</em></p>
+<ul>
+<li>该文件的读写属性(rwx)</li>
+<li>该文件的拥有者与用户组(owner、group)</li>
+<li>该文件大小</li>
+<li>该文件建立或状态改变的时间(ctime)</li>
+<li>最近一次读取时间(atime)</li>
+<li>最近修改时间(mtime)</li>
+<li>定义文件特性的标识(flag)</li>
+<li>该文件真正内容的指向(pointer)</li>
+</ul>
+<blockquote>
+<p>系统读取的文件时需要先找到inode，并分析inode所记录的权限与用户是否符合，若符合才能读取</p>
+</blockquote>
+<p><em>Superblock(超级区块)记录的信息：</em></p>
+<ul>
+<li>数据区块与inode的总量</li>
+<li>未使用与已使用的inode与数据区块数量</li>
+<li>数据库与inode的大小</li>
+<li>文件系统的挂载时间、最近一次写入数据的时间、最近一次检验磁盘的时间等文件系统相关信息</li>
+<li>一个有效位数值，若此文件系统被挂载，则为0，未挂载为1</li>
+</ul>
+<p><em>硬链接：</em></p>
+<blockquote>
+<p>一般一个文件，目录-&gt;文件名-&gt;inode-&gt;文件内容，硬链接则增加一个目录下文件名指向相同inode</p>
+<p>硬链接的限制：1.不能跨文件系统 2.不能链接目录</p>
+</blockquote>
+<p><em>符号链接：</em></p>
+<blockquote>
+<p>符号链接就是建立一个独立的文件，读取这个文件相当于读取这个文件指向的链接的文件名，相当于windows的快捷方式</p>
+</blockquote>
+<h2 id="磁盘分区、格式化检验与挂载"><a href="#磁盘分区、格式化检验与挂载" class="headerlink" title="磁盘分区、格式化检验与挂载"></a>磁盘分区、格式化检验与挂载</h2><p>在Linux系统中，当新增一个磁盘时，有以下操作需做：</p>
 <ol>
-<li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
-<li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
-<li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
-<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
-<li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
-<li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
-<li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
-<li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
+<li>对磁盘进行划分，以建立磁盘分区</li>
+<li>对磁盘格式化，以建立文件系统</li>
+<li>检验文件系统</li>
+<li>建立挂载点，并挂载到挂载点</li>
 </ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
+<p>挂载注意事项：</p>
+<ul>
+<li>单一文件系统不应该挂载在不同挂载点中</li>
+<li>单一目录不应该重复挂载多个文件系统</li>
+<li>作为挂载点的目录，理论上应该是已存在空目录</li>
+<li>根目录/是必须挂载的，而且一定要先于其他挂载点被挂载进来</li>
+<li>如若进行卸载，必须先将工作目录移到挂载点(及子目录)之外</li>
+</ul>
+<h1 id="压缩技术"><a href="#压缩技术" class="headerlink" title="压缩技术"></a>压缩技术</h1><p>原理：</p>
+<ul>
+<li>一种将文件中没有使用到的空间空出来，以让文件占用空间变小</li>
+<li>一种类似有100个1，压缩技术记录为100个1</li>
+</ul>
+<h2 id="Linux系统常见的压缩命令"><a href="#Linux系统常见的压缩命令" class="headerlink" title="Linux系统常见的压缩命令"></a>Linux系统常见的压缩命令</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>gzip</th>
+<th>xz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>压缩比</td>
+<td>较低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>所用时间</td>
+<td>较短</td>
+<td>较长</td>
+</tr>
+</tbody></table>
+<h3 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h3><p>记住以下即可：</p>
+<ul>
+<li>压缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称</li>
+<li>查询：tar -jtv -f filename.tar.bz2</li>
+<li>解查询：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</li>
+</ul>
 ]]></content>
       <categories>
         <category>PStudy</category>
         <category>devOps</category>
+        <category>鸟哥的Linux私房菜</category>
       </categories>
       <tags>
         <tag>devOps</tag>
@@ -216,7 +325,7 @@
 <li>奇数：开发板</li>
 <li>偶数：稳定版</li>
 </ul>
-<h2 id="计算机概论"><a href="#计算机概论" class="headerlink" title="计算机概论"></a>计算机概论</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>CPU里面含有两个主要的单元：*<strong>算逻单元**<em>和</em></strong>控制单元***</p>
+<h2 id="计算机概论"><a href="#计算机概论" class="headerlink" title="计算机概论"></a>计算机概论</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>CPU里面含有两个主要的单元：<em>算逻单元</em>和<em>控制单元</em></p>
 <blockquote>
 <p>CPU里面的数据都是从内存里来的，也就是说，<em>输入单元-&gt;内存-&gt;CPU-&gt;内存-&gt;输出单元。</em></p>
 </blockquote>
@@ -397,6 +506,102 @@
       </tags>
   </entry>
   <entry>
+    <title>Authentication</title>
+    <url>/2020/10/02/authentication/</url>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
+<ol>
+<li>登陆Post/login{“登陆信息”}</li>
+<li>创建token</li>
+<li>调用接口时在header里有token</li>
+<li>服务器检查token，验证</li>
+<li>返回结果给浏览器</li>
+</ol>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<p>服务器收到信息后与数据库进行比对</p>
+<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
+<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
+<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
+<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
+<li>判断当前接口是否在白名单</li>
+<li>浏览器是否传递token</li>
+<li>token签名认证</li>
+<li>解密出的信息与后端存储数据对比</li>
+</ol>
+<p>3、4步即可完成验证，一起执行更好保障</p>
+<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
+<p>为用户分配角色，为角色绑定功能</p>
+<p>具体实现：</p>
+<ol>
+<li>查询角色拥有的角色</li>
+<li>查询角色绑定功能</li>
+<li>查询当前访问接口所属功能</li>
+<li>判断用户是否拥有权限访问当前接口</li>
+</ol>
+<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
+<p>分开绑定</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>back-Design</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comRegEx</title>
+    <url>/2020/10/01/comRegEx/</url>
+    <content><![CDATA[<p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>水果</title>
     <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
     <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
@@ -410,6 +615,43 @@
       </categories>
       <tags>
         <tag>knowLedge</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MacOS安装win7</title>
+    <url>/2020/10/03/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="双系统"><a href="#双系统" class="headerlink" title="双系统"></a>双系统</h1><p>今天被差遣去给太上皇装双系统，macOS加个Win7</p>
+<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><ul>
+<li><p>电脑：Mac mini 2014，系统10.14.6，四核i5 4G，500G机械硬盘</p>
+</li>
+<li><p>系统iso镜像–GHOST win7</p>
+</li>
+<li><p>PE：给系统分区，重要是分成NTFS格式以供Win使用</p>
+</li>
+<li><p>磁盘：需要NTFS格式</p>
+</li>
+<li><p>u盘：主流以UEFI方式安装</p>
+</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>按实际步骤来：</p>
+<ol>
+<li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
+<li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
+<li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
+<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
+<li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
+<li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
+<li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
+<li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
       </tags>
   </entry>
   <entry>
@@ -493,6 +735,80 @@
       </categories>
       <tags>
         <tag>Travel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>色彩</title>
+    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
+    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
+<p>H：色相，颜色的名字，如红色色相</p>
+<p>S：饱和度</p>
+<p>B：明度</p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
+<p>红色0°，蓝色240°，绿色120°</p>
+<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
+<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
+<p>邻近色搭配</p>
+<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
+<p>对比色搭配</p>
+<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
+<p>互补色搭配</p>
+<p>夹角在180°内取两种颜色为互补色</p>
+<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
+<li><p>色调：由饱和度和明度结合产生</p>
+</li>
+<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
+</li>
+<li><p>明度：亮度</p>
+</li>
+</ul>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
+<p>白色调</p>
+<p>优点：素雅，文艺，干净，极简</p>
+<p>缺点：乏味，单调</p>
+<p>粉色调</p>
+<p>优点：清秀，天真，可爱</p>
+<p>缺点：软弱，无力</p>
+<p>明色调</p>
+<p>优点：年轻，活力，阳光</p>
+<p>缺点：廉价，缺乏品质感</p>
+<p>鲜色调</p>
+<p>优点：刺激，活力，强力</p>
+<p>缺点：生硬，廉价</p>
+<p>灰色调(高级灰)</p>
+<p>优点：品质，高端</p>
+<p>缺点：缺少活力</p>
+<p>深色调</p>
+<p>优点：成熟，稳重，大气</p>
+<p>缺点：压抑，阴暗，不透气</p>
+<p>黑色调</p>
+<p>优点：神秘，厚重</p>
+<p>缺点：压抑</p>
+<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
+<p>对比色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
+<p>冷暖平衡</p>
+<p>红黄橙为暖色系，绿青蓝蓝色系</p>
+<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
+<p>深浅平衡</p>
+<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
+<p>色彩面积平衡</p>
+<p>大概为：</p>
+<p>主色占70%</p>
+<p>辅助色占25%</p>
+<p>点缀色占5%</p>
+<p>有彩色和无彩色平衡</p>
+<p>有彩色和无彩色搭配</p>
+<p>花色和纯色平衡</p>
+<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -595,80 +911,6 @@
       </categories>
       <tags>
         <tag>psyBook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>色彩</title>
-    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
-    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>

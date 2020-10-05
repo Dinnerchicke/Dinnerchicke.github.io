@@ -80,6 +80,120 @@
     
     
     <article
+  id="post-JS红宝书"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/"
+    >JS</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/" class="article-date">
+  <time datetime="2020-09-30T07:52:01.000Z" itemprop="datePublished">2020-09-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
+<ul>
+<li>核心：规定了这门语言的语法、类型等基础内容</li>
+<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
+<li>BOM：提供与浏览器交互的方法和接口</li>
+</ul>
+<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
+<li>src：里面放外部文件，如a.png等</li>
+<li>type：必选，一般来用text/javascript</li>
+</ul>
+<p>Tips：</p>
+<ul>
+<li><p>script按照顺序解析</p>
+</li>
+<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
+</li>
+<li><p>HTML中推荐使用外部JS导入来使用</p>
+</li>
+</ul>
+<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
+<ul>
+<li>区分大小写</li>
+<li>严格模式：来源于JS</li>
+<li>注释：//或/* */</li>
+<li>加分号</li>
+<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
+<li>‘’和””同样理解为String类型，没区别</li>
+<li>Object是所有对象的基础</li>
+<li>默认情况下JS中所有整数都是有符号整数</li>
+<li>for-in枚举对象属性</li>
+<li>函数声明：function 函数名(a,b,c…){…}</li>
+<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
+<li>return;返回undefined</li>
+</ul>
+<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
+<ul>
+<li>创建对象new Object()</li>
+<li>复制变量即复制值，var num1=num//num==num1</li>
+<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
+<li>JS中所有函数的参数都是按值传递的</li>
+<li>typeof()检测基本类型、instanceof()检测引用类型</li>
+<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
+<li>if、for语句中声明的变量即为全局变量</li>
+<li>JS有垃圾回收机制</li>
+</ul>
+<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
+<ul>
+<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
+<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
+<li>Date：Date.parse()换成ms</li>
+<li>RegEXP：正则表达式</li>
+<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
+</ul>
+<p>Tips:</p>
+<ul>
+<li>类似栈函数push()、pop()</li>
+<li>类似队列函数shift()、push()</li>
+<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
+<li>concat()方法对数组内元素进行删除、插入、替换</li>
+<li>可以将一个函数作为另一个函数的结果返回</li>
+<li>函数内部对象this引用函数当前对象的属性如this.color</li>
+<li>函数名.length表示接收参数的个数</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-Design/" rel="tag">web-Design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-shell"
   class="article article-type-post"
   itemscope
