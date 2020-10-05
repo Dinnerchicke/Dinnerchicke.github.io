@@ -92,6 +92,42 @@
       </tags>
   </entry>
   <entry>
+    <title>双系统安装</title>
+    <url>/2020/10/03/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="双系统"><a href="#双系统" class="headerlink" title="双系统"></a>双系统</h1><p>今天被差遣去给太上皇装双系统，macOS加个Win7</p>
+<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><ul>
+<li><p>电脑：Mac mini 2014，系统10.14.6，四核i5 4G，500G机械硬盘</p>
+</li>
+<li><p>系统iso镜像–GHOST win7</p>
+</li>
+<li><p>PE：给系统分区，重要是分成NTFS格式以供Win使用</p>
+</li>
+<li><p>磁盘：需要NTFS格式</p>
+</li>
+<li><p>u盘：主流以UEFI方式安装</p>
+</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>按实际步骤来：</p>
+<ol>
+<li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
+<li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
+<li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
+<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
+<li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
+<li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
+<li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
+<li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>水果</title>
     <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
     <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
@@ -173,7 +209,7 @@
 <p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
 ]]></content>
       <categories>
-        <category>Dlife</category>
+        <category>DLife</category>
       </categories>
       <tags>
         <tag>DailyLife</tag>
