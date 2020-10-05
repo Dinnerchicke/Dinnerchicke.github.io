@@ -69,9 +69,39 @@
 ]]></content>
       <categories>
         <category>PStudy</category>
+        <category>web-Design</category>
       </categories>
       <tags>
-        <tag>web-design</tag>
+        <tag>web-Design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comRegEx</title>
+    <url>/2020/10/01/comRegEx/</url>
+    <content><![CDATA[<p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>pStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
       </tags>
   </entry>
   <entry>
@@ -111,38 +141,11 @@
 <p>分开绑定</p>
 ]]></content>
       <categories>
-        <category>PStudy</category>
+        <category>pStudy</category>
+        <category>back-Design</category>
       </categories>
       <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comRegEx</title>
-    <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
+        <tag>devOps</tag>
       </tags>
   </entry>
   <entry>
@@ -158,13 +161,14 @@
 <p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
 <p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
 <p>问题三：路径出问题</p>
-<p>解决方案：因为<del>在命令行都能进故觉得是绝对路径，但是在shell不行，</del>表示/home/用户名</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
 ]]></content>
       <categories>
-        <category>PStudy</category>
+        <category>pStudy</category>
+        <category>devOps</category>
       </categories>
       <tags>
-        <tag>DevOps</tag>
+        <tag>devOps</tag>
       </tags>
   </entry>
   <entry>
@@ -197,25 +201,11 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
 ]]></content>
       <categories>
-        <category>PStudy</category>
+        <category>pStudy</category>
+        <category>devOps</category>
       </categories>
       <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-      </categories>
-      <tags>
-        <tag>DailyLife</tag>
+        <tag>devOps</tag>
       </tags>
   </entry>
   <entry>
@@ -301,70 +291,12 @@
       </tags>
   </entry>
   <entry>
-    <title>色彩</title>
-    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
-    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
 ]]></content>
       <categories>
         <category>DLife</category>
@@ -472,6 +404,79 @@
       </categories>
       <tags>
         <tag>psyBook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>色彩</title>
+    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
+    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
+<p>H：色相，颜色的名字，如红色色相</p>
+<p>S：饱和度</p>
+<p>B：明度</p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
+<p>红色0°，蓝色240°，绿色120°</p>
+<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
+<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
+<p>邻近色搭配</p>
+<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
+<p>对比色搭配</p>
+<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
+<p>互补色搭配</p>
+<p>夹角在180°内取两种颜色为互补色</p>
+<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
+<li><p>色调：由饱和度和明度结合产生</p>
+</li>
+<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
+</li>
+<li><p>明度：亮度</p>
+</li>
+</ul>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
+<p>白色调</p>
+<p>优点：素雅，文艺，干净，极简</p>
+<p>缺点：乏味，单调</p>
+<p>粉色调</p>
+<p>优点：清秀，天真，可爱</p>
+<p>缺点：软弱，无力</p>
+<p>明色调</p>
+<p>优点：年轻，活力，阳光</p>
+<p>缺点：廉价，缺乏品质感</p>
+<p>鲜色调</p>
+<p>优点：刺激，活力，强力</p>
+<p>缺点：生硬，廉价</p>
+<p>灰色调(高级灰)</p>
+<p>优点：品质，高端</p>
+<p>缺点：缺少活力</p>
+<p>深色调</p>
+<p>优点：成熟，稳重，大气</p>
+<p>缺点：压抑，阴暗，不透气</p>
+<p>黑色调</p>
+<p>优点：神秘，厚重</p>
+<p>缺点：压抑</p>
+<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
+<p>对比色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
+<p>冷暖平衡</p>
+<p>红黄橙为暖色系，绿青蓝蓝色系</p>
+<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
+<p>深浅平衡</p>
+<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
+<p>色彩面积平衡</p>
+<p>大概为：</p>
+<p>主色占70%</p>
+<p>辅助色占25%</p>
+<p>点缀色占5%</p>
+<p>有彩色和无彩色平衡</p>
+<p>有彩色和无彩色搭配</p>
+<p>花色和纯色平衡</p>
+<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+      </categories>
+      <tags>
+        <tag>DailyLife</tag>
       </tags>
   </entry>
   <entry>
@@ -725,10 +730,11 @@
 </ul>
 ]]></content>
       <categories>
-        <category>PStudy</category>
+        <category>pStudy</category>
+        <category>back-Design</category>
       </categories>
       <tags>
-        <tag>back-design</tag>
+        <tag>back-Design</tag>
       </tags>
   </entry>
 </search>
