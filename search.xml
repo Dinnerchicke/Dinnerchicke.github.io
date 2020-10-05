@@ -120,29 +120,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Shell</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
-]]></content>
-      <categories>
-        <category>pStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>comRegEx</title>
     <url>/2020/10/01/comRegEx/</url>
     <content><![CDATA[<p>^ 匹配输入字行首</p>
@@ -162,6 +139,29 @@
 <p>\w 匹配包括下划线的任何单词字符</p>
 <p>\W 匹配任何非单词字符</p>
 <p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>pStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
 ]]></content>
       <categories>
         <category>pStudy</category>
@@ -206,6 +206,22 @@
       </categories>
       <tags>
         <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
+]]></content>
+      <categories>
+        <category>dLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -289,22 +305,6 @@
       </categories>
       <tags>
         <tag>Travel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
-]]></content>
-      <categories>
-        <category>dLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
