@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>DOM</title>
+    <url>/2020/10/06/DOM/</url>
+    <content><![CDATA[<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
+<ul>
+<li>描述HTML结构–节点树(数据结构)</li>
+<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
+<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
+</ul>
+<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+        <category>JS红宝书</category>
+      </categories>
+      <tags>
+        <tag>web-Design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS</title>
     <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
     <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
@@ -70,6 +90,7 @@
       <categories>
         <category>PStudy</category>
         <category>web-Design</category>
+        <category>JS红宝书</category>
       </categories>
       <tags>
         <tag>web-Design</tag>
@@ -318,6 +339,118 @@
       </tags>
   </entry>
   <entry>
+    <title>Authentication</title>
+    <url>/2020/10/02/authentication/</url>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
+<ol>
+<li>登陆Post/login{“登陆信息”}</li>
+<li>创建token</li>
+<li>调用接口时在header里有token</li>
+<li>服务器检查token，验证</li>
+<li>返回结果给浏览器</li>
+</ol>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<p>服务器收到信息后与数据库进行比对</p>
+<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
+<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
+<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
+<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
+<li>判断当前接口是否在白名单</li>
+<li>浏览器是否传递token</li>
+<li>token签名认证</li>
+<li>解密出的信息与后端存储数据对比</li>
+</ol>
+<p>3、4步即可完成验证，一起执行更好保障</p>
+<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
+<p>为用户分配角色，为角色绑定功能</p>
+<p>具体实现：</p>
+<ol>
+<li>查询角色拥有的角色</li>
+<li>查询角色绑定功能</li>
+<li>查询当前访问接口所属功能</li>
+<li>判断用户是否拥有权限访问当前接口</li>
+</ol>
+<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
+<p>分开绑定</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>back-Design</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comRegEx</title>
+    <url>/2020/10/01/comRegEx/</url>
+    <content><![CDATA[<p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux的规划与安装</title>
     <url>/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h1 id="Linux的规划与安装"><a href="#Linux的规划与安装" class="headerlink" title="Linux的规划与安装"></a>Linux的规划与安装</h1><p>linux版本号：</p>
@@ -503,118 +636,6 @@
       </categories>
       <tags>
         <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Authentication</title>
-    <url>/2020/10/02/authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
-<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
-<ol>
-<li>登陆Post/login{“登陆信息”}</li>
-<li>创建token</li>
-<li>调用接口时在header里有token</li>
-<li>服务器检查token，验证</li>
-<li>返回结果给浏览器</li>
-</ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
-<p>服务器收到信息后与数据库进行比对</p>
-<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
-<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
-<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
-<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
-<li>判断当前接口是否在白名单</li>
-<li>浏览器是否传递token</li>
-<li>token签名认证</li>
-<li>解密出的信息与后端存储数据对比</li>
-</ol>
-<p>3、4步即可完成验证，一起执行更好保障</p>
-<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
-<p>为用户分配角色，为角色绑定功能</p>
-<p>具体实现：</p>
-<ol>
-<li>查询角色拥有的角色</li>
-<li>查询角色绑定功能</li>
-<li>查询当前访问接口所属功能</li>
-<li>判断用户是否拥有权限访问当前接口</li>
-</ol>
-<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
-<p>分开绑定</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>back-Design</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comRegEx</title>
-    <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shell</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
