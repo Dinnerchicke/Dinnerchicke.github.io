@@ -383,89 +383,6 @@
       </tags>
   </entry>
   <entry>
-    <title>comGit</title>
-    <url>/2020/10/06/comGit/</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
-
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#103;&#105;&#x74;&#64;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#55;&#x33;&#x2e;&#53;&#53;">&#103;&#105;&#x74;&#64;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#55;&#x33;&#x2e;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux的规划与安装</title>
     <url>/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h1 id="Linux的规划与安装"><a href="#Linux的规划与安装" class="headerlink" title="Linux的规划与安装"></a>Linux的规划与安装</h1><p>linux版本号：</p>
@@ -654,6 +571,135 @@
       </tags>
   </entry>
   <entry>
+    <title>comGit</title>
+    <url>/2020/10/06/comGit/</url>
+    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+
+<p><img src="/2020/10/06/comGit/4.jpg"></p>
+<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
+<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
+</li>
+<li><p>git add  .  把文件修改添加到暂存区</p>
+</li>
+<li><p>git commit 把暂存区的内容提交到当前分支</p>
+</li>
+<li><p>git remote add origin … 将本地仓库与远程库关联</p>
+</li>
+<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
+</li>
+<li><p>git push origin master 本地提交后，推送到远程库</p>
+</li>
+<li><p>git status 查看仓库当前状态</p>
+</li>
+<li><p>git branch 查看当前分支</p>
+</li>
+<li><p>git log 查看提交日志</p>
+</li>
+<li><p>git remote 查看远程库信息</p>
+</li>
+<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
+</li>
+<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
+</li>
+<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
+</li>
+<li><p>git checkout dev 切换到dev分支</p>
+</li>
+<li><p>git pull 包含一个git fetch和一个git merge</p>
+</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>origin为远程库名称</li>
+</ul>
+<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
+<ol>
+<li><p>输入git config –global user.name “用户名”</p>
+</li>
+<li><p>输入git config –global user.email “邮箱”</p>
+</li>
+<li><p>git init</p>
+</li>
+<li><p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#46;&#55;&#x33;&#x2e;&#53;&#x35;">&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#46;&#55;&#x33;&#x2e;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+</li>
+<li><p>git add . //把文件</p>
+</li>
+<li><p>git commit</p>
+</li>
+<li><p>git push  -u origin dev</p>
+</li>
+</ol>
+<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
+<ol>
+<li><p>git add .</p>
+</li>
+<li><p>git commit -m “(写你的改动描述)” </p>
+</li>
+<li><p>git pull  #拉服务器代码</p>
+</li>
+<li><p>git status</p>
+<p><img src="/2020/10/06/comGit/2.jpg"></p>
+</li>
+<li><p>git push</p>
+</li>
+</ol>
+<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
+<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comShell</title>
+    <url>/2020/10/06/comShell/</url>
+    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
+<li>cat 显示文件内容</li>
+<li>more 显示文件内容，空格向后，b向前</li>
+<li>head 查看文件开头</li>
+<li>tail 查看文件末尾</li>
+<li>wc 统计文本行数、字数、字符数</li>
+</ul>
+<h2 id="系统常用"><a href="#系统常用" class="headerlink" title="系统常用"></a>系统常用</h2><ul>
+<li>ls 查看目录下文件</li>
+<li>ls -s查看目录详细文件信息</li>
+<li>top 查看当前系统中耗费资源最多进程</li>
+<li>data 系统当前时间</li>
+<li>ps -e显示所有进程，环境变量</li>
+<li>ps -aux 显示无控制终端的进程</li>
+</ul>
+<h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><ul>
+<li>Ctrl+c 终止进程</li>
+<li>Ctrl+l  清屏</li>
+<li>Ctrl+q 退出</li>
+</ul>
+<h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><h3 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h3><ul>
+<li>gg 跳到首行</li>
+<li>G 跳到末行</li>
+<li>:n 跳到n行</li>
+</ul>
+<h3 id="替换和取消命令"><a href="#替换和取消命令" class="headerlink" title="替换和取消命令"></a>替换和取消命令</h3><ul>
+<li>u undo，取消上一步操作</li>
+<li>Ctrl+r 返回到undo之前</li>
+</ul>
+<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><ul>
+<li>dd 删除光标所在行</li>
+<li>dG 删除光标所在行到末尾行的所有内容</li>
+<li>D 删除光标所在处到行尾的内容</li>
+</ul>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>comRegEx</title>
     <url>/2020/10/01/comRegEx/</url>
     <content><![CDATA[<p>^ 匹配输入字行首</p>
@@ -683,9 +729,20 @@
       </tags>
   </entry>
   <entry>
-    <title>comShell</title>
-    <url>/2020/10/06/comShell/</url>
-    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id><a href="#" class="headerlink" title></a></h2>]]></content>
+    <title>Shell</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
       <categories>
         <category>PStudy</category>
         <category>devOps</category>
@@ -722,29 +779,6 @@
 <li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
 </ol>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shell</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
 ]]></content>
       <categories>
         <category>PStudy</category>
