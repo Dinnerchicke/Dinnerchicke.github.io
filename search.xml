@@ -1,102 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>DOM</title>
-    <url>/2020/10/06/DOM/</url>
-    <content><![CDATA[<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
-<ul>
-<li>描述HTML结构–节点树(数据结构)</li>
-<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
-<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
-</ul>
-<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-        <category>JS红宝书</category>
-      </categories>
-      <tags>
-        <tag>web-Design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS</title>
-    <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
-    <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
-<ul>
-<li>核心：规定了这门语言的语法、类型等基础内容</li>
-<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
-<li>BOM：提供与浏览器交互的方法和接口</li>
-</ul>
-<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
-<li>src：里面放外部文件，如a.png等</li>
-<li>type：必选，一般来用text/javascript</li>
-</ul>
-<p>Tips：</p>
-<ul>
-<li><p>script按照顺序解析</p>
-</li>
-<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
-</li>
-<li><p>HTML中推荐使用外部JS导入来使用</p>
-</li>
-</ul>
-<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
-<ul>
-<li>区分大小写</li>
-<li>严格模式：来源于JS</li>
-<li>注释：//或/* */</li>
-<li>加分号</li>
-<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
-<li>‘’和””同样理解为String类型，没区别</li>
-<li>Object是所有对象的基础</li>
-<li>默认情况下JS中所有整数都是有符号整数</li>
-<li>for-in枚举对象属性</li>
-<li>函数声明：function 函数名(a,b,c…){…}</li>
-<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
-<li>return;返回undefined</li>
-</ul>
-<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
-<ul>
-<li>创建对象new Object()</li>
-<li>复制变量即复制值，var num1=num//num==num1</li>
-<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
-<li>JS中所有函数的参数都是按值传递的</li>
-<li>typeof()检测基本类型、instanceof()检测引用类型</li>
-<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
-<li>if、for语句中声明的变量即为全局变量</li>
-<li>JS有垃圾回收机制</li>
-</ul>
-<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
-<ul>
-<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
-<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
-<li>Date：Date.parse()换成ms</li>
-<li>RegEXP：正则表达式</li>
-<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
-</ul>
-<p>Tips:</p>
-<ul>
-<li>类似栈函数push()、pop()</li>
-<li>类似队列函数shift()、push()</li>
-<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
-<li>concat()方法对数组内元素进行删除、插入、替换</li>
-<li>可以将一个函数作为另一个函数的结果返回</li>
-<li>函数内部对象this引用函数当前对象的属性如this.color</li>
-<li>函数名.length表示接收参数的个数</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-        <category>JS红宝书</category>
-      </categories>
-      <tags>
-        <tag>web-Design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux文件、目录与磁盘格式</title>
     <url>/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="Linux的文件权限与目录配置"><a href="#Linux的文件权限与目录配置" class="headerlink" title="Linux的文件权限与目录配置"></a>Linux的文件权限与目录配置</h1><p>r(读权限)：表示你可以查询该目录下的文件名，如ls指令</p>
@@ -339,47 +243,99 @@
       </tags>
   </entry>
   <entry>
-    <title>Authentication</title>
-    <url>/2020/10/02/authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
-<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
-<ol>
-<li>登陆Post/login{“登陆信息”}</li>
-<li>创建token</li>
-<li>调用接口时在header里有token</li>
-<li>服务器检查token，验证</li>
-<li>返回结果给浏览器</li>
-</ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
-<p>服务器收到信息后与数据库进行比对</p>
-<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
-<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
-<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
-<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
-<li>判断当前接口是否在白名单</li>
-<li>浏览器是否传递token</li>
-<li>token签名认证</li>
-<li>解密出的信息与后端存储数据对比</li>
-</ol>
-<p>3、4步即可完成验证，一起执行更好保障</p>
-<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
-<p>为用户分配角色，为角色绑定功能</p>
-<p>具体实现：</p>
-<ol>
-<li>查询角色拥有的角色</li>
-<li>查询角色绑定功能</li>
-<li>查询当前访问接口所属功能</li>
-<li>判断用户是否拥有权限访问当前接口</li>
-</ol>
-<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
-<p>分开绑定</p>
+    <title>JS</title>
+    <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
+    <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
+<ul>
+<li>核心：规定了这门语言的语法、类型等基础内容</li>
+<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
+<li>BOM：提供与浏览器交互的方法和接口</li>
+</ul>
+<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
+<li>src：里面放外部文件，如a.png等</li>
+<li>type：必选，一般来用text/javascript</li>
+</ul>
+<p>Tips：</p>
+<ul>
+<li><p>script按照顺序解析</p>
+</li>
+<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
+</li>
+<li><p>HTML中推荐使用外部JS导入来使用</p>
+</li>
+</ul>
+<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
+<ul>
+<li>区分大小写</li>
+<li>严格模式：来源于JS</li>
+<li>注释：//或/* */</li>
+<li>加分号</li>
+<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
+<li>‘’和””同样理解为String类型，没区别</li>
+<li>Object是所有对象的基础</li>
+<li>默认情况下JS中所有整数都是有符号整数</li>
+<li>for-in枚举对象属性</li>
+<li>函数声明：function 函数名(a,b,c…){…}</li>
+<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
+<li>return;返回undefined</li>
+</ul>
+<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
+<ul>
+<li>创建对象new Object()</li>
+<li>复制变量即复制值，var num1=num//num==num1</li>
+<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
+<li>JS中所有函数的参数都是按值传递的</li>
+<li>typeof()检测基本类型、instanceof()检测引用类型</li>
+<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
+<li>if、for语句中声明的变量即为全局变量</li>
+<li>JS有垃圾回收机制</li>
+</ul>
+<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
+<ul>
+<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
+<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
+<li>Date：Date.parse()换成ms</li>
+<li>RegEXP：正则表达式</li>
+<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
+</ul>
+<p>Tips:</p>
+<ul>
+<li>类似栈函数push()、pop()</li>
+<li>类似队列函数shift()、push()</li>
+<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
+<li>concat()方法对数组内元素进行删除、插入、替换</li>
+<li>可以将一个函数作为另一个函数的结果返回</li>
+<li>函数内部对象this引用函数当前对象的属性如this.color</li>
+<li>函数名.length表示接收参数的个数</li>
+</ul>
 ]]></content>
       <categories>
         <category>PStudy</category>
-        <category>back-Design</category>
+        <category>web-Design</category>
+        <category>JS红宝书</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
+        <tag>web-Design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DOM</title>
+    <url>/2020/10/06/DOM/</url>
+    <content><![CDATA[<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
+<ul>
+<li>描述HTML结构–节点树(数据结构)</li>
+<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
+<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
+</ul>
+<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+        <category>JS红宝书</category>
+      </categories>
+      <tags>
+        <tag>web-Design</tag>
       </tags>
   </entry>
   <entry>
@@ -619,7 +575,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#46;&#55;&#x33;&#x2e;&#53;&#x35;">&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#46;&#55;&#x33;&#x2e;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#x38;&#49;&#x2e;&#x36;&#x38;&#46;&#x37;&#x33;&#46;&#x35;&#x35;">&#x67;&#x69;&#116;&#x40;&#x38;&#49;&#x2e;&#x36;&#x38;&#46;&#x37;&#x33;&#46;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
@@ -644,6 +600,83 @@
 </ol>
 <h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
 <p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Authentication</title>
+    <url>/2020/10/02/authentication/</url>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
+<ol>
+<li>登陆Post/login{“登陆信息”}</li>
+<li>创建token</li>
+<li>调用接口时在header里有token</li>
+<li>服务器检查token，验证</li>
+<li>返回结果给浏览器</li>
+</ol>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<p>服务器收到信息后与数据库进行比对</p>
+<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
+<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
+<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
+<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
+<li>判断当前接口是否在白名单</li>
+<li>浏览器是否传递token</li>
+<li>token签名认证</li>
+<li>解密出的信息与后端存储数据对比</li>
+</ol>
+<p>3、4步即可完成验证，一起执行更好保障</p>
+<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
+<p>为用户分配角色，为角色绑定功能</p>
+<p>具体实现：</p>
+<ol>
+<li>查询角色拥有的角色</li>
+<li>查询角色绑定功能</li>
+<li>查询当前访问接口所属功能</li>
+<li>判断用户是否拥有权限访问当前接口</li>
+</ol>
+<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
+<p>分开绑定</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>back-Design</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx</title>
+    <url>/2020/10/07/nginx/</url>
+    <content><![CDATA[<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>高并发多连接</li>
+<li>生态好</li>
+<li>跨平台</li>
+<li>稳定</li>
+</ul>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>访问原来无法访问的资源，如Google</li>
+<li>可以做缓存</li>
+<li>客户端认证</li>
+<li>记录用户访问记录</li>
+</ul>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
+<p><img src="/2020/10/07/nginx/2.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>保证内网安全：隐藏服务器信息</li>
+<li>负载均衡</li>
+</ul>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -700,6 +733,29 @@
       </tags>
   </entry>
   <entry>
+    <title>Shell</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>devOps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>comRegEx</title>
     <url>/2020/10/01/comRegEx/</url>
     <content><![CDATA[<p>^ 匹配输入字行首</p>
@@ -729,26 +785,19 @@
       </tags>
   </entry>
   <entry>
-    <title>Shell</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
 ]]></content>
       <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
+        <category>DLife</category>
+        <category>knowLedge</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -786,22 +835,6 @@
       </categories>
       <tags>
         <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -885,80 +918,6 @@
       </categories>
       <tags>
         <tag>Travel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>色彩</title>
-    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
-    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -1061,6 +1020,80 @@
       </categories>
       <tags>
         <tag>psyBook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>色彩</title>
+    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
+    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
+<p>H：色相，颜色的名字，如红色色相</p>
+<p>S：饱和度</p>
+<p>B：明度</p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
+<p>红色0°，蓝色240°，绿色120°</p>
+<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
+<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
+<p>邻近色搭配</p>
+<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
+<p>对比色搭配</p>
+<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
+<p>互补色搭配</p>
+<p>夹角在180°内取两种颜色为互补色</p>
+<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
+<li><p>色调：由饱和度和明度结合产生</p>
+</li>
+<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
+</li>
+<li><p>明度：亮度</p>
+</li>
+</ul>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
+<p>白色调</p>
+<p>优点：素雅，文艺，干净，极简</p>
+<p>缺点：乏味，单调</p>
+<p>粉色调</p>
+<p>优点：清秀，天真，可爱</p>
+<p>缺点：软弱，无力</p>
+<p>明色调</p>
+<p>优点：年轻，活力，阳光</p>
+<p>缺点：廉价，缺乏品质感</p>
+<p>鲜色调</p>
+<p>优点：刺激，活力，强力</p>
+<p>缺点：生硬，廉价</p>
+<p>灰色调(高级灰)</p>
+<p>优点：品质，高端</p>
+<p>缺点：缺少活力</p>
+<p>深色调</p>
+<p>优点：成熟，稳重，大气</p>
+<p>缺点：压抑，阴暗，不透气</p>
+<p>黑色调</p>
+<p>优点：神秘，厚重</p>
+<p>缺点：压抑</p>
+<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
+<p>对比色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
+<p>冷暖平衡</p>
+<p>红黄橙为暖色系，绿青蓝蓝色系</p>
+<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
+<p>深浅平衡</p>
+<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
+<p>色彩面积平衡</p>
+<p>大概为：</p>
+<p>主色占70%</p>
+<p>辅助色占25%</p>
+<p>点缀色占5%</p>
+<p>有彩色和无彩色平衡</p>
+<p>有彩色和无彩色搭配</p>
+<p>花色和纯色平衡</p>
+<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
