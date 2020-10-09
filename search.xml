@@ -1,6 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Authentication</title>
+    <url>/2020/10/02/authentication/</url>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
+<ol>
+<li>登陆Post/login{“登陆信息”}</li>
+<li>创建token</li>
+<li>调用接口时在header里有token</li>
+<li>服务器检查token，验证</li>
+<li>返回结果给浏览器</li>
+</ol>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<p>服务器收到信息后与数据库进行比对</p>
+<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
+<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
+<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
+<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
+<li>判断当前接口是否在白名单</li>
+<li>浏览器是否传递token</li>
+<li>token签名认证</li>
+<li>解密出的信息与后端存储数据对比</li>
+</ol>
+<p>3、4步即可完成验证，一起执行更好保障</p>
+<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
+<p>为用户分配角色，为角色绑定功能</p>
+<p>具体实现：</p>
+<ol>
+<li>查询角色拥有的角色</li>
+<li>查询角色绑定功能</li>
+<li>查询当前访问接口所属功能</li>
+<li>判断用户是否拥有权限访问当前接口</li>
+</ol>
+<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
+<p>分开绑定</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>back-Design</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DOM</title>
+    <url>/2020/10/06/DOM/</url>
+    <content><![CDATA[<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
+<ul>
+<li>描述HTML结构–节点树(数据结构)</li>
+<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
+<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
+</ul>
+<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+        <category>JS红宝书</category>
+      </categories>
+      <tags>
+        <tag>Web-Design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS</title>
+    <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
+    <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
+<ul>
+<li>核心：规定了这门语言的语法、类型等基础内容</li>
+<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
+<li>BOM：提供与浏览器交互的方法和接口</li>
+</ul>
+<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
+<li>src：里面放外部文件，如a.png等</li>
+<li>type：必选，一般来用text/javascript</li>
+</ul>
+<p>Tips：</p>
+<ul>
+<li><p>script按照顺序解析</p>
+</li>
+<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
+</li>
+<li><p>HTML中推荐使用外部JS导入来使用</p>
+</li>
+</ul>
+<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
+<ul>
+<li>区分大小写</li>
+<li>严格模式：来源于JS</li>
+<li>注释：//或/* */</li>
+<li>加分号</li>
+<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
+<li>‘’和””同样理解为String类型，没区别</li>
+<li>Object是所有对象的基础</li>
+<li>默认情况下JS中所有整数都是有符号整数</li>
+<li>for-in枚举对象属性</li>
+<li>函数声明：function 函数名(a,b,c…){…}</li>
+<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
+<li>return;返回undefined</li>
+</ul>
+<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
+<ul>
+<li>创建对象new Object()</li>
+<li>复制变量即复制值，var num1=num//num==num1</li>
+<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
+<li>JS中所有函数的参数都是按值传递的</li>
+<li>typeof()检测基本类型、instanceof()检测引用类型</li>
+<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
+<li>if、for语句中声明的变量即为全局变量</li>
+<li>JS有垃圾回收机制</li>
+</ul>
+<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
+<ul>
+<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
+<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
+<li>Date：Date.parse()换成ms</li>
+<li>RegEXP：正则表达式</li>
+<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
+</ul>
+<p>Tips:</p>
+<ul>
+<li>类似栈函数push()、pop()</li>
+<li>类似队列函数shift()、push()</li>
+<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
+<li>concat()方法对数组内元素进行删除、插入、替换</li>
+<li>可以将一个函数作为另一个函数的结果返回</li>
+<li>函数内部对象this引用函数当前对象的属性如this.color</li>
+<li>函数名.length表示接收参数的个数</li>
+</ul>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+        <category>JS红宝书</category>
+      </categories>
+      <tags>
+        <tag>Web-Design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comGit</title>
+    <url>/2020/10/06/comGit/</url>
+    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+
+<p><img src="/2020/10/06/comGit/4.jpg"></p>
+<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
+<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
+</li>
+<li><p>git add  .  把文件修改添加到暂存区</p>
+</li>
+<li><p>git commit 把暂存区的内容提交到当前分支</p>
+</li>
+<li><p>git remote add origin … 将本地仓库与远程库关联</p>
+</li>
+<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
+</li>
+<li><p>git push origin master 本地提交后，推送到远程库</p>
+</li>
+<li><p>git status 查看仓库当前状态</p>
+</li>
+<li><p>git branch 查看当前分支</p>
+</li>
+<li><p>git log 查看提交日志</p>
+</li>
+<li><p>git remote 查看远程库信息</p>
+</li>
+<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
+</li>
+<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
+</li>
+<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
+</li>
+<li><p>git checkout dev 切换到dev分支</p>
+</li>
+<li><p>git pull 包含一个git fetch和一个git merge</p>
+</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>origin为远程库名称</li>
+</ul>
+<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
+<ol>
+<li><p>输入git config –global user.name “用户名”</p>
+</li>
+<li><p>输入git config –global user.email “邮箱”</p>
+</li>
+<li><p>git init</p>
+</li>
+<li><p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#64;&#x38;&#49;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#53;">&#103;&#105;&#116;&#64;&#x38;&#49;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+</li>
+<li><p>git add . //把文件</p>
+</li>
+<li><p>git commit</p>
+</li>
+<li><p>git push  -u origin dev</p>
+</li>
+</ol>
+<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
+<ol>
+<li><p>git add .</p>
+</li>
+<li><p>git commit -m “(写你的改动描述)” </p>
+</li>
+<li><p>git pull  #拉服务器代码</p>
+</li>
+<li><p>git status</p>
+<p><img src="/2020/10/06/comGit/2.jpg"></p>
+</li>
+<li><p>git push</p>
+</li>
+</ol>
+<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
+<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux文件、目录与磁盘格式</title>
     <url>/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="Linux的文件权限与目录配置"><a href="#Linux的文件权限与目录配置" class="headerlink" title="Linux的文件权限与目录配置"></a>Linux的文件权限与目录配置</h1><p>r(读权限)：表示你可以查询该目录下的文件名，如ls指令</p>
@@ -239,230 +462,7 @@
         <category>鸟哥的Linux私房菜</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS</title>
-    <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
-    <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
-<ul>
-<li>核心：规定了这门语言的语法、类型等基础内容</li>
-<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
-<li>BOM：提供与浏览器交互的方法和接口</li>
-</ul>
-<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
-<li>src：里面放外部文件，如a.png等</li>
-<li>type：必选，一般来用text/javascript</li>
-</ul>
-<p>Tips：</p>
-<ul>
-<li><p>script按照顺序解析</p>
-</li>
-<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
-</li>
-<li><p>HTML中推荐使用外部JS导入来使用</p>
-</li>
-</ul>
-<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
-<ul>
-<li>区分大小写</li>
-<li>严格模式：来源于JS</li>
-<li>注释：//或/* */</li>
-<li>加分号</li>
-<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
-<li>‘’和””同样理解为String类型，没区别</li>
-<li>Object是所有对象的基础</li>
-<li>默认情况下JS中所有整数都是有符号整数</li>
-<li>for-in枚举对象属性</li>
-<li>函数声明：function 函数名(a,b,c…){…}</li>
-<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
-<li>return;返回undefined</li>
-</ul>
-<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
-<ul>
-<li>创建对象new Object()</li>
-<li>复制变量即复制值，var num1=num//num==num1</li>
-<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
-<li>JS中所有函数的参数都是按值传递的</li>
-<li>typeof()检测基本类型、instanceof()检测引用类型</li>
-<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
-<li>if、for语句中声明的变量即为全局变量</li>
-<li>JS有垃圾回收机制</li>
-</ul>
-<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
-<ul>
-<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
-<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
-<li>Date：Date.parse()换成ms</li>
-<li>RegEXP：正则表达式</li>
-<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
-</ul>
-<p>Tips:</p>
-<ul>
-<li>类似栈函数push()、pop()</li>
-<li>类似队列函数shift()、push()</li>
-<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
-<li>concat()方法对数组内元素进行删除、插入、替换</li>
-<li>可以将一个函数作为另一个函数的结果返回</li>
-<li>函数内部对象this引用函数当前对象的属性如this.color</li>
-<li>函数名.length表示接收参数的个数</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-        <category>JS红宝书</category>
-      </categories>
-      <tags>
-        <tag>web-Design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DOM</title>
-    <url>/2020/10/06/DOM/</url>
-    <content><![CDATA[<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
-<ul>
-<li>描述HTML结构–节点树(数据结构)</li>
-<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
-<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
-</ul>
-<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-        <category>JS红宝书</category>
-      </categories>
-      <tags>
-        <tag>web-Design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Authentication</title>
-    <url>/2020/10/02/authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
-<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
-<ol>
-<li>登陆Post/login{“登陆信息”}</li>
-<li>创建token</li>
-<li>调用接口时在header里有token</li>
-<li>服务器检查token，验证</li>
-<li>返回结果给浏览器</li>
-</ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
-<p>服务器收到信息后与数据库进行比对</p>
-<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
-<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
-<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
-<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
-<li>判断当前接口是否在白名单</li>
-<li>浏览器是否传递token</li>
-<li>token签名认证</li>
-<li>解密出的信息与后端存储数据对比</li>
-</ol>
-<p>3、4步即可完成验证，一起执行更好保障</p>
-<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
-<p>为用户分配角色，为角色绑定功能</p>
-<p>具体实现：</p>
-<ol>
-<li>查询角色拥有的角色</li>
-<li>查询角色绑定功能</li>
-<li>查询当前访问接口所属功能</li>
-<li>判断用户是否拥有权限访问当前接口</li>
-</ol>
-<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
-<p>分开绑定</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>back-Design</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comGit</title>
-    <url>/2020/10/06/comGit/</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
-
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#56;&#49;&#46;&#x36;&#x38;&#46;&#55;&#51;&#x2e;&#53;&#53;">&#x67;&#x69;&#116;&#x40;&#56;&#49;&#46;&#x36;&#x38;&#46;&#55;&#51;&#x2e;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
+        <tag>DevOps</tag>
       </tags>
   </entry>
   <entry>
@@ -491,136 +491,7 @@
         <category>devOps</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shell/Mongo定时导出删除</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comShell</title>
-    <url>/2020/10/06/comShell/</url>
-    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
-<li>cat 显示文件内容</li>
-<li>more 显示文件内容，空格向后，b向前</li>
-<li>head 查看文件开头</li>
-<li>tail 查看文件末尾</li>
-<li>wc 统计文本行数、字数、字符数</li>
-</ul>
-<h2 id="系统常用"><a href="#系统常用" class="headerlink" title="系统常用"></a>系统常用</h2><ul>
-<li>ls 查看目录下文件</li>
-<li>ls -s查看目录详细文件信息</li>
-<li>top 查看当前系统中耗费资源最多进程</li>
-<li>data 系统当前时间</li>
-<li>ps -e显示所有进程，环境变量</li>
-<li>ps -aux 显示无控制终端的进程</li>
-</ul>
-<h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><ul>
-<li>Ctrl+c 终止进程</li>
-<li>Ctrl+l  清屏</li>
-<li>Ctrl+q 退出</li>
-</ul>
-<h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><h3 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h3><ul>
-<li>gg 跳到首行</li>
-<li>G 跳到末行</li>
-<li>:n 跳到n行</li>
-</ul>
-<h3 id="替换和取消命令"><a href="#替换和取消命令" class="headerlink" title="替换和取消命令"></a>替换和取消命令</h3><ul>
-<li>u undo，取消上一步操作</li>
-<li>Ctrl+r 返回到undo之前</li>
-</ul>
-<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><ul>
-<li>dd 删除光标所在行</li>
-<li>dG 删除光标所在行到末尾行的所有内容</li>
-<li>D 删除光标所在处到行尾的内容</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MacOS安装win7</title>
-    <url>/2020/10/03/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h1 id="双系统"><a href="#双系统" class="headerlink" title="双系统"></a>双系统</h1><p>今天被差遣去给太上皇装双系统，macOS加个Win7</p>
-<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><ul>
-<li><p>电脑：Mac mini 2014，系统10.14.6，四核i5 4G，500G机械硬盘</p>
-</li>
-<li><p>系统iso镜像–GHOST win7</p>
-</li>
-<li><p>PE：给系统分区，重要是分成NTFS格式以供Win使用</p>
-</li>
-<li><p>磁盘：需要NTFS格式</p>
-</li>
-<li><p>u盘：主流以UEFI方式安装</p>
-</li>
-</ul>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>按实际步骤来：</p>
-<ol>
-<li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
-<li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
-<li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
-<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
-<li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
-<li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
-<li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
-<li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>devOps</tag>
+        <tag>DevOps</tag>
       </tags>
   </entry>
   <entry>
@@ -808,7 +679,53 @@
         <category>鸟哥的Linux私房菜</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comShell</title>
+    <url>/2020/10/06/comShell/</url>
+    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
+<li>cat 显示文件内容</li>
+<li>more 显示文件内容，空格向后，b向前</li>
+<li>head 查看文件开头</li>
+<li>tail 查看文件末尾</li>
+<li>wc 统计文本行数、字数、字符数</li>
+</ul>
+<h2 id="系统常用"><a href="#系统常用" class="headerlink" title="系统常用"></a>系统常用</h2><ul>
+<li>ls 查看目录下文件</li>
+<li>ls -s查看目录详细文件信息</li>
+<li>top 查看当前系统中耗费资源最多进程</li>
+<li>data 系统当前时间</li>
+<li>ps -e显示所有进程，环境变量</li>
+<li>ps -aux 显示无控制终端的进程</li>
+</ul>
+<h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><ul>
+<li>Ctrl+c 终止进程</li>
+<li>Ctrl+l  清屏</li>
+<li>Ctrl+q 退出</li>
+</ul>
+<h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><h3 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h3><ul>
+<li>gg 跳到首行</li>
+<li>G 跳到末行</li>
+<li>:n 跳到n行</li>
+</ul>
+<h3 id="替换和取消命令"><a href="#替换和取消命令" class="headerlink" title="替换和取消命令"></a>替换和取消命令</h3><ul>
+<li>u undo，取消上一步操作</li>
+<li>Ctrl+r 返回到undo之前</li>
+</ul>
+<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><ul>
+<li>dd 删除光标所在行</li>
+<li>dG 删除光标所在行到末尾行的所有内容</li>
+<li>D 删除光标所在处到行尾的内容</li>
+</ul>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
       </tags>
   </entry>
   <entry>
@@ -841,7 +758,76 @@
         <category>devOps</category>
       </categories>
       <tags>
-        <tag>devOps</tag>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell/Mongo定时导出删除</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+        <tag>Experience</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MacOS安装win7</title>
+    <url>/2020/10/03/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="双系统"><a href="#双系统" class="headerlink" title="双系统"></a>双系统</h1><p>今天被差遣去给太上皇装双系统，macOS加个Win7</p>
+<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><ul>
+<li><p>电脑：Mac mini 2014，系统10.14.6，四核i5 4G，500G机械硬盘</p>
+</li>
+<li><p>系统iso镜像–GHOST win7</p>
+</li>
+<li><p>PE：给系统分区，重要是分成NTFS格式以供Win使用</p>
+</li>
+<li><p>磁盘：需要NTFS格式</p>
+</li>
+<li><p>u盘：主流以UEFI方式安装</p>
+</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>按实际步骤来：</p>
+<ol>
+<li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
+<li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
+<li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
+<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
+<li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
+<li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
+<li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
+<li>开始写入驱动，后面按着程序来就行了，安装win7成功！</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次因为是在另一个主机上所以没有截图，刚开始准备用boot camp装双系统比较稳健，但是后面硬盘总是不让分区，又说可以直接抹除硬盘，所以直接重新分区。之前以为只要将盘分NTFS格式就行，但是后来老是进不去系统，搜了一下发现还要将硬盘设为MBR分区才可以，重新设置以后就可以成功进入win7了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+        <tag>Experience</tag>
       </tags>
   </entry>
   <entry>
@@ -925,6 +911,96 @@
       </categories>
       <tags>
         <tag>Travel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>色彩</title>
+    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
+    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
+<p>H：色相，颜色的名字，如红色色相</p>
+<p>S：饱和度</p>
+<p>B：明度</p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
+<p>红色0°，蓝色240°，绿色120°</p>
+<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
+<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
+<p>邻近色搭配</p>
+<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
+<p>对比色搭配</p>
+<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
+<p>互补色搭配</p>
+<p>夹角在180°内取两种颜色为互补色</p>
+<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
+<li><p>色调：由饱和度和明度结合产生</p>
+</li>
+<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
+</li>
+<li><p>明度：亮度</p>
+</li>
+</ul>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
+<p>白色调</p>
+<p>优点：素雅，文艺，干净，极简</p>
+<p>缺点：乏味，单调</p>
+<p>粉色调</p>
+<p>优点：清秀，天真，可爱</p>
+<p>缺点：软弱，无力</p>
+<p>明色调</p>
+<p>优点：年轻，活力，阳光</p>
+<p>缺点：廉价，缺乏品质感</p>
+<p>鲜色调</p>
+<p>优点：刺激，活力，强力</p>
+<p>缺点：生硬，廉价</p>
+<p>灰色调(高级灰)</p>
+<p>优点：品质，高端</p>
+<p>缺点：缺少活力</p>
+<p>深色调</p>
+<p>优点：成熟，稳重，大气</p>
+<p>缺点：压抑，阴暗，不透气</p>
+<p>黑色调</p>
+<p>优点：神秘，厚重</p>
+<p>缺点：压抑</p>
+<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
+<p>对比色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
+<p>冷暖平衡</p>
+<p>红黄橙为暖色系，绿青蓝蓝色系</p>
+<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
+<p>深浅平衡</p>
+<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
+<p>色彩面积平衡</p>
+<p>大概为：</p>
+<p>主色占70%</p>
+<p>辅助色占25%</p>
+<p>点缀色占5%</p>
+<p>有彩色和无彩色平衡</p>
+<p>有彩色和无彩色搭配</p>
+<p>花色和纯色平衡</p>
+<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -1027,80 +1103,6 @@
       </categories>
       <tags>
         <tag>psyBook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>色彩</title>
-    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
-    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -1358,7 +1360,7 @@
         <category>back-Design</category>
       </categories>
       <tags>
-        <tag>back-Design</tag>
+        <tag>Back-Design</tag>
       </tags>
   </entry>
 </search>
