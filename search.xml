@@ -527,118 +527,6 @@
       </tags>
   </entry>
   <entry>
-    <title>comGit</title>
-    <url>/2020/10/06/comGit/</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
-
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#103;&#x69;&#116;&#64;&#x38;&#x31;&#46;&#x36;&#56;&#46;&#55;&#x33;&#46;&#53;&#53;">&#103;&#x69;&#116;&#64;&#x38;&#x31;&#46;&#x36;&#56;&#46;&#55;&#x33;&#46;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comRegEx</title>
-    <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Authentication</title>
     <url>/2020/10/02/authentication/</url>
     <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
@@ -677,70 +565,6 @@
       <categories>
         <category>PStudy</category>
         <category>back-Design</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shell/Mongo定时导出删除</title>
-    <url>/2020/09/30/shell/</url>
-    <content><![CDATA[<p>代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#月份	</span></span><br><span class="line"><span class="comment">#在月份使用的时候有一个问题就是怎么获取上上个月的月份才好使用时间戳确定时间</span></span><br><span class="line"><span class="comment">#想到可以用数组，本来是想用m[-1]==m[m.length-1]的思路，发现js不是这样，但是可以赋值-1</span></span><br><span class="line">var m=new Array()</span><br><span class="line">m[-2]=30</span><br><span class="line">m[-1]=31</span><br><span class="line">m[0]=31</span><br><span class="line">m[1]=28</span><br><span class="line">m[2]=31</span><br><span class="line">m[3]=30</span><br><span class="line">m[4]=31</span><br><span class="line">m[5]=30</span><br><span class="line">m[6]=31</span><br><span class="line">m[7]=31</span><br><span class="line">m[8]=30</span><br><span class="line">m[9]=31</span><br><span class="line">m[10]=30</span><br><span class="line">m[11]=31</span><br><span class="line">log4=new Date()</span><br><span class="line">log3=new Date().valueOf()</span><br><span class="line">t1=-(m[log4.getMonth()-1]+m[log4.getMonth()-2]+m[log4.getMonth()-3])*24*60*60*1000</span><br><span class="line">t2=-(m[log4.getMonth()-1]+m[log4.getMonth()-2])*24*60*60*1000</span><br><span class="line">log1=log3+t1-1.5*60*60*1000</span><br><span class="line">log2=log3+t2-1.5*60*60*1000</span><br><span class="line">log1=new Date(log1)</span><br><span class="line">log2=new Date(log2)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-        <tag>Experience</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx</title>
-    <url>/2020/10/07/nginx/</url>
-    <content><![CDATA[<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>高并发多连接</li>
-<li>生态好</li>
-<li>跨平台</li>
-<li>稳定</li>
-</ul>
-<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
-<p>特点：</p>
-<ul>
-<li>访问原来无法访问的资源，如Google</li>
-<li>可以做缓存</li>
-<li>客户端认证</li>
-<li>记录用户访问记录</li>
-</ul>
-<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
-<p><img src="/2020/10/07/nginx/2.jpg"></p>
-<p>特点：</p>
-<ul>
-<li>保证内网安全：隐藏服务器信息</li>
-<li>负载均衡</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
       </categories>
       <tags>
         <tag>DevOps</tag>
@@ -793,19 +617,119 @@
       </tags>
   </entry>
   <entry>
-    <title>水果</title>
-    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
-    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
-<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
+    <title>comGit</title>
+    <url>/2020/10/06/comGit/</url>
+    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+
+<p><img src="/2020/10/06/comGit/4.jpg"></p>
+<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
+<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
+</li>
+<li><p>git add  .  把文件修改添加到暂存区</p>
+</li>
+<li><p>git commit 把暂存区的内容提交到当前分支</p>
+</li>
+<li><p>git remote add origin … 将本地仓库与远程库关联</p>
+</li>
+<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
+</li>
+<li><p>git push origin master 本地提交后，推送到远程库</p>
+</li>
+<li><p>git status 查看仓库当前状态</p>
+</li>
+<li><p>git branch 查看当前分支</p>
+</li>
+<li><p>git log 查看提交日志</p>
+</li>
+<li><p>git remote 查看远程库信息</p>
+</li>
+<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
+</li>
+<li><p>git reset –hard HEAD 回退当前版本，清除当前修改代码</p>
+</li>
+<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
+</li>
+<li><p>git checkout dev 切换到dev分支</p>
+</li>
+<li><p>git pull 包含一个git fetch和一个git merge</p>
+</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>origin为远程库名称</li>
+</ul>
+<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
+<ol>
+<li><p>输入git config –global user.name “用户名”</p>
+</li>
+<li><p>输入git config –global user.email “邮箱”</p>
+</li>
+<li><p>git init</p>
+</li>
+<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#56;&#x31;&#46;&#x36;&#56;&#46;&#55;&#51;&#46;&#x35;&#53;">&#x67;&#x69;&#116;&#64;&#56;&#x31;&#46;&#x36;&#56;&#46;&#55;&#51;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+</li>
+<li><p>git add . //把文件</p>
+</li>
+<li><p>git commit</p>
+</li>
+<li><p>git push  -u origin dev</p>
+</li>
+</ol>
+<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
+<ol>
+<li><p>git add .</p>
+</li>
+<li><p>git commit -m “(写你的改动描述)” </p>
+</li>
+<li><p>git pull  #拉服务器代码</p>
+</li>
+<li><p>git status</p>
+<p><img src="/2020/10/06/comGit/2.jpg"></p>
+</li>
+<li><p>git push</p>
+</li>
+</ol>
+<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
+<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
 ]]></content>
       <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
+        <category>PStudy</category>
+        <category>devOps</category>
       </categories>
       <tags>
-        <tag>knowLedge</tag>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx</title>
+    <url>/2020/10/07/nginx/</url>
+    <content><![CDATA[<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>高并发多连接</li>
+<li>生态好</li>
+<li>跨平台</li>
+<li>稳定</li>
+</ul>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>访问原来无法访问的资源，如Google</li>
+<li>可以做缓存</li>
+<li>客户端认证</li>
+<li>记录用户访问记录</li>
+</ul>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
+<p><img src="/2020/10/07/nginx/2.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>保证内网安全：隐藏服务器信息</li>
+<li>负载均衡</li>
+</ul>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
       </tags>
   </entry>
   <entry>
@@ -844,6 +768,53 @@
       <tags>
         <tag>DevOps</tag>
         <tag>Experience</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell/Mongo定时导出删除</title>
+    <url>/2020/09/30/shell/</url>
+    <content><![CDATA[<p>代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#月份	</span></span><br><span class="line"><span class="comment">#在月份使用的时候有一个问题就是怎么获取上上个月的月份才好使用时间戳确定时间</span></span><br><span class="line"><span class="comment">#想到可以用数组，本来是想用m[-1]==m[m.length-1]的思路，发现js不是这样，但是可以赋值-1</span></span><br><span class="line">var m=new Array()</span><br><span class="line">m[-2]=30</span><br><span class="line">m[-1]=31</span><br><span class="line">m[0]=31</span><br><span class="line">m[1]=28</span><br><span class="line">m[2]=31</span><br><span class="line">m[3]=30</span><br><span class="line">m[4]=31</span><br><span class="line">m[5]=30</span><br><span class="line">m[6]=31</span><br><span class="line">m[7]=31</span><br><span class="line">m[8]=30</span><br><span class="line">m[9]=31</span><br><span class="line">m[10]=30</span><br><span class="line">m[11]=31</span><br><span class="line">log4=new Date()</span><br><span class="line">log3=new Date().valueOf()</span><br><span class="line">t1=-(m[log4.getMonth()-1]+m[log4.getMonth()-2]+m[log4.getMonth()-3])*24*60*60*1000</span><br><span class="line">t2=-(m[log4.getMonth()-1]+m[log4.getMonth()-2])*24*60*60*1000</span><br><span class="line">log1=log3+t1-1.5*60*60*1000</span><br><span class="line">log2=log3+t2-1.5*60*60*1000</span><br><span class="line">log1=new Date(log1)</span><br><span class="line">log2=new Date(log2)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
+<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
+<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
+<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
+<p>后又发现在shell里面使用mongo出现问题：</p>
+<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
+<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
+<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
+<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
+<p>问题三：路径出问题</p>
+<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+        <tag>Experience</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>水果</title>
+    <url>/2020/10/02/%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/1.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/2.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/3.jpg"></p>
+<p><img src="/2020/10/02/%E6%B0%B4%E6%9E%9C/4.jpg"></p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -927,6 +898,109 @@
       </categories>
       <tags>
         <tag>Travel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>comRegEx</title>
+    <url>/2020/10/01/comRegEx/</url>
+    <content><![CDATA[<p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>色彩</title>
+    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
+    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
+<p>H：色相，颜色的名字，如红色色相</p>
+<p>S：饱和度</p>
+<p>B：明度</p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
+<p>红色0°，蓝色240°，绿色120°</p>
+<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
+<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
+<p>邻近色搭配</p>
+<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
+<p>对比色搭配</p>
+<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
+<p>互补色搭配</p>
+<p>夹角在180°内取两种颜色为互补色</p>
+<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
+<li><p>色调：由饱和度和明度结合产生</p>
+</li>
+<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
+</li>
+<li><p>明度：亮度</p>
+</li>
+</ul>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
+<p>白色调</p>
+<p>优点：素雅，文艺，干净，极简</p>
+<p>缺点：乏味，单调</p>
+<p>粉色调</p>
+<p>优点：清秀，天真，可爱</p>
+<p>缺点：软弱，无力</p>
+<p>明色调</p>
+<p>优点：年轻，活力，阳光</p>
+<p>缺点：廉价，缺乏品质感</p>
+<p>鲜色调</p>
+<p>优点：刺激，活力，强力</p>
+<p>缺点：生硬，廉价</p>
+<p>灰色调(高级灰)</p>
+<p>优点：品质，高端</p>
+<p>缺点：缺少活力</p>
+<p>深色调</p>
+<p>优点：成熟，稳重，大气</p>
+<p>缺点：压抑，阴暗，不透气</p>
+<p>黑色调</p>
+<p>优点：神秘，厚重</p>
+<p>缺点：压抑</p>
+<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
+<p>对比色平衡</p>
+<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
+<p>冷暖平衡</p>
+<p>红黄橙为暖色系，绿青蓝蓝色系</p>
+<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
+<p>深浅平衡</p>
+<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
+<p>色彩面积平衡</p>
+<p>大概为：</p>
+<p>主色占70%</p>
+<p>辅助色占25%</p>
+<p>点缀色占5%</p>
+<p>有彩色和无彩色平衡</p>
+<p>有彩色和无彩色搭配</p>
+<p>花色和纯色平衡</p>
+<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
+]]></content>
+      <categories>
+        <category>DLife</category>
+        <category>knowLedge</category>
+      </categories>
+      <tags>
+        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
@@ -1029,80 +1103,6 @@
       </categories>
       <tags>
         <tag>psyBook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>色彩</title>
-    <url>/2020/10/03/%E8%89%B2%E5%BD%A9/</url>
-    <content><![CDATA[<h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
-]]></content>
-      <categories>
-        <category>DLife</category>
-        <category>knowLedge</category>
-      </categories>
-      <tags>
-        <tag>knowLedge</tag>
       </tags>
   </entry>
   <entry>
