@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://example.com/2020/10/06/comShell/</loc>
+    <lastmod>2020-10-13</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2020/10/06/comGit/</loc>
+    <lastmod>2020-10-12</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2020/10/12/comPy/</loc>
+    <lastmod>2020-10-12</lastmod>
+  </url>
+  <url>
     <loc>http://example.com/2020/09/30/shell/</loc>
     <lastmod>2020-10-09</lastmod>
   </url>
@@ -21,15 +33,7 @@
     <lastmod>2020-10-09</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2020/10/06/comGit/</loc>
-    <lastmod>2020-10-09</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/2020/10/01/comRegEx/</loc>
-    <lastmod>2020-10-09</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2020/10/06/comShell/</loc>
     <lastmod>2020-10-09</lastmod>
   </url>
   <url>
