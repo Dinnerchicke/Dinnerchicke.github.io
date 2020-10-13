@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">253</span>
+            <span class="post-count">416</span>
         </span>
     </span>
 
@@ -101,25 +101,36 @@
        
   <h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
 <li>cat 显示文件内容</li>
+<li>cd ..返回上级目录 cd ../..返回上两级目录</li>
+<li>pwd 显示工作路径</li>
 <li>more 显示文件内容，空格向后，b向前</li>
 <li>head 查看文件开头</li>
 <li>tail 查看文件末尾</li>
-<li>wc 统计文本行数、字数、字符数</li>
+<li>rm -f 文件名 删除文件</li>
+<li>rm -rf 强制删除</li>
+<li>cp file1 file2 复制文件</li>
+<li>gzip 文件名/目录名 压缩后面文件或文件夹，-d解压</li>
 </ul>
 <h2 id="系统常用"><a href="#系统常用" class="headerlink" title="系统常用"></a>系统常用</h2><ul>
-<li>ls 查看目录下文件</li>
 <li>ls -s查看目录详细文件信息</li>
 <li>top 查看当前系统中耗费资源最多进程</li>
 <li>data 系统当前时间</li>
-<li>ps -e显示所有进程，环境变量</li>
-<li>ps -aux 显示无控制终端的进程</li>
+<li>ps -ax 查看所有进程</li>
 <li>df -h 查看磁盘剩余资源</li>
 <li>kill PID 杀死进程，-KILL强制杀死</li>
+<li>ss -tlnp 查看哪些进程使用了监听端口</li>
+<li>ps aux | grep java | grep -v grep 显示出所有java进程，处理当前grep进程(常用管道命令，grep处理字符串)</li>
+<li>shutdown  -h now 关闭系统</li>
+<li>reboot 重启</li>
+<li>logout 注销</li>
 </ul>
 <h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><ul>
 <li>Ctrl+c 终止进程</li>
 <li>Ctrl+l  清屏</li>
 <li>Ctrl+q 退出</li>
+<li>/&gt; 将前面一条命令的输出写入到后面的文本中，文本清空后写入</li>
+<li>/&gt;&gt; 同&gt;，文本不清空</li>
+<li>| 管道命令，以前一个命令的输出作为输入运行，如cat 1.txt | grep ‘hello’ 打印1.txt中带有hello字符串的行</li>
 </ul>
 <h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><h3 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h3><ul>
 <li>gg 跳到首行</li>
