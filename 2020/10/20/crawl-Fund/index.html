@@ -10,7 +10,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    comGit |  
+    crawl:Fund |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-comGit"
+  id="post-crawl-Fund"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,18 +56,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  comGit
+  crawl:Fund
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/10/06/comGit/" class="article-date">
-  <time datetime="2020-10-06T06:23:19.000Z" itemprop="datePublished">2020-10-06</time>
+      <a href="/2020/10/20/crawl-Fund/" class="article-date">
+  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
   </div>
   
 <div class="word_count">
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">389</span>
+            <span class="post-count">844</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -99,77 +99,21 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
+<ul>
+<li>去除了三年以内的建立的基金</li>
+<li>去除了部分值</li>
+<li>去除了累计净值&lt;1的基金</li>
+</ul>
+<p>部分结果展示：</p>
+<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
+<p>工具：Spyder</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    <span class="keyword">global</span> UserAgent_List</span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-18&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Cookie&#x27;</span>:<span class="string">&#x27;st_si=82286212709646; st_asi=delete; ASP.NET_SessionId=guykqkbj2d1ueg3hq1j4wpqp; _adsame_fullscreen_18186=1; st_pvi=39858563758420; st_sp=2020-10-18%2010%3A06%3A32; st_inirUrl=https%3A%2F%2Ffund.eastmoney.com%2F; st_sn=12; st_psi=2020101812542397-112200304021-8882294414&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#将列表里的值获取出来</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)<span class="comment">#添加</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:<span class="comment">#化为文件</span></span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span><span class="comment">#变成文件后读取</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)<span class="comment">#正则表达式换负值</span></span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)<span class="comment">#正则表达式换小于1值</span></span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)<span class="comment">#加</span></span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#用三年和排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD commit_id 退到/进到，指定commit的哈希码回退到指定版本</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#x38;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#x35;">&#x67;&#x69;&#116;&#64;&#x38;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
  
       <!-- reward -->
       
@@ -234,7 +178,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/06/comGit/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/20/crawl-Fund/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -247,19 +191,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/10/06/comShell/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            comShell
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/10/06/DOM/" class="article-nav-link">
+      <a href="/2020/10/20/crawl-Picture/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">DOM</div>
+        <div class="article-nav-title">crawl:Picture</div>
       </a>
     
   </nav>

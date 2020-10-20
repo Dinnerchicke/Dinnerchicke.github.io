@@ -182,6 +182,72 @@
 
     
     <article
+  id="post-crawl-Fund"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/20/crawl-Fund/"
+    >crawl:Fund</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/20/crawl-Fund/" class="article-date">
+  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
+<ul>
+<li>去除了三年以内的建立的基金</li>
+<li>去除了部分值</li>
+<li>去除了累计净值&lt;1的基金</li>
+</ul>
+<p>部分结果展示：</p>
+<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
+<p>工具：Spyder</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    <span class="keyword">global</span> UserAgent_List</span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-18&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Cookie&#x27;</span>:<span class="string">&#x27;st_si=82286212709646; st_asi=delete; ASP.NET_SessionId=guykqkbj2d1ueg3hq1j4wpqp; _adsame_fullscreen_18186=1; st_pvi=39858563758420; st_sp=2020-10-18%2010%3A06%3A32; st_inirUrl=https%3A%2F%2Ffund.eastmoney.com%2F; st_sn=12; st_psi=2020101812542397-112200304021-8882294414&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#将列表里的值获取出来</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)<span class="comment">#添加</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:<span class="comment">#化为文件</span></span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span><span class="comment">#变成文件后读取</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)<span class="comment">#正则表达式换负值</span></span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)<span class="comment">#正则表达式换小于1值</span></span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)<span class="comment">#加</span></span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#用三年和排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-crawl-Picture"
   class="article article-type-post"
   itemscope
@@ -448,7 +514,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#55;&#51;&#x2e;&#x35;&#53;">&#x67;&#105;&#116;&#x40;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#55;&#51;&#x2e;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#x38;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#x35;">&#x67;&#x69;&#116;&#64;&#x38;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
@@ -1124,119 +1190,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-色彩"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/03/%E8%89%B2%E5%BD%A9/"
-    >色彩</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/03/%E8%89%B2%E5%BD%A9/" class="article-date">
-  <time datetime="2020-10-03T06:01:05.000Z" itemprop="datePublished">2020-10-03</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/DLife/">DLife</a> / <a class="article-category-link" href="/categories/DLife/knowLedge/">knowLedge</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="色彩基础"><a href="#色彩基础" class="headerlink" title="色彩基础"></a>色彩基础</h1><h2 id="HSB色彩属性"><a href="#HSB色彩属性" class="headerlink" title="HSB色彩属性"></a>HSB色彩属性</h2><p>颜色具有三大属性</p>
-<p>H：色相，颜色的名字，如红色色相</p>
-<p>S：饱和度</p>
-<p>B：明度</p>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
-<p>红色0°，蓝色240°，绿色120°</p>
-<h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
-<p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
-<p>邻近色搭配</p>
-<p>夹角在45°以内的颜色视为邻近色，取三个形成邻近色搭配</p>
-<p>对比色搭配</p>
-<p>夹角在120°以内的视为对比色，形成对比色搭配</p>
-<p>互补色搭配</p>
-<p>夹角在180°内取两种颜色为互补色</p>
-<h2 id="七大色调"><a href="#七大色调" class="headerlink" title="七大色调"></a>七大色调</h2><ul>
-<li><p>色调：由饱和度和明度结合产生</p>
-</li>
-<li><p>饱和度，也称为纯度，指的是一个颜色的纯净程度</p>
-</li>
-<li><p>明度：亮度</p>
-</li>
-</ul>
-<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
-<p>白色调</p>
-<p>优点：素雅，文艺，干净，极简</p>
-<p>缺点：乏味，单调</p>
-<p>粉色调</p>
-<p>优点：清秀，天真，可爱</p>
-<p>缺点：软弱，无力</p>
-<p>明色调</p>
-<p>优点：年轻，活力，阳光</p>
-<p>缺点：廉价，缺乏品质感</p>
-<p>鲜色调</p>
-<p>优点：刺激，活力，强力</p>
-<p>缺点：生硬，廉价</p>
-<p>灰色调(高级灰)</p>
-<p>优点：品质，高端</p>
-<p>缺点：缺少活力</p>
-<p>深色调</p>
-<p>优点：成熟，稳重，大气</p>
-<p>缺点：压抑，阴暗，不透气</p>
-<p>黑色调</p>
-<p>优点：神秘，厚重</p>
-<p>缺点：压抑</p>
-<h2 id="六大搭配原则"><a href="#六大搭配原则" class="headerlink" title="六大搭配原则"></a>六大搭配原则</h2><p>互补色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即180°</p>
-<p>对比色平衡</p>
-<p>找到主色后，在色环上找到这个颜色的互补色即120°</p>
-<p>冷暖平衡</p>
-<p>红黄橙为暖色系，绿青蓝蓝色系</p>
-<p>当大面积为暖色(冷色)时，需要冷色(暖色)来平衡画面</p>
-<p>深浅平衡</p>
-<p>主色调是浅色(深色)，需要辅以深色(浅色)来平衡</p>
-<p>色彩面积平衡</p>
-<p>大概为：</p>
-<p>主色占70%</p>
-<p>辅助色占25%</p>
-<p>点缀色占5%</p>
-<p>有彩色和无彩色平衡</p>
-<p>有彩色和无彩色搭配</p>
-<p>花色和纯色平衡</p>
-<p>较为复杂的画面需要辅以纯色，一部分为花色，则需要辅以纯色搭配</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/knowLedge/" rel="tag">knowLedge</a></li></ul>
 
     </footer>
   </div>
