@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">440</span>
+            <span class="post-count">578</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -99,7 +99,8 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
+  <h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><p><img src="/2020/10/06/comShell/1.jpg"></p>
+<h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
 <li>cat 显示文件内容</li>
 <li>cd ..返回上级目录 cd ../..返回上两级目录</li>
 <li>pwd 显示工作路径</li>
@@ -111,6 +112,7 @@
 <li>cp file1 file2 复制文件</li>
 <li>gzip 文件名/目录名 压缩后面文件或文件夹，-d解压</li>
 <li>tail -f 文件名 跟踪文件的增长情况，-n显示文件尾部n行内容</li>
+<li><em>ranger</em> 好使的浏览文件方法 gg顶部，G底部，g 定位，f查找，还支持鼠标点击！</li>
 </ul>
 <h2 id="系统常用"><a href="#系统常用" class="headerlink" title="系统常用"></a>系统常用</h2><ul>
 <li>ls -s查看目录详细文件信息</li>
@@ -122,6 +124,11 @@
 <li>ss -tlnp 查看哪些进程使用了监听端口</li>
 <li>ps aux | grep java | grep -v grep 显示出所有java进程，处理当前grep进程(常用管道命令，grep处理字符串)</li>
 <li>shutdown  -h now 关闭系统</li>
+<li>strace 跟踪系统调用的执行，-p进程号，-c -p运行一段时间后停止获取数据，-o输出结果，-tt时刻调用，-y路径，-c调用次数等</li>
+<li>netstat 统计网络相关协议数据</li>
+<li>perf 系统性能分析</li>
+<li>free -h 查看内存</li>
+<li>dstat 综合分析，-c cpu，-d磁盘，-i 中断统计，-l负载均衡统计，-m内存统计，-n网络统计，-p 进程统计</li>
 <li>reboot 重启</li>
 <li>logout 注销</li>
 </ul>
