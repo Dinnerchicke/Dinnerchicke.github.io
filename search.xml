@@ -68,6 +68,43 @@
       </tags>
   </entry>
   <entry>
+    <title>nodejs数据泄漏</title>
+    <url>/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</url>
+    <content><![CDATA[<h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
+<p><img src="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
+<p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
+<p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
+<p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
+<h2 id="第二部分：排查后端"><a href="#第二部分：排查后端" class="headerlink" title="第二部分：排查后端"></a>第二部分：排查后端</h2><p>从网上查到Nodejs的内存泄漏有以下可能</p>
+<ol>
+<li>全局变量 (排除)</li>
+<li>闭包 (排除)</li>
+<li>事件监听 (待排查)</li>
+<li>缓存使用不当 (可能)</li>
+<li>内存没有即时释放 (排除，查看了node使用内存)</li>
+<li>SetTimeOut方法 (待排查)</li>
+</ol>
+<blockquote>
+<p><em>先关闭了Egg定时器发现CPU增长不是线性增长而是阶梯增长的，但是还会增加到100%</em></p>
+<p><em>然后关了监听还是如此，但是可以跑24h了，缓存用的也不是很多</em>，缓存使用不当也排除了</p>
+</blockquote>
+<h2 id="第三部分：意外之喜"><a href="#第三部分：意外之喜" class="headerlink" title="第三部分：意外之喜"></a>第三部分：意外之喜</h2><p>在整理Linux命令的时候使用了netstat指令</p>
+<p>后面发现一直在给以前项目发数据包</p>
+<p>于是去问后端怎么回事</p>
+<p>原来是WAMP没有关掉</p>
+<p>关掉后CPU就在3-20%之间来回了</p>
+<p>舒服了</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>devOps</category>
+      </categories>
+      <tags>
+        <tag>DevOps</tag>
+        <tag>Experience</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>crawl:Fund</title>
     <url>/2020/10/20/crawl-Fund/</url>
     <content><![CDATA[<h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
@@ -123,6 +160,10 @@
     <title>comPy</title>
     <url>/2020/10/12/comPy/</url>
     <content><![CDATA[<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>常用库与响应操作</p>
+<h3 id="常用内置方法"><a href="#常用内置方法" class="headerlink" title="常用内置方法"></a>常用内置方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list((<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)) <span class="comment">#[1, 2, 3, 4, 5, 6]  将一个可迭代对象转换成列表</span></span><br><span class="line"></span><br><span class="line">tuple([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]) <span class="comment">#(1, 2, 3, 4, 5, 6)将一个可迭代对象转换成元组</span></span><br><span class="line"></span><br><span class="line">reversed() <span class="comment">#将一个序列翻转, 返回翻转序列的迭代器</span></span><br><span class="line"></span><br><span class="line">slice(start_index:end_index:step) <span class="comment">#列表的切片 st开始，en结束，step方向&gt;0，从左往右反之向左</span></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">slice(<span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>) <span class="comment">#[2,3]</span></span><br><span class="line"></span><br><span class="line">repr() <span class="comment">#返回一个对象的String形式</span></span><br><span class="line"></span><br><span class="line">len() <span class="comment">#返回一个对象中元素的个数</span></span><br><span class="line"></span><br><span class="line">sorted() <span class="comment">#对可迭代对象进行排序操作(lamda)</span></span><br><span class="line"></span><br><span class="line">all() <span class="comment">#可迭代对象中全是True才是True</span></span><br><span class="line">any() <span class="comment">#可迭代对象中有一个是True才是True</span></span><br><span class="line"></span><br><span class="line">filter() <span class="comment">#用lamda过滤</span></span><br><span class="line"></span><br><span class="line">map(f, lst) <span class="comment"># 把可迭代对象中的每一个元素传递给前面的函数进行处理. 处理的结果会返回成迭代器[1, 2, 3, 4, 5, 6, 7]</span></span><br><span class="line"></span><br><span class="line">range() <span class="comment">#生成数据</span></span><br><span class="line">next() <span class="comment">#迭代器向下执行一次, 内部实际使用了__ next__()方法返回迭代器的下一个项目</span></span><br><span class="line">iter() <span class="comment">#获取迭代器</span></span><br><span class="line"></span><br><span class="line">eval() <span class="comment">#执行字符串类型的编码并返回结果，如输入8+9 返回17</span></span><br><span class="line">exec() <span class="comment">#执行代码但不返回内容</span></span><br><span class="line">compile() <span class="comment">#将字符串类型的代码编码. 代码对象能够通过exec语句来执行或者eval()进行求值</span></span><br><span class="line"></span><br><span class="line">hash() <span class="comment">#获取到对象的hash值</span></span><br><span class="line"></span><br><span class="line">dir() <span class="comment">#查看对象的内置属性</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="you-get-获取媒体内容"><a href="#you-get-获取媒体内容" class="headerlink" title="you-get 获取媒体内容"></a>you-get 获取媒体内容</h3><p>you-get用于从Web下载媒体内容(视频)</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#下载视频</span></span><br><span class="line">you-get 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定存储位置和重命名</span></span><br><span class="line">you-get -o 存放的绝对路径 -O 新名称 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看视频信息</span></span><br><span class="line">you-get -i 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#选择下载清晰度和格式</span></span><br><span class="line"></span><br><span class="line">you-get --format=视频格式 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载图片同视频</span></span><br></pre></td></tr></table></figure>
 
@@ -219,7 +260,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#x38;&#x31;&#x2e;&#54;&#56;&#46;&#x37;&#x33;&#46;&#x35;&#53;">&#x67;&#x69;&#116;&#64;&#x38;&#x31;&#x2e;&#54;&#56;&#46;&#x37;&#x33;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;">&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>

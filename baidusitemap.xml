@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://example.com/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</loc>
+    <lastmod>2020-10-22</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2020/10/12/comPy/</loc>
+    <lastmod>2020-10-22</lastmod>
+  </url>
+  <url>
     <loc>http://example.com/2020/10/06/comShell/</loc>
     <lastmod>2020-10-21</lastmod>
   </url>
@@ -14,10 +22,6 @@
   </url>
   <url>
     <loc>http://example.com/2020/10/06/comGit/</loc>
-    <lastmod>2020-10-12</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2020/10/12/comPy/</loc>
     <lastmod>2020-10-12</lastmod>
   </url>
   <url>
