@@ -68,6 +68,74 @@
       </tags>
   </entry>
   <entry>
+    <title>前端模块化</title>
+    <url>/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="前端模块化"><a href="#前端模块化" class="headerlink" title="前端模块化"></a>前端模块化</h1><h2 id="TabBar"><a href="#TabBar" class="headerlink" title="TabBar"></a>TabBar</h2><p>使用模块化思想进行划分，举tabbar例子</p>
+<ol>
+<li><p>如App.vue调用tabbar，使用import调用maintabbar，components里面调用，就可以在template里面调用该组件maintabbar/</p>
+<p><img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/1.jpg"></p>
+</li>
+<li><p>在components里面创建common和content，common里面写多个项目都可以调用的组件，content里面写目前项目使用的<img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/2.jpg"></p>
+</li>
+<li><p>content里面的组件调用common公用组件tabbar和tabbarItem去实现目前项目所需的tabbar<img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/3.jpg"></p>
+</li>
+<li><p>maintabbar的template写入tabbar，tabbar里面写tabbaritem，tabbaritem里面写img slot插槽和div slot插槽，并导入tabbar和tabbaritem</p>
+<p><img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/4.jpg"></p>
+</li>
+<li><p>插槽里的name注意和tabbaritem里面一致</p>
+<p><img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/5.jpg">tabbar.vue</p>
+<p><img src="/2020/11/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/6.jpg">tabbarItem.vue</p>
+</li>
+</ol>
+<h2 id="Slot"><a href="#Slot" class="headerlink" title="Slot"></a>Slot</h2>]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vueP1</title>
+    <url>/2020/10/23/vueP1/</url>
+    <content><![CDATA[<h1 id="VueP1"><a href="#VueP1" class="headerlink" title="VueP1"></a>VueP1</h1><h2 id="vue目录"><a href="#vue目录" class="headerlink" title="vue目录"></a>vue目录</h2><p><img src="/2020/10/23/vueP1/1.png"></p>
+<p>项目加载main.js-&gt;app.vue-&gt;index.js-&gt;helloworld.vue</p>
+<ul>
+<li>mainjs:程序入口，初始化vue实例并使用插件，加载各种公用组件</li>
+<li>APPvue:主组件，页面入口文件，构建定义及页面组件归集</li>
+<li>router indexjs：准备好的路由组件注册到路由里</li>
+<li>index.html:文件路口</li>
+<li>node_modules：依赖模块</li>
+<li>build：配置webpack基本配置、开发环境配置等</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>webpack.base.conf.js 注释createLintingRule()清除拼写检查</li>
+</ul>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
+<li>template:写html模版，且内部必须有一个根元素div</li>
+<li>script:写JavaScript</li>
+<li>style:写样式</li>
+<li>div:块级元素，将文档分割，固定换行</li>
+<li>export default: 导出模块，当别的模块需要导出数据时</li>
+<li>new Vue() 写在mainjs，其他文件使用export default就行</li>
+</ul>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>Model ViewModel View</p>
+<img src="/2020/10/23/vueP1/1.jpg" style="zoom:150%;">
+
+<p>DOM Listeners：DOM监听</p>
+<p>Data Bindings：数据绑定</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><img src="/2020/10/23/vueP1/2.png"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nodejs数据泄漏</title>
     <url>/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</url>
     <content><![CDATA[<h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
@@ -260,7 +328,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;">&#103;&#105;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#x40;&#x38;&#49;&#46;&#54;&#56;&#x2e;&#x37;&#51;&#46;&#x35;&#x35;">&#x67;&#105;&#x74;&#x40;&#x38;&#49;&#46;&#54;&#56;&#x2e;&#x37;&#51;&#46;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>

@@ -81,6 +81,512 @@
     
     
     <article
+  id="post-Linux文件、目录与磁盘格式"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/"
+    >Linux文件、目录与磁盘格式</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/" class="article-date">
+  <time datetime="2020-10-05T06:47:37.000Z" itemprop="datePublished">2020-10-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/">鸟哥的Linux私房菜</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Linux的文件权限与目录配置"><a href="#Linux的文件权限与目录配置" class="headerlink" title="Linux的文件权限与目录配置"></a>Linux的文件权限与目录配置</h1><p>r(读权限)：表示你可以查询该目录下的文件名，如ls指令</p>
+<p>w(写指令)：</p>
+<ul>
+<li>建立新的文件与目录</li>
+<li>删除已存在的文件或目录(不论权限如何，就算只有w也可以！！！)</li>
+<li>将已经存在的文件或目录进行更名</li>
+<li>移动该目录内的文件、目录位置</li>
+</ul>
+<p>x(执行权限)</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>内容</th>
+<th>r</th>
+<th>w</th>
+<th>x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件</td>
+<td>详细数据data</td>
+<td>读到文件内容</td>
+<td>修改文件内容</td>
+<td>执行文件内容</td>
+</tr>
+<tr>
+<td>目录</td>
+<td>文件名</td>
+<td>读到文件名</td>
+<td>修改文件名</td>
+<td>进入该目录的权限</td>
+</tr>
+</tbody></table>
+<h2 id="Linux文件权限"><a href="#Linux文件权限" class="headerlink" title="Linux文件权限"></a>Linux文件权限</h2><p>使用命令ls -al，文件类型权限如下图-rw-r–r–.</p>
+<p><img src="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/1.jpg"></p>
+<p>第一个字符代表这个文件类型，常见的如下：</p>
+<ul>
+<li>[d]：目录</li>
+<li>[-]：文件</li>
+<li>[l]：链接文件</li>
+</ul>
+<p>接下来的三个为一组：</p>
+<ul>
+<li>第一组为文件拥有者可具备的权限：rw-表示读写权限，但不可执行</li>
+<li>第二组为加入此用户组账号的权限</li>
+<li>第三组为非本人且没有加入本用户组的其他账号的权限</li>
+</ul>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><p>chgrp：修改文件所属用户组</p>
+<p>chown：修改文件拥有者，用此命令需要用数字指代权限，r=4，w=2，x=1，如rwx=7</p>
+<p>chmod：修改文件的权限</p>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>文件名之前多一个(.)，说明此文件为隐藏文件</li>
+<li>root不受系统的权限限制，所有无论文件权限是什么，默认root都可以读写</li>
+<li>通常开放的目录至少会具备rx这两个权限</li>
+<li>Linux的文件没有扩展名，一个文件能否被执行，与属性有关系，与文件名没关系</li>
+</ul>
+<h2 id="Linux目录配置–FHS"><a href="#Linux目录配置–FHS" class="headerlink" title="Linux目录配置–FHS"></a>Linux目录配置–FHS</h2><blockquote>
+<p>根目录(/)所在的分区应该越小越好，且应用程序所安装的软件最好不要与根目录放在同一个分区内</p>
+</blockquote>
+<h3 id="根目录下："><a href="#根目录下：" class="headerlink" title="根目录下："></a>根目录下：</h3><p>FHS要求必须要存在的目录：</p>
+<ul>
+<li>/bin：存放执行文件，此目录下放置的是单人维护模式下还能够使用的命令</li>
+<li>/boot：此目录放置启动会使用到的文件</li>
+<li>/dev：任何设备和接口设备都以文件形式存在于此目录</li>
+<li>/etc：系统内的配置文件几乎都放置在这个目录，FHS建议不要放置可执行文件在这个目录</li>
+<li>/lib：此目录放置的是启动时会用到的函数库</li>
+<li>/media：此目录放置的是可删除的设备，包括软盘、光盘、DVD等设备</li>
+<li>/mnt：暂时挂载某些额外的设备可以放在此目录</li>
+<li>/opt：第三方辅助软件放置的目录，如KDE桌面管理系统</li>
+<li>/run：系统启动后产生的各项信息</li>
+<li>/sbin：启动过程需要的，里面包括了启动、修复、还原系统所需要的命令</li>
+<li>/srv：一些网络服务启动后，这些服务所需要使用的数据目录</li>
+<li>/tmp：让一般用户或是正在执行的程序暂时放置文件的地方，这个目录任何人都能够存取</li>
+<li>/usr：后续介绍</li>
+<li>/var：后续介绍</li>
+</ul>
+<p>FHS建议可以存在的目录：</p>
+<ul>
+<li>/home：系统默认家目录</li>
+<li>/root：系统管理员的家目录</li>
+</ul>
+<h3 id="usr目录下："><a href="#usr目录下：" class="headerlink" title="usr目录下："></a>usr目录下：</h3><p><em>usr指的是UNIX Software Resource，即操作系统软件资源放置的目录，而不是user用户数据</em></p>
+<p>FHS要求必须要存在的目录：</p>
+<ul>
+<li>/usr/bin/：所有一般用户能够使用的命令都放在这里</li>
+<li>/usr/lib/：与/lib功能相同，/lib链接到此目录</li>
+<li>/usr/local/：管理员在本机安装自己下载的软件，建议安装到此目录</li>
+<li>/usr/sbin/：非系统正常运行所需要的系统命令</li>
+<li>/usr/share/：主要放置只读的数据文件，当然也包括共享文件</li>
+</ul>
+<p>FHS建议可以存在的目录：</p>
+<ul>
+<li>/usr/include/：C/C++等程序语言的头文件(header)与包含文件(include)放置处</li>
+<li>/usr/libexec/：某些不被一般用户常用的执行文件或脚本</li>
+<li>/usr/src/：一般源代码建议放置到这里</li>
+</ul>
+<h3 id="var目录下："><a href="#var目录下：" class="headerlink" title="var目录下："></a>var目录下：</h3><p><em>var目录主要针对经常性变动的文件</em></p>
+<p>​    FHS要求必须要存在的目录：</p>
+<ul>
+<li>/var/cache/：应用程序运行过程中的缓存</li>
+<li>/var/lib/：程序执行过程中，需要使用的数据文件放置的目录</li>
+<li>/var/lock/：给设备上锁</li>
+<li>/var/log/：日志文件</li>
+<li>/var/mail/：个人电子邮箱</li>
+<li>/var/run/：某些程序或是服务启动后，会将PID放到这个目录下</li>
+<li>/var/spool/：这个目录通常放置一些队列数据，即排队等待其他程序使用的数据</li>
+</ul>
+<h3 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>. ：代表当前目录，也可以用./表示</li>
+<li>.. ：代表上一层目录，也可以用../表示</li>
+<li>当出现找不到命令时，代表该命令不在环境变量$PATH目录下</li>
+</ul>
+<h1 id="Linux文件与目录管理"><a href="#Linux文件与目录管理" class="headerlink" title="Linux文件与目录管理"></a>Linux文件与目录管理</h1><p>有关命令：</p>
+<ul>
+<li>ls：查看文件与目录名称</li>
+<li>cp：复制;注意：在默认的条件下，cp的源文件与目标文件的权限不同，目标文件的拥有者是操作者本身</li>
+<li>rm：删除文件或目录</li>
+<li>mv：移动文件或目录，也可以修改文件名</li>
+</ul>
+<h2 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h2><ul>
+<li>cat：由第一行开始显示文件内容</li>
+<li>tac：从最后一行开始显示</li>
+<li>nl：显示时，同时输出行号</li>
+<li>more：一页一页显示文件内容</li>
+<li>less：与more类似，但是可以往前翻</li>
+<li>head：只看前几行</li>
+<li>tail：只看后几行</li>
+<li>od：以二进制的方式读取文件内容</li>
+<li>touch：修改文件时间或创建新文件</li>
+</ul>
+<h2 id="文件与目录的默认权限与隐藏权限"><a href="#文件与目录的默认权限与隐藏权限" class="headerlink" title="文件与目录的默认权限与隐藏权限"></a>文件与目录的默认权限与隐藏权限</h2><p>umask：查看文件默认权限，指的是该默认值需要减掉的权限，如umask0022，默认权限为7755</p>
+<p>chattr：配置文件隐藏属性</p>
+<p>lsattr：显示文件隐藏属性</p>
+<h3 id="文件特殊权限"><a href="#文件特殊权限" class="headerlink" title="文件特殊权限"></a>文件特殊权限</h3><p>SUID</p>
+<p>SGID</p>
+<p>SBIT</p>
+<h2 id="命令与文件查找"><a href="#命令与文件查找" class="headerlink" title="命令与文件查找"></a>命令与文件查找</h2><ul>
+<li><p>which：脚本文件查找，即查找执行文件</p>
+</li>
+<li><p>whereis：特定目录中查找文件</p>
+</li>
+<li><p>locate：依据/var/lib/mlocate内的数据库记录</p>
+</li>
+<li><p>find：常用查找</p>
+</li>
+</ul>
+<h1 id="Linux磁盘与文件管理系统"><a href="#Linux磁盘与文件管理系统" class="headerlink" title="Linux磁盘与文件管理系统"></a>Linux磁盘与文件管理系统</h1><h2 id="文件系统特性"><a href="#文件系统特性" class="headerlink" title="文件系统特性"></a>文件系统特性</h2><blockquote>
+<p>磁盘分区完毕后还需要格式化，因为每种操作系统所设置的文件属性/权限并不同，所以需要格式化以成为操作系统可以使用的</p>
+<p>文件系统通常会将文件权限(rwx)与文件属性(拥有者、用户组等)放在不同的区块，权限与属性放到inode中，实际数据则放置到数据区块中。</p>
+<p>而超级区块会记录整个文件系统的整体信息，包括inode与数据区块的总量、使用量、剩余量等。</p>
+<p>inode记录文件的属性，一个文件占用一个inode，同时记录此文件的数据所在的区块号码。</p>
+</blockquote>
+<p><em>inode记录的信息：</em></p>
+<ul>
+<li>该文件的读写属性(rwx)</li>
+<li>该文件的拥有者与用户组(owner、group)</li>
+<li>该文件大小</li>
+<li>该文件建立或状态改变的时间(ctime)</li>
+<li>最近一次读取时间(atime)</li>
+<li>最近修改时间(mtime)</li>
+<li>定义文件特性的标识(flag)</li>
+<li>该文件真正内容的指向(pointer)</li>
+</ul>
+<blockquote>
+<p>系统读取的文件时需要先找到inode，并分析inode所记录的权限与用户是否符合，若符合才能读取</p>
+</blockquote>
+<p><em>Superblock(超级区块)记录的信息：</em></p>
+<ul>
+<li>数据区块与inode的总量</li>
+<li>未使用与已使用的inode与数据区块数量</li>
+<li>数据库与inode的大小</li>
+<li>文件系统的挂载时间、最近一次写入数据的时间、最近一次检验磁盘的时间等文件系统相关信息</li>
+<li>一个有效位数值，若此文件系统被挂载，则为0，未挂载为1</li>
+</ul>
+<p><em>硬链接：</em></p>
+<blockquote>
+<p>一般一个文件，目录-&gt;文件名-&gt;inode-&gt;文件内容，硬链接则增加一个目录下文件名指向相同inode</p>
+<p>硬链接的限制：1.不能跨文件系统 2.不能链接目录</p>
+</blockquote>
+<p><em>符号链接：</em></p>
+<blockquote>
+<p>符号链接就是建立一个独立的文件，读取这个文件相当于读取这个文件指向的链接的文件名，相当于windows的快捷方式</p>
+</blockquote>
+<h2 id="磁盘分区、格式化检验与挂载"><a href="#磁盘分区、格式化检验与挂载" class="headerlink" title="磁盘分区、格式化检验与挂载"></a>磁盘分区、格式化检验与挂载</h2><p>在Linux系统中，当新增一个磁盘时，有以下操作需做：</p>
+<ol>
+<li>对磁盘进行划分，以建立磁盘分区</li>
+<li>对磁盘格式化，以建立文件系统</li>
+<li>检验文件系统</li>
+<li>建立挂载点，并挂载到挂载点</li>
+</ol>
+<p>挂载注意事项：</p>
+<ul>
+<li>单一文件系统不应该挂载在不同挂载点中</li>
+<li>单一目录不应该重复挂载多个文件系统</li>
+<li>作为挂载点的目录，理论上应该是已存在空目录</li>
+<li>根目录/是必须挂载的，而且一定要先于其他挂载点被挂载进来</li>
+<li>如若进行卸载，必须先将工作目录移到挂载点(及子目录)之外</li>
+</ul>
+<h1 id="压缩技术"><a href="#压缩技术" class="headerlink" title="压缩技术"></a>压缩技术</h1><p>原理：</p>
+<ul>
+<li>一种将文件中没有使用到的空间空出来，以让文件占用空间变小</li>
+<li>一种类似有100个1，压缩技术记录为100个1</li>
+</ul>
+<h2 id="Linux系统常见的压缩命令"><a href="#Linux系统常见的压缩命令" class="headerlink" title="Linux系统常见的压缩命令"></a>Linux系统常见的压缩命令</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>gzip</th>
+<th>xz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>压缩比</td>
+<td>较低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>所用时间</td>
+<td>较短</td>
+<td>较长</td>
+</tr>
+</tbody></table>
+<h3 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h3><p>记住以下即可：</p>
+<ul>
+<li>压缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称</li>
+<li>查询：tar -jtv -f filename.tar.bz2</li>
+<li>解查询：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="part-Linux的规划与安装"
+  class="article article-type-part"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/"
+    >Linux的规划与安装</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/" class="article-date">
+  <time datetime="2020-10-05T06:40:45.000Z" itemprop="datePublished">2020-10-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/">鸟哥的Linux私房菜</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Linux的规划与安装"><a href="#Linux的规划与安装" class="headerlink" title="Linux的规划与安装"></a>Linux的规划与安装</h1><p>linux版本号：</p>
+<ul>
+<li>奇数：开发板</li>
+<li>偶数：稳定版</li>
+</ul>
+<h2 id="计算机概论"><a href="#计算机概论" class="headerlink" title="计算机概论"></a>计算机概论</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>CPU里面含有两个主要的单元：<em>算逻单元</em>和<em>控制单元</em></p>
+<blockquote>
+<p>CPU里面的数据都是从内存里来的，也就是说，<em>输入单元-&gt;内存-&gt;CPU-&gt;内存-&gt;输出单元。</em></p>
+</blockquote>
+<p>CPU里面含有的指令集：</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>精简指令集(RISC)</th>
+<th>复杂指令集(CISC)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>特点</td>
+<td>指令运行时间很短，完成的操作也简单。</td>
+<td>指令运行时间长，指令数目多而且复杂。</td>
+</tr>
+<tr>
+<td>使用该架构的CPU</td>
+<td>ARM</td>
+<td>AMD、Intel、VIA</td>
+</tr>
+<tr>
+<td>实例</td>
+<td>手机、导航系统、网络设备(交换机、路由器)</td>
+<td>个人电脑</td>
+</tr>
+</tbody></table>
+<h4 id="CPU运行参数"><a href="#CPU运行参数" class="headerlink" title="CPU运行参数"></a>CPU运行参数</h4><p>CPU的频率表示CPU每秒钟可以进行的工作次数，频率目前仅能用来比较同款CPU的速度。</p>
+<p>CPU每次能够处理的数据量称为字长，64位代表CPU一次可以读写64bit的数据。</p>
+<p>早期CPU有南北桥，如今因为北桥限制频率问题，北桥被整合到CPU中。</p>
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h4><ul>
+<li>CPU具有向下兼容能力，如i7可以兼容i5</li>
+</ul>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><img src="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/1.png" alt="image-20200526095428528"></p>
+<p>L2是与CPU频率相同的SRAM(静态随机存取内存)，被整合到CPU内部，其价格高，速度快，用于提示CPU运行性能，里面存放常用的程序或数据。</p>
+<h3 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h3><p>显卡影响屏幕分辨率和颜色深度。</p>
+<p>显卡通过GPU的控制芯片来与CPU、内存等通信。</p>
+<h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h3><p>机械硬盘的读取通过主轴马达让碟片转动，机械手臂读写来完成。</p>
+<p>固态硬盘则是用闪存做的大容量存储设备。</p>
+<h2 id="主机规划与磁盘分区"><a href="#主机规划与磁盘分区" class="headerlink" title="主机规划与磁盘分区"></a>主机规划与磁盘分区</h2><blockquote>
+<p><em>在Linux中，每个设备相当于一个文件</em>，几乎所有硬件设备都在/dev这个目录下</p>
+</blockquote>
+<h3 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h3><blockquote>
+<p>磁盘利用参考对照<em>柱面</em>或<em>扇区号码</em>来分区。</p>
+</blockquote>
+<p>整块磁盘的<em>第一个扇区</em>特别重要，它记录了磁盘的重要信息。</p>
+<p>扇区是磁盘的最小单位，如以前的磁盘的扇区为512字节，如今有4K的扇区</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>MBR</th>
+<th>GPT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全性</td>
+<td>较低，仅有一个扇区记录区分信息</td>
+<td>较高，不仅前面有34个LBA，磁盘最后的34个LBA用来备份</td>
+</tr>
+<tr>
+<td>支持磁盘大小</td>
+<td>无法使用2.2TB以上的内容</td>
+<td>支持2.2TB以上</td>
+</tr>
+<tr>
+<td>引导程序区块大小</td>
+<td>较小，只有446字节</td>
+<td>较大，整个LBA0</td>
+</tr>
+</tbody></table>
+<h4 id="MBR-MS-DOS-分区表"><a href="#MBR-MS-DOS-分区表" class="headerlink" title="MBR(MS-DOS)分区表"></a>MBR(MS-DOS)分区表</h4><p>MBR第一个扇区的512字节通常会有这些：</p>
+<ul>
+<li>主引导记录：可以安装启动引导程序的地方，有446字节</li>
+<li>分区表：记录整块硬盘分区的状态，有64字节，最多仅能有四组记录区，每组记录区记录了该区段的起始与结束的柱面号码。</li>
+</ul>
+<p>分区表：</p>
+<p>​    分区表里的四组记录区称为主要(Primary)或扩展(Extended)分区</p>
+<ul>
+<li>主要分区：第一个扇区的64字节，可以被格式化</li>
+<li>扩展分区：记录额外扇区的分区信息，并不能格式化</li>
+<li>逻辑分区：扩展分区划分的分区，可以被格式化</li>
+</ul>
+<p>MBR的缺陷：</p>
+<ul>
+<li>操作系统无法使用2.2TB以上的磁盘容量</li>
+<li>MBR仅有一个区块，若被破坏，难以恢复</li>
+<li>MBR存放启动引导程序的区块仅446字节，无法存储较多的程序代码</li>
+</ul>
+<h5 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h5><ul>
+<li>逻辑分区号码：1-4分区是保留给主要/扩展分区，因此第一个逻辑分区是从5开始的</li>
+</ul>
+<h4 id="GPT磁盘分区表"><a href="#GPT磁盘分区表" class="headerlink" title="GPT磁盘分区表"></a>GPT磁盘分区表</h4><blockquote>
+<p>如今的扇区大小已经有4K，为了兼容以前的512字节，GPT大多使用所谓的逻辑区块地址(LBA)来处理。</p>
+</blockquote>
+<p>GPT模式结构：</p>
+<ul>
+<li>LBA0：存储第一阶段的启动引导程序</li>
+<li>LBA1：这个部分记录了分区表本身的位置和大小，同时记录了备份用的GPT分区，还放置了分区表的校验码</li>
+<li>LBA2-33：实际记录分区信息处</li>
+</ul>
+<h3 id="启动流程中的BIOS与UEFI启动检测程序"><a href="#启动流程中的BIOS与UEFI启动检测程序" class="headerlink" title="启动流程中的BIOS与UEFI启动检测程序"></a>启动流程中的BIOS与UEFI启动检测程序</h3><h4 id="BIOS启动流程"><a href="#BIOS启动流程" class="headerlink" title="BIOS启动流程"></a>BIOS启动流程</h4><p>如下：</p>
+<ol>
+<li>BIOS：启动主动执行的固件，会认识第一个可启动的设备</li>
+<li>MBR：第一个可启动设备的第一个扇区内的主引导记录块，内含启动引导代码</li>
+<li>启动引导程序(boot loader)：一个可读取内核文件来执行的软件</li>
+<li>内核文件：开始启动操作系统</li>
+</ol>
+<p>boot loader的主要任务如下：</p>
+<ul>
+<li>提供选项：用户可选择不同的启动选项，即多重引导到不同操作系统</li>
+<li>加载内核文件：直接指向可使用的程序区段来启动操作系统</li>
+<li>转交其他启动引导程序：将启动管理功能转交给其他启动引导程序负责，也与多重引导有关</li>
+</ul>
+<h5 id="Tips-2"><a href="#Tips-2" class="headerlink" title="Tips"></a>Tips</h5><ul>
+<li>启动扇区除了可以安装在MBR外，还可以安装在每个分区的启动扇区(boot loader)，这种特性才能造就“多重引导”</li>
+</ul>
+<h4 id="UEFI-BIOS"><a href="#UEFI-BIOS" class="headerlink" title="UEFI BIOS"></a>UEFI BIOS</h4><p>与传统BIOS对比：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>传统BIOS</th>
+<th>UEFI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>硬件资源控制</td>
+<td>16位</td>
+<td>CPU保护模式</td>
+</tr>
+<tr>
+<td>扩充方式</td>
+<td>通过IRQ连接</td>
+<td>直接加载驱动程序</td>
+</tr>
+<tr>
+<td>第三方厂商支持</td>
+<td>较差</td>
+<td>较多且可支持多平台</td>
+</tr>
+<tr>
+<td>图形能力</td>
+<td>较差</td>
+<td>较好</td>
+</tr>
+<tr>
+<td>内置简化操作系统环境</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<h2 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h2><ul>
+<li>目录树：/，即以根目录为主</li>
+<li>挂载：即利用一个目录当成进入点，将磁盘分区的数据放在该目录下，此目录称为挂载点</li>
+<li>swap分区：当物理内存不足时，将不常用数据放到swap分区，而将速度较快的物理内存留给需要的程序使用。且该分区不会挂载在根目录下</li>
+<li>每个账号都有自己的工作目录，如账号ccc，则此目录就在/home/ccc</li>
+</ul>
+<h3 id="Linux重要热键"><a href="#Linux重要热键" class="headerlink" title="Linux重要热键"></a>Linux重要热键</h3><ul>
+<li>Tab：具有命令补全与文件补齐的功能，按下第一次为<em>命令补全</em>，第二次为<em>文件补齐</em></li>
+<li>Ctrl+C：中断目前程序</li>
+<li>Ctrl+D：键盘输入结束</li>
+<li>Shift+Page UP/Page down：翻页</li>
+<li>命令–help：命令的基本用法与选项参数。</li>
+<li>man 命令：命令操作说明</li>
+<li>关机：shutdown</li>
+<li>重启：reboot</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-双系统安装"
   class="article article-type-post"
   itemscope
@@ -1035,196 +1541,13 @@
 </article>
 
     
-    <article
-  id="post-JS红宝书"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/"
-    >JS</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/" class="article-date">
-  <time datetime="2020-09-30T07:52:01.000Z" itemprop="datePublished">2020-09-30</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/">JS红宝书</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
-<ul>
-<li>核心：规定了这门语言的语法、类型等基础内容</li>
-<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
-<li>BOM：提供与浏览器交互的方法和接口</li>
-</ul>
-<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
-<li>src：里面放外部文件，如a.png等</li>
-<li>type：必选，一般来用text/javascript</li>
-</ul>
-<p>Tips：</p>
-<ul>
-<li><p>script按照顺序解析</p>
-</li>
-<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
-</li>
-<li><p>HTML中推荐使用外部JS导入来使用</p>
-</li>
-</ul>
-<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
-<ul>
-<li>区分大小写</li>
-<li>严格模式：来源于JS</li>
-<li>注释：//或/* */</li>
-<li>加分号</li>
-<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
-<li>‘’和””同样理解为String类型，没区别</li>
-<li>Object是所有对象的基础</li>
-<li>默认情况下JS中所有整数都是有符号整数</li>
-<li>for-in枚举对象属性</li>
-<li>函数声明：function 函数名(a,b,c…){…}</li>
-<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
-<li>return;返回undefined</li>
-</ul>
-<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
-<ul>
-<li>创建对象new Object()</li>
-<li>复制变量即复制值，var num1=num//num==num1</li>
-<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
-<li>JS中所有函数的参数都是按值传递的</li>
-<li>typeof()检测基本类型、instanceof()检测引用类型</li>
-<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
-<li>if、for语句中声明的变量即为全局变量</li>
-<li>JS有垃圾回收机制</li>
-</ul>
-<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
-<ul>
-<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
-<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
-<li>Date：Date.parse()换成ms</li>
-<li>RegEXP：正则表达式</li>
-<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
-</ul>
-<p>Tips:</p>
-<ul>
-<li>类似栈函数push()、pop()</li>
-<li>类似队列函数shift()、push()</li>
-<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
-<li>concat()方法对数组内元素进行删除、插入、替换</li>
-<li>可以将一个函数作为另一个函数的结果返回</li>
-<li>函数内部对象this引用函数当前对象的属性如this.color</li>
-<li>函数名.length表示接收参数的个数</li>
-</ul>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-shell"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/30/shell/"
-    >Shell/Mongo定时导出删除</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/30/shell/" class="article-date">
-  <time datetime="2020-09-30T07:29:07.000Z" itemprop="datePublished">2020-09-30</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#月份	</span></span><br><span class="line"><span class="comment">#在月份使用的时候有一个问题就是怎么获取上上个月的月份才好使用时间戳确定时间</span></span><br><span class="line"><span class="comment">#想到可以用数组，本来是想用m[-1]==m[m.length-1]的思路，发现js不是这样，但是可以赋值-1</span></span><br><span class="line">var m=new Array()</span><br><span class="line">m[-2]=30</span><br><span class="line">m[-1]=31</span><br><span class="line">m[0]=31</span><br><span class="line">m[1]=28</span><br><span class="line">m[2]=31</span><br><span class="line">m[3]=30</span><br><span class="line">m[4]=31</span><br><span class="line">m[5]=30</span><br><span class="line">m[6]=31</span><br><span class="line">m[7]=31</span><br><span class="line">m[8]=30</span><br><span class="line">m[9]=31</span><br><span class="line">m[10]=30</span><br><span class="line">m[11]=31</span><br><span class="line">log4=new Date()</span><br><span class="line">log3=new Date().valueOf()</span><br><span class="line">t1=-(m[log4.getMonth()-1]+m[log4.getMonth()-2]+m[log4.getMonth()-3])*24*60*60*1000</span><br><span class="line">t2=-(m[log4.getMonth()-1]+m[log4.getMonth()-2])*24*60*60*1000</span><br><span class="line">log1=log3+t1-1.5*60*60*1000</span><br><span class="line">log2=log3+t2-1.5*60*60*1000</span><br><span class="line">log1=new Date(log1)</span><br><span class="line">log2=new Date(log2)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>
