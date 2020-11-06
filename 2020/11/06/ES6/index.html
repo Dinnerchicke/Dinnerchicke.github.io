@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="baidu-site-verification" content="code-QdAXqd4Pi2" />
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    ES6 |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/Logo.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-ES6"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  ES6
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/06/ES6/" class="article-date">
+  <time datetime="2020-11-06T01:56:53.000Z" itemprop="datePublished">2020-11-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">890</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">4 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>var：</p>
+<ul>
+<li>可以重复声明</li>
+<li>没有块级作用域</li>
+</ul>
+<p>let/const：</p>
+<ul>
+<li>不可以重复声明</li>
+<li>有块级作用域</li>
+</ul>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><ul>
+<li>如果只有一个参数()可以省略</li>
+<li>如果只有一个返回值{}可以省略</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//只有一个参数</span></span><br><span class="line"><span class="keyword">let</span> show=<span class="function"><span class="params">a</span>=&gt;</span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(a)</span><br><span class="line"><span class="keyword">return</span> a*<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//只有一个返回值</span></span><br><span class="line"><span class="keyword">let</span> show=<span class="function">(<span class="params">a,index</span>)=&gt;</span>a*<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参数扩展"><a href="#参数扩展" class="headerlink" title="参数扩展"></a>参数扩展</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params">a,b,c,...</span>)//可以有多个参数</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">//作用：</span></span><br><span class="line"><span class="function">//1.收集剩余参数</span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">show</span>(<span class="params">a,b,...args</span>)</span></span><br><span class="line"><span class="function">//2.展开数组</span></span><br><span class="line"><span class="function"><span class="title">show</span>(<span class="params">...arr</span>)</span></span><br><span class="line">//即将arr=[]里面的东西全部拿出来</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="默认参数-amp-解构赋值"><a href="#默认参数-amp-解构赋值" class="headerlink" title="默认参数&amp;解构赋值"></a>默认参数&amp;解构赋值</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//默认参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params">a,b=<span class="number">5</span>,c=<span class="number">10</span></span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//解构赋值:解构赋值必须声明和赋值一起</span></span><br><span class="line"><span class="keyword">let</span> [a,b,c]=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> &#123;a,c,d&#125;=&#123;<span class="attr">a</span>:<span class="number">12</span>,<span class="attr">c</span>:<span class="number">5</span>,<span class="attr">d</span>:<span class="number">6</span>&#125;</span><br><span class="line"><span class="keyword">let</span> [json,arr,string]=[&#123;<span class="attr">a</span>:<span class="number">5</span>,<span class="attr">b</span>:<span class="number">10</span>&#125;,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="string">&#x27;aaa&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数组方法"><a href="#数组方法" class="headerlink" title="数组方法"></a>数组方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//map、reduce、filter、forEach</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//map,映射</span></span><br><span class="line"><span class="keyword">let</span> result=arr.map(<span class="function"><span class="params">item</span>=&gt;</span>item*<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//reduce汇总</span></span><br><span class="line"><span class="keyword">let</span> result=arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">tmp,item,index</span>)</span>&#123;<span class="comment">//分别是暂时的结果,输入的值,索引</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//filter过滤器</span></span><br><span class="line">arr.filter(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line"><span class="keyword">if</span>(...)&#123;<span class="keyword">return</span> <span class="literal">true</span>&#125;<span class="comment">//true返回</span></span><br><span class="line"><span class="keyword">else</span>&#123;<span class="keyword">return</span> <span class="literal">false</span>&#125;&#125;)<span class="comment">//false不返回</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//forEach迭代器</span></span><br><span class="line">arr.forEach(<span class="function"><span class="params">item</span>=&gt;</span>item*<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="字符串方法"><a href="#字符串方法" class="headerlink" title="字符串方法"></a>字符串方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">str.startsWith(<span class="string">&#x27;a&#x27;</span>)<span class="comment">//以a开头的字符串</span></span><br><span class="line">str.endsWith(<span class="string">&#x27;b&#x27;</span>)<span class="comment">//以b结尾的字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//模版字符串</span></span><br><span class="line"><span class="keyword">let</span> str=<span class="string">`aaa<span class="subst">$&#123;title&#125;</span>`</span><span class="comment">//模版字符串使用反单引号,取变量用$&#123;&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//面向对象</span></span><br><span class="line">Class User&#123;</span><br><span class="line">	constractor(name,pass)&#123;</span><br><span class="line">		<span class="built_in">this</span>.name=name</span><br><span class="line">		<span class="built_in">this</span>.pass=pass</span><br><span class="line">	&#125;</span><br><span class="line">	showName()&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VipUser</span> <span class="keyword">extends</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name,pass,level)&#123;</span><br><span class="line">        <span class="built_in">super</span>(name,pass)</span><br><span class="line">        <span class="built_in">this</span>.level=level</span><br><span class="line">    &#125;</span><br><span class="line">    showLevel()&#123;<span class="comment">//其余方法可以从父类继承</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.level)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> v1=<span class="keyword">new</span> VipUser(<span class="string">&#x27;blue&#x27;</span>,<span class="string">&#x27;123&#x27;</span>,<span class="number">3</span>)</span><br><span class="line">v1.showName()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify(json)<span class="comment">//把json变成字符串，不然就是一个object</span></span><br><span class="line"><span class="comment">//str转JSON标准写法</span></span><br><span class="line"><span class="comment">//1.只能用双引号</span></span><br><span class="line"><span class="comment">//2.所有名字都必须用引号包起来</span></span><br><span class="line"><span class="keyword">let</span> str=<span class="string">&#x27;&#123;&quot;a&quot;:12,&quot;b&quot;:5&#125;&#x27;</span></span><br><span class="line"><span class="keyword">let</span> json=<span class="built_in">JSON</span>.parse(str) <span class="comment">//把字符串变成json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//JSON简写</span></span><br><span class="line"><span class="keyword">let</span> a=<span class="number">12</span></span><br><span class="line"><span class="keyword">let</span> b=<span class="number">5</span></span><br><span class="line"><span class="keyword">let</span> json=&#123;<span class="attr">a</span>:a,<span class="attr">b</span>:b&#125;</span><br><span class="line"><span class="keyword">let</span> json=&#123;a,b,<span class="attr">c</span>:<span class="number">55</span>&#125;<span class="comment">//当名字和值一样时可以简写</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Promise用同步的方式写异步方法,封装</span></span><br><span class="line"><span class="comment">//Promise.all 多个请求都同时成功才res，不然err</span></span><br><span class="line"><span class="built_in">Promise</span>.all([$.ajax(),$.ajax()].then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">//成功</span></span><br><span class="line">&#125;,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">//失败</span></span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">//Promise.race 竞速</span></span><br><span class="line"><span class="built_in">Promise</span>.race([</span><br><span class="line">    </span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Generator 生成器--特殊函数,中间能暂停</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">show</span>(<span class="params"></span>)</span>&#123;<span class="comment">//*表明是生成器</span></span><br><span class="line">    alert(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    <span class="keyword">yield</span><span class="comment">//暂停,可以用来请求数据</span></span><br><span class="line">    alert(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> genObj=show();</span><br><span class="line">genObj.next()<span class="comment">//执行a</span></span><br><span class="line">genObj.next()<span class="comment">//执行b</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//yield传参</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">show</span>(<span class="params"></span>)</span>&#123;<span class="comment">//*表明是生成器</span></span><br><span class="line">    alert(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    <span class="keyword">let</span> a=<span class="keyword">yield</span><span class="comment">//暂停</span></span><br><span class="line">    alert(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">    alert(a)<span class="comment">//结果为5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> genObj=show();</span><br><span class="line">genObj.next(<span class="number">12</span>)<span class="comment">//没法给yield传参</span></span><br><span class="line">genObj.next(<span class="number">5</span>)<span class="comment">//执行b</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//yield 返回值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">show</span>(<span class="params"></span>)</span>&#123;<span class="comment">//*表明是生成器</span></span><br><span class="line">    alert(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">12</span><span class="comment">//暂停,可以用来请求数据</span></span><br><span class="line">    alert(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> genObj=show();</span><br><span class="line"><span class="keyword">let</span> res1=genObj.next()</span><br><span class="line"><span class="built_in">console</span>.log(res1)<span class="comment">//value:12,done:fales</span></span><br><span class="line"><span class="keyword">let</span> res2=genObj.next()</span><br><span class="line"><span class="built_in">console</span>.log(res2)<span class="comment">//value:undefind,done:true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Runner实例"><a href="#Runner实例" class="headerlink" title="Runner实例"></a>Runner实例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runner(<span class="function"><span class="keyword">function</span>*(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> data1=<span class="keyword">yield</span> $.ajax(&#123;<span class="attr">url</span>:<span class="string">&#x27;...&#x27;</span>,<span class="attr">dataType</span>:<span class="string">&#x27;json&#x27;</span>&#125;)</span><br><span class="line">	<span class="keyword">let</span> data2=<span class="keyword">yield</span> $.ajax(&#123;<span class="attr">url</span>:<span class="string">&#x27;...&#x27;</span>,<span class="attr">dataType</span>:<span class="string">&#x27;json&#x27;</span>&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//模块通过webpack编译才能使用</span></span><br><span class="line"><span class="built_in">module</span>.exports&#123;</span><br><span class="line">    mode:<span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">    entry:<span class="string">&#x27;./js/index.js&#x27;</span>,</span><br><span class="line">    output:&#123;</span><br><span class="line">        path:path.resolve(__dirname,<span class="string">&#x27;build&#x27;</span>),</span><br><span class="line">        filename:<span class="string">&#x27;bundle.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出(export)</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span><span class="comment">//默认成员</span></span><br><span class="line"><span class="comment">//导入(import)</span></span><br><span class="line"><span class="keyword">import</span> mod1 <span class="keyword">from</span> <span class="string">&#x27;./mod1&#x27;</span> <span class="comment">//相当于import default mod1 from &#x27;./mod1&#x27; 引入default成员</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> mod1 <span class="keyword">from</span> <span class="string">&#x27;xxx&#x27;</span> <span class="comment">//引入所有成员</span></span><br><span class="line"><span class="keyword">import</span> &#123;a,b <span class="keyword">as</span> name2&#125; <span class="keyword">from</span> <span class="string">&#x27;xxx&#x27;</span></span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/11/06/ES6/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/11/05/CSS%E5%B8%83%E5%B1%80/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">CSS布局</div>
+      </a>
+    
+  </nav>
+
+  
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> CDX
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/Logo.svg" alt="CDX"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
