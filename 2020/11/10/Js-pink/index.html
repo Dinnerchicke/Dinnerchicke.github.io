@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="baidu-site-verification" content="code-QdAXqd4Pi2" />
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Js-pink |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/Logo.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Js-pink"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Js-pink
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/10/Js-pink/" class="article-date">
+  <time datetime="2020-11-10T02:43:48.000Z" itemprop="datePublished">2020-11-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">7 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Js"><a href="#Js" class="headerlink" title="Js"></a>Js</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="浏览器执行Js"><a href="#浏览器执行Js" class="headerlink" title="浏览器执行Js"></a>浏览器执行Js</h3><p> 浏览器分为：</p>
+<ul>
+<li>渲染引擎：用来解析HTML与CSS，俗称内核，如chrome的blink</li>
+<li>JS引擎：也称为JS解释器，用来读取网页中Js代码，对其处理后执行，如chrome的v8</li>
+</ul>
+<h3 id="JS组成"><a href="#JS组成" class="headerlink" title="JS组成"></a>JS组成</h3><p><img src="/2020/11/10/Js-pink/1.jpg"></p>
+<ul>
+<li>ECMAScript：规定js的编程语法和基础核心知识</li>
+<li>BOM：浏览器对象模型，可以与浏览器窗口进行互动的对象结构，通过BOM可以操作浏览器窗口，如弹出框，跳转等</li>
+<li>DOM：文档对象模型，是处理可扩展标记语言的标准编程接口，通过DOM提供的接口可以对页面上元素进行各种操作</li>
+</ul>
+<h2 id="Web-APIs"><a href="#Web-APIs" class="headerlink" title="Web APIs"></a>Web APIs</h2><blockquote>
+<p>主要学BOM和DOM</p>
+</blockquote>
+<h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><h4 id="DOM简介"><a href="#DOM简介" class="headerlink" title="DOM简介"></a>DOM简介</h4><p><img src="/2020/11/10/Js-pink/2.jpg"></p>
+<ul>
+<li>文档：一个页面就是一个文档，在DOM中使用document表示</li>
+<li>元素：页面中所有标签都是元素，DOM中使用element表示</li>
+<li>节点：网页中所有内容都是节点(标签、属性、文本、注释等)，DOM中使用Node表示</li>
+</ul>
+<h4 id="获取元素"><a href="#获取元素" class="headerlink" title="获取元素"></a>获取元素</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据ID,文档.根据元素找到id,id为字符串,返回对象</span></span><br><span class="line"><span class="keyword">let</span> element=<span class="built_in">document</span>.getElementById(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.dir(element);<span class="comment">//打印返回的元素对象，更好查看里面的属性和方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//根据标签名获取元素，返回对象集合，以伪数组的形式存储</span></span><br><span class="line"><span class="comment">//如果没有这个元素返回空数组</span></span><br><span class="line"><span class="keyword">let</span> element=<span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;li&#x27;</span>);</span><br><span class="line"><span class="comment">//可以指定父元素，获取里面的子元素name</span></span><br><span class="line"><span class="keyword">let</span> ol=element.getElementsByName(<span class="string">&#x27;ol&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据类名获取</span></span><br><span class="line"><span class="keyword">let</span> element=<span class="built_in">document</span>.getElementsByClassName(<span class="string">&#x27;box&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//选择器,返回指定选择器的第一个元素对象</span></span><br><span class="line"><span class="keyword">let</span> element=<span class="built_in">document</span>.querySelector(<span class="string">&#x27;选择器&#x27;</span>);<span class="comment">//如.box 类名，#nav id，p 标签</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//选择器,返回选择器所有</span></span><br><span class="line"><span class="keyword">let</span> element=<span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;选择器&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取body元素</span></span><br><span class="line"><span class="keyword">let</span> body=<span class="built_in">document</span>.body;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取html元素</span></span><br><span class="line"><span class="keyword">let</span> html=<span class="built_in">document</span>.documentElement;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="事件基础"><a href="#事件基础" class="headerlink" title="事件基础"></a>事件基础</h4><blockquote>
+<p>事件：触发–响应机制</p>
+</blockquote>
+<p>事件组成：</p>
+<ul>
+<li>事件源：事件被触发的对象</li>
+<li>事件类型：如何触发 什么事件 鼠标点击还是经过</li>
+<li>事件处理程序： 通过函数方式完成</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> btn=<span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span><br><span class="line">btn.onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="执行事件的步骤"><a href="#执行事件的步骤" class="headerlink" title="执行事件的步骤"></a>执行事件的步骤</h5><ol>
+<li>获取事件源</li>
+<li>注册事件(绑定事件)</li>
+<li>添加事件处理程序(函数赋值)</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>鼠标事件</th>
+<th>触发条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onlick</td>
+<td>鼠标左键</td>
+</tr>
+<tr>
+<td>onmouseover</td>
+<td>鼠标经过</td>
+</tr>
+<tr>
+<td>onmouseout</td>
+<td>鼠标离开</td>
+</tr>
+<tr>
+<td>onfocus</td>
+<td>鼠标焦点</td>
+</tr>
+<tr>
+<td>onblur</td>
+<td>失去焦点</td>
+</tr>
+<tr>
+<td>onmousemove</td>
+<td>鼠标移动</td>
+</tr>
+<tr>
+<td>onmouseup</td>
+<td>鼠标弹起触发</td>
+</tr>
+<tr>
+<td>onmousedown</td>
+<td>鼠标按下触发</td>
+</tr>
+</tbody></table>
+<h5 id="操作元素"><a href="#操作元素" class="headerlink" title="操作元素"></a>操作元素</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//改变元素内容,去除html标签，空格和换行去掉</span></span><br><span class="line">element.innerText=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">//改变元素内容，包括html标签，同时保留空格和换行(推荐)</span></span><br><span class="line">element.innerHTML=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">//这两个方法也可以用于获取内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//src、href 改变</span></span><br><span class="line">element.src=<span class="string">&quot;&quot;</span></span><br><span class="line">element.href=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//修改表单元素的属性,</span></span><br><span class="line">input.value=<span class="string">&quot;被点击了&quot;</span>;</span><br><span class="line"><span class="built_in">this</span>.disabled=<span class="literal">true</span>;<span class="comment">//this指向的是事件函数的调用者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//样式属性修改</span></span><br><span class="line"><span class="built_in">this</span>.style.backgroundColor=<span class="string">&#x27;purple&#x27;</span>;<span class="comment">//修改行内样式</span></span><br><span class="line">box.style.display=<span class="string">&quot;none&quot;</span>;<span class="comment">//修改类样式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用className修改样式属性</span></span><br><span class="line"><span class="built_in">this</span>.className=<span class="string">&#x27;change&#x27;</span>;<span class="comment">//修改className修改类名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//排他思想，给多个按钮增加点击事件</span></span><br><span class="line"><span class="keyword">let</span> btns=<span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;button&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>,i&lt;btns.length;i++)&#123;</span><br><span class="line">    btns[i].onlick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;btns.length;i++)&#123;</span><br><span class="line">            btns[i].style.backgroundColor=<span class="string">&#x27;&#x27;</span>;<span class="comment">//将所有元素清除样式</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.style.backgroundColor=<span class="string">&#x27;pink&#x27;</span>;<span class="comment">//留下新元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取自定义属性值</span></span><br><span class="line">element.属性 <span class="comment">//获取内置属性值</span></span><br><span class="line">element.getAttribute(<span class="string">&#x27;属性&#x27;</span>) <span class="comment">//获得自定义属性,如标签内aaa=&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置属性值</span></span><br><span class="line">element.属性=<span class="string">&#x27;&#x27;</span><span class="comment">//设置内置属性</span></span><br><span class="line">element.setAttribute(<span class="string">&#x27;属性&#x27;</span>,<span class="string">&#x27;值&#x27;</span>)<span class="comment">//设置自定义属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//移除属性</span></span><br><span class="line">div.removeAttribute(<span class="string">&#x27;index&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//H5设置自定义属性</span></span><br><span class="line">div data-index=<span class="string">&quot;1&quot;</span><span class="comment">//data-自定义属性名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//H5设置获取自定义属性的方法,dataset是一个集合，里面存放了所有以data开头的自定义属性</span></span><br><span class="line">div.dataset.index</span><br><span class="line">div.dataset[<span class="string">&#x27;index&#x27;</span>]</span><br><span class="line"><span class="comment">//如果自定义属性有多个-连接的单词，我们获取的时候采取驼峰命名法</span></span><br><span class="line"><span class="comment">//data-list-name</span></span><br><span class="line">div.dataset[<span class="string">&#x27;listName&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>tab栏切换的本质是隐藏和显示</p>
+<p><img src="/2020/11/10/Js-pink/3.jpg"></p>
+<h4 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h4><blockquote>
+<p>利用父子兄弟节点关系获取元素</p>
+<p>逻辑性较强，但兼容性较差</p>
+</blockquote>
+<p>节点基本属性：</p>
+<ul>
+<li>nodeType(节点类型)</li>
+<li>nodeName(节点名称)</li>
+<li>nodeValue(节点值)</li>
+</ul>
+<p>nodeType:</p>
+<ul>
+<li>1：元素节点(主要)</li>
+<li>2：属性节点</li>
+<li>3：文本节点:换行等</li>
+</ul>
+<h5 id="获取父子兄弟节点"><a href="#获取父子兄弟节点" class="headerlink" title="获取父子兄弟节点"></a>获取父子兄弟节点</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父子</span></span><br><span class="line"><span class="comment">//父级节点,得到离元素最近的父亲节点，如果找不到则返回null</span></span><br><span class="line">node.parentNode</span><br><span class="line"></span><br><span class="line"><span class="comment">//所有子节点，包括换行等文本节点，不提倡使用childNodes</span></span><br><span class="line">node.childNodes</span><br><span class="line"><span class="comment">//获取元素子节点</span></span><br><span class="line">node.children</span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个子节点</span></span><br><span class="line">node.firstChild</span><br><span class="line"><span class="comment">//最后一个子节点</span></span><br><span class="line">node.lastChild</span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个元素子节点,有兼容性问题，下同</span></span><br><span class="line">node.firstElementChild</span><br><span class="line"><span class="comment">//最后一个子节点</span></span><br><span class="line">node.lastElementChild</span><br><span class="line"></span><br><span class="line"><span class="comment">//兼容性解决方法，通用</span></span><br><span class="line">node.children[<span class="number">0</span>]</span><br><span class="line">node.children[ol.children.length<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下一个兄弟节点，包含元素节点或者文本节点等等</span></span><br><span class="line">node.nextSibling</span><br><span class="line"><span class="comment">//上一个兄弟节点，上同</span></span><br><span class="line">node.previousSibling</span><br><span class="line"></span><br><span class="line"><span class="comment">//下一个兄弟元素节点</span></span><br><span class="line">node.nextElementSibling</span><br><span class="line"><span class="comment">//上一个</span></span><br><span class="line">node.previousElementSibling</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.创建节点</span></span><br><span class="line"><span class="keyword">let</span> li=<span class="built_in">document</span>.createElement(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line"><span class="comment">//2.添加节点,node是父级，li是子级</span></span><br><span class="line">ul.appendChild(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> lili=<span class="built_in">document</span>.createElement(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line">ul.insertBefore(lili,ul.children[<span class="number">0</span>])<span class="comment">//在ul第一个孩子前添加lili</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除子元素</span></span><br><span class="line">node.removeChild(child)</span><br><span class="line"></span><br><span class="line"><span class="comment">//阻止链接跳转</span></span><br><span class="line">javascript:;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="复制节点"><a href="#复制节点" class="headerlink" title="复制节点"></a>复制节点</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;如果括号参数为空或者为false,则为浅拷贝，只克隆赋值节点本身，不克隆里面的子节点</span><br><span class="line">&#x2F;&#x2F;如果括号为true，深拷贝，复制里面的内容</span><br><span class="line">node.cloneNode()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="事件高级"><a href="#事件高级" class="headerlink" title="事件高级"></a>事件高级</h4><h5 id="注册事件"><a href="#注册事件" class="headerlink" title="注册事件"></a>注册事件</h5><h6 id="传统注册方式"><a href="#传统注册方式" class="headerlink" title="传统注册方式"></a>传统注册方式</h6><ul>
+<li>on开头的事件onclick</li>
+<li>特点：注册事件的唯一性</li>
+<li>同一个元素同一个事件只能设置一个处理函数，最后注册的处理函数将会覆盖前面注册的处理函数</li>
+</ul>
+<h6 id="方法监听注册方式"><a href="#方法监听注册方式" class="headerlink" title="方法监听注册方式"></a>方法监听注册方式</h6><ul>
+<li>addEventListener()</li>
+<li>同一个元素同一个元素可以注册多个监听器</li>
+<li>按照注册顺序执行</li>
+</ul>
+<p>addEventListener(type,listener[,useCapture])</p>
+<ul>
+<li>type:事件类型字符串，如click、mouseover</li>
+<li>listener：事件处理函数</li>
+<li>useCapture，可选参数，默认false</li>
+</ul>
+<h5 id="删除事件"><a href="#删除事件" class="headerlink" title="删除事件"></a>删除事件</h5><h6 id="传统注册方式-1"><a href="#传统注册方式-1" class="headerlink" title="传统注册方式"></a>传统注册方式</h6><p>eventTarget.onclick=null;</p>
+<h6 id="方法监听注册方式-1"><a href="#方法监听注册方式-1" class="headerlink" title="方法监听注册方式"></a>方法监听注册方式</h6><p>eventTarget.addEventListener(type,fn)</p>
+<p>function fn(){</p>
+<p>​    …//不能使用默认函数的方式，里面的fn不用加小括号<br>​            removeEventListener(type,fn)</p>
+<p>}</p>
+<h4 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h4><p><img src="/2020/11/10/Js-pink/4.jpg"></p>
+<ul>
+<li>捕获阶段</li>
+<li>当前目标阶段</li>
+<li>冒泡阶段</li>
+</ul>
+<h4 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">div.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;&#125;<span class="comment">//这个event可以自动机命名，如e等</span></span><br><span class="line"><span class="comment">//这个event就是事件对象,可以通过这个对象判断用户按了哪个键</span></span><br><span class="line"></span><br><span class="line">e.target<span class="comment">//返回的是触发事件的对象</span></span><br><span class="line"><span class="built_in">this</span><span class="comment">//返回的是绑定事件的对象</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="常见属性和方法"><a href="#常见属性和方法" class="headerlink" title="常见属性和方法"></a>常见属性和方法</h5><table>
+<thead>
+<tr>
+<th>事件对象属性方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>e.target</td>
+<td>返回触发事件的对象</td>
+</tr>
+<tr>
+<td>e.type</td>
+<td>返回事件的类型</td>
+</tr>
+<tr>
+<td>e.cancelBubble</td>
+<td>该属性阻止冒泡</td>
+</tr>
+<tr>
+<td>e.preventDefault()</td>
+<td>阻止默认事件，如阻止链接跳转</td>
+</tr>
+<tr>
+<td>e.stopPropagation()</td>
+<td>阻止冒泡 标准</td>
+</tr>
+</tbody></table>
+<h4 id="阻止事件冒泡"><a href="#阻止事件冒泡" class="headerlink" title="阻止事件冒泡"></a>阻止事件冒泡</h4><p>事件冒泡坏处</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//阻止冒泡</span></span><br><span class="line">e.stopPropagation()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h4><p>使用事件冒泡好处 </p>
+<blockquote>
+<p>需要给每个dom注册事件太麻烦，故需要事件委托</p>
+<p><em>事件委托原理：不是每个子节点单独设置事件监听器，而是事件监听器设置在父节点上，然后利用冒泡原理影响设置每个子节点</em></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//给父节点添加监听器，利用事件冒泡影响每一个子节点</span></span><br><span class="line"><span class="keyword">var</span> ul=<span class="built_in">document</span>.querySelector(<span class="string">&#x27;ul&#x27;</span>)</span><br><span class="line">ul.addEventListener(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    e.target.style.backgroundColor=<span class="string">&#x27;pink&#x27;</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="常用的鼠标事件"><a href="#常用的鼠标事件" class="headerlink" title="常用的鼠标事件"></a>常用的鼠标事件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//禁止鼠标右键菜单</span></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;contextmenu&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">	e.preventDefault();</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//禁止鼠标选中</span></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;selectstart&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h3> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/11/10/Js-pink/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/11/06/C3/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">C3基础</div>
+      </a>
+    
+  </nav>
+
+  
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> CDX
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/Logo.svg" alt="CDX"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
