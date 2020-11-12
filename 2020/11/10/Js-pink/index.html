@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2k</span>
+            <span class="post-count">3.1k</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7 分钟</span>
+            <span class="post-count">11 分钟</span>
         </span>
     </span>
 </div>
@@ -298,7 +298,121 @@
 
 
 
-<h3 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h3> 
+<h3 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h3><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h4><blockquote>
+<p>BOM浏览器对象模型，其核心对象是window，兼容性较差</p>
+</blockquote>
+<p>window对象：</p>
+<ul>
+<li>它是JS访问浏览器窗口的一个接口</li>
+<li>它是一个全局对象，定义在全局作用域中的变量，如alert()，其实是window.alert()</li>
+</ul>
+<h4 id="window常见事件"><a href="#window常见事件" class="headerlink" title="window常见事件"></a>window常见事件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//窗口加载事件,当文档内容完全加载完成(样式表、图片、flash等)会触发该事件</span></span><br><span class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//窗口加载事件，不包括样式表、图片、flash等</span></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;DOMContentLoaded&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//调整窗口大小事件</span></span><br><span class="line"><span class="built_in">window</span>.onresize=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.innerWidth<span class="comment">//当前屏幕的宽度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定时器-一次</span></span><br><span class="line"><span class="built_in">setTimeout</span>(调用函数,<span class="string">&#x27;毫秒数&#x27;</span>)</span><br><span class="line"><span class="comment">//停止定时器</span></span><br><span class="line"><span class="built_in">clearTimeout</span>(timeoutID)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定时器-多次</span></span><br><span class="line"><span class="built_in">setInterval</span>(回调函数，<span class="string">&#x27;毫秒数&#x27;</span>)</span><br><span class="line"><span class="comment">//停止定时器</span></span><br><span class="line"><span class="built_in">clearInterval</span>(timeoutID)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="this指向问题"><a href="#this指向问题" class="headerlink" title="this指向问题"></a>this指向问题</h4><blockquote>
+<p>this最终指向调用它的对象</p>
+<ol>
+<li>全局作用域或普通函数中this指向全局对象window(定时器里的this也是)</li>
+<li>方法调用中谁调用this指向谁</li>
+<li>构造函数中this指向构造函数实例</li>
+</ol>
+</blockquote>
+<h4 id="js执行队列"><a href="#js执行队列" class="headerlink" title="js执行队列"></a>js执行队列</h4><blockquote>
+<p>js是单线程的</p>
+<p>H5提出多线程标准，允许js创建多线程，于是js出现同步和异步</p>
+<p>事件循环：主线程不断重复获得任务、执行任务、再获取再执行，故这种机制称为事件循环(event loop)</p>
+</blockquote>
+<p>js执行顺序：</p>
+<ol>
+<li>将同步任务放入主线程执行栈中</li>
+<li>而异步任务通过异步进程处理决定要不要把异步任务放入任务队列中(是否调用回调函数)</li>
+<li>同步任务完成后，读取消息队列并执行</li>
+</ol>
+<h5 id="同步任务"><a href="#同步任务" class="headerlink" title="同步任务"></a>同步任务</h5><p>js所有同步任务放到主线程执行栈上</p>
+<h5 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务"></a>异步任务</h5><p>js的异步是通过<em>回调函数</em>实现的</p>
+<p>异步任务类型：</p>
+<ul>
+<li>普通事件：如click、resize等</li>
+<li>资源加载：如load、error等</li>
+<li>定时器：如setInterval、setTimeout等</li>
+</ul>
+<p>异步任务相关<em>回调函数</em>添加到<em>任务队列</em>中(也称消息队列)</p>
+<h4 id="location对象"><a href="#location对象" class="headerlink" title="location对象"></a>location对象</h4><blockquote>
+<p>window对象提供了一个location属性用于获取或设置窗体的url，返回的是对象，故也称location对象</p>
+</blockquote>
+<h5 id="location跳转"><a href="#location跳转" class="headerlink" title="location跳转"></a>location跳转</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location.href=<span class="string">&quot;www.baidu.com&quot;</span></span><br><span class="line"></span><br><span class="line">location.assign()<span class="comment">//跟href一样，可以跳转页面(也称为重定向页面)，记录历史，可以后退</span></span><br><span class="line">location.replace()<span class="comment">//替换当前页面，因为不记录历史，所以不能后退</span></span><br><span class="line">location.reload()<span class="comment">//重新加载液面，相当于f5，如果参数为true则强制刷新ctrl+f5</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigator.userAgent<span class="comment">//匹配navigator的userAgent知道用户用什么登陆</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="history对象"><a href="#history对象" class="headerlink" title="history对象"></a>history对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">back()<span class="comment">//后退</span></span><br><span class="line">forward()<span class="comment">//前进</span></span><br><span class="line">go()<span class="comment">//前进后退功能，参数如果是1前进1，-1后退1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="网页特效"><a href="#网页特效" class="headerlink" title="网页特效"></a>网页特效</h4><h5 id="offset元素偏移量"><a href="#offset元素偏移量" class="headerlink" title="offset元素偏移量"></a>offset元素偏移量</h5><ul>
+<li>获得元素距离带有定位父元素的距离</li>
+<li>获得元素自身的大小</li>
+<li>返回的数都不带单位</li>
+<li>offset用于获取值合适，style适合修改值</li>
+</ul>
+<p>常用属性：</p>
+<ul>
+<li>element.offsetParent:返回作为该元素带有定位的父元素</li>
+<li>element.offsetTop：带有定位父元素距上边距离</li>
+<li>element.offsetLeft：带有定位父元素距左边距离</li>
+<li>element.offsetWidth：返回自身包括padding，边框，内容区宽度</li>
+<li>element.offsetHeight：返回自身包括padding，边框，内容区高度</li>
+</ul>
+<h5 id="client元素可视区"><a href="#client元素可视区" class="headerlink" title="client元素可视区"></a>client元素可视区</h5><blockquote>
+<p>通过client可以动态获得该元素的边框大小、元素大小</p>
+</blockquote>
+<ul>
+<li>element.clientTop：返回元素上边框大小</li>
+<li>element.clientLeft：返回元素左边框大小</li>
+<li>element.clientWidth：返回自身包括padding、内容区的宽度、不含边框，返回数值不含单位</li>
+<li>element.clientHeight：：返回自身包括padding、内容区的高度、不含边框，返回数值不含单位</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//立即执行函数,创建了一个独立作用域，避免了命名冲突问题</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;())</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="scroll滚动条"><a href="#scroll滚动条" class="headerlink" title="scroll滚动条"></a>scroll滚动条</h5><ul>
+<li>element.scrollTop：返回被卷的上侧距离</li>
+<li>element.scrollLeft：左侧</li>
+<li>element.scrollWidth：返回自身实际宽度</li>
+<li>element.scrollHeight：返回自身实际高度</li>
+</ul>
+<h4 id="mouseenter和mouseover事件区别"><a href="#mouseenter和mouseover事件区别" class="headerlink" title="mouseenter和mouseover事件区别"></a>mouseenter和mouseover事件区别</h4><blockquote>
+<p>mouseenter只会经过自身盒子触发，mouseover鼠标经过自身和子盒子都会触发</p>
+</blockquote>
+<h4 id="js轮播图"><a href="#js轮播图" class="headerlink" title="js轮播图"></a>js轮播图</h4><p>点击滚动</p>
+<p><img src="/2020/11/10/Js-pink/5.jpg"></p>
+<h4 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h4><blockquote>
+<p>只能存储字符串，可以将对象JSON.stringfy()编码后存储</p>
+</blockquote>
+<h5 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h5><blockquote>
+<p>容纳约5M</p>
+<p>生命周期为关闭浏览器窗口</p>
+<p>在同一个窗口下数据可以共享</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.setItem(key,value)</span><br><span class="line">sessionStorage.getItem(key)</span><br><span class="line">sessionStorage.removeItem(key)</span><br><span class="line">sessionStorage.clear()</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h5><blockquote>
+<p>容纳约20M</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">localStorage</span>.setItem(key,value)</span><br><span class="line"><span class="built_in">localStorage</span>.getItem(key)</span><br><span class="line"><span class="built_in">localStorage</span>.removeItem(key)</span><br><span class="line"><span class="built_in">localStorage</span>.clear()</span><br></pre></td></tr></table></figure>
+
+ 
       <!-- reward -->
       
     </div>
