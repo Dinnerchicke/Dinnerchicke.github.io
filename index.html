@@ -189,6 +189,73 @@
 
     
     <article
+  id="post-lodash源码分析"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"
+    >lodash源码分析Array</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2020-11-14T03:06:56.000Z" itemprop="datePublished">2020-11-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="lodash源码分析Array"><a href="#lodash源码分析Array" class="headerlink" title="lodash源码分析Array"></a>lodash源码分析Array</h1><blockquote>
+<p>lodash:4.0.0</p>
+<p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
+<p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
+</blockquote>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h3><blockquote>
+<p>._chunk(array,[size=1])</p>
+<p>将array拆分成多个size大小的数组，如果最后的不够切则剩下的自己组成一个数组</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">2</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;, &#x27;d&#x27;]] </span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">3</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;d&#x27;]]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseSlice</span>(<span class="params">array, start, end</span>) </span>&#123;<span class="comment">//基本切片</span></span><br><span class="line">      <span class="comment">// 测试后发现，js的数组length只会统计下标大于0的部分，小于0的部分会被忽略</span></span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array.length;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//负数判断，一般用不到</span></span><br><span class="line">      <span class="keyword">if</span> (start &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        start = -start &gt; length ? <span class="number">0</span> : (length + start);</span><br><span class="line">      &#125;</span><br><span class="line">      end = end &gt; length ? length : end;</span><br><span class="line">      <span class="keyword">if</span> (end &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        end += length;</span><br><span class="line">      &#125;</span><br><span class="line">      length = start &gt; end ? <span class="number">0</span> : ((end - start) &gt;&gt;&gt; <span class="number">0</span>);</span><br><span class="line">      start &gt;&gt;&gt;= <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// &gt;&gt;表示有符号位移，&gt;&gt;1表示右移1位</span></span><br><span class="line">      <span class="comment">// &gt;&gt;&gt;表示无符号位移</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> result = <span class="built_in">Array</span>(length);</span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        result[index] = array[index + start];<span class="comment">//赋值</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">      size = nativeMax(toInteger(size), <span class="number">0</span>); <span class="comment">//nativeMax===math.max在size和0之间返回一个较大的数</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> length = array ? array.length : <span class="number">0</span>;  <span class="comment">//数组长度大于0</span></span><br><span class="line">      <span class="keyword">if</span> (!length || size &lt; <span class="number">1</span>) &#123;   <span class="comment">//假如长度非空且size&lt;1，返回空数组，迷惑</span></span><br><span class="line">        <span class="keyword">return</span> [];</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = <span class="built_in">Array</span>(nativeCeil(length / size));<span class="comment">//nativeCeil===math.Ceil()向上取整</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">         <span class="comment">//每次baseSlice嵌入新的数组</span></span><br><span class="line">        result[++resIndex] = baseSlice(array, index, (index += size));</span><br><span class="line">         <span class="comment">//以目前index开始，+size结束</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result; <span class="comment">//返回二维数组</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-lodash源码分析P1"
   class="article article-type-post"
   itemscope
@@ -1474,81 +1541,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-nodejs数据泄漏"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/"
-    >nodejs数据泄漏</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/" class="article-date">
-  <time datetime="2020-10-22T09:34:59.000Z" itemprop="datePublished">2020-10-22</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
-<p><img src="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
-<p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
-<p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
-<p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
-<h2 id="第二部分：排查后端"><a href="#第二部分：排查后端" class="headerlink" title="第二部分：排查后端"></a>第二部分：排查后端</h2><p>从网上查到Nodejs的内存泄漏有以下可能</p>
-<ol>
-<li>全局变量 (排除)</li>
-<li>闭包 (排除)</li>
-<li>事件监听 (待排查)</li>
-<li>缓存使用不当 (可能)</li>
-<li>内存没有即时释放 (排除，查看了node使用内存)</li>
-<li>SetTimeOut方法 (待排查)</li>
-</ol>
-<blockquote>
-<p><em>先关闭了Egg定时器发现CPU增长不是线性增长而是阶梯增长的，但是还会增加到100%</em></p>
-<p><em>然后关了监听还是如此，但是可以跑24h了，缓存用的也不是很多</em>，缓存使用不当也排除了</p>
-</blockquote>
-<h2 id="第三部分：意外之喜"><a href="#第三部分：意外之喜" class="headerlink" title="第三部分：意外之喜"></a>第三部分：意外之喜</h2><p>在整理Linux命令的时候使用了netstat指令</p>
-<p>后面发现一直在给以前项目发数据包</p>
-<p>于是去问后端怎么回事</p>
-<p>原来是WAMP没有关掉</p>
-<p>关掉后CPU就在3-20%之间来回了</p>
-<p>舒服了</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
 
     </footer>
   </div>
