@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-lodash源码分析"
+  id="post-lodash源码分析Array"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -63,7 +63,7 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date">
+      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/" class="article-date">
   <time datetime="2020-11-14T03:06:56.000Z" itemprop="datePublished">2020-11-14</time>
 </a> 
   <div class="article-category">
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">731</span>
+            <span class="post-count">858</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -103,6 +103,7 @@
 <p>lodash:4.0.0</p>
 <p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
 <p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
+<p>搜索技巧： 想要搜索的内容+mdn，比在mdn里面搜索快</p>
 </blockquote>
 <h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
@@ -115,7 +116,19 @@
 
 
 
-<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3> 
+<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3><blockquote>
+<p>过滤原数组中的所有非假值元素。例如<code>false</code>, <code>null</code>, <code>0</code>, <code>&quot;&quot;</code>, <code>undefined</code>, 和 <code>NaN</code> 都是被认为是“假值”。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>, <span class="number">2</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="comment">// =&gt; [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compact</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array ? array.length : <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = [];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        <span class="keyword">var</span> value = array[index];</span><br><span class="line">        <span class="keyword">if</span> (value) &#123;  <span class="comment">//用if过滤假值</span></span><br><span class="line">          result[++resIndex] = value;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
+<p>让原数组与任何数组或值连接到一起</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+ 
       <!-- reward -->
       
     </div>
@@ -179,7 +192,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -192,10 +205,19 @@
    
   <nav class="article-nav">
     
+      <a href="/2020/11/14/jsMdn/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            jsMdn
+          
+        </div>
+      </a>
     
-      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90P1/" class="article-nav-link">
+    
+      <a href="/2020/11/12/vuePDesign/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">lodash源码分析</div>
+        <div class="article-nav-title">vuePDesign</div>
       </a>
     
   </nav>

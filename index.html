@@ -189,7 +189,7 @@
 
     
     <article
-  id="post-lodash源码分析"
+  id="post-jsMdn"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -200,16 +200,16 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"
-    >lodash源码分析Array</a> 
+  <a class="article-title" href="/2020/11/14/jsMdn/"
+    >jsMdn</a> 
 </h2>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date">
-  <time datetime="2020-11-14T03:06:56.000Z" itemprop="datePublished">2020-11-14</time>
+      <a href="/2020/11/14/jsMdn/" class="article-date">
+  <time datetime="2020-11-14T08:30:45.000Z" itemprop="datePublished">2020-11-14</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
@@ -219,23 +219,156 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="lodash源码分析Array"><a href="#lodash源码分析Array" class="headerlink" title="lodash源码分析Array"></a>lodash源码分析Array</h1><blockquote>
-<p>lodash:4.0.0</p>
-<p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
-<p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
+  <h1 id="JsMdn"><a href="#JsMdn" class="headerlink" title="JsMdn"></a>JsMdn</h1><blockquote>
+<p>此文用于js内容查漏补缺</p>
+<p>因为Mdn的内容较完整故用此网站</p>
 </blockquote>
-<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Js指南"><a href="#Js指南" class="headerlink" title="Js指南"></a>Js指南</h2><h3 id="Grammar-and-types"><a href="#Grammar-and-types" class="headerlink" title="Grammar and  types"></a>Grammar and  types</h3><ul>
+<li>Js区分大小写，且采用unicode值</li>
+<li>如果一条语句只占一行，那么可以不用加分号，但<em>并不建议这么做</em></li>
+<li>用var和let声明的变量，如果没有赋值则默认为undefined</li>
+<li>函数之内为局部变量，之外全局变量</li>
+<li>变量提升：Js允许先使用变量后声明，但是这个变量为undefined值(x)</li>
+<li>在同一作用域中，不能使用与变量名或函数名相同的名字来命名常量</li>
+<li>const：对象和数组被定义为常量是不被保护的，所以重新定义不会出错</li>
+</ul>
+<h3 id="Control-flow-and-error-handling"><a href="#Control-flow-and-error-handling" class="headerlink" title="Control flow and error handling"></a>Control flow and error handling</h3><ul>
+<li>if(){}else if(){}else if(){}else{}</li>
+<li>if的false包括false，undefined，null，0，NaN，””</li>
+</ul>
+<h3 id="Loop-and-iteration"><a href="#Loop-and-iteration" class="headerlink" title="Loop and iteration"></a>Loop and iteration</h3><ul>
+<li>label语句：用于更好的跳出循环或者继续</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line">outPoint:<span class="comment">//label:</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span> ; j &lt; <span class="number">10</span> ; j++)&#123;</span><br><span class="line">    <span class="keyword">if</span>( i == <span class="number">5</span> &amp;&amp; j == <span class="number">5</span> )&#123;</span><br><span class="line">      <span class="keyword">break</span> outPoint; <span class="comment">// 在 i = 5，j = 5 时，跳出所有循环，</span></span><br><span class="line">                      <span class="comment">// 返回到整个 outPoint 下方，继续执行</span></span><br><span class="line">    &#125;</span><br><span class="line">    num++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(num); <span class="comment">// 输出 55</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h3><blockquote>
-<p>._chunk(array,[size=1])</p>
-<p>将array拆分成多个size大小的数组，如果最后的不够切则剩下的自己组成一个数组</p>
+<ul>
+<li>同时，break也可以这样写：break [label];continue同</li>
+<li>for…in语句循环一个对象的所有可枚举属性，但是for…in迭代数组时返回的除了数字索引外，还可能是自定义的属性名称</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">&quot;unique&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> arr)&#123;</span><br><span class="line">    concole.log(arr[i]);<span class="comment">//输出结果还有个函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>for…of适用于迭代Array、map、set、arguments等</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//for...in与for...of对比</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>];</span><br><span class="line">arr.foo = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> arr) &#123;</span><br><span class="line">   <span class="built_in">console</span>.log(i); <span class="comment">// 输出 &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;foo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> arr) &#123;</span><br><span class="line">   <span class="built_in">console</span>.log(i); <span class="comment">// 输出 &quot;3&quot;, &quot;5&quot;, &quot;7&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><ul>
+<li>在另一个函数中定义的函数可以访问在其父函数中定义的所有变量和父函数有权访问的对象(继承)</li>
+<li>作用域链:{inside&gt;ouside&gt;全局变量}</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outside</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">5</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">inside</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> inside;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outside()(<span class="number">10</span>); <span class="comment">// returns 20 instead of 10</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数的实际参数会存在arguments对象中，可以arguments[i]找出传入的对象，参数的数量arguments.length</li>
+</ul>
+<h3 id="Expressions-and-Operators"><a href="#Expressions-and-Operators" class="headerlink" title="Expressions and Operators"></a>Expressions and Operators</h3><ul>
+<li>全等：===，两边操作数相等且类型相同时返回true</li>
+<li>不全等：!==，两边操作数不相等或类型不同时返回true</li>
+<li>指数运算符:2**3==8</li>
+<li>/&gt;&gt;:算术右移，有符号</li>
+<li>/&gt;&gt;&gt;:无符号右移</li>
+<li>&amp;：按位与</li>
+<li>|：按位或</li>
+<li>^：按位异或</li>
+<li>~：按位非</li>
+<li>delete：删除一个对象或一个对象的属性或者一个数组中某一个值</li>
+<li>typeof：返回类型</li>
+<li>in：如果所指定属性存在于指定对象中，则返回true：propNameOrNumber in objectName</li>
+<li>instanceof：所判别对象确实是所指定类型，返回true：objectName instanceof objectType</li>
+</ul>
+<h3 id="Indexed-collections"><a href="#Indexed-collections" class="headerlink" title="Indexed collections"></a>Indexed collections</h3><ul>
+<li>创建数组：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(element0, element1, ..., elementN);</span><br><span class="line"><span class="keyword">var</span> arr = <span class="built_in">Array</span>(element0, element1, ..., elementN);</span><br><span class="line"><span class="keyword">var</span> arr = [element0, element1, ..., elementN];</span><br><span class="line"><span class="comment">//var arr=[4] 和 var arr=new Array(4)是不等效的，</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>数组的索引可以不只是正整数，但是是作为一个代表数组的对象属性创建，而非数组的元素</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myArray=<span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">myArray=[<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="string">&#x27;aaaa&#x27;</span>];</span><br><span class="line">myArray[<span class="number">-1</span>]=<span class="number">10</span>;</span><br><span class="line">myArray[<span class="string">&#x27;a&#x27;</span>]=<span class="number">11</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrtest</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> myArray)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(myArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(myArray[<span class="string">&#x27;a&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>array.length是返回最后一个元素的索引+1</li>
+<li>遍历数组可以使用for、for…of、forEach()</li>
+</ul>
+<h3 id="Keyed-Collection"><a href="#Keyed-Collection" class="headerlink" title="Keyed Collection"></a>Keyed Collection</h3><ul>
+<li>Map和Object对比</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Object允许设置键值对、根据键获取值、删除键、检测某个键是否存在。而Map具有更多的优势</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Object的键均为Strings类型，在Map里键可以是任意类型。</span></span><br><span class="line"><span class="comment">必须手动计算Object的尺寸，但是可以很容易地获取使用Map的尺寸。</span></span><br><span class="line"><span class="comment">Map的遍历遵循元素的插入顺序。</span></span><br><span class="line"><span class="comment">Object有原型，所以映射中有一些缺省的键。（可以用 map = Object.create(null) 回避）。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">如果键在运行时才能知道，或者所有的键类型相同，所有的值类型相同，那就使用Map。</span></span><br><span class="line"><span class="comment">如果需要将原始值存储为键，则使用Map，因为Object将每个键视为字符串，不管它是一个数字值、布尔值还是任何其他原始值。</span></span><br><span class="line"><span class="comment">如果需要对个别元素进行操作，使用Object。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Array和Set对比</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">数组中用于判断元素是否存在的indexOf 函数效率低下。</span></span><br><span class="line"><span class="comment">Set对象允许根据值删除元素，而数组中必须使用基于下标的 splice 方法。</span></span><br><span class="line"><span class="comment">数组的indexOf方法无法找到NaN值。</span></span><br><span class="line"><span class="comment">Set对象存储不重复的值，所以不需要手动处理包含重复值的情况。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Working-with-Objects"><a href="#Working-with-Objects" class="headerlink" title="Working with Objects"></a>Working with Objects</h3><ul>
+<li>Object.keys(o)：该方法返回对象 <code>o</code> 自身包含（不包括原型中）的所有可枚举属性的名称的数组。</li>
+<li>Object.getOwnPropertyNames(o)：该方法返回对象 <code>o</code> 自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。</li>
+<li>比较对象：只有两个对象有同样的引用时才会返回true</li>
+</ul>
+<h3 id="Using-Promises"><a href="#Using-Promises" class="headerlink" title="Using Promises"></a>Using Promises</h3><ul>
+<li>本质上Promise是一个函数返回的对象，它代表了一个异步操作的完成或者失败，我们可以在它上面绑定回调函数</li>
+<li>在本轮事件循环运行完成前，回调函数并不会被调用。</li>
+<li>即使异步操作完成/失败后，一样可以通过使用then()调用</li>
+<li>then()的链式调用按顺序调用</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse(result);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">newResult</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doThirdThing(newResult);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">finalResult</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Got the final result: &#x27;</span> + finalResult);</span><br><span class="line">&#125;)</span><br><span class="line">.catch(failureCallback);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Promise.all()和Promise.race()用于并行异步操作</li>
+</ul>
+<h3 id="Iterators-and-Generators"><a href="#Iterators-and-Generators" class="headerlink" title="Iterators and Generators"></a>Iterators and Generators</h3><blockquote>
+<p>迭代器是一个对象，定义一个序列，通过next()方法实现迭代协议(内置类型：String,Array,TypedArray,Map,Set)的对象，该方法返回具有两个属性的对象value，这是next值;done，如果迭代到序列最后一个值，则为true。如果value和done在一起，则为迭代器返回值。</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">2</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;, &#x27;d&#x27;]] </span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">3</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;d&#x27;]]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseSlice</span>(<span class="params">array, start, end</span>) </span>&#123;<span class="comment">//基本切片</span></span><br><span class="line">      <span class="comment">// 测试后发现，js的数组length只会统计下标大于0的部分，小于0的部分会被忽略</span></span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array.length;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//负数判断，一般用不到</span></span><br><span class="line">      <span class="keyword">if</span> (start &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        start = -start &gt; length ? <span class="number">0</span> : (length + start);</span><br><span class="line">      &#125;</span><br><span class="line">      end = end &gt; length ? length : end;</span><br><span class="line">      <span class="keyword">if</span> (end &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        end += length;</span><br><span class="line">      &#125;</span><br><span class="line">      length = start &gt; end ? <span class="number">0</span> : ((end - start) &gt;&gt;&gt; <span class="number">0</span>);</span><br><span class="line">      start &gt;&gt;&gt;= <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// &gt;&gt;表示有符号位移，&gt;&gt;1表示右移1位</span></span><br><span class="line">      <span class="comment">// &gt;&gt;&gt;表示无符号位移</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> result = <span class="built_in">Array</span>(length);</span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        result[index] = array[index + start];<span class="comment">//赋值</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">      size = nativeMax(toInteger(size), <span class="number">0</span>); <span class="comment">//nativeMax===math.max在size和0之间返回一个较大的数</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> length = array ? array.length : <span class="number">0</span>;  <span class="comment">//数组长度大于0</span></span><br><span class="line">      <span class="keyword">if</span> (!length || size &lt; <span class="number">1</span>) &#123;   <span class="comment">//假如长度非空且size&lt;1，返回空数组，迷惑</span></span><br><span class="line">        <span class="keyword">return</span> [];</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = <span class="built_in">Array</span>(nativeCeil(length / size));<span class="comment">//nativeCeil===math.Ceil()向上取整</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">         <span class="comment">//每次baseSlice嵌入新的数组</span></span><br><span class="line">        result[++resIndex] = baseSlice(array, index, (index += size));</span><br><span class="line">         <span class="comment">//以目前index开始，+size结束</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result; <span class="comment">//返回二维数组</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="meta-Programming"><a href="#meta-Programming" class="headerlink" title="meta Programming"></a>meta Programming</h3><blockquote>
+<p>元编程，拦截某些操作并实现自定义行为</p>
+</blockquote>
+<h2 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h2><blockquote>
+<p>Js是基于原型的</p>
+</blockquote>
+<h3 id="继承和原型链"><a href="#继承和原型链" class="headerlink" title="继承和原型链"></a>继承和原型链</h3><ul>
+<li>原型链：对象属性-&gt;原型属性-&gt;null</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.构造函数：通过new调用即构造函数，反之为普通函数</span></span><br><span class="line"><span class="keyword">let</span> person1=<span class="keyword">new</span> Person();</span><br><span class="line"><span class="comment">//2.函数Person(),有一个属性prototype(指针)指向原型对象，原形对象也有个指针指向Person对象</span></span><br><span class="line"><span class="built_in">console</span>.log(Person===Person.prototype.constructor);<span class="comment">//constructor实例对象访问原型对象</span></span><br><span class="line"><span class="comment">//3.实例对象person1有一个属性指向原型对象，实例对象可以通过这个属性访问原型对象上的属性和方法</span></span><br><span class="line">Person.prototype.sex = <span class="string">&#x27;男&#x27;</span>; <span class="comment">//给原型对象赋值&#x27;男&#x27;</span></span><br><span class="line">person2.sex = <span class="string">&#x27;女&#x27;</span>; <span class="comment">//单独给person2对象赋值&#x27;女&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(person1.sex)  <span class="comment">// &#x27;男&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(person2.sex)  <span class="comment">//&#x27;女&#x27; </span></span><br><span class="line"><span class="comment">//说明只有实例对象没有相应属性时才会去访问原型对象的属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//继承也是利用原型链去获取</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">//在A的原型上绑定sayA()方法</span></span><br><span class="line">A.prototype.sayA = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;from A&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="comment">//让B的原型对象指向A的一个实例</span></span><br><span class="line">B.prototype = <span class="keyword">new</span> A();</span><br><span class="line"><span class="comment">//在B的原型上绑定sayB()方法</span></span><br><span class="line">B.prototype.sayB = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;from B&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//生成一个B的实例</span></span><br><span class="line"><span class="keyword">var</span> a1 = <span class="keyword">new</span> A();</span><br><span class="line"><span class="keyword">var</span> b1 = <span class="keyword">new</span> B();</span><br><span class="line"><span class="comment">//b1可以调用sayB和sayA</span></span><br><span class="line">b1.sayB();<span class="comment">//&#x27;from B&#x27;</span></span><br><span class="line">b1.sayA();<span class="comment">//&#x27;from A&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当继承的函数被调用时，this指向的是当前继承的对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  m: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.a + <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(o.m()); <span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 当调用 o.m 时，&#x27;this&#x27; 指向了 o.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p = <span class="built_in">Object</span>.create(o);</span><br><span class="line"><span class="comment">// p是一个继承自 o 的对象</span></span><br><span class="line"></span><br><span class="line">p.a = <span class="number">4</span>; <span class="comment">// 创建 p 的自身属性 &#x27;a&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(p.m()); <span class="comment">// 5</span></span><br><span class="line"><span class="comment">// 调用 p.m 时，&#x27;this&#x27; 指向了 p</span></span><br><span class="line"><span class="comment">// 又因为 p 继承了 o 的 m 函数</span></span><br><span class="line"><span class="comment">// 所以，此时的 &#x27;this.a&#x27; 即 p.a，就是 p 的自身属性 &#x27;a&#x27; </span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在原型链上查找属性比较耗时，且试图访问不存在的属性时会遍历整个原型链，故需要注意原型链的长度，并在必要时将其分解</li>
+</ul>
+<h3 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h3><p>严格模式的变化：</p>
+<ul>
+<li>将过失错误转成异常<ol>
+<li>无法意外创建全局变量，如m=17，需要let m=17才能创建</li>
+<li>引起静默失败的赋值操作抛出异常</li>
+<li>试图删除不可删除的属性会抛出异常</li>
+<li>对象内所有属性名在对象内必须唯一</li>
+<li>函数的参数名唯一</li>
+<li>禁止八进制数字语法</li>
+<li>禁止设置primitive值的属性</li>
+<li>禁用with</li>
+<li>eval不再为上层范围引入新变量</li>
+<li>禁止删除声明变量</li>
+<li>eval和arguments不能通过程序语法被绑定或赋值</li>
+<li>参数的值不会随arguments对象的值改变而变化</li>
+<li>不再支持arguments.callee</li>
+<li>通过this传递给一个函数的值不会被强制转化为一个对象</li>
+<li>arguments不会再提供访问与调用这个函数相关的变量的途径</li>
+<li>禁止了不在脚本或者函数层面上的函数声明</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="built_in">eval</span>()<span class="comment">//eval函数可计算某字符串并执行其中的js代码</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3> 
+ 
       <!-- reward -->
       
     </div>
@@ -256,7 +389,7 @@
 
     
     <article
-  id="post-lodash源码分析P1"
+  id="post-lodash源码分析Array"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -267,22 +400,55 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90P1/"
-    >lodash源码分析</a> 
+  <a class="article-title" href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/"
+    >lodash源码分析Array</a> 
 </h2>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90P1/" class="article-date">
+      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/" class="article-date">
   <time datetime="2020-11-14T03:06:56.000Z" itemprop="datePublished">2020-11-14</time>
-</a>    
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
     </div>
       
     <div class="article-entry" itemprop="articleBody">
        
-   
+  <h1 id="lodash源码分析Array"><a href="#lodash源码分析Array" class="headerlink" title="lodash源码分析Array"></a>lodash源码分析Array</h1><blockquote>
+<p>lodash:4.0.0</p>
+<p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
+<p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
+<p>搜索技巧： 想要搜索的内容+mdn，比在mdn里面搜索快</p>
+</blockquote>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h3><blockquote>
+<p>._chunk(array,[size=1])</p>
+<p>将array拆分成多个size大小的数组，如果最后的不够切则剩下的自己组成一个数组</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">2</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;, &#x27;d&#x27;]] </span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">3</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;d&#x27;]]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseSlice</span>(<span class="params">array, start, end</span>) </span>&#123;<span class="comment">//基本切片</span></span><br><span class="line">      <span class="comment">// 测试后发现，js的数组length只会统计下标大于0的部分，小于0的部分会被忽略</span></span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array.length;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//负数判断，一般用不到</span></span><br><span class="line">      <span class="keyword">if</span> (start &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        start = -start &gt; length ? <span class="number">0</span> : (length + start);</span><br><span class="line">      &#125;</span><br><span class="line">      end = end &gt; length ? length : end;</span><br><span class="line">      <span class="keyword">if</span> (end &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        end += length;</span><br><span class="line">      &#125;</span><br><span class="line">      length = start &gt; end ? <span class="number">0</span> : ((end - start) &gt;&gt;&gt; <span class="number">0</span>);</span><br><span class="line">      start &gt;&gt;&gt;= <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// &gt;&gt;表示有符号位移，&gt;&gt;1表示右移1位</span></span><br><span class="line">      <span class="comment">// &gt;&gt;&gt;表示无符号位移</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> result = <span class="built_in">Array</span>(length);</span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        result[index] = array[index + start];<span class="comment">//赋值</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">      size = nativeMax(toInteger(size), <span class="number">0</span>); <span class="comment">//nativeMax===math.max在size和0之间返回一个较大的数</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> length = array ? array.length : <span class="number">0</span>;  <span class="comment">//数组长度大于0</span></span><br><span class="line">      <span class="keyword">if</span> (!length || size &lt; <span class="number">1</span>) &#123;   <span class="comment">//假如长度非空且size&lt;1，返回空数组，迷惑</span></span><br><span class="line">        <span class="keyword">return</span> [];</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = <span class="built_in">Array</span>(nativeCeil(length / size));<span class="comment">//nativeCeil===math.Ceil()向上取整</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">         <span class="comment">//每次baseSlice嵌入新的数组</span></span><br><span class="line">        result[++resIndex] = baseSlice(array, index, (index += size));</span><br><span class="line">         <span class="comment">//以目前index开始，+size结束</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result; <span class="comment">//返回二维数组</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3><blockquote>
+<p>过滤原数组中的所有非假值元素。例如<code>false</code>, <code>null</code>, <code>0</code>, <code>&quot;&quot;</code>, <code>undefined</code>, 和 <code>NaN</code> 都是被认为是“假值”。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>, <span class="number">2</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="comment">// =&gt; [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compact</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array ? array.length : <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = [];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        <span class="keyword">var</span> value = array[index];</span><br><span class="line">        <span class="keyword">if</span> (value) &#123;  <span class="comment">//用if过滤假值</span></span><br><span class="line">          result[++resIndex] = value;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
+<p>让原数组与任何数组或值连接到一起</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+ 
       <!-- reward -->
       
     </div>
@@ -292,6 +458,8 @@
     
     <footer class="article-footer">
        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
     </footer>
   </div>
 
