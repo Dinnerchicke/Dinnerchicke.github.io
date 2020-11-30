@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://example.com/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</loc>
+    <lastmod>2020-11-29</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2020/11/24/vue-admin-template/</loc>
+    <lastmod>2020-11-25</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2020/11/19/C3New/</loc>
+    <lastmod>2020-11-19</lastmod>
+  </url>
+  <url>
     <loc>http://example.com/2020/11/14/jsMdn/</loc>
     <lastmod>2020-11-16</lastmod>
   </url>

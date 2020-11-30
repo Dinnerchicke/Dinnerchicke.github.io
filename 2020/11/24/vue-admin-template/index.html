@@ -10,7 +10,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    comGit |  
+    vue-admin-template |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-comGit"
+  id="post-vue-admin-template"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,18 +56,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  comGit
+  vue-admin-template
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/10/06/comGit/" class="article-date">
-  <time datetime="2020-10-06T06:23:19.000Z" itemprop="datePublished">2020-10-06</time>
+      <a href="/2020/11/24/vue-admin-template/" class="article-date">
+  <time datetime="2020-11-24T01:52:41.000Z" itemprop="datePublished">2020-11-24</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
   </div>
   
 <div class="word_count">
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">389</span>
+            <span class="post-count">817</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">3 分钟</span>
         </span>
     </span>
 </div>
@@ -99,77 +99,44 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+  <h1 id="Vue-admin-template"><a href="#Vue-admin-template" class="headerlink" title="Vue-admin-template"></a>Vue-admin-template</h1><blockquote>
+<p>整体把握：整个模版基本都使用抽离模块思想,先写多个组件,然后组合到一个index文件中</p>
+</blockquote>
+<h2 id="api"><a href="#api" class="headerlink" title="api"></a>api</h2><p>接口模块</p>
+<h3 id="table-js"><a href="#table-js" class="headerlink" title="table.js"></a>table.js</h3><p>只有一个getList的get方法Api</p>
+<h3 id="user-js"><a href="#user-js" class="headerlink" title="user.js"></a>user.js</h3><p>getInfo接口需要token才能获取</p>
+<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><p>基础组件</p>
+<h3 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h3><p>面包屑:如下图，可以点击快速跳转</p>
+<p><img src="/2020/11/24/vue-admin-template/1.jpg"></p>
+<h3 id="Hamburger"><a href="#Hamburger" class="headerlink" title="Hamburger"></a>Hamburger</h3><p>上图中点击左/右拉侧边栏的图标</p>
+<h3 id="SvgIcon"><a href="#SvgIcon" class="headerlink" title="SvgIcon"></a>SvgIcon</h3><p>侧边栏的Logo</p>
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><p>基础布局</p>
+<h3 id="components"><a href="#components" class="headerlink" title="components"></a>components</h3><p>布局组件</p>
+<h4 id="Sidebar"><a href="#Sidebar" class="headerlink" title="Sidebar"></a>Sidebar</h4><h4 id="AppMain-vue"><a href="#AppMain-vue" class="headerlink" title="AppMain.vue"></a>AppMain.vue</h4><ul>
+<li>这里的transition定义了不同页面的转场动画</li>
+<li>router-view通常用在同时显示多个视图</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;section <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;app-main&quot;</span>&gt;</span><br><span class="line">    &lt;transition name=<span class="string">&quot;fade-transform&quot;</span> mode=<span class="string">&quot;out-in&quot;</span>&gt;</span><br><span class="line">      &lt;router-view :key=<span class="string">&quot;key&quot;</span> /&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD commit_id 退到/进到，指定commit的哈希码回退到指定版本</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#64;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#46;&#53;&#53;">&#x67;&#105;&#x74;&#64;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#46;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+
+
+<h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导出vue</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Navbar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Navbar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Sidebar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Sidebar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> AppMain &#125; <span class="keyword">from</span> <span class="string">&#x27;./AppMain&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Navbar-vue"><a href="#Navbar-vue" class="headerlink" title="Navbar.vue"></a>Navbar.vue</h4><p>导航栏：最上层的那个栏,有Hamburger,面包屑和用户头像,登陆登出</p>
+<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><p>解除ipad最小化bug</p>
+<h3 id="index-vue"><a href="#index-vue" class="headerlink" title="index.vue"></a>index.vue</h3><p>导出</p>
+<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><p>定义路由，这里使用到了vue嵌套路由,一般情况下，修改页面只会影响app-main主体</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: <span class="string">&#x27;/documentation&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 你可以选择不同的layout组件</span></span><br><span class="line">  component: Layout,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里开始对应的路由都会显示在app-main中 如上图所示</span></span><br><span class="line">  children: [&#123;</span><br><span class="line">    path: <span class="string">&#x27;index&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;documentation/index&#x27;</span>),</span><br><span class="line">    name: <span class="string">&#x27;documentation&#x27;</span></span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当设置 true 的时候该路由不会在侧边栏出现 如401，login等页面，或者如一些编辑页面/edit/1</span></span><br><span class="line">hidden: <span class="literal">true</span> <span class="comment">// (默认 false)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当设置 noRedirect 的时候该路由在面包屑导航中不可被点击</span></span><br><span class="line">redirect: <span class="string">&#x27;noRedirect&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面</span></span><br><span class="line"><span class="comment">// 只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面</span></span><br><span class="line"><span class="comment">// 若你想不管路由下面的 children 声明的个数都显示你的根路由</span></span><br><span class="line"><span class="comment">// 你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由</span></span><br><span class="line">alwaysShow: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">name: <span class="string">&#x27;router-name&#x27;</span> <span class="comment">// 设定路由的名字，一定要填写不然使用&lt;keep-alive&gt;时会出现各种问题</span></span><br><span class="line">meta: &#123;</span><br><span class="line">  roles: [<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;editor&#x27;</span>] <span class="comment">// 设置该路由进入的权限，支持多个权限叠加</span></span><br><span class="line">  title: <span class="string">&#x27;title&#x27;</span> <span class="comment">// 设置该路由在侧边栏和面包屑中展示的名字</span></span><br><span class="line">  icon: <span class="string">&#x27;svg-name&#x27;</span> <span class="comment">// 设置该路由的图标，支持 svg-class，也支持 el-icon-x element-ui 的 icon</span></span><br><span class="line">  noCache: <span class="literal">true</span> <span class="comment">// 如果设置为true，则不会被 &lt;keep-alive&gt; 缓存(默认 false)</span></span><br><span class="line">  breadcrumb: <span class="literal">false</span> <span class="comment">//  如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)</span></span><br><span class="line">  affix: <span class="literal">true</span> <span class="comment">// 若果设置为true，它则会固定在tags-view中(默认 false)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当路由设置了该属性，则会高亮相对应的侧边栏。</span></span><br><span class="line">  <span class="comment">// 这在某些场景非常有用，比如：一个文章的列表页路由为：/article/list</span></span><br><span class="line">  <span class="comment">// 点击文章进入文章详情页，这时候路由为/article/1，但你想在侧边栏高亮文章列表的路由，就可以进行如下设置</span></span><br><span class="line">  activeMenu: <span class="string">&#x27;/article/list&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><p>Vuex</p>
+<h2 id="styles"><a href="#styles" class="headerlink" title="styles"></a>styles</h2><p>Scss样式</p>
+<h2 id="utils"><a href="#utils" class="headerlink" title="utils"></a>utils</h2><p>全局js方法</p>
+<h2 id="views"><a href="#views" class="headerlink" title="views"></a>views</h2><p>页面</p>
+<h2 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h2><p>入口js文件</p>
  
       <!-- reward -->
       
@@ -234,12 +201,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/06/comGit/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/11/24/vue-admin-template/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
 
     </footer>
   </div>
@@ -247,19 +214,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/10/06/comShell/" class="article-nav-link">
+      <a href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            comShell
+            Vue全家桶
           
         </div>
       </a>
     
     
-      <a href="/2020/10/06/DOM/" class="article-nav-link">
+      <a href="/2020/11/19/C3New/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">DOM</div>
+        <div class="article-nav-title">C3New</div>
       </a>
     
   </nav>

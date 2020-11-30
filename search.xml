@@ -68,6 +68,204 @@
       </tags>
   </entry>
   <entry>
+    <title>Vue全家桶</title>
+    <url>/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</url>
+    <content><![CDATA[<h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>对vue的查漏补缺</p>
+<h2 id="Base"><a href="#Base" class="headerlink" title="Base"></a>Base</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">    div &#123;&#123;msg&#125;&#125;</span><br><span class="line"><span class="comment">// 不需要操作dom直接将数据挂载到标签上</span></span><br><span class="line">script</span><br><span class="line">    <span class="keyword">var</span> vm=<span class="keyword">new</span> Vue(&#123;</span><br><span class="line">        el:<span class="string">&#x27;#app&#x27;</span>,<span class="comment">// 元素挂载位置，CSS选择器或者DOM元素</span></span><br><span class="line">        data: &#123;<span class="comment">// 模型数据</span></span><br><span class="line">            msg: <span class="string">&#x27;Hello Vue&#x27;</span><span class="comment">// 数据填充到标签里</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
+<li>v-text：填充纯文本</li>
+<li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
+<li>v-pre：填充原始信息，跳过编译过程</li>
+</ul>
+<h4 id="数据响应式"><a href="#数据响应式" class="headerlink" title="数据响应式"></a>数据响应式</h4><blockquote>
+<p>html5的响应式：样式随着屏幕变化变化</p>
+<p>数据响应式：数据变化导致页面内容变化</p>
+</blockquote>
+<ul>
+<li>数据绑定：将数据填充到标签中</li>
+<li>v-once：显示内容后不再具有响应式功能</li>
+<li>双向数据绑定：v-model,底层实现就是v-on和v-bind结合</li>
+</ul>
+<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><ul>
+<li>v-on：语法糖@</li>
+</ul>
+<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5><ul>
+<li>直接绑定函数名称@click=’say’</li>
+<li>调用函数@click=’say()’</li>
+</ul>
+<h5 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h5><ul>
+<li>@click=’say{“hi”,$event}’如果事件直接绑定函数名称，那么默认事件对象为事件函数的一个参数</li>
+<li>如果事件绑定函数调用，那么事件对象必须作为最后一个参数显式传递，且名称必须为$event</li>
+</ul>
+<h5 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h5><ul>
+<li>@click.stop阻止冒泡</li>
+<li>@click.prevent阻止默认行为</li>
+</ul>
+<h4 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h4><ul>
+<li>v-bind：缩写’:’</li>
+</ul>
+<h4 id="样式绑定"><a href="#样式绑定" class="headerlink" title="样式绑定"></a>样式绑定</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">：<span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;&#123;active:isActive&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">    isActive: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    handle()&#123;</span><br><span class="line">        <span class="built_in">this</span>.isActive=!<span class="built_in">this</span>.isActive</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
+<ul>
+<li>M(model)：模型数据</li>
+<li>V(view)：视图，模版，本质为DOM</li>
+<li>VM(View-Model)：控制逻辑，将Model和View结合</li>
+</ul>
+<blockquote>
+<p>从Model到View通过数据绑定，从View到Model通过事件监听的方式</p>
+</blockquote>
+<h3 id="vue常用特性"><a href="#vue常用特性" class="headerlink" title="vue常用特性"></a>vue常用特性</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Vue.directive(<span class="string">&#x27;focus&#x27;</span>&#123;</span><br><span class="line">	inserted: <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123; <span class="comment">// el是element的简写，表示指令绑定的元素</span></span><br><span class="line">	el.focus();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">input type=<span class="string">&quot;text&quot;</span> v-focus</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
+<blockquote>
+<p>监听器应用场景：执行异步或开销比较大的操作</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    firstName: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.fullName = val + <span class="string">&#x27;&#x27;</span> +<span class="built_in">this</span>.lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><blockquote>
+<p>组件化开发思想：</p>
+<ul>
+<li>标准：组件标准规范</li>
+<li>分治：不同功能封装到不同组件中</li>
+<li>重用：组件可以更换</li>
+<li>组合：组合新的产品</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
+<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
+<li>每个组件都是独立的</li>
+<li>组件模版必须是单个根元素</li>
+<li>组件命名推荐短横线-</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 全局组件注册语法</span></span><br><span class="line">Vue.component(<span class="string">&#x27;组件名称&#x27;</span>,&#123;</span><br><span class="line">	data: 组件数据,</span><br><span class="line">	template: 组件模块内容</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line">Vue.component(<span class="string">&#x27;button-counter&#x27;</span>,&#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template:<span class="string">&#x27;&lt;button v-on:click=&quot;count++&quot;&gt;点击了&#123;&#123;count&#125;&#125;次.&lt;/button&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">	button-counter /</span><br><span class="line">/div</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 局部组件注册</span></span><br><span class="line"><span class="comment">// 局部组件只能在注册他的父组件中使用</span></span><br><span class="line"><span class="keyword">var</span> ComponentA=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentB=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentC=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">&#x27;#app&#x27;</span></span><br><span class="line">    components: &#123;</span><br><span class="line">    <span class="string">&#x27;component-a&#x27;</span>:ComponentA,</span><br><span class="line">    <span class="string">&#x27;component-b&#x27;</span>:ComponentB,</span><br><span class="line">    <span class="string">&#x27;component-c&#x27;</span>:ComponentC</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件间数据交换"><a href="#组件间数据交换" class="headerlink" title="组件间数据交换"></a>组件间数据交换</h3><h4 id="组件间数据交互"><a href="#组件间数据交互" class="headerlink" title="组件间数据交互"></a>组件间数据交互</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父组件向子组件传值</span></span><br><span class="line"><span class="comment">// 组件内部通过props接收传递的值</span></span><br><span class="line">Vue.component(<span class="string">&#x27;menu-item&#x27;</span>,&#123;</span><br><span class="line">    props: [<span class="string">&#x27;title&#x27;</span>],<span class="comment">//props也要使用短横线形式-</span></span><br><span class="line">    <span class="comment">// props只允许父元素向子组件传值，单向数据流</span></span><br><span class="line">    template:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">menu-item title=<span class="string">&quot;来自父组件的数据&quot;</span></span><br><span class="line">menu-item :title=<span class="string">&quot;title&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件向父组件传值，通过自定义事件</span></span><br><span class="line">button @click=<span class="string">&#x27;$emit(&quot;enlarge-text&quot;,0.1)&#x27;</span><span class="comment">//子组件，自定义事件,携带一个值</span></span><br><span class="line">menu-item @enlarge-text=<span class="string">&#x27;handle($event)&#x27;</span><span class="comment">//父组件，绑定事件，通过$event获取值</span></span><br><span class="line"><span class="comment">// 使用js添加事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非父子组件通信，通过事件中心来触发和监听</span></span><br><span class="line"><span class="keyword">var</span> eventHub=<span class="keyword">new</span> Vue()</span><br><span class="line">eventHub.$on(<span class="string">&#x27;add-todo&#x27;</span>,addTodo)<span class="comment">//监听</span></span><br><span class="line">eventHub.$off(<span class="string">&#x27;add-todo&#x27;</span>)<span class="comment">//销毁</span></span><br><span class="line">eventHub.$emit(<span class="string">&#x27;add-todo&#x27;</span>,id)<span class="comment">//触发事件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件插槽"><a href="#组件插槽" class="headerlink" title="组件插槽"></a>组件插槽</h3><blockquote>
+<p>之前为数据交互，这里为模版的内容</p>
+<p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
+<p>购物车</p>
+<ul>
+<li>标题组件</li>
+<li>列表组件(再划分组件)</li>
+<li>结算组件</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue-admin-template</title>
+    <url>/2020/11/24/vue-admin-template/</url>
+    <content><![CDATA[<h1 id="Vue-admin-template"><a href="#Vue-admin-template" class="headerlink" title="Vue-admin-template"></a>Vue-admin-template</h1><blockquote>
+<p>整体把握：整个模版基本都使用抽离模块思想,先写多个组件,然后组合到一个index文件中</p>
+</blockquote>
+<h2 id="api"><a href="#api" class="headerlink" title="api"></a>api</h2><p>接口模块</p>
+<h3 id="table-js"><a href="#table-js" class="headerlink" title="table.js"></a>table.js</h3><p>只有一个getList的get方法Api</p>
+<h3 id="user-js"><a href="#user-js" class="headerlink" title="user.js"></a>user.js</h3><p>getInfo接口需要token才能获取</p>
+<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><p>基础组件</p>
+<h3 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h3><p>面包屑:如下图，可以点击快速跳转</p>
+<p><img src="/2020/11/24/vue-admin-template/1.jpg"></p>
+<h3 id="Hamburger"><a href="#Hamburger" class="headerlink" title="Hamburger"></a>Hamburger</h3><p>上图中点击左/右拉侧边栏的图标</p>
+<h3 id="SvgIcon"><a href="#SvgIcon" class="headerlink" title="SvgIcon"></a>SvgIcon</h3><p>侧边栏的Logo</p>
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><p>基础布局</p>
+<h3 id="components"><a href="#components" class="headerlink" title="components"></a>components</h3><p>布局组件</p>
+<h4 id="Sidebar"><a href="#Sidebar" class="headerlink" title="Sidebar"></a>Sidebar</h4><h4 id="AppMain-vue"><a href="#AppMain-vue" class="headerlink" title="AppMain.vue"></a>AppMain.vue</h4><ul>
+<li>这里的transition定义了不同页面的转场动画</li>
+<li>router-view通常用在同时显示多个视图</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;section <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;app-main&quot;</span>&gt;</span><br><span class="line">    &lt;transition name=<span class="string">&quot;fade-transform&quot;</span> mode=<span class="string">&quot;out-in&quot;</span>&gt;</span><br><span class="line">      &lt;router-view :key=<span class="string">&quot;key&quot;</span> /&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//导出vue</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Navbar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Navbar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Sidebar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Sidebar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> AppMain &#125; <span class="keyword">from</span> <span class="string">&#x27;./AppMain&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Navbar-vue"><a href="#Navbar-vue" class="headerlink" title="Navbar.vue"></a>Navbar.vue</h4><p>导航栏：最上层的那个栏,有Hamburger,面包屑和用户头像,登陆登出</p>
+<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><p>解除ipad最小化bug</p>
+<h3 id="index-vue"><a href="#index-vue" class="headerlink" title="index.vue"></a>index.vue</h3><p>导出</p>
+<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><p>定义路由，这里使用到了vue嵌套路由,一般情况下，修改页面只会影响app-main主体</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: <span class="string">&#x27;/documentation&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 你可以选择不同的layout组件</span></span><br><span class="line">  component: Layout,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里开始对应的路由都会显示在app-main中 如上图所示</span></span><br><span class="line">  children: [&#123;</span><br><span class="line">    path: <span class="string">&#x27;index&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;documentation/index&#x27;</span>),</span><br><span class="line">    name: <span class="string">&#x27;documentation&#x27;</span></span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当设置 true 的时候该路由不会在侧边栏出现 如401，login等页面，或者如一些编辑页面/edit/1</span></span><br><span class="line">hidden: <span class="literal">true</span> <span class="comment">// (默认 false)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当设置 noRedirect 的时候该路由在面包屑导航中不可被点击</span></span><br><span class="line">redirect: <span class="string">&#x27;noRedirect&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面</span></span><br><span class="line"><span class="comment">// 只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面</span></span><br><span class="line"><span class="comment">// 若你想不管路由下面的 children 声明的个数都显示你的根路由</span></span><br><span class="line"><span class="comment">// 你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由</span></span><br><span class="line">alwaysShow: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">name: <span class="string">&#x27;router-name&#x27;</span> <span class="comment">// 设定路由的名字，一定要填写不然使用&lt;keep-alive&gt;时会出现各种问题</span></span><br><span class="line">meta: &#123;</span><br><span class="line">  roles: [<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;editor&#x27;</span>] <span class="comment">// 设置该路由进入的权限，支持多个权限叠加</span></span><br><span class="line">  title: <span class="string">&#x27;title&#x27;</span> <span class="comment">// 设置该路由在侧边栏和面包屑中展示的名字</span></span><br><span class="line">  icon: <span class="string">&#x27;svg-name&#x27;</span> <span class="comment">// 设置该路由的图标，支持 svg-class，也支持 el-icon-x element-ui 的 icon</span></span><br><span class="line">  noCache: <span class="literal">true</span> <span class="comment">// 如果设置为true，则不会被 &lt;keep-alive&gt; 缓存(默认 false)</span></span><br><span class="line">  breadcrumb: <span class="literal">false</span> <span class="comment">//  如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)</span></span><br><span class="line">  affix: <span class="literal">true</span> <span class="comment">// 若果设置为true，它则会固定在tags-view中(默认 false)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当路由设置了该属性，则会高亮相对应的侧边栏。</span></span><br><span class="line">  <span class="comment">// 这在某些场景非常有用，比如：一个文章的列表页路由为：/article/list</span></span><br><span class="line">  <span class="comment">// 点击文章进入文章详情页，这时候路由为/article/1，但你想在侧边栏高亮文章列表的路由，就可以进行如下设置</span></span><br><span class="line">  activeMenu: <span class="string">&#x27;/article/list&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><p>Vuex</p>
+<h2 id="styles"><a href="#styles" class="headerlink" title="styles"></a>styles</h2><p>Scss样式</p>
+<h2 id="utils"><a href="#utils" class="headerlink" title="utils"></a>utils</h2><p>全局js方法</p>
+<h2 id="views"><a href="#views" class="headerlink" title="views"></a>views</h2><p>页面</p>
+<h2 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h2><p>入口js文件</p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C3New</title>
+    <url>/2020/11/19/C3New/</url>
+    <content><![CDATA[<h1 id="CSS3New"><a href="#CSS3New" class="headerlink" title="CSS3New"></a>CSS3New</h1><h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><ul>
+<li>E[att]:选择具有att属性的E元素</li>
+<li>E[att=”val”]:选择具有att属性且属性值等于val的E元素</li>
+<li>E[att^=”val”]:选择具有att属性值且以val开头的E元素</li>
+<li>E[att$=”val”]:选择具有att属性值且以val结尾的E元素</li>
+<li>E[att*=”val”]:选择具有att属性值且有val的E元素</li>
+</ul>
+<h3 id="结构伪类选择器"><a href="#结构伪类选择器" class="headerlink" title="结构伪类选择器"></a>结构伪类选择器</h3><p>主要根据文档结构来选择元素，常用于根据父级选择器里面的子元素</p>
+<ul>
+<li>E:last-child:匹配父元素的最后一个E元素</li>
+<li>E:nth-child(n):匹配父元素中的第n个子元素E</li>
+<li>E:first-of-type:指定类型E的第一个</li>
+<li>E:nth-of-type(n):指定类型E的最后一个</li>
+</ul>
+<h2 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h2><h2 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h2>]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jsMdn</title>
     <url>/2020/11/14/jsMdn/</url>
     <content><![CDATA[<h1 id="JsMdn"><a href="#JsMdn" class="headerlink" title="JsMdn"></a>JsMdn</h1><blockquote>
@@ -1439,7 +1637,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#x40;&#56;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;">&#x67;&#105;&#x74;&#x40;&#56;&#49;&#46;&#54;&#x38;&#x2e;&#x37;&#x33;&#x2e;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#64;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#46;&#53;&#53;">&#x67;&#105;&#x74;&#64;&#x38;&#x31;&#x2e;&#x36;&#x38;&#x2e;&#x37;&#51;&#46;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
