@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://example.com/2021/01/04/Flex%E5%B8%83%E5%B1%80/</loc>
-    <lastmod>2021-01-04</lastmod>
+    <loc>http://example.com/2020/10/06/comShell/</loc>
+    <lastmod>2021-01-21</lastmod>
   </url>
   <url>
     <loc>http://example.com/2021/01/03/go%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2021-01-03</lastmod>
+    <lastmod>2021-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2021/01/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2021-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2021/01/04/Flex%E5%B8%83%E5%B1%80/</loc>
+    <lastmod>2021-01-04</lastmod>
   </url>
   <url>
     <loc>http://example.com/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/</loc>
@@ -71,10 +79,6 @@
   <url>
     <loc>http://example.com/2020/10/12/comPy/</loc>
     <lastmod>2020-10-22</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2020/10/06/comShell/</loc>
-    <lastmod>2020-10-21</lastmod>
   </url>
   <url>
     <loc>http://example.com/2020/10/20/crawl-Fund/</loc>
