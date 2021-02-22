@@ -121,7 +121,7 @@
 <p>DOM 型 XSS 跟后两种 XSS 的区别：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
 <h4 id="预防"><a href="#预防" class="headerlink" title="预防"></a>预防</h4><p>在使用 <code>.innerHTML</code>、<code>.outerHTML</code>、<code>document.write()</code> 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 <code>.textContent</code>、<code>.setAttribute()</code> 等。</p>
 <p>如果用 Vue/React 技术栈，并且不使用 <code>v-html</code>/<code>dangerouslySetInnerHTML</code> 功能，就在前端 render 阶段避免 <code>innerHTML</code>、<code>outerHTML</code> 的 XSS 隐患。</p>
-<p>DOM 中的内联事件监听器，如 <code>location</code>、<code>onclick</code>、<code>onerror</code>、<code>onload</code>、<code>onmouseover</code> 等，<code>标签的 </code>href<code>属性，JavaScript 的</code>eval()<code>、</code>setTimeout()<code>、</code>setInterval()` 等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。</p>
+<p>DOM 中的内联事件监听器，如 <code>location</code>、<code>onclick</code>、<code>onerror</code>、<code>onload</code>、<code>onmouseover</code> 等，标签的 <code>href</code> 属性，JavaScript 的 <code>eval()</code>、<code>setTimeout()</code>、<code>setInterval()</code> 等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。</p>
 <h3 id="反射型-xss"><a href="#反射型-xss" class="headerlink" title="反射型 xss"></a>反射型 xss</h3><blockquote>
 <p>反射型xss也称为非持久性xss，是现在**<em>最容易出现**</em>的一种xss漏洞。发出请求时，xss代码出现在url中，最后提交给服务器，服务器解析后响应xss代码，最后浏览器执行</p>
 </blockquote>
@@ -335,6 +335,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E4%B9%8B%E8%B7%AF/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            前端权限之路
+          
+        </div>
+      </a>
     
     
       <a href="/2021/02/05/Chrome-DevTools/" class="article-nav-link">

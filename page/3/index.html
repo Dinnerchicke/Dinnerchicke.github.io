@@ -81,73 +81,6 @@
     
     
     <article
-  id="post-crawl-Fund"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/20/crawl-Fund/"
-    >crawl:Fund</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/20/crawl-Fund/" class="article-date">
-  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
-<ul>
-<li>去除了三年以内的建立的基金</li>
-<li>去除了部分值</li>
-<li>去除了累计净值&lt;1的基金</li>
-<li>去除了三年和&lt;100%的基金</li>
-</ul>
-<p>部分结果展示：</p>
-<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
-<p>工具：Spyder</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
   id="post-crawl-Picture"
   class="article article-type-post"
   itemscope
@@ -418,7 +351,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#53;">&#x67;&#x69;&#116;&#x40;&#x38;&#49;&#46;&#x36;&#x38;&#x2e;&#x37;&#51;&#x2e;&#53;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#46;&#x35;&#x35;">&#x67;&#105;&#x74;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#x37;&#51;&#46;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
@@ -454,64 +387,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-DOM"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/06/DOM/"
-    >DOM</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/06/DOM/" class="article-date">
-  <time datetime="2020-10-06T01:14:29.000Z" itemprop="datePublished">2020-10-06</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/">JS红宝书</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>大概看了一下第十章的内容，问了学长，个人将DOM归纳为</p>
-<ul>
-<li>描述HTML结构–节点树(数据结构)</li>
-<li>DOM的方法提供给JS一个动态改变HTML的方法–比如弹出框或者增加行</li>
-<li>剩下的文章内容就是描述那些方法了，如果用框架的话可以不用考虑这些</li>
-</ul>
-<p>剩下的内容等以后看源码的时候结合起来思考吧，现在太虚无缥缈了</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
 
     </footer>
   </div>
@@ -1207,6 +1082,157 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/knowLedge/" rel="tag">knowLedge</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-authentication"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/02/authentication/"
+    >Authentication</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/02/authentication/" class="article-date">
+  <time datetime="2020-10-02T00:34:26.000Z" itemprop="datePublished">2020-10-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/back-Design/">back-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
+<ol>
+<li>登陆Post/login{“登陆信息”}</li>
+<li>创建token</li>
+<li>调用接口时在header里有token</li>
+<li>服务器检查token，验证</li>
+<li>返回结果给浏览器</li>
+</ol>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<p>服务器收到信息后与数据库进行比对</p>
+<h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
+<p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
+<p>验证通过后会生成token返回给前端，目前使用jwt即json web token，在token中隐藏json信息，使用字符串密钥加密，后端拿到token使用这个密钥解密，此过程<em>可逆</em>。</p>
+<h3 id="token认证"><a href="#token认证" class="headerlink" title="token认证"></a>token认证</h3><ol>
+<li>判断当前接口是否在白名单</li>
+<li>浏览器是否传递token</li>
+<li>token签名认证</li>
+<li>解密出的信息与后端存储数据对比</li>
+</ol>
+<p>3、4步即可完成验证，一起执行更好保障</p>
+<h2 id="权限认证"><a href="#权限认证" class="headerlink" title="权限认证"></a>权限认证</h2><h3 id="功能权限"><a href="#功能权限" class="headerlink" title="功能权限"></a>功能权限</h3><p>用户–角色–功能</p>
+<p>为用户分配角色，为角色绑定功能</p>
+<p>具体实现：</p>
+<ol>
+<li>查询角色拥有的角色</li>
+<li>查询角色绑定功能</li>
+<li>查询当前访问接口所属功能</li>
+<li>判断用户是否拥有权限访问当前接口</li>
+</ol>
+<h3 id="数据权限"><a href="#数据权限" class="headerlink" title="数据权限"></a>数据权限</h3><p>将用户与角色绑定，角色与设备和对应操作绑定，如用户可以处理设备a进行123操作，及对设备b进行1操作…</p>
+<p>分开绑定</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-comRegEx"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/01/comRegEx/"
+    >comRegEx</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/01/comRegEx/" class="article-date">
+  <time datetime="2020-10-01T07:34:36.000Z" itemprop="datePublished">2020-10-01</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>^ 匹配输入字行首</p>
+<p>$ 匹配输入行尾</p>
+<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
+<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
+<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
+<p>{n},{n,m},{n,}</p>
+<p>.匹配除\n，\r之外的任何字符</p>
+<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
+<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
+<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
+<p>\B 匹配非单词边界，即一个单词末尾</p>
+<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
+<p>\d 匹配一个数字字符</p>
+<p>\D 匹配一个非数字字符</p>
+<p>\w 匹配包括下划线的任何单词字符</p>
+<p>\W 匹配任何非单词字符</p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
 
     </footer>
   </div>
