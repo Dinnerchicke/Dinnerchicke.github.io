@@ -81,6 +81,300 @@
     
     
     <article
+  id="post-前端权限"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/"
+    >前端权限</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/" class="article-date">
+  <time datetime="2020-12-14T11:04:00.000Z" itemprop="datePublished">2020-12-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h1><p>此版本为权限的思路，实例请看《前端权限之路》</p>
+<h2 id="权限分类"><a href="#权限分类" class="headerlink" title="权限分类"></a>权限分类</h2><h3 id="后端权限"><a href="#后端权限" class="headerlink" title="后端权限"></a>后端权限</h3><p>后端获取用户状态方式：</p>
+<ul>
+<li>cookie</li>
+<li>session</li>
+<li>token</li>
+</ul>
+<p>后端权限设计RBAC(基于角色的权限控制，三者各一张表)：</p>
+<ul>
+<li>用户</li>
+<li>角色</li>
+<li>权限</li>
+</ul>
+<h2 id="前端权限意义"><a href="#前端权限意义" class="headerlink" title="前端权限意义"></a>前端权限意义</h2><ul>
+<li>降低非法操作可能性</li>
+<li>尽可能排除不必要请求</li>
+<li>提高用户体验</li>
+</ul>
+<h1 id="Vue的权限控制实现"><a href="#Vue的权限控制实现" class="headerlink" title="Vue的权限控制实现"></a>Vue的权限控制实现</h1><h2 id="侧边栏的控制"><a href="#侧边栏的控制" class="headerlink" title="侧边栏的控制"></a>侧边栏的控制</h2><ul>
+<li>不同用户展示不同的列表，根据后端传来的菜单信息v-for进行动态渲染</li>
+<li>前端自己渲染，判断用户类型进行渲染</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户登录后 后端传来的权限</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">500</span>,</span><br><span class="line">	<span class="string">&quot;rid&quot;</span>: <span class="number">0</span>,</span><br><span class="line">	<span class="string">&quot;username&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;mobile&quot;</span>: <span class="string">&quot;13999999999&quot;</span>,</span><br><span class="line">	<span class="string">&quot;email&quot;</span>: <span class="string">&quot;123999@qq.com&quot;</span>,</span><br><span class="line">	<span class="string">&quot;token&quot;</span>: <span class="string">&quot;Bearer</span></span><br><span class="line"><span class="string">	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1M</span></span><br><span class="line"><span class="string">	TI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHmtPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM&quot;</span></span><br><span class="line">    <span class="comment">// token,⽤于前端⽤户的状态保持</span></span><br><span class="line">&#125;,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [&#123; </span><br><span class="line">    <span class="comment">// rights:该⽤户具备的权限数据,⼀级权限就对应⼀级菜单,⼆级权限就对应⼆级菜单,存在vuex和sessionStorage中</span></span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">125</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-user&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">110</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;users&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">103</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-tijikongjian&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">111</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;roles&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">101</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-shangpin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">104</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;goods&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">121</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品分类&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;categories&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;],</span><br><span class="line">	<span class="string">&quot;meta&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;msg&quot;</span>: <span class="string">&quot;登录成功&quot;</span>,</span><br><span class="line">	<span class="string">&quot;status&quot;</span>: <span class="number">200</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="界面的控制"><a href="#界面的控制" class="headerlink" title="界面的控制"></a>界面的控制</h2><blockquote>
+<p>这部分使用路由导航守卫进行控制</p>
+<ul>
+<li>如果用户没有token则跳转login登陆</li>
+<li>如果用户没有权限则跳转404</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否登陆</span></span><br><span class="line">sessionStorage.setItem(<span class="string">&#x27;token&#x27;</span>, res.data.token)</span><br><span class="line"></span><br><span class="line"><span class="comment">//路由导航守卫</span></span><br><span class="line">router.beforEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (to.path === <span class="string">&#x27;/login&#x27;</span>) &#123;</span><br><span class="line">        next()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> token = sessionStorage.getItem(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span>(!token) &#123;</span><br><span class="line">            next(<span class="string">&#x27;/login&#x27;</span>)<span class="comment">// 没有token登陆</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next()<span class="comment">//后端测如果没有权限则返回404</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//动态路由 将要抽离的路由在router中移开</span></span><br><span class="line"><span class="keyword">const</span> userRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/users&#x27;</span>, <span class="attr">component</span>: Users &#125;</span><br><span class="line"><span class="keyword">const</span> categoryRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/categories&#x27;</span>, <span class="attr">component</span>: GoodsCate &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ruleMapping = &#123;</span><br><span class="line">    <span class="string">&#x27;users&#x27;</span>: userRule,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initDynamicRoutes</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 添加到登陆成功的逻辑中,登陆成功后渲染侧边栏</span></span><br><span class="line">    <span class="comment">// 还要添加到app.vue的created里面,以免用户刷新后权限消失</span></span><br><span class="line">    <span class="keyword">const</span> currentRoutes = router.options.routes <span class="comment">// 路由里面的可达页面</span></span><br><span class="line">    <span class="keyword">const</span> rightList = store.state.rightList</span><br><span class="line">    rightList.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;<span class="comment">// 遍历rightList里面的二级权限看看是否有权限，如果有的话则添加路由</span></span><br><span class="line">        item.children.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">            currentRoutes[<span class="number">2</span>].children.push(ruleMapping[item.path])</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    router.addRoutes(currentRoutes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="按钮的控制"><a href="#按钮的控制" class="headerlink" title="按钮的控制"></a>按钮的控制</h2><blockquote>
+<p>如果用户没有对应的权限则不展示某些按钮</p>
+<p>写入对应permission.js判断是否有权限，使用对应v-permission指令</p>
+</blockquote>
+<h2 id="请求拦截"><a href="#请求拦截" class="headerlink" title="请求拦截"></a>请求拦截</h2><blockquote>
+<p>如果用户通过调试工具发出请求，此时拦截</p>
+<p>创建对应权限操作映射，通过axios拦截非权限操作</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-Vue全家桶"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/"
+    >Vue全家桶</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="article-date">
+  <time datetime="2020-11-28T02:23:42.000Z" itemprop="datePublished">2020-11-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>对vue的查漏补缺</p>
+<h2 id="Base"><a href="#Base" class="headerlink" title="Base"></a>Base</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">    div &#123;&#123;msg&#125;&#125;</span><br><span class="line"><span class="comment">// 不需要操作dom直接将数据挂载到标签上</span></span><br><span class="line">script</span><br><span class="line">    <span class="keyword">var</span> vm=<span class="keyword">new</span> Vue(&#123;</span><br><span class="line">        el:<span class="string">&#x27;#app&#x27;</span>,<span class="comment">// 元素挂载位置，CSS选择器或者DOM元素</span></span><br><span class="line">        data: &#123;<span class="comment">// 模型数据</span></span><br><span class="line">            msg: <span class="string">&#x27;Hello Vue&#x27;</span><span class="comment">// 数据填充到标签里</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
+<li>v-text：填充纯文本</li>
+<li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
+<li>v-pre：填充原始信息，跳过编译过程</li>
+</ul>
+<h4 id="数据响应式"><a href="#数据响应式" class="headerlink" title="数据响应式"></a>数据响应式</h4><blockquote>
+<p>html5的响应式：样式随着屏幕变化变化</p>
+<p>数据响应式：数据变化导致页面内容变化</p>
+</blockquote>
+<ul>
+<li>数据绑定：将数据填充到标签中</li>
+<li>v-once：显示内容后不再具有响应式功能</li>
+<li>双向数据绑定：v-model,底层实现就是v-on和v-bind结合</li>
+</ul>
+<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><ul>
+<li>v-on：语法糖@</li>
+</ul>
+<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5><ul>
+<li>直接绑定函数名称@click=’say’</li>
+<li>调用函数@click=’say()’</li>
+</ul>
+<h5 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h5><ul>
+<li>@click=’say{“hi”,$event}’如果事件直接绑定函数名称，那么默认事件对象为事件函数的一个参数</li>
+<li>如果事件绑定函数调用，那么事件对象必须作为最后一个参数显式传递，且名称必须为$event</li>
+</ul>
+<h5 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h5><ul>
+<li>@click.stop阻止冒泡</li>
+<li>@click.prevent阻止默认行为</li>
+</ul>
+<h4 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h4><ul>
+<li>v-bind：缩写’:’</li>
+</ul>
+<h4 id="样式绑定"><a href="#样式绑定" class="headerlink" title="样式绑定"></a>样式绑定</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">：<span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;&#123;active:isActive&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">    isActive: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    handle()&#123;</span><br><span class="line">        <span class="built_in">this</span>.isActive=!<span class="built_in">this</span>.isActive</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
+<ul>
+<li>M(model)：模型数据</li>
+<li>V(view)：视图，模版，本质为DOM</li>
+<li>VM(View-Model)：控制逻辑，将Model和View结合</li>
+</ul>
+<blockquote>
+<p>从Model到View通过数据绑定，从View到Model通过事件监听的方式</p>
+</blockquote>
+<h3 id="vue常用特性"><a href="#vue常用特性" class="headerlink" title="vue常用特性"></a>vue常用特性</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(<span class="string">&#x27;focus&#x27;</span>&#123;</span><br><span class="line">	inserted: <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123; <span class="comment">// el是element的简写，表示指令绑定的元素</span></span><br><span class="line">	el.focus();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">input type=<span class="string">&quot;text&quot;</span> v-focus</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
+<blockquote>
+<p>监听器应用场景：执行异步或开销比较大的操作</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    firstName: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.fullName = val + <span class="string">&#x27;&#x27;</span> +<span class="built_in">this</span>.lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><blockquote>
+<p>组件化开发思想：</p>
+<ul>
+<li>标准：组件标准规范</li>
+<li>分治：不同功能封装到不同组件中</li>
+<li>重用：组件可以更换</li>
+<li>组合：组合新的产品</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
+<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
+<li>每个组件都是独立的</li>
+<li>组件模版必须是单个根元素</li>
+<li>组件命名推荐短横线-</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局组件注册语法</span></span><br><span class="line">Vue.component(<span class="string">&#x27;组件名称&#x27;</span>,&#123;</span><br><span class="line">	data: 组件数据,</span><br><span class="line">	template: 组件模块内容</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line">Vue.component(<span class="string">&#x27;button-counter&#x27;</span>,&#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template:<span class="string">&#x27;&lt;button v-on:click=&quot;count++&quot;&gt;点击了&#123;&#123;count&#125;&#125;次.&lt;/button&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">	button-counter /</span><br><span class="line">/div</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 局部组件注册</span></span><br><span class="line"><span class="comment">// 局部组件只能在注册他的父组件中使用</span></span><br><span class="line"><span class="keyword">var</span> ComponentA=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentB=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentC=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">&#x27;#app&#x27;</span></span><br><span class="line">    components: &#123;</span><br><span class="line">    <span class="string">&#x27;component-a&#x27;</span>:ComponentA,</span><br><span class="line">    <span class="string">&#x27;component-b&#x27;</span>:ComponentB,</span><br><span class="line">    <span class="string">&#x27;component-c&#x27;</span>:ComponentC</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件间数据交换"><a href="#组件间数据交换" class="headerlink" title="组件间数据交换"></a>组件间数据交换</h3><h4 id="组件间数据交互"><a href="#组件间数据交互" class="headerlink" title="组件间数据交互"></a>组件间数据交互</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件向子组件传值</span></span><br><span class="line"><span class="comment">// 组件内部通过props接收传递的值</span></span><br><span class="line">Vue.component(<span class="string">&#x27;menu-item&#x27;</span>,&#123;</span><br><span class="line">    props: [<span class="string">&#x27;title&#x27;</span>],<span class="comment">//props也要使用短横线形式-</span></span><br><span class="line">    <span class="comment">// props只允许父元素向子组件传值，单向数据流</span></span><br><span class="line">    template:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">menu-item title=<span class="string">&quot;来自父组件的数据&quot;</span></span><br><span class="line">menu-item :title=<span class="string">&quot;title&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件向父组件传值，通过自定义事件</span></span><br><span class="line">button @click=<span class="string">&#x27;$emit(&quot;enlarge-text&quot;,0.1)&#x27;</span><span class="comment">//子组件，自定义事件,携带一个值</span></span><br><span class="line">menu-item @enlarge-text=<span class="string">&#x27;handle($event)&#x27;</span><span class="comment">//父组件，绑定事件，通过$event获取值</span></span><br><span class="line"><span class="comment">// 使用js添加事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非父子组件通信，通过事件中心来触发和监听</span></span><br><span class="line"><span class="keyword">var</span> eventHub=<span class="keyword">new</span> Vue()</span><br><span class="line">eventHub.$on(<span class="string">&#x27;add-todo&#x27;</span>,addTodo)<span class="comment">//监听</span></span><br><span class="line">eventHub.$off(<span class="string">&#x27;add-todo&#x27;</span>)<span class="comment">//销毁</span></span><br><span class="line">eventHub.$emit(<span class="string">&#x27;add-todo&#x27;</span>,id)<span class="comment">//触发事件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件插槽"><a href="#组件插槽" class="headerlink" title="组件插槽"></a>组件插槽</h3><blockquote>
+<p>之前为数据交互，这里为模版的内容</p>
+<p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
+<p>购物车</p>
+<ul>
+<li>标题组件</li>
+<li>列表组件(再划分组件)</li>
+<li>结算组件</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
+<h2 id="前后端交互"><a href="#前后端交互" class="headerlink" title="前后端交互"></a>前后端交互</h2><blockquote>
+<p>Js异步效果</p>
+<ul>
+<li>定时任务</li>
+<li>Ajax</li>
+<li>事件函数</li>
+</ul>
+<p>多次异步结果分析：</p>
+<ul>
+<li>多次异步调用的结果顺序不确定</li>
+<li>异步调用结果如果存在依赖需要嵌套</li>
+</ul>
+</blockquote>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
+<li><p>async/await是ES7语法</p>
+</li>
+<li><p>async用于函数上，返回的是Promise实例对象</p>
+</li>
+<li><p>await用于async函数中</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单个请求</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">queryData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> ret=<span class="keyword">await</span> axios.get(<span class="string">&#x27;adata&#x27;</span>)</span><br><span class="line">	<span class="built_in">console</span>.log(ret.data)</span><br><span class="line">	<span class="keyword">return</span> ret.data</span><br><span class="line">&#125;</span><br><span class="line">queryData().then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><h4 id="click"><a href="#click" class="headerlink" title="@click"></a>@click</h4><p>提交时使用了()出现bug，自己探索了一下</p>
+<ul>
+<li><p>@click=this.函数名 正常提交时打印的是MouseEvent鼠标事件</p>
+</li>
+<li><p>@click=this.函数名()时会报错</p>
+</li>
+<li><p>@click=函数名() 没传参时是undefined</p>
+</li>
+<li><p>@click=函数名(参数)传的是正常参数</p>
+</li>
+</ul>
+<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/7.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-vue-admin-template"
   class="article article-type-post"
   itemscope
@@ -1551,148 +1845,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-nodejs数据泄漏"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/"
-    >nodejs数据泄漏</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/" class="article-date">
-  <time datetime="2020-10-22T09:34:59.000Z" itemprop="datePublished">2020-10-22</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
-<p><img src="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
-<p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
-<p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
-<p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
-<h2 id="第二部分：排查后端"><a href="#第二部分：排查后端" class="headerlink" title="第二部分：排查后端"></a>第二部分：排查后端</h2><p>从网上查到Nodejs的内存泄漏有以下可能</p>
-<ol>
-<li>全局变量 (排除)</li>
-<li>闭包 (排除)</li>
-<li>事件监听 (待排查)</li>
-<li>缓存使用不当 (可能)</li>
-<li>内存没有即时释放 (排除，查看了node使用内存)</li>
-<li>SetTimeOut方法 (待排查)</li>
-</ol>
-<blockquote>
-<p><em>先关闭了Egg定时器发现CPU增长不是线性增长而是阶梯增长的，但是还会增加到100%</em></p>
-<p><em>然后关了监听还是如此，但是可以跑24h了，缓存用的也不是很多</em>，缓存使用不当也排除了</p>
-</blockquote>
-<h2 id="第三部分：意外之喜"><a href="#第三部分：意外之喜" class="headerlink" title="第三部分：意外之喜"></a>第三部分：意外之喜</h2><p>在整理Linux命令的时候使用了netstat指令</p>
-<p>后面发现一直在给以前项目发数据包</p>
-<p>于是去问后端怎么回事</p>
-<p>原来是WAMP没有关掉</p>
-<p>关掉后CPU就在3-20%之间来回了</p>
-<p>舒服了</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-crawl-Fund"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/20/crawl-Fund/"
-    >crawl:Fund</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/20/crawl-Fund/" class="article-date">
-  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
-<ul>
-<li>去除了三年以内的建立的基金</li>
-<li>去除了部分值</li>
-<li>去除了累计净值&lt;1的基金</li>
-<li>去除了三年和&lt;100%的基金</li>
-</ul>
-<p>部分结果展示：</p>
-<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
-<p>工具：Spyder</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
 
     </footer>
   </div>

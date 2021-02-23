@@ -190,6 +190,271 @@
 
     
     <article
+  id="post-webpack优化"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/02/23/webpack%E4%BC%98%E5%8C%96/"
+    >webpack优化</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/23/webpack%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2021-02-23T08:24:29.000Z" itemprop="datePublished">2021-02-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
+<h2 id="小试牛刀-thread-loader"><a href="#小试牛刀-thread-loader" class="headerlink" title="小试牛刀(thread-loader)"></a>小试牛刀(thread-loader)</h2><p>肯定不会用现在的版本去测试，于是用个人项目<code>vue-template</code>去测试</p>
+<p>先上猛料，看看==多线程打包==如何，只能说差强人意吧</p>
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
+<p>还有因为这是vue-cli脚手架形成的，里面的配置项眼花缭乱，只能步步为营</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">cnpm i thread-loader -D</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置项</span></span><br><span class="line">&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;thread-loader&#x27;</span>,&#123;</span><br><span class="line">          loader:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;options&#x27;</span>: &#123;</span><br><span class="line">            <span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span> <span class="comment">// 加了这个并没有明显感到加快</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// loader: [&#x27;thread-loader&#x27;,&#x27;babel-loader&#x27;],</span></span><br><span class="line">        include: [resolve(<span class="string">&#x27;src&#x27;</span>), resolve(<span class="string">&#x27;test&#x27;</span>), resolve(<span class="string">&#x27;node_modules/webpack-dev-server/client&#x27;</span>)],</span><br><span class="line">        </span><br><span class="line">      &#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="深入探究-speed-measure-webpack-plugin-webpack-bundle-analyzer"><a href="#深入探究-speed-measure-webpack-plugin-webpack-bundle-analyzer" class="headerlink" title="深入探究(speed-measure-webpack-plugin/webpack-bundle-analyzer)"></a>深入探究(speed-measure-webpack-plugin/webpack-bundle-analyzer)</h2><h3 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h3><blockquote>
+<p>使用speed-measure-webpack-plugin来查看各模块用时</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev speed-measure-webpack-plugin <span class="comment">// 首先安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack文件内创建对象</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">&#x27;speed-measure-webpack-plugin&#x27;</span>); <span class="comment">//引入插件</span></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin(); <span class="comment">//创建插件对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(&#123; <span class="comment">// 用smp.wrap包注export</span></span><br><span class="line">  context: path.resolve(__dirname, <span class="string">&#x27;../&#x27;</span>),</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">&#x27;./src/main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
+<p>可以看到都是老大哥了，用时都超过1000ms</p>
+<h3 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h3><blockquote>
+<p>通过webpack-bundle-analyzer可以看到各个包的体积</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>);</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
+<p>可以发现echarts和element-ui占用的量最大，可以考虑用cdn来减少打包体积</p>
+<h2 id="dll打包-大大加快"><a href="#dll打包-大大加快" class="headerlink" title="dll打包(大大加快)"></a>dll打包(大大加快)</h2><blockquote>
+<p>根据打包体积的输出，可以看到主要有echarts、element-ui等包体积过大，于是准备用dll来加速打包过程</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">cnpm install add-asset-html-webpack-plugin@<span class="number">2.1</span><span class="number">.2</span> <span class="comment">// 安装插件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在build文件夹下创建新文件webpack.dll.conf.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line">		<span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line">		<span class="built_in">module</span>.exports = &#123;</span><br><span class="line">		  entry: &#123;</span><br><span class="line">		    vendor: [</span><br><span class="line">		      <span class="string">&#x27;vue&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;vue-router&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;element-ui&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;xxxxxxx&#x27;</span>      <span class="comment">//这里是需要缓存的模块和插件</span></span><br><span class="line">		    ]</span><br><span class="line">		  &#125;,</span><br><span class="line">		  output: &#123;</span><br><span class="line">		    path: path.join(__dirname, <span class="string">&#x27;../static/js&#x27;</span>), <span class="comment">//放在项目的static/js目录下面</span></span><br><span class="line">		    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>, <span class="comment">//打包文件的名字</span></span><br><span class="line">		    library: <span class="string">&#x27;[name]_library&#x27;</span> <span class="comment">//可选 暴露出的全局变量名</span></span><br><span class="line">		    <span class="comment">// vendor.dll.js中暴露出的全局变量名。</span></span><br><span class="line">		    <span class="comment">// 主要是给DllPlugin中的name使用，</span></span><br><span class="line">		    <span class="comment">// 故这里需要和webpack.DllPlugin中的`name: &#x27;[name]_library&#x27;,`保持一致。</span></span><br><span class="line">		  &#125;,</span><br><span class="line">		  plugins: [</span><br><span class="line">		    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">		      path: path.join(__dirname, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;[name]-manifest.json&#x27;</span>), <span class="comment">//生成上文说到清单文件，放在当前build文件下面，这个看你自己想放哪里了。</span></span><br><span class="line">		      name: <span class="string">&#x27;[name]_library&#x27;</span>,</span><br><span class="line">		    &#125;),</span><br><span class="line">		  ]</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack.prod.conf.js下添加以下代码</span></span><br><span class="line"><span class="keyword">const</span> AddAssetHtmlPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);  <span class="comment">//在上面导入</span></span><br><span class="line">   <span class="keyword">new</span> webpack.DllReferencePlugin(&#123; <span class="comment">// 这是放在plugins里面的</span></span><br><span class="line">				context: path.resolve(__dirname, <span class="string">&#x27;..&#x27;</span>),</span><br><span class="line">				manifest: <span class="built_in">require</span>(<span class="string">&#x27;./vendor-manifest.json&#x27;</span>)</span><br><span class="line">				&#125;),</span><br><span class="line">				<span class="comment">//这个主要是将生成的vendor.dll.js文件加上hash值插入到页面中。</span></span><br><span class="line">				<span class="keyword">new</span> AddAssetHtmlPlugin([&#123;</span><br><span class="line">				filepath: path.resolve(__dirname, <span class="string">&#x27;../static/js/vendor.dll.js&#x27;</span>),</span><br><span class="line">				outputPath: utils.assetsPath(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">				publicPath: path.posix.join(config.build.assetsPublicPath, <span class="string">&#x27;static/js&#x27;</span>),</span><br><span class="line">				includeSourcemap: <span class="literal">false</span>,</span><br><span class="line">				hash: <span class="literal">true</span>,</span><br><span class="line">				&#125;]),</span><br><span class="line">       </span><br><span class="line"><span class="comment">// 在package.json里面添加指令</span></span><br><span class="line"><span class="string">&quot;dll&quot;</span>: <span class="string">&quot;webpack --config build/webpack.dll.conf.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行生成dll文件</span></span><br><span class="line">cnpm run dll</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打包</span></span><br><span class="line">cnpm run build</span><br></pre></td></tr></table></figure>
+
+<p>可以看到打包速度大大增加</p>
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-webpack"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/02/23/webpack/"
+    >webpack</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/23/webpack/" class="article-date">
+  <time datetime="2021-02-23T00:52:40.000Z" itemprop="datePublished">2021-02-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
+<p>Webpack是一种前端构建工具，一种静态模块打包器</p>
+<p>Webpack可以将浏览器不能识别的代码转化为浏览器可以识别的代码，如scss/less转化为css</p>
+</blockquote>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
+<li>webpack以入口文件为入口形成<code>依赖关系图</code></li>
+<li>然后根据依赖关系图依次将相应资源引进形成<code>chunk</code>(代码块)</li>
+<li>chunk里面的less/scss转化为css，js转化为浏览器可以识别的js等，这个过程叫<code>打包</code></li>
+<li>打包输出的东西叫<code>bundle</code></li>
+</ol>
+<h3 id="五个核心概念"><a href="#五个核心概念" class="headerlink" title="五个核心概念"></a>五个核心概念</h3><h4 id="Entry-入口"><a href="#Entry-入口" class="headerlink" title="Entry(入口)"></a>Entry(入口)</h4><p>指示webpack以哪个文件为入口起点开始打包，分析构建内部依赖图</p>
+<h4 id="Output-输出"><a href="#Output-输出" class="headerlink" title="Output(输出)"></a>Output(输出)</h4><p>指示webpack打包后的bundle输出到哪以及如何命名</p>
+<h4 id="Loader-翻译器"><a href="#Loader-翻译器" class="headerlink" title="Loader(翻译器)"></a>Loader(翻译器)</h4><p>Loader让webpack能够去处理非js文件(webpack本身只理解js)</p>
+<h4 id="Plugins-插件"><a href="#Plugins-插件" class="headerlink" title="Plugins(插件)"></a>Plugins(插件)</h4><p>可以用于执行更广的任务，包括打包优化和压缩、一直到重新定义环境中的变量等</p>
+<h4 id="Mode-模式"><a href="#Mode-模式" class="headerlink" title="Mode(模式)"></a>Mode(模式)</h4><p>指示webpack使用相应模式的配置</p>
+<p>如<code>development</code>或者<code>production</code></p>
+<h2 id="DevServer-开发服务器"><a href="#DevServer-开发服务器" class="headerlink" title="DevServer(开发服务器)"></a>DevServer(开发服务器)</h2><blockquote>
+<p>用来自动化(自动编译、打开浏览器、刷新浏览器等)</p>
+<p>特点：只会在内存中编译打包，不会有任何输出</p>
+<p>启动指令为：npx webpack-dev-server</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">    <span class="comment">// 项目构建后目录</span></span><br><span class="line">	contentBase: resolve(_dirname, <span class="string">&#x27;build),</span></span><br><span class="line"><span class="string">	// 启动gzip压缩</span></span><br><span class="line"><span class="string">	compress: true,</span></span><br><span class="line"><span class="string">	port: 3000</span></span><br><span class="line"><span class="string">    // 自动打开浏览器</span></span><br><span class="line"><span class="string">    open: true</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><h4 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h4><blockquote>
+<p>postcss –&gt; postcss-loader –&gt;postcss-preset-env</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;browserslist&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;development&quot;</span>: [ <span class="comment">// 开发</span></span><br><span class="line">        <span class="string">&quot;last 1 chrome version&quot;</span>,</span><br><span class="line">        <span class="string">&quot;last 1 firefox version&quot;</span>,</span><br><span class="line">        <span class="string">&quot;last 1 safari version&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;production&quot;</span>: [ <span class="comment">// 生产</span></span><br><span class="line">        <span class="string">&quot;&gt;0.2%&quot;</span>,</span><br><span class="line">        <span class="string">&quot;not dead&quot;</span>,</span><br><span class="line">        <span class="string">&quot;not op_mini all&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><h4 id="eslint代码检查"><a href="#eslint代码检查" class="headerlink" title="eslint代码检查"></a>eslint代码检查</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line"><span class="string">&quot;eslintConfig&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;extends&quot;</span>: <span class="string">&quot;airbnb-base&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	<span class="built_in">module</span>: &#123;</span><br><span class="line">		rules: [</span><br><span class="line">			<span class="comment">// 语法检查: eslint-loader eslint</span></span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\/js$/</span>,</span><br><span class="line">                exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">                loader: <span class="string">&#x27;eslint-loader&#x27;</span>,</span><br><span class="line">                options: &#123;</span><br><span class="line">                    <span class="comment">// 自动修复eslint错误</span></span><br><span class="line">                    fix: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">		]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="兼容性处理"><a href="#兼容性处理" class="headerlink" title="兼容性处理"></a>兼容性处理</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<h3 id="压缩html和js"><a href="#压缩html和js" class="headerlink" title="压缩html和js"></a>压缩html和js</h3><p>生产环境</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HTMLWebpackPlugin(&#123;</span><br><span class="line">            <span class="comment">// 移除空格</span></span><br><span class="line">            collapseWhitespace: <span class="literal">true</span>,</span><br><span class="line">            <span class="comment">// 移除注释</span></span><br><span class="line">            removeComments: <span class="literal">true</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="生产环境基本配置"><a href="#生产环境基本配置" class="headerlink" title="生产环境基本配置"></a>生产环境基本配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; resolve &#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> MiniCssExtractPlugin = <span class="built_in">require</span>(<span class="string">&#x27;mini-css-extract-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> OptimizeCssAssetsWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;optimize-css-assets-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义nodejs环境变量：决定使用browserslist的哪个环境</span></span><br><span class="line">process.env.NODE_ENV = <span class="string">&#x27;production&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复用loader</span></span><br><span class="line"><span class="keyword">const</span> commonCssLoader = [</span><br><span class="line">  MiniCssExtractPlugin.loader,</span><br><span class="line">  <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// 还需要在package.json中定义browserslist</span></span><br><span class="line">    loader: <span class="string">&#x27;postcss-loader&#x27;</span>,</span><br><span class="line">    options: &#123;</span><br><span class="line">      ident: <span class="string">&#x27;postcss&#x27;</span>,</span><br><span class="line">      plugins: <span class="function">() =&gt;</span> [<span class="built_in">require</span>(<span class="string">&#x27;postcss-preset-env&#x27;</span>)()]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">&#x27;./src/js/index.js&#x27;</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">&#x27;js/built.js&#x27;</span>,</span><br><span class="line">    path: resolve(__dirname, <span class="string">&#x27;build&#x27;</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [...commonCssLoader]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.less$/</span>,</span><br><span class="line">        use: [...commonCssLoader, <span class="string">&#x27;less-loader&#x27;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">        正常来讲，一个文件只能被一个loader处理。</span></span><br><span class="line"><span class="comment">        当一个文件要被多个loader处理，那么一定要指定loader执行的先后顺序：</span></span><br><span class="line"><span class="comment">          先执行eslint 在执行babel</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 在package.json中eslintConfig --&gt; airbnb</span></span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        <span class="comment">// 优先执行</span></span><br><span class="line">        enforce: <span class="string">&#x27;pre&#x27;</span>,</span><br><span class="line">        loader: <span class="string">&#x27;eslint-loader&#x27;</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          fix: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          presets: [</span><br><span class="line">            [</span><br><span class="line">              <span class="string">&#x27;@babel/preset-env&#x27;</span>,</span><br><span class="line">              &#123;</span><br><span class="line">                useBuiltIns: <span class="string">&#x27;usage&#x27;</span>,</span><br><span class="line">                corejs: &#123;<span class="attr">version</span>: <span class="number">3</span>&#125;,</span><br><span class="line">                targets: &#123;</span><br><span class="line">                  chrome: <span class="string">&#x27;60&#x27;</span>,</span><br><span class="line">                  firefox: <span class="string">&#x27;50&#x27;</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(jpg|png|gif)/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          limit: <span class="number">8</span> * <span class="number">1024</span>,</span><br><span class="line">          name: <span class="string">&#x27;[hash:10].[ext]&#x27;</span>,</span><br><span class="line">          outputPath: <span class="string">&#x27;imgs&#x27;</span>,</span><br><span class="line">          esModule: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;html-loader&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        exclude: <span class="regexp">/\.(js|css|less|html|jpg|png|gif)/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          outputPath: <span class="string">&#x27;media&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> MiniCssExtractPlugin(&#123;</span><br><span class="line">      filename: <span class="string">&#x27;css/built.css&#x27;</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> OptimizeCssAssetsWebpackPlugin(),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">&#x27;./src/index.html&#x27;</span>,</span><br><span class="line">      minify: &#123;</span><br><span class="line">        collapseWhitespace: <span class="literal">true</span>,</span><br><span class="line">        removeComments: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  mode: <span class="string">&#x27;production&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><h4 id="优化打包构建速度-HMR"><a href="#优化打包构建速度-HMR" class="headerlink" title="优化打包构建速度(HMR)"></a>优化打包构建速度(HMR)</h4><blockquote>
+<p>默认修改单一模块，所有模块都要重新打包，所以需要HMR(hot module replacement 热模块替换)</p>
+<p>HMR：一个模块变化，只会重新打包这个模块</p>
+</blockquote>
+<p>作用范围：</p>
+<ol>
+<li>样式文件，可以使用HMR，因为style-loader内部实现了</li>
+<li>js，默认不能使用HMR</li>
+<li>html，默认不能使用。解决：修改entry入口，将html文件引入</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entry: [<span class="string">&#x27;./src/index.js&#x27;</span>, <span class="string">&#x27;./src/index.html&#x27;</span>]</span><br><span class="line">devServer: &#123;</span><br><span class="line">	<span class="comment">// 打开HMR</span></span><br><span class="line">	hot: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="优化代码调试-souce-map"><a href="#优化代码调试-souce-map" class="headerlink" title="优化代码调试(souce-map)"></a>优化代码调试(souce-map)</h4><blockquote>
+<p>soucemap是一种提供源代码到构建后代码映射技术，可以追踪源代码，精确到错误行和列</p>
+</blockquote>
+<p>soucemap类别:</p>
+<ol>
+<li>inline-source-map:只生成一个内联sourcemap，提示错误代码准确信息和错误行</li>
+<li>hidden-souce-map: 外部，提示错误代码原因，但是没有错误位置，不能追踪到源代码错误，只提示构建后代码错误位置</li>
+<li>eval-souce-map: 内联，每个文件都声称对应的source-map，有错误提示和错误行</li>
+<li>nosource-source-map：外部，有错误信息，但是没有任何源代码信息</li>
+<li>cheap-source-map：外部，错误代码准确信息和错误行，只能精确到行</li>
+<li>cheap-module-source-map：外部，错误代码准确信息和错误行</li>
+</ol>
+<p>内联和外部的区别：</p>
+<ol>
+<li>外部生成了文件，内联没有</li>
+<li>内联构建速度更快</li>
+</ol>
+<p>开发环境：速度快，调式更友好</p>
+<p>​    速度快(eval&gt;inline&gt;cheap&gt;…),最快：eval-cheap-source-map</p>
+<p>​    调试更友好：source-map &gt; cheap-module-souce-map &gt; cheap-source-map</p>
+<p>​    综合推荐：eval-souce-map</p>
+<p>生产环境：源代码要不要隐藏？调试要不要更友好？</p>
+<p>​    综合推荐: source-map</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtool: <span class="string">&#x27;souce-map&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h3><h4 id="优化打包构建速度"><a href="#优化打包构建速度" class="headerlink" title="优化打包构建速度"></a>优化打包构建速度</h4><h5 id="oneOf"><a href="#oneOf" class="headerlink" title="oneOf"></a>oneOf</h5><blockquote>
+<p>在oneOf里面的loader只会匹配一个，里面不能有两个配置处理同一个类型文件</p>
+</blockquote>
+<p>webpack原本的loader是将每个文件都过一遍，比如有一个js文件 rules中有10个loader，第一个是处理js文件的loader，当第一个loader处理完成后webpack不会自动跳出，而是会继续拿着这个js文件去尝试匹配剩下的9个loader，相当于没有break。<br>而oneOf就相当于这个break</p>
+<h5 id="babel缓存"><a href="#babel缓存" class="headerlink" title="babel缓存"></a>babel缓存</h5><blockquote>
+<p>因为js里面不支持HMR，每次都得重新编译，但是如果使用babel缓存的话就可以类似HMR</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">	...,</span><br><span class="line">	options: &#123;</span><br><span class="line">		<span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">		cacheDirectory: <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="多进程打包"><a href="#多进程打包" class="headerlink" title="多进程打包"></a>多进程打包</h5><blockquote>
+<p>一般给babel用，有利有弊</p>
+<p>因为进程启动大概为600ms，进程通信也要占用开销</p>
+<p>只有工作消耗时间比较长，才需要多进程打包</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">    use: [</span><br><span class="line">        <span class="comment">// 开启多进程打包</span></span><br><span class="line">        &#123;</span><br><span class="line">            loader:<span class="string">&#x27;thread-loader&#x27;</span>,</span><br><span class="line">            options: &#123;</span><br><span class="line">                worksers: <span class="number">2</span> <span class="comment">// 进程两个，一般来说只放上面的就行</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            ...其他配置项</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="external"><a href="#external" class="headerlink" title="external"></a>external</h5><blockquote>
+<p>指定某些依赖不打包，需要手动引入cdn</p>
+</blockquote>
+<h5 id="dll"><a href="#dll" class="headerlink" title="dll"></a>dll</h5><blockquote>
+<p>使用dll技术，对某些库(jquery, react, vue)进行单独打包</p>
+</blockquote>
+<h4 id="优化代码运行的性能"><a href="#优化代码运行的性能" class="headerlink" title="优化代码运行的性能"></a>优化代码运行的性能</h4><h5 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h5><h5 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree shaking"></a>tree shaking</h5><blockquote>
+<p>树摇：去除应用程序中没有运行的代码</p>
+<p>前提：1. 必须使用ES6模块化、2.开启production就会自动启用树摇</p>
+</blockquote>
+<h5 id="code-split-代码分割"><a href="#code-split-代码分割" class="headerlink" title="code split(代码分割)"></a>code split(代码分割)</h5><h6 id="多入口-不推荐"><a href="#多入口-不推荐" class="headerlink" title="多入口(不推荐)"></a>多入口(不推荐)</h6><p>多入口：输出多个bundle</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    main: <span class="string">&#x27;./src..&#x27;</span>,</span><br><span class="line">    test: <span class="string">&#x27;./src...&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="单入口-推荐"><a href="#单入口-推荐" class="headerlink" title="单入口(推荐)"></a>单入口(推荐)</h6><ol>
+<li>将node_modules打包成单独的chunk</li>
+<li>自动分析多入口chunk中，有没有公共文件，如果有就单独打包成一个chunk</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">	splitChunks: &#123;</span><br><span class="line">		chunks: <span class="string">&#x27;all&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="懒加载-预加载"><a href="#懒加载-预加载" class="headerlink" title="懒加载/预加载"></a>懒加载/预加载</h5><h5 id="pwa"><a href="#pwa" class="headerlink" title="pwa"></a>pwa</h5><blockquote>
+<p>pwa：让网页像应用程序一样可以离线访问</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-查杀病毒xmrig"
   class="article article-type-post"
   itemscope
@@ -926,300 +1191,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-前端权限"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/"
-    >前端权限</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/" class="article-date">
-  <time datetime="2020-12-14T11:04:00.000Z" itemprop="datePublished">2020-12-14</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h1><p>此版本为权限的思路，实例请看《前端权限之路》</p>
-<h2 id="权限分类"><a href="#权限分类" class="headerlink" title="权限分类"></a>权限分类</h2><h3 id="后端权限"><a href="#后端权限" class="headerlink" title="后端权限"></a>后端权限</h3><p>后端获取用户状态方式：</p>
-<ul>
-<li>cookie</li>
-<li>session</li>
-<li>token</li>
-</ul>
-<p>后端权限设计RBAC(基于角色的权限控制，三者各一张表)：</p>
-<ul>
-<li>用户</li>
-<li>角色</li>
-<li>权限</li>
-</ul>
-<h2 id="前端权限意义"><a href="#前端权限意义" class="headerlink" title="前端权限意义"></a>前端权限意义</h2><ul>
-<li>降低非法操作可能性</li>
-<li>尽可能排除不必要请求</li>
-<li>提高用户体验</li>
-</ul>
-<h1 id="Vue的权限控制实现"><a href="#Vue的权限控制实现" class="headerlink" title="Vue的权限控制实现"></a>Vue的权限控制实现</h1><h2 id="侧边栏的控制"><a href="#侧边栏的控制" class="headerlink" title="侧边栏的控制"></a>侧边栏的控制</h2><ul>
-<li>不同用户展示不同的列表，根据后端传来的菜单信息v-for进行动态渲染</li>
-<li>前端自己渲染，判断用户类型进行渲染</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户登录后 后端传来的权限</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">500</span>,</span><br><span class="line">	<span class="string">&quot;rid&quot;</span>: <span class="number">0</span>,</span><br><span class="line">	<span class="string">&quot;username&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;mobile&quot;</span>: <span class="string">&quot;13999999999&quot;</span>,</span><br><span class="line">	<span class="string">&quot;email&quot;</span>: <span class="string">&quot;123999@qq.com&quot;</span>,</span><br><span class="line">	<span class="string">&quot;token&quot;</span>: <span class="string">&quot;Bearer</span></span><br><span class="line"><span class="string">	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1M</span></span><br><span class="line"><span class="string">	TI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHmtPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM&quot;</span></span><br><span class="line">    <span class="comment">// token,⽤于前端⽤户的状态保持</span></span><br><span class="line">&#125;,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [&#123; </span><br><span class="line">    <span class="comment">// rights:该⽤户具备的权限数据,⼀级权限就对应⼀级菜单,⼆级权限就对应⼆级菜单,存在vuex和sessionStorage中</span></span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">125</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-user&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">110</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;users&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">103</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-tijikongjian&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">111</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;roles&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">101</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-shangpin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">104</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;goods&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">121</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品分类&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;categories&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;],</span><br><span class="line">	<span class="string">&quot;meta&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;msg&quot;</span>: <span class="string">&quot;登录成功&quot;</span>,</span><br><span class="line">	<span class="string">&quot;status&quot;</span>: <span class="number">200</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="界面的控制"><a href="#界面的控制" class="headerlink" title="界面的控制"></a>界面的控制</h2><blockquote>
-<p>这部分使用路由导航守卫进行控制</p>
-<ul>
-<li>如果用户没有token则跳转login登陆</li>
-<li>如果用户没有权限则跳转404</li>
-</ul>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否登陆</span></span><br><span class="line">sessionStorage.setItem(<span class="string">&#x27;token&#x27;</span>, res.data.token)</span><br><span class="line"></span><br><span class="line"><span class="comment">//路由导航守卫</span></span><br><span class="line">router.beforEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (to.path === <span class="string">&#x27;/login&#x27;</span>) &#123;</span><br><span class="line">        next()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> token = sessionStorage.getItem(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span>(!token) &#123;</span><br><span class="line">            next(<span class="string">&#x27;/login&#x27;</span>)<span class="comment">// 没有token登陆</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next()<span class="comment">//后端测如果没有权限则返回404</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//动态路由 将要抽离的路由在router中移开</span></span><br><span class="line"><span class="keyword">const</span> userRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/users&#x27;</span>, <span class="attr">component</span>: Users &#125;</span><br><span class="line"><span class="keyword">const</span> categoryRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/categories&#x27;</span>, <span class="attr">component</span>: GoodsCate &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ruleMapping = &#123;</span><br><span class="line">    <span class="string">&#x27;users&#x27;</span>: userRule,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initDynamicRoutes</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 添加到登陆成功的逻辑中,登陆成功后渲染侧边栏</span></span><br><span class="line">    <span class="comment">// 还要添加到app.vue的created里面,以免用户刷新后权限消失</span></span><br><span class="line">    <span class="keyword">const</span> currentRoutes = router.options.routes <span class="comment">// 路由里面的可达页面</span></span><br><span class="line">    <span class="keyword">const</span> rightList = store.state.rightList</span><br><span class="line">    rightList.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;<span class="comment">// 遍历rightList里面的二级权限看看是否有权限，如果有的话则添加路由</span></span><br><span class="line">        item.children.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">            currentRoutes[<span class="number">2</span>].children.push(ruleMapping[item.path])</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    router.addRoutes(currentRoutes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="按钮的控制"><a href="#按钮的控制" class="headerlink" title="按钮的控制"></a>按钮的控制</h2><blockquote>
-<p>如果用户没有对应的权限则不展示某些按钮</p>
-<p>写入对应permission.js判断是否有权限，使用对应v-permission指令</p>
-</blockquote>
-<h2 id="请求拦截"><a href="#请求拦截" class="headerlink" title="请求拦截"></a>请求拦截</h2><blockquote>
-<p>如果用户通过调试工具发出请求，此时拦截</p>
-<p>创建对应权限操作映射，通过axios拦截非权限操作</p>
-</blockquote>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-Vue全家桶"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/"
-    >Vue全家桶</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="article-date">
-  <time datetime="2020-11-28T02:23:42.000Z" itemprop="datePublished">2020-11-28</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>对vue的查漏补缺</p>
-<h2 id="Base"><a href="#Base" class="headerlink" title="Base"></a>Base</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">    div &#123;&#123;msg&#125;&#125;</span><br><span class="line"><span class="comment">// 不需要操作dom直接将数据挂载到标签上</span></span><br><span class="line">script</span><br><span class="line">    <span class="keyword">var</span> vm=<span class="keyword">new</span> Vue(&#123;</span><br><span class="line">        el:<span class="string">&#x27;#app&#x27;</span>,<span class="comment">// 元素挂载位置，CSS选择器或者DOM元素</span></span><br><span class="line">        data: &#123;<span class="comment">// 模型数据</span></span><br><span class="line">            msg: <span class="string">&#x27;Hello Vue&#x27;</span><span class="comment">// 数据填充到标签里</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
-<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
-<li>v-text：填充纯文本</li>
-<li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
-<li>v-pre：填充原始信息，跳过编译过程</li>
-</ul>
-<h4 id="数据响应式"><a href="#数据响应式" class="headerlink" title="数据响应式"></a>数据响应式</h4><blockquote>
-<p>html5的响应式：样式随着屏幕变化变化</p>
-<p>数据响应式：数据变化导致页面内容变化</p>
-</blockquote>
-<ul>
-<li>数据绑定：将数据填充到标签中</li>
-<li>v-once：显示内容后不再具有响应式功能</li>
-<li>双向数据绑定：v-model,底层实现就是v-on和v-bind结合</li>
-</ul>
-<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><ul>
-<li>v-on：语法糖@</li>
-</ul>
-<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5><ul>
-<li>直接绑定函数名称@click=’say’</li>
-<li>调用函数@click=’say()’</li>
-</ul>
-<h5 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h5><ul>
-<li>@click=’say{“hi”,$event}’如果事件直接绑定函数名称，那么默认事件对象为事件函数的一个参数</li>
-<li>如果事件绑定函数调用，那么事件对象必须作为最后一个参数显式传递，且名称必须为$event</li>
-</ul>
-<h5 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h5><ul>
-<li>@click.stop阻止冒泡</li>
-<li>@click.prevent阻止默认行为</li>
-</ul>
-<h4 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h4><ul>
-<li>v-bind：缩写’:’</li>
-</ul>
-<h4 id="样式绑定"><a href="#样式绑定" class="headerlink" title="样式绑定"></a>样式绑定</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">：<span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;&#123;active:isActive&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">    isActive: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    handle()&#123;</span><br><span class="line">        <span class="built_in">this</span>.isActive=!<span class="built_in">this</span>.isActive</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
-<ul>
-<li>M(model)：模型数据</li>
-<li>V(view)：视图，模版，本质为DOM</li>
-<li>VM(View-Model)：控制逻辑，将Model和View结合</li>
-</ul>
-<blockquote>
-<p>从Model到View通过数据绑定，从View到Model通过事件监听的方式</p>
-</blockquote>
-<h3 id="vue常用特性"><a href="#vue常用特性" class="headerlink" title="vue常用特性"></a>vue常用特性</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(<span class="string">&#x27;focus&#x27;</span>&#123;</span><br><span class="line">	inserted: <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123; <span class="comment">// el是element的简写，表示指令绑定的元素</span></span><br><span class="line">	el.focus();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">input type=<span class="string">&quot;text&quot;</span> v-focus</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
-<blockquote>
-<p>监听器应用场景：执行异步或开销比较大的操作</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    firstName: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.fullName = val + <span class="string">&#x27;&#x27;</span> +<span class="built_in">this</span>.lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><blockquote>
-<p>组件化开发思想：</p>
-<ul>
-<li>标准：组件标准规范</li>
-<li>分治：不同功能封装到不同组件中</li>
-<li>重用：组件可以更换</li>
-<li>组合：组合新的产品</li>
-</ul>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
-<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
-<li>每个组件都是独立的</li>
-<li>组件模版必须是单个根元素</li>
-<li>组件命名推荐短横线-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局组件注册语法</span></span><br><span class="line">Vue.component(<span class="string">&#x27;组件名称&#x27;</span>,&#123;</span><br><span class="line">	data: 组件数据,</span><br><span class="line">	template: 组件模块内容</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line">Vue.component(<span class="string">&#x27;button-counter&#x27;</span>,&#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template:<span class="string">&#x27;&lt;button v-on:click=&quot;count++&quot;&gt;点击了&#123;&#123;count&#125;&#125;次.&lt;/button&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">	button-counter /</span><br><span class="line">/div</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 局部组件注册</span></span><br><span class="line"><span class="comment">// 局部组件只能在注册他的父组件中使用</span></span><br><span class="line"><span class="keyword">var</span> ComponentA=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentB=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentC=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">&#x27;#app&#x27;</span></span><br><span class="line">    components: &#123;</span><br><span class="line">    <span class="string">&#x27;component-a&#x27;</span>:ComponentA,</span><br><span class="line">    <span class="string">&#x27;component-b&#x27;</span>:ComponentB,</span><br><span class="line">    <span class="string">&#x27;component-c&#x27;</span>:ComponentC</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="组件间数据交换"><a href="#组件间数据交换" class="headerlink" title="组件间数据交换"></a>组件间数据交换</h3><h4 id="组件间数据交互"><a href="#组件间数据交互" class="headerlink" title="组件间数据交互"></a>组件间数据交互</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件向子组件传值</span></span><br><span class="line"><span class="comment">// 组件内部通过props接收传递的值</span></span><br><span class="line">Vue.component(<span class="string">&#x27;menu-item&#x27;</span>,&#123;</span><br><span class="line">    props: [<span class="string">&#x27;title&#x27;</span>],<span class="comment">//props也要使用短横线形式-</span></span><br><span class="line">    <span class="comment">// props只允许父元素向子组件传值，单向数据流</span></span><br><span class="line">    template:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">menu-item title=<span class="string">&quot;来自父组件的数据&quot;</span></span><br><span class="line">menu-item :title=<span class="string">&quot;title&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件向父组件传值，通过自定义事件</span></span><br><span class="line">button @click=<span class="string">&#x27;$emit(&quot;enlarge-text&quot;,0.1)&#x27;</span><span class="comment">//子组件，自定义事件,携带一个值</span></span><br><span class="line">menu-item @enlarge-text=<span class="string">&#x27;handle($event)&#x27;</span><span class="comment">//父组件，绑定事件，通过$event获取值</span></span><br><span class="line"><span class="comment">// 使用js添加事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非父子组件通信，通过事件中心来触发和监听</span></span><br><span class="line"><span class="keyword">var</span> eventHub=<span class="keyword">new</span> Vue()</span><br><span class="line">eventHub.$on(<span class="string">&#x27;add-todo&#x27;</span>,addTodo)<span class="comment">//监听</span></span><br><span class="line">eventHub.$off(<span class="string">&#x27;add-todo&#x27;</span>)<span class="comment">//销毁</span></span><br><span class="line">eventHub.$emit(<span class="string">&#x27;add-todo&#x27;</span>,id)<span class="comment">//触发事件</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="组件插槽"><a href="#组件插槽" class="headerlink" title="组件插槽"></a>组件插槽</h3><blockquote>
-<p>之前为数据交互，这里为模版的内容</p>
-<p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
-<p>购物车</p>
-<ul>
-<li>标题组件</li>
-<li>列表组件(再划分组件)</li>
-<li>结算组件</li>
-</ul>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
-<h2 id="前后端交互"><a href="#前后端交互" class="headerlink" title="前后端交互"></a>前后端交互</h2><blockquote>
-<p>Js异步效果</p>
-<ul>
-<li>定时任务</li>
-<li>Ajax</li>
-<li>事件函数</li>
-</ul>
-<p>多次异步结果分析：</p>
-<ul>
-<li>多次异步调用的结果顺序不确定</li>
-<li>异步调用结果如果存在依赖需要嵌套</li>
-</ul>
-</blockquote>
-<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
-<li><p>async/await是ES7语法</p>
-</li>
-<li><p>async用于函数上，返回的是Promise实例对象</p>
-</li>
-<li><p>await用于async函数中</p>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单个请求</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">queryData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> ret=<span class="keyword">await</span> axios.get(<span class="string">&#x27;adata&#x27;</span>)</span><br><span class="line">	<span class="built_in">console</span>.log(ret.data)</span><br><span class="line">	<span class="keyword">return</span> ret.data</span><br><span class="line">&#125;</span><br><span class="line">queryData().then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><h4 id="click"><a href="#click" class="headerlink" title="@click"></a>@click</h4><p>提交时使用了()出现bug，自己探索了一下</p>
-<ul>
-<li><p>@click=this.函数名 正常提交时打印的是MouseEvent鼠标事件</p>
-</li>
-<li><p>@click=this.函数名()时会报错</p>
-</li>
-<li><p>@click=函数名() 没传参时是undefined</p>
-</li>
-<li><p>@click=函数名(参数)传的是正常参数</p>
-</li>
-</ul>
-<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/7.jpg"></p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
 
     </footer>
   </div>
