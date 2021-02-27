@@ -250,6 +250,20 @@
 
 <p>可以看到打包速度大大增加</p>
 <p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
+<h3 id="一个大坑-element-ui"><a href="#一个大坑-element-ui" class="headerlink" title="一个大坑(element-ui)"></a>一个大坑(element-ui)</h3><blockquote>
+<p>在线上项目也改过后，发现element-ui的图表老是显示不出来，关掉打包加速发现正常了。把dll加速里面的element-ui移除发现正常了，在网上搜索一番后，element-ui部分决定不使用dll加速，应该使用cdn加速，具体配置如下</p>
+</blockquote>
+<p>webpack.base.conf.js</p>
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
+<p>项目根目录下index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/vue/2.5.2/vue.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> Vue.config.productionTip=<span class="literal">false</span> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
+<p>webpack.dll.conf.js</p>
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
+<p>main.js:注释掉element-ui部分</p>
+<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
+<p>配置完成</p>
  
       <!-- reward -->
       
