@@ -69,6 +69,235 @@
       </tags>
   </entry>
   <entry>
+    <title>代码整洁之道</title>
+    <url>/2021/03/02/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/</url>
+    <content><![CDATA[<h1 id="代码整洁之道"><a href="#代码整洁之道" class="headerlink" title="代码整洁之道"></a>代码整洁之道</h1><blockquote>
+<p>代码质量与其整洁程序成正比</p>
+<p>糟糕的代码想做太多事，意图混乱、目的含混。整洁的代码力求集中，每个函数、类、模块贯注于一事。</p>
+</blockquote>
+<h2 id="有意义的命名"><a href="#有意义的命名" class="headerlink" title="有意义的命名"></a>有意义的命名</h2><blockquote>
+<p>为了提高易读性，有意义的命名是必须的</p>
+</blockquote>
+<h3 id="名副其实"><a href="#名副其实" class="headerlink" title="名副其实"></a>名副其实</h3><blockquote>
+<p>是否是一个好的命名标准：<strong>如果名称需要注释来补充，那就不算名副其实</strong>：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 糟糕的命名</span></span><br><span class="line"><span class="keyword">let</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params">array,num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; array.length ;)&#123;</span><br><span class="line">    <span class="keyword">if</span> (array[i] === num) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(foo(array,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 好的例子</span></span><br><span class="line"><span class="keyword">let</span> isNumberExist = <span class="function"><span class="keyword">function</span> (<span class="params">numArray,checkNum</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> flag = <span class="number">0</span> ; flag &lt; numArray.length ;)&#123;</span><br><span class="line">    <span class="keyword">if</span> (numArray[flag++] === checkNum) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(isNumberExist(array,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更好的例子,将是否等于的判断条件用函数表示出来，更易读</span></span><br><span class="line"><span class="keyword">let</span> isEqual = <span class="function"><span class="keyword">function</span> (<span class="params">checkNumFirst, checkNumSecond</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (checkNumFirst === checkNumSecond) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> isNumberExist = <span class="function"><span class="keyword">function</span> (<span class="params">numArray,checkNum</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> flag = <span class="number">0</span> ; flag &lt; numArray.length ;)&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEqual(numArray[flag++],checkNum)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(isNumberExist(array,<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="避免误导"><a href="#避免误导" class="headerlink" title="避免误导"></a>避免误导</h3><ol>
+<li>别用类似accountList来指代一组账号：除非它真的是List类型，否则使用accountGroup，甚至是accounts更好些。即命名尾巴应该对应类型，否则不应该使用，正确使用let accountArray = []</li>
+<li>提防使用不同之处较小的名称：如XYZControllerEffect和XYZContentEffect</li>
+<li>提防小写l和大写O：因为它们看起来很像1和0</li>
+</ol>
+<h3 id="做有意义的区分"><a href="#做有意义的区分" class="headerlink" title="做有意义的区分"></a>做有意义的区分</h3><p>数字系列</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> copyChars = <span class="function"><span class="keyword">function</span> (<span class="params">a1,a2</span>) </span>&#123; <span class="comment">// 糟糕的例子</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; a1.length ; i++) &#123;</span><br><span class="line">    a2[i] = a1[i]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> copyChars = <span class="function"><span class="keyword">function</span> (<span class="params">source,destination</span>) </span>&#123; <span class="comment">// 好的例子</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; source.length ; i++) &#123;</span><br><span class="line">    destination[i] = source[i]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>废话</p>
+<blockquote>
+<p>假如有productInfo、productData、theProduct…你能区分出它们的区别吗？</p>
+<p>如果不能，那就不是好的命名方式</p>
+</blockquote>
+<h3 id="使用读的出来的名称"><a href="#使用读的出来的名称" class="headerlink" title="使用读的出来的名称"></a>使用读的出来的名称</h3><blockquote>
+<p>即避免自创单词缩写，如下</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 糟糕的例子</span></span><br><span class="line"><span class="keyword">let</span> genymdhms</span><br><span class="line"><span class="keyword">let</span> modymdhms</span><br><span class="line"></span><br><span class="line"><span class="comment">// 好的例子</span></span><br><span class="line"><span class="keyword">let</span> generationTimestamp</span><br><span class="line"><span class="keyword">let</span> modificationTimestamp</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用可搜索的名称"><a href="#使用可搜索的名称" class="headerlink" title="使用可搜索的名称"></a>使用可搜索的名称</h3><blockquote>
+<p>单字母名称仅用于短方法中的本地变量，名称长短应与其作用域大小相对应，若变量或常量可能在代码中多处使用，应赋予其便于搜索的名称</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 短方法:单字母变量</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; <span class="number">34</span> ; i++) &#123;</span><br><span class="line">    s += t[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 常用</span></span><br><span class="line"><span class="keyword">let</span> realDaysPerIdealDay = <span class="number">4</span></span><br><span class="line"><span class="keyword">let</span> WORK_DAYS_PER_WEEK = <span class="number">5</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; WORK_DAYS_PER_WEEK ; i++)&#123;</span><br><span class="line">    s += t[i]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="避免思维映射"><a href="#避免思维映射" class="headerlink" title="避免思维映射"></a>避免思维映射</h3><blockquote>
+<p>避免让读者在脑中把你的名称译为他们熟知的名称：即命名越简单越好，不要用来炫耀自己的知识，也不要玩脑筋急转弯</p>
+</blockquote>
+<h3 id="类名-对象名"><a href="#类名-对象名" class="headerlink" title="类名/对象名"></a>类名/对象名</h3><blockquote>
+<p>类名/对象名应该是名词/名词短语而不是动词</p>
+</blockquote>
+<h3 id="方法名"><a href="#方法名" class="headerlink" title="方法名"></a>方法名</h3><blockquote>
+<p>方法名应当是动词或动词短语</p>
+</blockquote>
+<h3 id="每个概念对应一个词"><a href="#每个概念对应一个词" class="headerlink" title="每个概念对应一个词"></a>每个概念对应一个词</h3><blockquote>
+<p>因为你难以区分fetch/retrieve/get等，以及controller/manager/driver，所以请用一个单词例如Controller来映射所有的控制类</p>
+</blockquote>
+<h3 id="别用双关语"><a href="#别用双关语" class="headerlink" title="别用双关语"></a>别用双关语</h3><blockquote>
+<p>即应该用单词原本的意思而不是为了保持一致而保持一致:如add用于增加或连接两个现有值来获得新值，但是把单个参数放到一个collection中，则适合用insert或append</p>
+</blockquote>
+<h3 id="使用解决方案领域名称"><a href="#使用解决方案领域名称" class="headerlink" title="使用解决方案领域名称"></a>使用解决方案领域名称</h3><blockquote>
+<p>因为只有程序员才会读程序员的代码，所以在使用计算机的术语方面可以无所顾忌</p>
+</blockquote>
+<h3 id="使用源自所涉问题领域的名称"><a href="#使用源自所涉问题领域的名称" class="headerlink" title="使用源自所涉问题领域的名称"></a>使用源自所涉问题领域的名称</h3><blockquote>
+<p>如果不能用程序员熟悉的术语来命名，则用所涉及问题领域的名称</p>
+</blockquote>
+<h3 id="添加有意义的语境"><a href="#添加有意义的语境" class="headerlink" title="添加有意义的语境"></a>添加有意义的语境</h3><blockquote>
+<p>即给一串变量添加前缀，让他们相互说明用来做什么</p>
+<p>如addrState，addrFirstName…</p>
+</blockquote>
+<h3 id="不要添加没用的语境"><a href="#不要添加没用的语境" class="headerlink" title="不要添加没用的语境"></a>不要添加没用的语境</h3><blockquote>
+<p>不要在每个类中都添加一样的前缀，因为那样IDE会自动补全一大堆</p>
+<p>短名称足够清楚就没必要添加长名称</p>
+</blockquote>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="短小"><a href="#短小" class="headerlink" title="短小"></a>短小</h3><blockquote>
+<p>函数的第一个规则就是要短小，第二个规则还是要短小</p>
+<p>函数20行封顶最佳</p>
+</blockquote>
+<h4 id="代码块和缩进"><a href="#代码块和缩进" class="headerlink" title="代码块和缩进"></a>代码块和缩进</h4><blockquote>
+<p>if/else/while语句，其中的代码块应该只有一行，而那一行应该是一个函数调用语句</p>
+<p>这样不仅简单明了，也可以用函数名来解释做了什么</p>
+</blockquote>
+<h3 id="只做一件事"><a href="#只做一件事" class="headerlink" title="只做一件事"></a>只做一件事</h3><blockquote>
+<p>要判断函数是否不止做了一件事，就是看是否能再拆出一个函数，这个函数不仅只是单纯地重新诠释其实现</p>
+</blockquote>
+<h3 id="每个函数一个抽象层级"><a href="#每个函数一个抽象层级" class="headerlink" title="每个函数一个抽象层级"></a>每个函数一个抽象层级</h3><blockquote>
+<p>要确保函数只做一件事，函数中的语句都要在同一抽象层级上</p>
+<p>自顶向下读代码：向下规则</p>
+<p>每个函数后面跟着位于下一抽象层级的函数</p>
+</blockquote>
+<h3 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h3><blockquote>
+<p>为了不破坏诸多低耦合高内聚规则：switch仅用于创建多态对象且隐藏在某个继承关系中，在系统其他部分看不到</p>
+</blockquote>
+<h3 id="使用描述性名称"><a href="#使用描述性名称" class="headerlink" title="使用描述性名称"></a>使用描述性名称</h3><blockquote>
+<p>长而具有描述性的名称比短而令人费解的名称好</p>
+<p>长而具有描述性的名称比长注释好</p>
+</blockquote>
+<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><blockquote>
+<p>最理想的参数数量是0，其次1，再者2，&gt;=3无论如何也不要这么做</p>
+</blockquote>
+<h4 id="一元函数的普遍形式"><a href="#一元函数的普遍形式" class="headerlink" title="一元函数的普遍形式"></a>一元函数的普遍形式</h4><blockquote>
+<p>作者推荐要么真的只传一个，要么传事件</p>
+<p>个人觉得在js中传对象就好，简单明了</p>
+</blockquote>
+<h4 id="标志参数"><a href="#标志参数" class="headerlink" title="标志参数"></a>标志参数</h4><blockquote>
+<p>当需要传参如render(true)布尔值时，应该直接将函数一分为二renderForSuite()和renderForSingleTest()</p>
+</blockquote>
+<h4 id="二元函数"><a href="#二元函数" class="headerlink" title="二元函数"></a>二元函数</h4><blockquote>
+<p> 尽量把两个参数拆分开来，变成两个单参数函数</p>
+</blockquote>
+<h3 id="输出参数"><a href="#输出参数" class="headerlink" title="输出参数"></a>输出参数</h3><blockquote>
+<p>有时候会出现并非输入而作为输出的参数，如appendFooter(s)，这个函数用来在s后面添加，并不作为输入使用，让人迷惑</p>
+<p>所以推荐这种写法:report.appendFooter()即对象.方法的形式来改变对象状态</p>
+</blockquote>
+<h3 id="使用异常代替返回错误码"><a href="#使用异常代替返回错误码" class="headerlink" title="使用异常代替返回错误码"></a>使用异常代替返回错误码</h3><h4 id="抽离try-catch代码块"><a href="#抽离try-catch代码块" class="headerlink" title="抽离try/catch代码块"></a>抽离try/catch代码块</h4><blockquote>
+<p>try/catch搞乱了代码结构，最好把try和catch抽离出来另外形成函数</p>
+</blockquote>
+<h4 id="错误处理就是一件事"><a href="#错误处理就是一件事" class="headerlink" title="错误处理就是一件事"></a>错误处理就是一件事</h4><blockquote>
+<p>函数只做一件事，错误处理就是一件事，处理错误的函数不该做其他事</p>
+<p>catch/finally代码块后面也不该有其他内容</p>
+</blockquote>
+<h4 id="Error依赖磁铁"><a href="#Error依赖磁铁" class="headerlink" title="Error依赖磁铁"></a>Error依赖磁铁</h4><blockquote>
+<p>程序员往往不愿意增加新的错误代码，于是他们就复用旧的错误码而不添加新的</p>
+<p>使用异常替代错误码，新异常就可以从异常类派生出来，无需重新编译或部署</p>
+</blockquote>
+<h3 id="别重复自己"><a href="#别重复自己" class="headerlink" title="别重复自己"></a>别重复自己</h3><h4 id="结构化编程"><a href="#结构化编程" class="headerlink" title="结构化编程"></a>结构化编程</h4><blockquote>
+<p>只要保持函数短小，偶尔出现return、break、continue没有坏处，甚至比单入单出更具表达力。</p>
+<p>且不要用goto，会惹大麻烦</p>
+</blockquote>
+<h3 id="如何写出这样的函数"><a href="#如何写出这样的函数" class="headerlink" title="如何写出这样的函数"></a>如何写出这样的函数</h3><blockquote>
+<p>没人做得到一开始就浑然天成，先写出冗长的代码</p>
+<p>尔后将其拆分、改名、消除重复…</p>
+<p>最后遵循以上规则组装函数</p>
+</blockquote>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><blockquote>
+<p>注释的恰当用法是弥补我们在用代码表达意图时遭遇失败</p>
+<p>注释的缺点在于代码会变动，会变得跟原义相去甚远，甚至指向一个错误的方向</p>
+</blockquote>
+<h3 id="注释不能美化糟糕的代码"><a href="#注释不能美化糟糕的代码" class="headerlink" title="注释不能美化糟糕的代码"></a>注释不能美化糟糕的代码</h3><blockquote>
+<p>如果一块代码需要大量注释，说明需要花时间清洁那些糟糕的代码了</p>
+</blockquote>
+<h3 id="用代码来阐述"><a href="#用代码来阐述" class="headerlink" title="用代码来阐述"></a>用代码来阐述</h3><blockquote>
+<p>用好的命名来代替注释</p>
+</blockquote>
+<h3 id="好注释"><a href="#好注释" class="headerlink" title="好注释"></a>好注释</h3><h4 id="法律信息"><a href="#法律信息" class="headerlink" title="法律信息"></a>法律信息</h4><h4 id="对意图的解释"><a href="#对意图的解释" class="headerlink" title="对意图的解释"></a>对意图的解释</h4><blockquote>
+<p>从更高抽象层次述说这个函数的作用</p>
+</blockquote>
+<h4 id="阐释"><a href="#阐释" class="headerlink" title="阐释"></a>阐释</h4><blockquote>
+<p>如果参数或返回值是某个标准库/不能修改的代码，帮助阐释其含义的代码就很有用了</p>
+</blockquote>
+<h4 id="警示"><a href="#警示" class="headerlink" title="警示"></a>警示</h4><h4 id="TODO注释"><a href="#TODO注释" class="headerlink" title="TODO注释"></a>TODO注释</h4><blockquote>
+<p>利用TODO在源代码中放置要做的工作列表</p>
+<p>vscode有插件</p>
+</blockquote>
+<h3 id="坏注释"><a href="#坏注释" class="headerlink" title="坏注释"></a>坏注释</h3><h4 id="多余的注释"><a href="#多余的注释" class="headerlink" title="多余的注释"></a>多余的注释</h4><blockquote>
+<p>这样的注释并没有证明代码的意义，也没有给出代码的意图或逻辑的翻译代码</p>
+<p>甚至不如代码精确，读它不如读代码</p>
+</blockquote>
+<h4 id="误导性注释"><a href="#误导性注释" class="headerlink" title="误导性注释"></a>误导性注释</h4><h4 id="循规式注释"><a href="#循规式注释" class="headerlink" title="循规式注释"></a>循规式注释</h4><blockquote>
+<p>如每个函数/变量都要有注释</p>
+</blockquote>
+<h4 id="日志式注释"><a href="#日志式注释" class="headerlink" title="日志式注释"></a>日志式注释</h4><blockquote>
+<p>在代码前部添加日期之类的</p>
+</blockquote>
+<h4 id="废话注释"><a href="#废话注释" class="headerlink" title="废话注释"></a>废话注释</h4><h4 id="能用函数或变量时就别用注释"><a href="#能用函数或变量时就别用注释" class="headerlink" title="能用函数或变量时就别用注释"></a>能用函数或变量时就别用注释</h4><h4 id="位置标记"><a href="#位置标记" class="headerlink" title="位置标记"></a>位置标记</h4><blockquote>
+<p>标记栏如:// Actions ////////////////////</p>
+<p>这样引起注意</p>
+<p>但不要过多使用</p>
+</blockquote>
+<h4 id="括号后面的注释"><a href="#括号后面的注释" class="headerlink" title="括号后面的注释"></a>括号后面的注释</h4><blockquote>
+<p>如在try的括号末尾添加//try来标识try结束，当出现这种行为意味着应该缩减代码了</p>
+</blockquote>
+<h4 id="注释掉的代码"><a href="#注释掉的代码" class="headerlink" title="注释掉的代码"></a>注释掉的代码</h4><blockquote>
+<p>注释掉的代码并有用，只会堆放在那里形成垃圾</p>
+<p>在有版本控制的今天，删就完了</p>
+</blockquote>
+<h4 id="非本地信息"><a href="#非本地信息" class="headerlink" title="非本地信息"></a>非本地信息</h4><blockquote>
+<p>注释应该就近原则，别在函数上面注释系统级信息如端口</p>
+</blockquote>
+<h4 id="信息过多"><a href="#信息过多" class="headerlink" title="信息过多"></a>信息过多</h4><h4 id="不明显的联系"><a href="#不明显的联系" class="headerlink" title="不明显的联系"></a>不明显的联系</h4><h4 id="函数头"><a href="#函数头" class="headerlink" title="函数头"></a>函数头</h4><blockquote>
+<p>短函数用名字比注释好</p>
+</blockquote>
+<h4 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h4><h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><blockquote>
+<p>参照ESLint即可</p>
+</blockquote>
+<h2 id="对象和数据结构"><a href="#对象和数据结构" class="headerlink" title="对象和数据结构"></a>对象和数据结构</h2><h3 id="得墨忒耳律"><a href="#得墨忒耳律" class="headerlink" title="得墨忒耳律"></a>得墨忒耳律</h3><blockquote>
+<p>模块不应了解它所操作对象的内部情形</p>
+</blockquote>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h3 id="使用异常而非错误码"><a href="#使用异常而非错误码" class="headerlink" title="使用异常而非错误码"></a>使用异常而非错误码</h3><blockquote>
+<p>使用错误码要求调用者即刻检查错误</p>
+<p>最好独立抽离出异常函数</p>
+</blockquote>
+<h3 id="别返回-传递null值"><a href="#别返回-传递null值" class="headerlink" title="别返回/传递null值"></a>别返回/传递null值</h3><h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><blockquote>
+<p>简单设计的四条规则：</p>
+<ol>
+<li>运行所有测试</li>
+<li>不可重复</li>
+<li>表达了程序员的意图</li>
+<li>尽可能减少类和方法的数量</li>
+</ol>
+</blockquote>
+<h3 id="规则1：运行所有测试"><a href="#规则1：运行所有测试" class="headerlink" title="规则1：运行所有测试"></a>规则1：运行所有测试</h3><blockquote>
+<p>代码耦合度越低、内聚度越高就越好测试</p>
+<p>遵循有关编写测试并持续运行测试的简单、明确的规则，系统就会更贴近OO低耦合度、高内聚的目标</p>
+</blockquote>
+<h3 id="规则2-3：重构"><a href="#规则2-3：重构" class="headerlink" title="规则2-3：重构"></a>规则2-3：重构</h3><blockquote>
+<p>在测试的基础上，重构就更容易了，因为消除了对破坏代码的恐惧</p>
+</blockquote>
+<h3 id="不可重复"><a href="#不可重复" class="headerlink" title="不可重复"></a>不可重复</h3><blockquote>
+<p>用模板方法模式消除高层级重复</p>
+</blockquote>
+<h3 id="表达力"><a href="#表达力" class="headerlink" title="表达力"></a>表达力</h3><blockquote>
+<p>选用好的名称</p>
+</blockquote>
+<h3 id="尽可能少的类和方法"><a href="#尽可能少的类和方法" class="headerlink" title="尽可能少的类和方法"></a>尽可能少的类和方法</h3><blockquote>
+<p>在以上三条的基础上，才是这一条</p>
+</blockquote>
+<h3 id="使用异常代替返回错误码-1"><a href="#使用异常代替返回错误码-1" class="headerlink" title="使用异常代替返回错误码"></a>使用异常代替返回错误码</h3><blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>webpack优化</title>
     <url>/2021/02/23/webpack%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
@@ -2321,7 +2550,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#103;&#x69;&#116;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#46;&#55;&#x33;&#46;&#x35;&#53;">&#103;&#x69;&#116;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#46;&#55;&#x33;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#116;&#64;&#x38;&#49;&#x2e;&#x36;&#56;&#x2e;&#55;&#51;&#46;&#53;&#x35;">&#x67;&#105;&#116;&#64;&#x38;&#49;&#x2e;&#x36;&#56;&#x2e;&#55;&#51;&#46;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>

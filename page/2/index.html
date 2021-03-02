@@ -81,6 +81,102 @@
     
     
     <article
+  id="post-go服务器部署"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/03/go%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/"
+    >go服务器部署</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/03/go%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/" class="article-date">
+  <time datetime="2021-01-03T05:13:25.000Z" itemprop="datePublished">2021-01-03</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="go服务器部署"><a href="#go服务器部署" class="headerlink" title="go服务器部署"></a>go服务器部署</h1><ol>
+<li>从官网下载Go语言安装包：<a target="_blank" rel="noopener" href="https://studygolang.com/dl">https://studygolang.com/dl</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;studygolang.com&#x2F;dl&#x2F;golang&#x2F;go1.15.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>解压安装包到指定目录</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf go1.15.linux-amd64.tar.gz -C &#x2F;opt</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>将包复制到/usr/local</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r go &#x2F;usr&#x2F;local</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在当前用户目录创建go目录</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir go</span><br><span class="line">mkdir goprogram</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>设置环境变量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">export GOROOT&#x3D;&#x2F;usr&#x2F;local&#x2F;go</span><br><span class="line">export GOPATH&#x3D;&#x2F;home&#x2F;ubuntu&#x2F;goprogram</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;go&#x2F;bin</span><br><span class="line">export GO111MODULE&#x3D;on</span><br><span class="line">export GOPROXY&#x3D;https:&#x2F;&#x2F;goproxy.io</span><br><span class="line"></span><br><span class="line">#先进入root用户</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">#查看go环境</span><br><span class="line">go env</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>在开发目录下创建文件夹</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;ubuntu&#x2F;go&#x2F;program</span><br><span class="line">mkdir bin</span><br><span class="line">mkdir src</span><br><span class="line">mkdir pkg</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>编写go文件并运行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cd bin</span><br><span class="line">vim hello.go</span><br><span class="line"></span><br><span class="line">package main</span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">func main()&#123;</span><br><span class="line">    fmt.Println(&quot;hello,world!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#退出后,直接运行</span><br><span class="line">go run hello.go</span><br><span class="line"></span><br><span class="line">#使用go build生成可执行文件</span><br><span class="line">go build hello.go</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>服务器端部署</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#将源代码拷贝到服务器,服务器上编译</span><br><span class="line">go build main.go</span><br><span class="line">#而后将生成可执行文件main</span><br><span class="line">#执行文件</span><br><span class="line">nohup .&#x2F;main &amp;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>go常用命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go instal</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-前端权限"
   class="article article-type-post"
   itemscope
@@ -1756,84 +1852,6 @@
 
 <h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//模块通过webpack编译才能使用</span></span><br><span class="line"><span class="built_in">module</span>.exports&#123;</span><br><span class="line">    mode:<span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">    entry:<span class="string">&#x27;./js/index.js&#x27;</span>,</span><br><span class="line">    output:&#123;</span><br><span class="line">        path:path.resolve(__dirname,<span class="string">&#x27;build&#x27;</span>),</span><br><span class="line">        filename:<span class="string">&#x27;bundle.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出(export)</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span><span class="comment">//默认成员</span></span><br><span class="line"><span class="comment">//导入(import)</span></span><br><span class="line"><span class="keyword">import</span> mod1 <span class="keyword">from</span> <span class="string">&#x27;./mod1&#x27;</span> <span class="comment">//相当于import default mod1 from &#x27;./mod1&#x27; 引入default成员</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> mod1 <span class="keyword">from</span> <span class="string">&#x27;xxx&#x27;</span> <span class="comment">//引入所有成员</span></span><br><span class="line"><span class="keyword">import</span> &#123;a,b <span class="keyword">as</span> name2&#125; <span class="keyword">from</span> <span class="string">&#x27;xxx&#x27;</span></span><br></pre></td></tr></table></figure>
 
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-vueP1"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/23/vueP1/"
-    >vueP1</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/23/vueP1/" class="article-date">
-  <time datetime="2020-10-23T09:52:15.000Z" itemprop="datePublished">2020-10-23</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="VueP1"><a href="#VueP1" class="headerlink" title="VueP1"></a>VueP1</h1><h2 id="vue目录"><a href="#vue目录" class="headerlink" title="vue目录"></a>vue目录</h2><p><img src="/2020/10/23/vueP1/1.png"></p>
-<p>项目加载main.js-&gt;app.vue-&gt;index.js-&gt;helloworld.vue</p>
-<ul>
-<li>mainjs:程序入口，初始化vue实例并使用插件，加载各种公用组件</li>
-<li>APPvue:主组件，页面入口文件，构建定义及页面组件归集</li>
-<li>router indexjs：准备好的路由组件注册到路由里</li>
-<li>index.html:文件路口</li>
-<li>node_modules：依赖模块</li>
-<li>build：配置webpack基本配置、开发环境配置等</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>webpack.base.conf.js 注释createLintingRule()清除拼写检查</li>
-</ul>
-<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
-<li>template:写html模版，且内部必须有一个根元素div</li>
-<li>script:写JavaScript</li>
-<li>style:写样式</li>
-<li>div:块级元素，将文档分割，固定换行</li>
-<li>export default: 导出模块，当别的模块需要导出数据时</li>
-<li>new Vue() 写在mainjs，其他文件使用export default就行</li>
-</ul>
-<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>Model ViewModel View</p>
-<img src="/2020/10/23/vueP1/1.jpg" style="zoom:150%;">
-
-<p>DOM Listeners：DOM监听</p>
-<p>Data Bindings：数据绑定</p>
-<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><img src="/2020/10/23/vueP1/2.png"></p>
  
       <!-- reward -->
       
