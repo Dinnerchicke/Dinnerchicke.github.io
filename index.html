@@ -190,6 +190,147 @@
 
     
     <article
+  id="post-AJAX"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/26/AJAX/"
+    >AJAX</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/03/26/AJAX/" class="article-date">
+  <time datetime="2021-03-26T08:23:24.000Z" itemprop="datePublished">2021-03-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h1><blockquote>
+<p>AJAX意为异步的JavaScript和XML</p>
+</blockquote>
+<blockquote>
+<p>优点：</p>
+<ol>
+<li>可以无需刷新页面与服务器进行通信</li>
+<li>允许你根据用户事件来更新部分页面内容</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>没有浏览历史，不能回退</li>
+<li>存在跨域问题</li>
+<li>SEO不友好(页面是动态生成的)</li>
+</ol>
+</blockquote>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><blockquote>
+<p>超文本传输协议，协议规定了浏览器和万维网服务器之间的通信规则</p>
+</blockquote>
+<h3 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h3><blockquote>
+<p>行:</p>
+<ul>
+<li>请求方式(get/post…)</li>
+<li>请求参数(s?ie=utf-8…)</li>
+<li>HTTP版本1.1</li>
+</ul>
+<p>头:</p>
+<ul>
+<li>Host:baidu.com</li>
+<li>Cookie:name=baidu</li>
+<li>Content-type: application/x-www-form-urlencoded</li>
+<li>User-Agent:chrome 83</li>
+<li>…</li>
+</ul>
+<p>空行</p>
+<p>体:(get请求体为空,post不为空)</p>
+<ul>
+<li>username=admin&amp;password=admin</li>
+</ul>
+</blockquote>
+<h3 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h3><blockquote>
+<p>行:</p>
+<ul>
+<li>HTTP版本(1.1)</li>
+<li>状态码</li>
+<li>状态码信息</li>
+</ul>
+<p>头:</p>
+<ul>
+<li>Content-Type:text/html;charset=urf-8</li>
+<li>Content-length:2048</li>
+<li>Content-encoding:gzip</li>
+</ul>
+<p>空行</p>
+<p>体:如html … /html</p>
+</blockquote>
+<h2 id="原生AJAJ-API"><a href="#原生AJAJ-API" class="headerlink" title="原生AJAJ_API"></a>原生AJAJ_API</h2><h3 id="发送GET-POST请求"><a href="#发送GET-POST请求" class="headerlink" title="发送GET/POST请求"></a>发送GET/POST请求</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 状态1：创建AJAX</span></span><br><span class="line">   <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">   <span class="comment">// 状态2：初始化</span></span><br><span class="line">   xhr.open(<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/server?a=100&amp;b=200&#x27;</span>) <span class="comment">// get方法</span></span><br><span class="line">xhr.open(<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/server&#x27;</span>) <span class="comment">//post方法</span></span><br><span class="line">   <span class="comment">// 状态3：发送</span></span><br><span class="line">   xhr.send() <span class="comment">//get直接send即可</span></span><br><span class="line">xhr.send(<span class="string">&#x27;a=100&amp;b=200&amp;c=300&#x27;</span>) <span class="comment">// post把参数放进send里面</span></span><br><span class="line">   <span class="comment">// 状态4：事件绑定,状态改变触发change事件，处理服务器返回的结果</span></span><br><span class="line">   xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="comment">// 判断状态为4，服务端返回了所有结果</span></span><br><span class="line">     <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (xhr.status &gt;= <span class="number">200</span> &amp;&amp; xhr.status&lt;<span class="number">300</span>) &#123;</span><br><span class="line">         <span class="comment">// 处理结果： 行/头/空行/体</span></span><br><span class="line">         <span class="comment">// 响应行内容获取</span></span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.status&#x27;</span>,xhr.status)</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.statusText&#x27;</span>,xhr.statusText)</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.getAllResponseHeaders()&#x27;</span>,xhr.getAllResponseHeaders())</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.response&#x27;</span>,xhr.response)</span><br><span class="line">         <span class="comment">// 设置响应</span></span><br><span class="line">         div.innerText = xhr.response</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="请求超时-网络异常"><a href="#请求超时-网络异常" class="headerlink" title="请求超时/网络异常"></a>请求超时/网络异常</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 超时设置</span></span><br><span class="line">xhr.timeout = <span class="number">2000</span>;</span><br><span class="line"><span class="comment">// 超时回调</span></span><br><span class="line">xhr.ontimeout = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">&#x27;网络异常请稍后重试&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 网络异常回调</span></span><br><span class="line">xhr.onerror = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">&#x27;网络异常请稍后重试&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="取消重复发送的请求"><a href="#取消重复发送的请求" class="headerlink" title="取消重复发送的请求"></a>取消重复发送的请求</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> btnSend = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnSend&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> btnCancel = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnCancel&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> xhr</span><br><span class="line"><span class="keyword">let</span> isSending = <span class="literal">false</span> <span class="comment">// 请求标识符</span></span><br><span class="line">btnSend.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isSending) &#123;</span><br><span class="line">    xhr.abort() <span class="comment">// 取消发送请求</span></span><br><span class="line">  &#125;</span><br><span class="line">  xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">  isSending = <span class="literal">true</span></span><br><span class="line">  xhr.open(<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/delay&#x27;</span>)</span><br><span class="line">  xhr.send()</span><br><span class="line">  xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">      isSending = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">btnCancel.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  xhr.abort()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><blockquote>
+<p>同源策略：协议、域名、端口完全相同</p>
+<p>违反同源即跨域</p>
+</blockquote>
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><blockquote>
+<p>JSONP利用了<code>script标签</code>天生不受跨域限制的漏洞，不过只能使用<code>get</code>方法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span><br><span class="line">script.src = <span class="string">&#x27;跨域URL链接&#x27;</span></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(script)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>express后端代码：获取callback参数，执行callback对应的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">&#x27;/jsonp-serverInput&#x27;</span>,<span class="function">(<span class="params">Request,Response</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = &#123;</span><br><span class="line">    exist: <span class="number">1</span>,</span><br><span class="line">    msg:<span class="string">&#x27;用户名已经存在&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> str = <span class="built_in">JSON</span>.stringify(data)</span><br><span class="line">  <span class="built_in">console</span>.log(Request.query)</span><br><span class="line">  <span class="keyword">let</span> callbackName = Request.query.callback</span><br><span class="line">  Response.send(<span class="string">`<span class="subst">$&#123;callbackName&#125;</span>(<span class="subst">$&#123;str&#125;</span>)`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><blockquote>
+<p>因为跨域限制就是因为响应头</p>
+<p>所以只需要<code>服务器</code>设置Access-Control-Allow-Origin响应头即可</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有非同源</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有头部字段</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Method&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有方法</span></span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-vscodeShortCut和snippet"
   class="article article-type-post"
   itemscope
@@ -229,6 +370,8 @@
 <ul>
 <li>打开文件：’Ctrl+O’</li>
 <li>关闭窗口：’Ctrl+W’</li>
+<li>关闭所有窗口：’Ctrl+K’</li>
+<li>关闭右侧所有窗口：’Ctrl+L’</li>
 <li>最近打开文件：’Ctrl+E’</li>
 <li>打开工作区：’Ctrl+Shift+O’</li>
 <li>新建窗口：’Ctrl+Shift+N’</li>
@@ -1468,86 +1611,6 @@
 <h3 id="用return退出多重循环"><a href="#用return退出多重循环" class="headerlink" title="用return退出多重循环"></a>用return退出多重循环</h3><p>因为用break的话可读性很差，很难分辨跳到哪一层循环了，而用return的话就很容易读懂</p>
 <p>如果return以后还有要执行的内容，可以通过在外面声明函数，里面放要执行的代码</p>
 <p>类似return thisFunction()的方式来执行最后的函数</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-前端权限之路"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E4%B9%8B%E8%B7%AF/"
-    >前端权限之路</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E4%B9%8B%E8%B7%AF/" class="article-date">
-  <time datetime="2021-02-08T02:17:23.000Z" itemprop="datePublished">2021-02-08</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="前端权限之路"><a href="#前端权限之路" class="headerlink" title="前端权限之路"></a>前端权限之路</h1><p>此版本为权限实操，思路请看《前端权限》</p>
-<h2 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h2><p>在刚开始构建项目的时候，前端权限大多是靠后端传来的数据来定义:这里可以看到完全依赖写死(后端传来的数据)</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Hide = &#123;</span><br><span class="line">  id: <span class="number">0</span>,</span><br><span class="line">  hidden: <span class="literal">true</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;首页&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;main&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">21</span>,</span><br><span class="line">      name: <span class="string">&#x27;个人中心&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;person&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">22</span>,</span><br><span class="line">      name: <span class="string">&#x27;example2&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;example2&#x27;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 管理员的样例中心</span></span><br><span class="line"><span class="keyword">const</span> FM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;优化中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;优化样例一&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;exampleManage1&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">2</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;表格样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;table&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">      name: <span class="string">&#x27;图表样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;echarts&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽离直接使用</span></span><br><span class="line"><span class="keyword">const</span> role0 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  F: &#123;</span><br><span class="line">    name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;修改密码&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example1&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;查看信息&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example2&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role1 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role2 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;api管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;api&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;auth&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> allRole = &#123;role0, role1, role2&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>因为这个是模板，没有多想写死了，这是第一个版本，这里完全是依赖传来的数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;main&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-gongyezujian-yibiaopan&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;Dashboard&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;el-submenu :index&#x3D;&quot;item.id+&#39;&#39;&quot; v-for&#x3D;&quot;item in routerMapping&quot; v-if&#x3D;&quot;item.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">      &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;template&gt;</span><br><span class="line">      &lt;el-menu-item :index&#x3D;&quot;items.routerName&quot; v-for&#x3D;&quot;items in item.data&quot; v-if&#x3D;&quot;items.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;items.id&quot;&gt;&#123;&#123;items.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;person&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-icon_zhanghao&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;padding-left:10px&quot;&gt;个人中心&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Version-2"><a href="#Version-2" class="headerlink" title="Version 2"></a>Version 2</h2><p>昨天的时候看上一个项目的代码发现这样做不靠谱，后端不可能传来这么多信息，所以花了几个小时大改了一波。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;div v-for&#x3D;&quot;item in routerGet&quot; :key&#x3D;&quot;item.id&quot; v-if&#x3D;&quot;(item.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(item.name)!&#x3D;&#x3D;-1)&quot;&gt;</span><br><span class="line">      &lt;!-- 循环判断假如有children则进入上面，否则进入下面 --&gt;</span><br><span class="line">      &lt;el-menu-item v-if&#x3D;&quot;item.children.length &#x3D;&#x3D;&#x3D; 1&quot; :index&#x3D;&quot;item.children[0].name&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.meta.icon&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;el-menu-item&gt;</span><br><span class="line"></span><br><span class="line">      &lt;el-submenu v-else :index&#x3D;&quot;item.name&quot;&gt;</span><br><span class="line">        &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">          &lt;i :class&#x3D;&quot;item.meta.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">          &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">        &lt;el-menu-item :index&#x3D;&quot;items.name&quot; v-for&#x3D;&quot;items in item.children&quot; v-if&#x3D;&quot;(items.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(items.name)!&#x3D;&#x3D;-1)&quot; :key&#x3D;&quot;items.id&quot; popper-append-to-body&gt;&#123;&#123;items.meta.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">      &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerGet: &#123;&#125;,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      console.log(this.$store.getters.getCurrentPage)</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">    this.routerinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    &#x2F;&#x2F; handleOpen (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;,</span><br><span class="line">    &#x2F;&#x2F; handleClose (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;</span><br><span class="line">    routerinit () &#123;</span><br><span class="line">      this.routerGet &#x3D; this.$router.options.routes</span><br><span class="line">      &#x2F;&#x2F; console.log(this.routerGet)</span><br><span class="line">    &#125;,</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      &#x2F;&#x2F; console.log(this.studentRouterMapping)</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">      console.log(JSON.stringify(this.routerMapping))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Version3"><a href="#Version3" class="headerlink" title="Version3"></a>Version3</h2><p>但是昨天晚上又想了一下得重新规划，不然后面越来越难改，这是第三个权限版本。目前项目重构会直接摧毁原有架构，所以选择维持方案二，这个项目预计会用vue3重构，到时候选择用方案一。</p>
-<h3 id="方案一-推荐"><a href="#方案一-推荐" class="headerlink" title="方案一(推荐)"></a>方案一(推荐)</h3><p>选择在router里面存储角色信息，用来判断是否是对应权限路由，不然使用indexOf整个路由的方法太笨重，每次都需要调用和转换路由，渲染路由直接addRoute。如果没有对应权限的话，因为不在this.$router里面，所以直接会跳转到404。</p>
-<p>但是出现了问题：</p>
-<p>​    问题一：渲染路由的时候得保证侧边栏路由的顺序是可控的，如何实现？</p>
-<p>​    想法：顺序确定的静态路由写在前面，会变化顺序的动态路由写在后面，但是权限所有用户都有就是。</p>
-<p>​    问题二：addRoute产生的路由不是响应式的，不能用于动态渲染路由</p>
-<p>​    想法：使用vuex来渲染路由</p>
-<h3 id="方案二-维持"><a href="#方案二-维持" class="headerlink" title="方案二(维持)"></a>方案二(维持)</h3><p>维持原来的，只不过尽量缩短roleFront.js的数据，用roleFront.js里面的数据来判断是否渲染侧边栏项目和拦截跳转路由</p>
-<p>vue3重构的时候选择使用方案一，这里顺便提出目前项目的不足：</p>
-<ol>
-<li>侧边栏不能多级路由渲染，只能两级</li>
-<li>权限还是不满意</li>
-</ol>
  
       <!-- reward -->
       

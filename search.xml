@@ -69,6 +69,108 @@
       </tags>
   </entry>
   <entry>
+    <title>AJAX</title>
+    <url>/2021/03/26/AJAX/</url>
+    <content><![CDATA[<h1 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h1><blockquote>
+<p>AJAX意为异步的JavaScript和XML</p>
+</blockquote>
+<blockquote>
+<p>优点：</p>
+<ol>
+<li>可以无需刷新页面与服务器进行通信</li>
+<li>允许你根据用户事件来更新部分页面内容</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>没有浏览历史，不能回退</li>
+<li>存在跨域问题</li>
+<li>SEO不友好(页面是动态生成的)</li>
+</ol>
+</blockquote>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><blockquote>
+<p>超文本传输协议，协议规定了浏览器和万维网服务器之间的通信规则</p>
+</blockquote>
+<h3 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h3><blockquote>
+<p>行:</p>
+<ul>
+<li>请求方式(get/post…)</li>
+<li>请求参数(s?ie=utf-8…)</li>
+<li>HTTP版本1.1</li>
+</ul>
+<p>头:</p>
+<ul>
+<li>Host:baidu.com</li>
+<li>Cookie:name=baidu</li>
+<li>Content-type: application/x-www-form-urlencoded</li>
+<li>User-Agent:chrome 83</li>
+<li>…</li>
+</ul>
+<p>空行</p>
+<p>体:(get请求体为空,post不为空)</p>
+<ul>
+<li>username=admin&amp;password=admin</li>
+</ul>
+</blockquote>
+<h3 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h3><blockquote>
+<p>行:</p>
+<ul>
+<li>HTTP版本(1.1)</li>
+<li>状态码</li>
+<li>状态码信息</li>
+</ul>
+<p>头:</p>
+<ul>
+<li>Content-Type:text/html;charset=urf-8</li>
+<li>Content-length:2048</li>
+<li>Content-encoding:gzip</li>
+</ul>
+<p>空行</p>
+<p>体:如html … /html</p>
+</blockquote>
+<h2 id="原生AJAJ-API"><a href="#原生AJAJ-API" class="headerlink" title="原生AJAJ_API"></a>原生AJAJ_API</h2><h3 id="发送GET-POST请求"><a href="#发送GET-POST请求" class="headerlink" title="发送GET/POST请求"></a>发送GET/POST请求</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">   <span class="comment">// 状态1：创建AJAX</span></span><br><span class="line">   <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">   <span class="comment">// 状态2：初始化</span></span><br><span class="line">   xhr.open(<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/server?a=100&amp;b=200&#x27;</span>) <span class="comment">// get方法</span></span><br><span class="line">xhr.open(<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/server&#x27;</span>) <span class="comment">//post方法</span></span><br><span class="line">   <span class="comment">// 状态3：发送</span></span><br><span class="line">   xhr.send() <span class="comment">//get直接send即可</span></span><br><span class="line">xhr.send(<span class="string">&#x27;a=100&amp;b=200&amp;c=300&#x27;</span>) <span class="comment">// post把参数放进send里面</span></span><br><span class="line">   <span class="comment">// 状态4：事件绑定,状态改变触发change事件，处理服务器返回的结果</span></span><br><span class="line">   xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="comment">// 判断状态为4，服务端返回了所有结果</span></span><br><span class="line">     <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (xhr.status &gt;= <span class="number">200</span> &amp;&amp; xhr.status&lt;<span class="number">300</span>) &#123;</span><br><span class="line">         <span class="comment">// 处理结果： 行/头/空行/体</span></span><br><span class="line">         <span class="comment">// 响应行内容获取</span></span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.status&#x27;</span>,xhr.status)</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.statusText&#x27;</span>,xhr.statusText)</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.getAllResponseHeaders()&#x27;</span>,xhr.getAllResponseHeaders())</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">&#x27;xhr.response&#x27;</span>,xhr.response)</span><br><span class="line">         <span class="comment">// 设置响应</span></span><br><span class="line">         div.innerText = xhr.response</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="请求超时-网络异常"><a href="#请求超时-网络异常" class="headerlink" title="请求超时/网络异常"></a>请求超时/网络异常</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 超时设置</span></span><br><span class="line">xhr.timeout = <span class="number">2000</span>;</span><br><span class="line"><span class="comment">// 超时回调</span></span><br><span class="line">xhr.ontimeout = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">&#x27;网络异常请稍后重试&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 网络异常回调</span></span><br><span class="line">xhr.onerror = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">&#x27;网络异常请稍后重试&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="取消重复发送的请求"><a href="#取消重复发送的请求" class="headerlink" title="取消重复发送的请求"></a>取消重复发送的请求</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> btnSend = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnSend&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> btnCancel = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnCancel&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> xhr</span><br><span class="line"><span class="keyword">let</span> isSending = <span class="literal">false</span> <span class="comment">// 请求标识符</span></span><br><span class="line">btnSend.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isSending) &#123;</span><br><span class="line">    xhr.abort() <span class="comment">// 取消发送请求</span></span><br><span class="line">  &#125;</span><br><span class="line">  xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">  isSending = <span class="literal">true</span></span><br><span class="line">  xhr.open(<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;http://127.0.0.1:9010/delay&#x27;</span>)</span><br><span class="line">  xhr.send()</span><br><span class="line">  xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">      isSending = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">btnCancel.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  xhr.abort()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><blockquote>
+<p>同源策略：协议、域名、端口完全相同</p>
+<p>违反同源即跨域</p>
+</blockquote>
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><blockquote>
+<p>JSONP利用了<code>script标签</code>天生不受跨域限制的漏洞，不过只能使用<code>get</code>方法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span><br><span class="line">script.src = <span class="string">&#x27;跨域URL链接&#x27;</span></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(script)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>express后端代码：获取callback参数，执行callback对应的函数</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">&#x27;/jsonp-serverInput&#x27;</span>,<span class="function">(<span class="params">Request,Response</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = &#123;</span><br><span class="line">    exist: <span class="number">1</span>,</span><br><span class="line">    msg:<span class="string">&#x27;用户名已经存在&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> str = <span class="built_in">JSON</span>.stringify(data)</span><br><span class="line">  <span class="built_in">console</span>.log(Request.query)</span><br><span class="line">  <span class="keyword">let</span> callbackName = Request.query.callback</span><br><span class="line">  Response.send(<span class="string">`<span class="subst">$&#123;callbackName&#125;</span>(<span class="subst">$&#123;str&#125;</span>)`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><blockquote>
+<p>因为跨域限制就是因为响应头</p>
+<p>所以只需要<code>服务器</code>设置Access-Control-Allow-Origin响应头即可</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有非同源</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有头部字段</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Method&quot;</span>,<span class="string">&quot;*&quot;</span>) <span class="comment">// 允许所有方法</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vscodeShortCut和snippet</title>
     <url>/2021/03/18/vscodeShortCut%E5%92%8Csnippet/</url>
     <content><![CDATA[<h1 id="vscodeShortCut和snippet"><a href="#vscodeShortCut和snippet" class="headerlink" title="vscodeShortCut和snippet"></a>vscodeShortCut和snippet</h1><h2 id="ShortCut快捷键"><a href="#ShortCut快捷键" class="headerlink" title="ShortCut快捷键"></a>ShortCut快捷键</h2><blockquote>
@@ -80,6 +182,8 @@
 <ul>
 <li>打开文件：’Ctrl+O’</li>
 <li>关闭窗口：’Ctrl+W’</li>
+<li>关闭所有窗口：’Ctrl+K’</li>
+<li>关闭右侧所有窗口：’Ctrl+L’</li>
 <li>最近打开文件：’Ctrl+E’</li>
 <li>打开工作区：’Ctrl+Shift+O’</li>
 <li>新建窗口：’Ctrl+Shift+N’</li>
@@ -3019,7 +3123,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#56;&#x31;&#x2e;&#54;&#x38;&#46;&#55;&#x33;&#46;&#x35;&#53;">&#x67;&#105;&#116;&#x40;&#56;&#x31;&#x2e;&#54;&#x38;&#46;&#55;&#x33;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#56;&#49;&#x2e;&#54;&#56;&#x2e;&#x37;&#x33;&#46;&#53;&#x35;">&#x67;&#x69;&#116;&#x40;&#56;&#49;&#x2e;&#54;&#56;&#x2e;&#x37;&#x33;&#46;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
