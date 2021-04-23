@@ -81,6 +81,267 @@
     
     
     <article
+  id="post-crawl-Fund"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/20/crawl-Fund/"
+    >crawl:Fund</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/20/crawl-Fund/" class="article-date">
+  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
+<ul>
+<li>去除了三年以内的建立的基金</li>
+<li>去除了部分值</li>
+<li>去除了累计净值&lt;1的基金</li>
+<li>去除了三年和&lt;100%的基金</li>
+</ul>
+<p>部分结果展示：</p>
+<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
+<p>工具：Spyder</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-crawl-Picture"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/20/crawl-Picture/"
+    >crawl:Picture</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/20/crawl-Picture/" class="article-date">
+  <time datetime="2020-10-20T06:52:58.000Z" itemprop="datePublished">2020-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="爬虫：爬取图片"><a href="#爬虫：爬取图片" class="headerlink" title="爬虫：爬取图片"></a>爬虫：爬取图片</h1><p>无意间在知乎上看见爬妹子图的爬虫教程，很感兴趣，但是可惜妹子图网站没了</p>
+<p>但这并不能阻挡我使用爬虫</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python版本：3.6.3</p>
+<p>工具：python自带IDLE</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>因为我个人比较喜欢直接开干所以直接放代码，要说的都在注释里</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> ast</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment">#全局对象好调用</span></span><br><span class="line">d1=&#123;<span class="number">0</span>:<span class="string">&#x27;0&#x27;</span>&#125;<span class="comment">#字典对象</span></span><br><span class="line">c=<span class="number">1</span><span class="comment">#计数</span></span><br><span class="line">title=<span class="string">&#x27;&#x27;</span><span class="comment">#标题</span></span><br><span class="line">UserAgent_List = [<span class="comment">#因为长时间爬网站会发现并拒绝访问，所以爬一次重新换一次头，用random实现</span></span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span><span class="comment">#获取页面内容</span></span><br><span class="line">    <span class="keyword">global</span> UserAgent_List</span><br><span class="line">    url=<span class="string">&#x27;...&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: random.choice(UserAgent_List),<span class="comment">#random使用头部</span></span><br><span class="line">           <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&quot;</span>,</span><br><span class="line">           <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;gbk&#x27;</span><span class="comment">#gbk编码</span></span><br><span class="line">    text=html.text</span><br><span class="line">    bs = BeautifulSoup(text,<span class="string">&quot;html.parser&quot;</span>) <span class="comment"># 缩进格式</span></span><br><span class="line">    <span class="comment">#print(bs.prettify()) # 格式化html结构</span></span><br><span class="line">    title=bs.find(<span class="string">&#x27;tbody&#x27;</span>,&#123;<span class="string">&#x27;style&#x27;</span>:<span class="string">&#x27;table-layout:fixed;&#x27;</span>&#125;).findAll(<span class="string">&#x27;tr&#x27;</span>,&#123;<span class="string">&#x27;class&#x27;</span>:<span class="string">&#x27;tr3 t_one tac&#x27;</span>&#125;)<span class="comment">#通过寻找bs里面的标签来寻找内容，如前面就是在寻找tbody里面有style：table...属性的标签</span></span><br><span class="line">    <span class="keyword">global</span> c<span class="comment">#引用全局变量</span></span><br><span class="line">    <span class="keyword">global</span> d1</span><br><span class="line">    <span class="keyword">for</span> tx <span class="keyword">in</span> title:</span><br><span class="line">        txd=tx.findAll(<span class="string">&#x27;h3&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> txdd <span class="keyword">in</span> txd:</span><br><span class="line">            txa=str(<span class="string">&#x27;...&#x27;</span>+txdd.find(<span class="string">&#x27;a&#x27;</span>).attrs[<span class="string">&quot;href&quot;</span>])<span class="comment">#attrs寻找属性</span></span><br><span class="line">            txb=str(txdd.find(<span class="string">&#x27;a&#x27;</span>).contents[<span class="number">0</span>])<span class="comment">#contents获取标签里的明文内容</span></span><br><span class="line">            txd=str(tx.contents)</span><br><span class="line">            d1[c]=txa</span><br><span class="line">            <span class="keyword">if</span> (re.search(<span class="string">&#x27;\[[\u4e00-\u9FFF]*\]&#x27;</span>,txd) ):<span class="comment">#正则表达匹配繁体字</span></span><br><span class="line">                txc=str(re.search(<span class="string">&#x27;\[[\u4e00-\u9FFF]*\]&#x27;</span>,txd).group(<span class="number">0</span>))<span class="comment">#group获取正则匹配结果</span></span><br><span class="line">                <span class="keyword">if</span>(txc!=<span class="string">&#x27;[...]&#x27;</span> <span class="keyword">and</span> txc!=<span class="string">&#x27;[...]&#x27;</span>):</span><br><span class="line">                    print(str(c)+<span class="string">&#x27;.&#x27;</span>+txc+txb+<span class="string">&#x27;\n&#x27;</span>+txa+<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">                    c=c+<span class="number">1</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exc</span>(<span class="params">url</span>):</span><span class="comment">#执行下载</span></span><br><span class="line">    <span class="keyword">global</span> UserAgent_List</span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: random.choice(UserAgent_List),</span><br><span class="line">           <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&quot;</span>,</span><br><span class="line">           <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    bs = BeautifulSoup(text,<span class="string">&quot;html.parser&quot;</span>) <span class="comment"># 缩进格式</span></span><br><span class="line">    <span class="comment">#print(bs.prettify()) # 格式化html结构</span></span><br><span class="line">    <span class="keyword">global</span> title</span><br><span class="line">    title=bs.find(<span class="string">&#x27;head&#x27;</span>).find(<span class="string">&#x27;meta&#x27;</span>,&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;description&#x27;</span>&#125;).attrs[<span class="string">&quot;content&quot;</span>]</span><br><span class="line">    num=re.search(<span class="string">&#x27;[0-9]\d&#x27;</span>, title)</span><br><span class="line">    print(num.group())<span class="comment">#group()获得匹配结果</span></span><br><span class="line">    print(title)</span><br><span class="line">    os.makedirs(<span class="string">&#x27;py/&#x27;</span>+title)</span><br><span class="line">    t=bs.find(<span class="string">&#x27;div&#x27;</span>, &#123;<span class="string">&#x27;class&#x27;</span>: <span class="string">&#x27;t t2&#x27;</span>&#125;).findAll(<span class="string">&#x27;img&#x27;</span>)</span><br><span class="line">    a=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> tx <span class="keyword">in</span> t:</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        b=str(a)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            txd=tx.attrs[<span class="string">&quot;ess-data&quot;</span>]</span><br><span class="line">        <span class="keyword">except</span> KeyError:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        img_html = requests.get(txd, headers=headers) </span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">&#x27;py/&#x27;</span>+title+<span class="string">&#x27;/&#x27;</span>+b+<span class="string">&#x27;.jpg&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:<span class="comment">#存为图片</span></span><br><span class="line">            f.write(img_html.content)</span><br><span class="line">            f.close()</span><br><span class="line">            print(str(a)+<span class="string">&#x27;.&#x27;</span>+txd)<span class="comment">#打印链接</span></span><br><span class="line">            a=a+<span class="number">1</span></span><br><span class="line">    print(<span class="string">&#x27;下载结束&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">w</span>():</span><span class="comment">#选择列表下载</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        getL()</span><br><span class="line">        d1.values() </span><br><span class="line">        print(<span class="string">&#x27;数字列表样例(1,7,10,50)&#x27;</span>)</span><br><span class="line">        lists = ast.literal_eval(input(<span class="string">&quot;请输入数字列表，使用逗号隔开: 注意必须是英文括号逗号&quot;</span>))</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> lists:</span><br><span class="line">            exc(d1[l])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&#x27;请记得删除下载失败的文件夹否则会报错&#x27;</span>)</span><br><span class="line">        print(<span class="string">&#x27;要删除的文件夹为当前目录下:py/&#x27;</span>+title)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">topic</span>():</span><span class="comment">#选择主题下载</span></span><br><span class="line">        getL()</span><br><span class="line">        f=input(<span class="string">&#x27;请选择主题1.[...] 2.[...] 3.[...]&#x27;</span>)</span><br><span class="line">        d2=&#123;<span class="string">&#x27;1&#x27;</span>:<span class="string">&#x27;[...]&#x27;</span>,<span class="string">&#x27;2&#x27;</span>:<span class="string">&#x27;[...]&#x27;</span>,<span class="string">&#x27;3&#x27;</span>:<span class="string">&#x27;[...]&#x27;</span>&#125;</span><br><span class="line">        <span class="keyword">if</span> d2[f]==<span class="string">&#x27;[...]&#x27;</span>:</span><br><span class="line">            tdl(d2[f])</span><br><span class="line">        <span class="keyword">elif</span> d2[f]==<span class="string">&#x27;[...]&#x27;</span>:</span><br><span class="line">            tdl(d2[f])</span><br><span class="line">        <span class="keyword">elif</span> d2[f]==<span class="string">&#x27;[...]&#x27;</span>:</span><br><span class="line">            tdl(d2[f])</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tdl</span>(<span class="params">t</span>):</span><span class="comment">#主题具体下载</span></span><br><span class="line">    <span class="keyword">global</span> UserAgent_List<span class="comment">#图省事复制粘贴的getH()</span></span><br><span class="line">    url=<span class="string">&#x27;...&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: random.choice(UserAgent_List),</span><br><span class="line">           <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&quot;</span>,</span><br><span class="line">           <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    bs = BeautifulSoup(text,<span class="string">&quot;html.parser&quot;</span>) <span class="comment"># 缩进格式</span></span><br><span class="line">    title=bs.find(<span class="string">&#x27;tbody&#x27;</span>,&#123;<span class="string">&#x27;style&#x27;</span>:<span class="string">&#x27;table-layout:fixed;&#x27;</span>&#125;).findAll(<span class="string">&#x27;tr&#x27;</span>,&#123;<span class="string">&#x27;class&#x27;</span>:<span class="string">&#x27;tr3 t_one tac&#x27;</span>&#125;)</span><br><span class="line">    <span class="keyword">for</span> tx <span class="keyword">in</span> title:</span><br><span class="line">        txd=tx.findAll(<span class="string">&#x27;h3&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> txdd <span class="keyword">in</span> txd:</span><br><span class="line">            txa=str(<span class="string">&#x27;https://cl.hn32.xyz/&#x27;</span>+txdd.find(<span class="string">&#x27;a&#x27;</span>).attrs[<span class="string">&quot;href&quot;</span>])</span><br><span class="line">            txb=str(txdd.find(<span class="string">&#x27;a&#x27;</span>).contents[<span class="number">0</span>])</span><br><span class="line">            txd=str(tx.contents)</span><br><span class="line">            <span class="keyword">if</span> (re.search(<span class="string">&#x27;\[[\u4e00-\u9FFF]*\]&#x27;</span>,txd) ):<span class="comment">#匹配繁体字</span></span><br><span class="line">                txc=str(re.search(<span class="string">&#x27;\[[\u4e00-\u9FFF]*\]&#x27;</span>,txd).group(<span class="number">0</span>))</span><br><span class="line">                <span class="keyword">if</span>(txc==t):</span><br><span class="line">                    <span class="keyword">try</span>:</span><br><span class="line">                        exc(txa)</span><br><span class="line">                    <span class="keyword">except</span>:</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    print(<span class="string">&#x27;请选择列表/主题下载&#x27;</span>)</span><br><span class="line">    e=input(<span class="string">&#x27;列表下载输入1，主题下载输入2&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> e==<span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">        w()</span><br><span class="line">    <span class="keyword">elif</span> e==<span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">        topic()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&#x27;输入错误请重新输入&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>当时写了几个小时吧，还是很有意思的，简而言之就是对标签内容的获取然后下载</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-comPy"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/12/comPy/"
+    >comPy</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/12/comPy/" class="article-date">
+  <time datetime="2020-10-12T09:28:35.000Z" itemprop="datePublished">2020-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>常用库与响应操作</p>
+<h3 id="常用内置方法"><a href="#常用内置方法" class="headerlink" title="常用内置方法"></a>常用内置方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">list((<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)) <span class="comment">#[1, 2, 3, 4, 5, 6]  将一个可迭代对象转换成列表</span></span><br><span class="line"></span><br><span class="line">tuple([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]) <span class="comment">#(1, 2, 3, 4, 5, 6)将一个可迭代对象转换成元组</span></span><br><span class="line"></span><br><span class="line">reversed() <span class="comment">#将一个序列翻转, 返回翻转序列的迭代器</span></span><br><span class="line"></span><br><span class="line">slice(start_index:end_index:step) <span class="comment">#列表的切片 st开始，en结束，step方向&gt;0，从左往右反之向左</span></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">slice(<span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>) <span class="comment">#[2,3]</span></span><br><span class="line"></span><br><span class="line">repr() <span class="comment">#返回一个对象的String形式</span></span><br><span class="line"></span><br><span class="line">len() <span class="comment">#返回一个对象中元素的个数</span></span><br><span class="line"></span><br><span class="line">sorted() <span class="comment">#对可迭代对象进行排序操作(lamda)</span></span><br><span class="line"></span><br><span class="line">all() <span class="comment">#可迭代对象中全是True才是True</span></span><br><span class="line">any() <span class="comment">#可迭代对象中有一个是True才是True</span></span><br><span class="line"></span><br><span class="line">filter() <span class="comment">#用lamda过滤</span></span><br><span class="line"></span><br><span class="line">map(f, lst) <span class="comment"># 把可迭代对象中的每一个元素传递给前面的函数进行处理. 处理的结果会返回成迭代器[1, 2, 3, 4, 5, 6, 7]</span></span><br><span class="line"></span><br><span class="line">range() <span class="comment">#生成数据</span></span><br><span class="line">next() <span class="comment">#迭代器向下执行一次, 内部实际使用了__ next__()方法返回迭代器的下一个项目</span></span><br><span class="line">iter() <span class="comment">#获取迭代器</span></span><br><span class="line"></span><br><span class="line">eval() <span class="comment">#执行字符串类型的编码并返回结果，如输入8+9 返回17</span></span><br><span class="line">exec() <span class="comment">#执行代码但不返回内容</span></span><br><span class="line">compile() <span class="comment">#将字符串类型的代码编码. 代码对象能够通过exec语句来执行或者eval()进行求值</span></span><br><span class="line"></span><br><span class="line">hash() <span class="comment">#获取到对象的hash值</span></span><br><span class="line"></span><br><span class="line">dir() <span class="comment">#查看对象的内置属性</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="you-get-获取媒体内容"><a href="#you-get-获取媒体内容" class="headerlink" title="you-get 获取媒体内容"></a>you-get 获取媒体内容</h3><p>you-get用于从Web下载媒体内容(视频)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载视频</span></span><br><span class="line">you-get 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定存储位置和重命名</span></span><br><span class="line">you-get -o 存放的绝对路径 -O 新名称 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看视频信息</span></span><br><span class="line">you-get -i 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#选择下载清晰度和格式</span></span><br><span class="line"></span><br><span class="line">you-get --format=视频格式 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载图片同视频</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="爬评论"><a href="#爬评论" class="headerlink" title="爬评论"></a>爬评论</h3> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-nginx"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/07/nginx/"
+    >nginx</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/07/nginx/" class="article-date">
+  <time datetime="2020-10-07T02:45:38.000Z" itemprop="datePublished">2020-10-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>高并发多连接</li>
+<li>生态好</li>
+<li>跨平台</li>
+<li>稳定</li>
+</ul>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>访问原来无法访问的资源，如Google</li>
+<li>可以做缓存</li>
+<li>客户端认证</li>
+<li>记录用户访问记录</li>
+</ul>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
+<p><img src="/2020/10/07/nginx/2.jpg"></p>
+<p>特点：</p>
+<ul>
+<li>保证内网安全：隐藏服务器信息</li>
+<li>负载均衡</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-comGit"
   class="article article-type-post"
   itemscope
@@ -157,7 +418,7 @@
 </li>
 <li><p>git init</p>
 </li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#56;&#49;&#x2e;&#54;&#56;&#x2e;&#x37;&#x33;&#46;&#53;&#x35;">&#x67;&#x69;&#116;&#x40;&#56;&#49;&#x2e;&#54;&#56;&#x2e;&#x37;&#x33;&#46;&#53;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
+<li><p>git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#55;&#51;&#x2e;&#x35;&#x35;">&#x67;&#105;&#116;&#x40;&#56;&#x31;&#46;&#54;&#x38;&#x2e;&#55;&#51;&#x2e;&#x35;&#x35;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
 </li>
 <li><p>git add . //把文件</p>
 </li>
@@ -980,561 +1241,13 @@
 </article>
 
     
-    <article
-  id="post-comRegEx"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/01/comRegEx/"
-    >comRegEx</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/01/comRegEx/" class="article-date">
-  <time datetime="2020-10-01T07:34:36.000Z" itemprop="datePublished">2020-10-01</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>^ 匹配输入字行首</p>
-<p>$ 匹配输入行尾</p>
-<p>* 匹配前面的子表达式任意次，等价于{0,}</p>
-<p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
-<p>? 匹配前面的子表达式零次或一次，等价于{0,1}</p>
-<p>{n},{n,m},{n,}</p>
-<p>.匹配除\n，\r之外的任何字符</p>
-<p>[xyz] 字符集合，匹配所包含的任意一个字符，如匹配”plain”中的a</p>
-<p>[^xyz] 负值字符集合，匹配未包含的任意字符。匹配plain中的plin</p>
-<p>\b 匹配一个单词边界，即一个单词第一个字母</p>
-<p>\B 匹配非单词边界，即一个单词末尾</p>
-<p>\cx 匹配由x指明的控制字符，如\cM匹配一个Control-M，x的值必须在A-Z或a-z之间</p>
-<p>\d 匹配一个数字字符</p>
-<p>\D 匹配一个非数字字符</p>
-<p>\w 匹配包括下划线的任何单词字符</p>
-<p>\W 匹配任何非单词字符</p>
-<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-Eggjs"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/01/Eggjs/"
-    >Eggjs</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/01/Eggjs/" class="article-date">
-  <time datetime="2020-10-01T07:09:47.000Z" itemprop="datePublished">2020-10-01</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/back-Design/">back-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Eggjs"><a href="#Eggjs" class="headerlink" title="Eggjs"></a>Eggjs</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>app/router.js 用于配置URL路由规则</p>
-<p>app/controller/** 用于解析用户的输入，处理后返回响应的结果</p>
-<p>app/service/** 用于编写业务逻辑层</p>
-<p>app/middleware/** 用于编写中间件</p>
-<p>app/public/** 用于放置静态资源</p>
-<p>app/extend/**用于框架的扩展</p>
-<p>config/config.{env}.js 用于编写配置文件</p>
-<p>config/plugin.js 用于配置需要加载的插件</p>
-<p>test/** 用于单元测试</p>
-<p>app.js和agent.js 用于自定义启动时的初始化工作</p>
-<p><strong>由内置插件约定的目录:</strong></p>
-<p>app/public/** 用于放置静态资源</p>
-<p>app/schedule/** 用于定时任务</p>
-<p><strong>若需自定义自己的目录规范，参见Loader API</strong></p>
-<p>app/view/** 用于放置模板文件</p>
-<p>app/model/** 用于放置领域模型</p>
-<h2 id="框架内置对象"><a href="#框架内置对象" class="headerlink" title="框架内置对象"></a>框架内置对象</h2><p><strong>Application</strong></p>
-<p>  Application是全局应用对象，在一个应用中只会实例化一个，在它上面我们可以挂载一些全局的方法和对象。</p>
-<p>  <strong>事件</strong></p>
-<p>  我们一般会在启动自定义脚本中监听事件。</p>
-<p>  server(服务器):在HTTP完成启动后，会将HTTP server通过这个事件暴露出来给开发者。</p>
-<p>  error:运行时有任何异常被捕获后都会触发error事件。</p>
-<p>  request和response:应用受到请求和响应请求时会分别触发这两个事件，并将当前请示上下文暴露出来。</p>
-<p><strong>获取方式</strong></p>
-<p>  几乎所有被框架Loader加载的文件都可以export一个函数，这个函数会被Loader调用，并使用app作为参数:</p>
-<p>  启动自定义脚本:</p>
-<p>//app.js module.exports=app=&gt;{    app.cache=new Cache(); };</p>
-<p>Controller文件:</p>
-<p>//app/controller/user.js class UserController extends Controller{    async fetch(){        this.ctx.body=this.app.cache.get(this.ctx.query.id);    } }</p>
-<p>在Context对象上，可以通过ctx.app访问到Application对象。</p>
-<p>在继承于Controller，Service基类的实例中，可以通过this.app访问到Application对象，即上文中this.ctx,app可以改成this.app。</p>
-<p><strong>Context</strong></p>
-<p>  在每一次收到用户请求时，框架会实例化一个Context对象，这个对象封装了这次用户请求的信息，并提供了许多便捷的方法来获取请求参数或者响应信息。框架会将所有的Service挂载到Context实例上。</p>
-<p><strong>获取方式</strong></p>
-<p>  最常见Context实例获取方式是在Middleware，Controller以及Service中。</p>
-<p><strong>Request&amp;Response</strong></p>
-<p>  两者都是请求级别的对象。一个负责获取HTTP请求，一个负责HTTP响应。</p>
-<p><strong>获取方式</strong></p>
-<p>  可以在Context的实例上获取到当前请求的Request(ctx.request)和Response(ctx.response)实例。</p>
-<p>//app/controller/user.js class UserController extends Controller{    async fetch(){        const {app,ctx}=this;        const id=ctx.request.query.id;        ctx.response.body=app.cache.get(id);    } }</p>
-<p>  上面例子中ctx.request.query.id和ctx.query.id是等价的，ctx.response.body=和ctx.body=是等价的</p>
-<p>  注意，获取POST的body应该使用ctx.request.body而不是ctx.body。</p>
-<p><strong>Controller</strong></p>
-<p>  框架提供了一个Controller基类，并推荐所有的Controller都基于该基类实现。该基类有以下属性</p>
-<ul>
-<li>ctx-当前请求的Context实例</li>
-<li>app-应用的Application实例</li>
-<li>config-应用的配置</li>
-<li>service-应用所有的service</li>
-<li>logger-为当前controller封装的logger对象</li>
-</ul>
-<p>在Controller文件中，可以通过两个方式来引用Controller基类:</p>
-<p>//app/controller/user.js //从egg上获取(推荐) const Controller=require(‘egg’).Controller; class UserController extends Controller{    //implement } module.exports=UserController; //从app实例上获取 module.exports=app=&gt;{    return class UserController extends app.Controller{        //implement    }; };</p>
-<p><strong>Service</strong></p>
-<p>  Service基类的属性的基类和Controller基类属性一致，访问方式也类似:</p>
-<p>//app/service/user.js //从egg上获取(推荐) const Service=require(‘egg’).Service; class UserService extends Service{    //implement } module.exports=UserService; //从app实例上获取 module.exports=app=&gt;{    return class UserService extends app.Service{        //implement    }; };</p>
-<p><strong>Helper</strong></p>
-<p>  Helper用来提供一些实用的utility函数。它的作用在于我们可以将一些常用的动作抽离在helper.js里面成为一个独立的函数，避免逻辑分散各处，同时可以更好的编写测试用例。</p>
-<p>  Helper自身是类，有和Controller基类一样的属性，它也会在每次请求时进行实例化，故Helper上的所有函数也能用到ctx。</p>
-<p>  <strong>获取方式</strong></p>
-<p>  可以在Context实例上获取到当前请求的Helper(ctx.helper)实例</p>
-<p><strong>Config</strong></p>
-<p>  所有框架、插件和应用级别的配置都可以通过Config对象获取到。</p>
-<p><strong>获取方式</strong></p>
-<p>  我们可以通过app.config从Application实例上获取到config对象，也可以在Controller，Service，Helper的实例上通过this.config获取到config对象。</p>
-<h2 id="基本骨架"><a href="#基本骨架" class="headerlink" title="基本骨架"></a>基本骨架</h2><h3 id="（1）简述"><a href="#（1）简述" class="headerlink" title="（1）简述"></a>（1）简述</h3><p>egg.js是以koa为底层的企业级应用解决方案。</p>
-<h3 id="（2）简单层级关系"><a href="#（2）简单层级关系" class="headerlink" title="（2）简单层级关系"></a><strong>（2）简单层级关系</strong></h3><p>MVC(Model View Controller)是一种软件设计模式，早年间Controller层的代码量巨大</p>
-<p><img src="/2020/10/01/Eggjs/1.png" alt="img"></p>
-<p>后来分化出了Controller层的部分代码Service</p>
-<p><img src="/2020/10/01/Eggjs/2.png"></p>
-<p>View:作为视图部分</p>
-<p>Controller:作为控制器层，控制用户界面(View)的数据流转途径，主要行为包含接受用户请求、发送请求至业务层(Service)、获取业务层(Service)数据响应，将相应数据发送至用户界面(View)，或生成响应的模板界面发送至用户。</p>
-<p>Service:作为业务处理层部分，主要负责收集及对数据进行相应的运算处理，主要行为包含收集控制器请求数据、数据有效性验证、运算、请求数据模型(Model)、接受数据模型(Model)响应消息、响应结果至控制器等;</p>
-<p>Model:作为数据模型层部分，主要用于数据持久化(OUT)、查询持久化数据(IN)、常见行为如对数据库进行操作、缓存数据库等。</p>
-<h3 id="（3）路由-Router"><a href="#（3）路由-Router" class="headerlink" title="（3）路由(Router)"></a><strong>（3）路由(Router)</strong></h3><p><img src="/2020/10/01/Eggjs/3.png"></p>
-<p>路由主要用于对数据流进行指引，并处理请求转发。</p>
-<p>注:多WAN口路由器即具有多个广域网口的路由器</p>
-<p>LAN接口即局域网接口</p>
-<p>在Web进行前后端交互的过程中，路由起到了通过URL地址定位控制器函数的作用，即定位静态资源(无论是接口数据、页面。图片等其他文件)。如app/controller/home.ts中存在函数a()和b()，我们约定了跳转”<a target="_blank" rel="noopener" href="http://luv-ui.com/a&quot;%E5%88%99%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0a();%E8%B7%B3%E8%BD%AC&quot;http://luv-ui.com/b&quot;%E5%88%99%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0b()%E3%80%82%E8%BF%99%E6%98%AFweb%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8-%E8%B7%AF%E7%94%B1%E7%9A%84%E5%B8%B8%E8%A7%81%E8%A1%A8%E7%8E%B0%E6%89%8B%E6%AE%B5">http://luv-ui.com/a&quot;则执行函数a();跳转&quot;http://luv-ui.com/b&quot;则执行函数b()。这是web应用中的控制器-路由的常见表现手段</a></p>
-<p><img src="/2020/10/01/Eggjs/4.png"></p>
-<h3 id="（4）内置对象"><a href="#（4）内置对象" class="headerlink" title="（4）内置对象"></a><strong>（4）内置对象</strong></h3><p>1.由Koa继承的对象:Application、Context、Request、Response</p>
-<p>2.Egg自己扩展的对象:Controller、Service、Helper、Config、Logger</p>
-<h4 id="（4-1）应用过程-Controller"><a href="#（4-1）应用过程-Controller" class="headerlink" title="（4.1）应用过程-Controller"></a><strong>（4.1）应用过程-Controller</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Context, Controller &#125; from &#39;egg&#39;; </span><br><span class="line">export default class HomeController extends Controller &#123;    constructor(ctx: Context) &#123;        super(ctx);        &#x2F;&#x2F; do something    </span><br><span class="line">&#125;        &#x2F;&#x2F; 具体的请求函数    </span><br><span class="line">public async foo() &#123;        const &#123; ctx &#125; &#x3D; this; &#x2F;&#x2F; this 代表当前 Controller 对象本身        const &#123; code &#125; &#x3D; ctx.query; &#x2F;&#x2F; 获取 Get 请求中的参数 code        </span><br><span class="line">ctx.body &#x3D; await ctx.service.home.foo( code ); </span><br><span class="line">&#x2F;&#x2F; 异步调用 Service 对象中的相应业务处理,并将结果对调用者响应    </span><br><span class="line">&#125; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>ctx对象中包含service对象，囊括了所有app/service/层级下的service继承类</p>
-<h4 id="（4-2）应用过程-Service"><a href="#（4-2）应用过程-Service" class="headerlink" title="（4.2）应用过程-Service"></a><strong>（4.2）应用过程-Service</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Context, Service &#125; from &#39;egg&#39;; </span><br><span class="line">export default class HomeService extends Service &#123;    constructor(ctx: Context) &#123;        super(ctx);&#x2F;&#x2F; do something    </span><br><span class="line">&#125;        &#x2F;&#x2F; 具体的业务处理函数    </span><br><span class="line">public async foo( code: string ) &#123;        </span><br><span class="line">const &#123; ctx &#125; &#x3D; this; &#x2F;&#x2F; this 代表当前 Service 对象本身        </span><br><span class="line">const where &#x3D; &#123; code &#125;;        </span><br><span class="line">return await ctx.model.user.findAll(&#123;where&#125;); </span><br><span class="line">&#x2F;&#x2F; 通过 Model(数据模型) 部分获取静态资源    </span><br><span class="line">&#125; &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/10/01/Eggjs/5.png" alt="img"></p>
-<h3 id="（5）配置-Config"><a href="#（5）配置-Config" class="headerlink" title="（5）配置(Config)"></a><strong>（5）配置(Config)</strong></h3><p>  配置文件返回的是一个object对象，可以覆盖框架的一些配置</p>
-<p><img src="/2020/10/01/Eggjs/6.png" alt="img"></p>
-<h2 id="路由-Router"><a href="#路由-Router" class="headerlink" title="路由(Router)"></a>路由(Router)</h2><p>  Router主要用来描述和请求URL和具体承担执行动作的Controller的对应关系。框架约定了app/router.js文件用于统一所有路由规则。</p>
-<p>  通过统一配置，我们可以更方便查看全局的路由规则。</p>
-<p><strong>如何定义Router</strong></p>
-<p>  app/router.js 里面定义 URL 路由规则</p>
-<p>  app/controller 目录下面实现 Controller</p>
-<p><strong>Router详细定义说明</strong></p>
-<p>  路由的完整定义主要包括五个部分:</p>
-<p>  1)verb-用户触发动作，支持get，post等所有HTTP方法</p>
-<ul>
-<li><p>router.head - HEAD</p>
-</li>
-<li><p>router.options - OPTIONS</p>
-</li>
-<li><p>router.get - GET</p>
-</li>
-<li><p>router.put - PUT</p>
-</li>
-<li><p>router.post - POST</p>
-</li>
-<li><p>router.patch - PATCH</p>
-</li>
-<li><p>router.delete - DELETE</p>
-</li>
-<li><p>router.del - 由于 delete 是一个保留字，所以提供了一个 delete 方法的别名。</p>
-</li>
-<li><p>router.redirect - 可以对 URL 进行重定向处理，比如我们最经常使用的可以把用户访问的根目录路由到某个主页。</p>
-<p>2）router-name 给路由设定一个别名，可以通过Helper提供的辅助函数pathFor和urlFor来生成URL。（可选）</p>
-<p>3）path-match -路由URL路径</p>
-<p>4）middleware1-在Router里面配置多个Middleware。(可选)</p>
-<p>5）controller-指定路由映射到具体的controller上</p>
-</li>
-</ul>
-<p>注:Midlleware即中间件,只有在分布式系统中才能叫中间件，中间件处于操作系统软件与用户的应用软件系统之间。中间件在操作系统、网络和数据库之上，应用软件的下层，总的作用是为处于自己上层的应用软件提供运行和开发环境，帮助用户灵活、高效的开发和集成复杂的应用软件。</p>
-<h2 id="控制器-Controller"><a href="#控制器-Controller" class="headerlink" title="控制器(Controller)"></a>控制器(Controller)</h2><p>  我们通过Router将用户的请求基于method和URL分发到了对应的Controller。</p>
-<p>  Controller负责解析用户的输入，处理后返回相应的结果。例如</p>
-<ul>
-<li><p>在 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> 接口中，Controller 接受用户的参数，从数据库中查找内容返回给用户或者将用户的请求更新到数据库中。</p>
-</li>
-<li><p>在 HTML 页面请求中，Controller 根据用户访问不同的 URL，渲染不同的模板得到 HTML 返回给用户。</p>
-</li>
-<li><p>在代理服务器中，Controller 将用户的请求转发到其他服务器上，并将其他服务器的处理结果返回给用户。</p>
-<p>Controller层主要对用户的请求参数进行处理(校验、转换)，然后调用对应的service方法处理业务，得到业务结果后封装并返回:</p>
-<p>1.获取用户通过HTTP传递过来的请求参数</p>
-<p>2.校验、组装参数</p>
-<p>3.调用service进行业务处理，必要时处理转换service的返回结果，让它适应用户的需求。</p>
-<p>4.通过HTTP将结果响应给用户</p>
-</li>
-</ul>
-<p><strong>如何编写Controller</strong></p>
-<p>  所有的 Controller 文件都必须放在 app/controller 目录下，可以支持多级目录，访问的时候可以通过目录名级联访问。Controller 支持多种形式进行编写，可以根据不同的项目场景和开发习惯来选择。</p>
-<p>  我们可以通过定义Controller类的方式来编写代码。每一个 Controller 都是一个 async function，它的入参为请求的上下文 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html#context">Context</a> 对象的实例，通过它我们可以拿到框架封装好的各种便捷属性和方法。</p>
-<p><strong>HTTP基础</strong></p>
-<p>  HTTP协议，如发起一个HTTP请求来访问Controller:curl -X POST <a target="_blank" rel="noopener" href="http://localhost:3000/api/posts">http://localhost:3000/api/posts</a> –data ‘{“title”:”controller”, “content”: “what is controller”}’ –header ‘Content-Type:application/json; charset=UTF-8’</p>
-<p>通过curl发出的HTTP请求如下:</p>
-<p>POST /api/posts HTTP/1.1</p>
-<p>Host: localhost:3000</p>
-<p>Content-Type: application/json; charset=UTF-8</p>
-<p>{“title”: “controller”, “content”: “what is controller”}</p>
-<p>请求第一行包括:</p>
-<ul>
-<li>method:如这个请求中的method值是POST</li>
-<li>path:值为/api/posts,如果用户的请求中包含query，也会在这里出现</li>
-</ul>
-<p>从第二行开始直到遇到的第一个空行位置，都是请求的 Headers 部分，这一部分中有许多常用的属性，包括这里看到的 Host，Content-Type，还有 Cookie，User-Agent 等等。在这个请求中有两个头：</p>
-<ul>
-<li>Host：我们在浏览器发起请求的时候，域名会用来通过 DNS 解析找到服务的 IP 地址，但是浏览器也会将域名和端口号放在 Host 头中一并发送给服务端。</li>
-<li>Content-Type：当我们的请求有 body 的时候，都会有 Content-Type 来标明我们的请求体是什么格式的。</li>
-</ul>
-<p>之后的内容全部都是请求的 body，当请求是 POST, PUT, DELETE 等方法的时候，可以带上请求体，服务端会根据 Content-Type 来解析请求体。</p>
-<p>在服务端处理完这个请求后，会发送一个 HTTP 响应给客户端</p>
-<p>HTTP/1.1 201 Created</p>
-<p>Content-Type: application/json; charset=utf-8</p>
-<p>Content-Length: 8</p>
-<p>Date: Mon, 09 Jan 2017 08:40:28 GMT</p>
-<p>Connection: keep-alive</p>
-<p>{“id”: 1}</p>
-<p>第一行中也包含了三段，其中我们常用的主要是<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">响应状态码</a>，这个例子中它的值是 201，它的含义是在服务端成功创建了一条资源。</p>
-<p>和请求一样，从第二行开始到下一个空行之间都是响应头，这里的 Content-Type, Content-Length 表示这个响应的格式是 JSON，长度为 8 个字节。</p>
-<p>最后剩下的部分就是这次响应真正的内容。</p>
-<p><strong>获取HTTP请求参数</strong></p>
-<p>  <strong>query</strong></p>
-<p>   在URL中？后面的部分是一个Query String，这一部分通常用于GET类型的请求中传递参数。我们可以通过ctx.query拿到解析过后的这个参数体。当 Query String 中的 key 重复时，ctx.query 只取 key 第一次出现时的值，后面再出现的都会被忽略。GET /posts?category=egg&amp;category=koa 通过 ctx.query 拿到的值是 { category: ‘egg’ }。有时候我们的系统会设计成让用户传递相同的 key，例如 GET /posts?category=egg&amp;id=1&amp;id=2&amp;id=3。针对此类情况，框架提供了 ctx.queries 对象，这个对象也解析了 Query String，但是它不会丢弃任何一个重复的数据，而是将他们都放到一个数组中。</p>
-<p><strong>body</strong></p>
-<p>  我们固然可以通过URL传递参数，但是还有以下限制:</p>
-<p>  1)浏览器中会对URL的长度有所限制，如果需要传递的参数过多就会无法传递。  </p>
-<p>  2）服务端经常会将访问的完整URL记录到日志文件中，有一些敏感数据通过URL传递不安全。</p>
-<p>  body部分通常用来传递POST、PUT和DELETE等方法的参数。一般请求中有body的时候，客户端(浏览器)会同时发送Content-Type告诉服务端这次请求的body是什么格式的。Web开发中数据传递最常用的两类格式分别是JSON和Form。</p>
-<p>  框架内置了bodyParser中间件来对这两类格式的请求body解析成object挂载到ctx.request.body上.HTTP协议中并不建议在通过GET、HEAD方法访问时传递body，所以我们无法在GET、HEAD方法中按照此方法获取到内容。</p>
-<p>  框架对bodyParser设置了一些默认参数，一般来说我们最经常调整的配置项就是变更解析时允许的最大长度，可以在config/config.default.js中覆盖框架的默认值。注:在调整bodyParser支持的body长度时，如果我们应用前面还有一层反向代理(Nginx)，可能也需要调整它的配置，确保反向代理也支持同样长度的请求body。</p>
-<p><strong>获取上传的文件</strong></p>
-<p>  请求body除了可以带参数外，还可以发送文件，一般来说，浏览器上都是通过Mutipart/form-data 格式发送文件，框架通过内置Multipart插件来支持获取用户上传的文件。有两种方式:File模式与Stream模式。</p>
-<p><strong>header</strong></p>
-<p>  除了从URL和请求body上获取参数之外，还有许多参数请求header传递的。框架提供了一些辅助属性和方法来获取。</p>
-<ul>
-<li><p>ctx.headers，ctx.header，ctx.request.headers，ctx.request.header：这几个方法是等价的，都是获取整个 header 对象。</p>
-</li>
-<li><p>ctx.get(name)，ctx.request.get(name)：获取请求 header 中的一个字段的值，如果这个字段不存在，会返回空字符串。</p>
-</li>
-<li><p>我们建议用 ctx.get(name) 而不是 ctx.headers[‘name’]，因为前者会自动处理大小写。</p>
-<p>详见官方文章。</p>
-</li>
-</ul>
-<p><strong>Cookie</strong></p>
-<p>  cookie是保存在客户机中的简单的文本文件，这个文件保留了该客户机访问这个web文档时的信息，当用户再次访问这个web文档时这些信息可供该文档使用。它可以帮助我们实现记录用户个人信息的功能。</p>
-<p>  我们Web应用为了知道发起请求的人是谁，HTTP协议设计了一个特殊的请求头:Cookie(set-cookie)将少量数据响应给客户端，浏览器会遵循协议将数据保存，并在下次请求同一个服务的时候带上。</p>
-<p>  通过ctx.cookies，我们可以在Controller中便捷、安全的设置和读取Cookie。</p>
-<p>  Cookie在web应用中经常承担了传递客户端身份信息的作用，因此有许多安全相关的配置。</p>
-<p><strong>Session</strong></p>
-<p>  通过Cookie，我们可以给每一个用户设置一个session，用来存储用户身份相关的信息，这份信息会加密后存储在cookie中，实现跨请求的用户身份保持。</p>
-<p>  框架内置了Seesion插件，给我们提供了ctx.session来提供或者修改当前用户Session。</p>
-<p>  Session直接读取或者修改即可，如果要删除它，直接将它赋值为null。</p>
-<p><strong>参数校验</strong></p>
-<p>  在获取到用户请求的参数后，不可避免的要求参数进行一些校验。</p>
-<p>  借助Validata插件提供的ctx.validata(rule,[body])直接对参数进行校验。</p>
-<p>  当校验异常时，会直接抛出一个异常，异常状态码为422，errors字段包含了详细的验证不通过信息。如果想要自己处理检查的异常，可以通过try catch来自行捕捉。</p>
-<p>  <strong>校验规则</strong></p>
-<p>参数校验通过Parameter完成，支持的校验规则可以在该模块的文档中查阅到。除了内置检验类型外，有时候我们希望自定义一些奇偶碍眼规则，我们可以通过app.validator.addRule(type,check)的方式新增自定义规则。</p>
-<p><strong>调用Service</strong></p>
-<p>  egg提供了一个service层进行业务逻辑的封装。在Controller中可以调用任何一个service上的任何方法，同时service是懒加载的，只有当访问到它的时候框架才会去实例化它。</p>
-<p><strong>发送HTTP响应</strong></p>
-<p>  当业务逻辑完成后，Controller的最后一个职责就是将业务逻辑的处理结果通过HTTP响应发送给用户。</p>
-<p><strong>设置status(状态码)</strong></p>
-<p>  框架提供了一个便捷的setter来进行状态码的设置。</p>
-<p><strong>设置body</strong></p>
-<p>  在响应中发送的body，也需要配套的Content-Type告知客户端如何对数据进行解析。详见官方文件。</p>
-<p>  框架也支持将body设置成一个Stream，并会同时处理好这个Stream上的错误事件。</p>
-<p><strong>渲染模板</strong></p>
-<p>  我们一般会通过模板引擎生成HTML页面。框架自身没有集成任何一个模板引擎，但是可以通过接入的模板引擎直接使用ctx.render(template)。</p>
-<p><strong>JSONP</strong></p>
-<p>  我们需要给非本域的页面提供接口服务时，可以通过JSONP进行响应。由于 JSONP 如果使用不当会导致非常多的安全问题，所以框架中提供了便捷的响应 JSONP 格式数据的方法，封装了 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/security.html#jsonp-xss">JSONP XSS 相关的安全防范</a>，并支持进行 CSRF 校验和 referrer 校验。</p>
-<p><strong>JSONP配置/跨站防御配置/referrer校验</strong></p>
-<p>详见官方文档</p>
-<p><strong>设置Header</strong></p>
-<p>  我们通过状态码请求成功与否、状态如何，在body中设置响应的内容。而通过响应的Header，还可以设置一些扩展信息。</p>
-<p><strong>重定向</strong></p>
-<p>  框架通过security插件覆盖了koa原生的ctx.redirect实现，以提供更加安全的重定向。</p>
-<h2 id="服务-Service"><a href="#服务-Service" class="headerlink" title="服务(Service)"></a>服务(Service)</h2><p>  service就是在复杂业务场景下用于做业务逻辑封装的一个抽象层，提供这个抽象的好处如下:</p>
-<ul>
-<li>保持Controller中的逻辑更加简洁</li>
-<li>保持业务逻辑的独立性，抽象出来的service可以被多个Controller重复调用。</li>
-<li>将逻辑和展现分离，更容易编写测试用例。</li>
-</ul>
-<p><strong>使用场景</strong></p>
-<ul>
-<li>复杂数据的处理，比如调用数据库信息还要经过计算返回给用户</li>
-<li>第三方服务的调用，比如GitHib信息获取等</li>
-</ul>
-<p><strong>属性</strong></p>
-<p>  service有下列属性方便我们进行开发:</p>
-<ul>
-<li>this.ctx: 当前请求的上下文 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html#context">Context</a> 对象的实例，通过它我们可以拿到框架封装好的处理当前请求的各种便捷属性和方法。</li>
-<li>this.app: 当前应用 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html#application">Application</a> 对象的实例，通过它我们可以拿到框架提供的全局对象和方法。</li>
-<li>this.service：应用定义的 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/service.html">Service</a>，通过它我们可以访问到其他业务层，等价于 this.ctx.service 。</li>
-<li>this.config：应用运行时的<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/config.html">配置项</a>。</li>
-<li>this.logger：logger 对象，上面有四个方法（debug，info，warn，error），分别代表打印四个不同级别的日志，使用方法和效果与 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/logger.html#context-logger">context logger</a> 中介绍的一样，但是通过这个 logger 对象记录的日志，在日志前面会加上打印该日志的文件路径，以便快速定位日志打印位置。</li>
-</ul>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/back-design/" rel="tag">back-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-JS红宝书"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/"
-    >JS</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/" class="article-date">
-  <time datetime="2020-09-30T07:52:01.000Z" itemprop="datePublished">2020-09-30</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/">JS红宝书</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
-<ul>
-<li>核心：规定了这门语言的语法、类型等基础内容</li>
-<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
-<li>BOM：提供与浏览器交互的方法和接口</li>
-</ul>
-<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
-<li>src：里面放外部文件，如a.png等</li>
-<li>type：必选，一般来用text/javascript</li>
-</ul>
-<p>Tips：</p>
-<ul>
-<li><p>script按照顺序解析</p>
-</li>
-<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
-</li>
-<li><p>HTML中推荐使用外部JS导入来使用</p>
-</li>
-</ul>
-<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
-<ul>
-<li>区分大小写</li>
-<li>严格模式：来源于JS</li>
-<li>注释：//或/* */</li>
-<li>加分号</li>
-<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
-<li>‘’和””同样理解为String类型，没区别</li>
-<li>Object是所有对象的基础</li>
-<li>默认情况下JS中所有整数都是有符号整数</li>
-<li>for-in枚举对象属性</li>
-<li>函数声明：function 函数名(a,b,c…){…}</li>
-<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
-<li>return;返回undefined</li>
-</ul>
-<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
-<ul>
-<li>创建对象new Object()</li>
-<li>复制变量即复制值，var num1=num//num==num1</li>
-<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
-<li>JS中所有函数的参数都是按值传递的</li>
-<li>typeof()检测基本类型、instanceof()检测引用类型</li>
-<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
-<li>if、for语句中声明的变量即为全局变量</li>
-<li>JS有垃圾回收机制</li>
-</ul>
-<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
-<ul>
-<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
-<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
-<li>Date：Date.parse()换成ms</li>
-<li>RegEXP：正则表达式</li>
-<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
-</ul>
-<p>Tips:</p>
-<ul>
-<li>类似栈函数push()、pop()</li>
-<li>类似队列函数shift()、push()</li>
-<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
-<li>concat()方法对数组内元素进行删除、插入、替换</li>
-<li>可以将一个函数作为另一个函数的结果返回</li>
-<li>函数内部对象this引用函数当前对象的属性如this.color</li>
-<li>函数名.length表示接收参数的个数</li>
-</ul>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-shell"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/30/shell/"
-    >Shell/Mongo定时导出删除</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/30/shell/" class="article-date">
-  <time datetime="2020-09-30T07:29:07.000Z" itemprop="datePublished">2020-09-30</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#月份	</span></span><br><span class="line"><span class="comment">#在月份使用的时候有一个问题就是怎么获取上上个月的月份才好使用时间戳确定时间</span></span><br><span class="line"><span class="comment">#想到可以用数组，本来是想用m[-1]==m[m.length-1]的思路，发现js不是这样，但是可以赋值-1</span></span><br><span class="line">var m=new Array()</span><br><span class="line">m[-2]=30</span><br><span class="line">m[-1]=31</span><br><span class="line">m[0]=31</span><br><span class="line">m[1]=28</span><br><span class="line">m[2]=31</span><br><span class="line">m[3]=30</span><br><span class="line">m[4]=31</span><br><span class="line">m[5]=30</span><br><span class="line">m[6]=31</span><br><span class="line">m[7]=31</span><br><span class="line">m[8]=30</span><br><span class="line">m[9]=31</span><br><span class="line">m[10]=30</span><br><span class="line">m[11]=31</span><br><span class="line">log4=new Date()</span><br><span class="line">log3=new Date().valueOf()</span><br><span class="line">t1=-(m[log4.getMonth()-1]+m[log4.getMonth()-2]+m[log4.getMonth()-3])*24*60*60*1000</span><br><span class="line">t2=-(m[log4.getMonth()-1]+m[log4.getMonth()-2])*24*60*60*1000</span><br><span class="line">log1=log3+t1-1.5*60*60*1000</span><br><span class="line">log2=log3+t2-1.5*60*60*1000</span><br><span class="line">log1=new Date(log1)</span><br><span class="line">log2=new Date(log2)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>目标：做一个定时运行对mongo数据库进行导出和删除数据的脚本</p>
-<p>难点：对时间和shell、mongo命令行操作，及ISO和UTC的变换，Crontable定时</p>
-<p>shell是使用${}取值，变量=${date}获取日期，如果是整数日期变换可以使用date -d里的类似3 day ago、8 hour ago进行变换，而如果涉及多个时间则只能先将时间变为秒加减后再格式化为时间</p>
-<p>mongo可以直接使用变量名取值，变量=Date()取ISO时间值，使用valueOf()取秒，变换后再Date(变量)取值</p>
-<p>后又发现在shell里面使用mongo出现问题：</p>
-<p>问题一：使用mongo命令直接进入mongo界面不执行指令</p>
-<p>解决方法：使用&lt;&lt;EOF和EOF输入即可</p>
-<p>问题二：使用db.mange.deleteMany(“createdAt”:{“gte”:ISO()})时无法删除</p>
-<p>解决方法：在gte前使用转义字符\即可，这个困扰了好几天</p>
-<p>问题三：路径出问题</p>
-<p>解决方案：~在命令行都能进故觉得是绝对路径，但是在shell不行，~表示/home/用户名</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
   </nav>
   
 </section>
