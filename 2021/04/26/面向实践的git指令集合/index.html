@@ -10,7 +10,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    comGit |  
+    面向实践的git指令集合 |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-comGit"
+  id="post-面向实践的git指令集合"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,15 +56,15 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  comGit
+  面向实践的git指令集合
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/10/06/comGit/" class="article-date">
-  <time datetime="2020-10-06T06:23:19.000Z" itemprop="datePublished">2020-10-06</time>
+      <a href="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/" class="article-date">
+  <time datetime="2021-04-26T12:17:19.000Z" itemprop="datePublished">2021-04-26</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">389</span>
+            <span class="post-count">523</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -99,77 +99,53 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
+  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin master <span class="comment"># 这里的master可以为任意分支名</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD commit_id 退到/进到，指定commit的哈希码回退到指定版本</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#56;&#x31;&#x2e;&#54;&#x38;&#x2e;&#55;&#51;&#46;&#x35;&#53;">&#x67;&#x69;&#116;&#64;&#56;&#x31;&#x2e;&#54;&#x38;&#x2e;&#55;&#51;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
+
+
+<h2 id="创建并推送代码到新分支"><a href="#创建并推送代码到新分支" class="headerlink" title="创建并推送代码到新分支"></a>创建并推送代码到新分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建本地分支</span></span><br><span class="line">git checkout -b dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并推送代码到远程分支</span></span><br><span class="line">git push --set-upstream origin dev</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h2><blockquote>
+<p>冲突即多人开发时，修改了同一个文件</p>
+</blockquote>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin master</span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
+<h2 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="回退到修改前的内容"><a href="#回退到修改前的内容" class="headerlink" title="回退到修改前的内容"></a>回退到修改前的内容</h2><blockquote>
+<p>比如我们改动了文件内容，但是写完后发现太混乱想重写，此时就需要回退到修改前</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改,此时已经可以发现修改内容已丢失</span></span><br><span class="line">git stash</span><br><span class="line"><span class="comment"># 丢弃更改</span></span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="代码写到一半修改其他分支内容"><a href="#代码写到一半修改其他分支内容" class="headerlink" title="代码写到一半修改其他分支内容"></a>代码写到一半修改其他分支内容</h2><blockquote>
+<p>单一stash暂存情况</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash</span><br><span class="line"><span class="comment"># 查看刚刚的暂存的修改</span></span><br><span class="line">git stash show</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...修改其他分支中，修改完成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出修改</span></span><br><span class="line">git pop</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>多stash情况</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
+<h2 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h2><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先解除gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line">git push -f origin master</span><br></pre></td></tr></table></figure>
+
+
+
+<p>强制覆盖本地</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获得更新</span></span><br><span class="line">git fetch --all</span><br><span class="line"><span class="comment"># 覆盖本地</span></span><br><span class="line">git reset --hard origin/master <span class="comment"># 这里可以为任意远程分支</span></span><br></pre></td></tr></table></figure>
+
  
       <!-- reward -->
       
@@ -234,12 +210,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/06/comGit/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
 
     </footer>
   </div>
@@ -247,19 +223,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/10/06/comShell/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            comShell
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/" class="article-nav-link">
+      <a href="/2021/04/23/Js%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Linux文件、目录与磁盘格式</div>
+        <div class="article-nav-title">Js常用内置对象方法</div>
       </a>
     
   </nav>
