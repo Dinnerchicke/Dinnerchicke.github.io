@@ -71,33 +71,53 @@
   <entry>
     <title>面向实践的git指令集合</title>
     <url>/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin master <span class="comment"># 这里的master可以为任意分支名</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/8.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/10.jpg"></p>
+<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/4.jpg"></p>
+<h2 id="git指令集合"><a href="#git指令集合" class="headerlink" title="git指令集合"></a>git指令集合</h2><h3 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add . <span class="comment"># 将workspace修改的内容提交到暂存区</span></span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span> <span class="comment"># 将暂存区的内容提交到版本库</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin [branchName] <span class="comment"># 将版本库内容提交到远程仓库</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="创建并推送代码到新分支"><a href="#创建并推送代码到新分支" class="headerlink" title="创建并推送代码到新分支"></a>创建并推送代码到新分支</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建本地分支</span></span><br><span class="line">git checkout -b dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并推送代码到远程分支</span></span><br><span class="line">git push --set-upstream origin dev</span><br></pre></td></tr></table></figure>
+<h3 id="拉取合并代码"><a href="#拉取合并代码" class="headerlink" title="拉取合并代码"></a>拉取合并代码</h3><blockquote>
+<p>pull = fetch(拉取远程代码) + merge(合并代码)</p>
+<p>如果pull的当前分支名与远程分支名相同,则只需git pull即可,push同</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h2><blockquote>
+<h3 id="创建并推送代码到新分支"><a href="#创建并推送代码到新分支" class="headerlink" title="创建并推送代码到新分支"></a>创建并推送代码到新分支</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建本地分支</span></span><br><span class="line">git checkout -b [branchName]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并推送代码到远程分支</span></span><br><span class="line">git push --set-upstream origin [branchName]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3><blockquote>
 <p>冲突即多人开发时，修改了同一个文件</p>
 </blockquote>
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg"></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin master</span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg">形式一：提交时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/11.jpg">形式二：拉取时</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin [branchName] <span class="comment"># 将远程仓库内容拉到本地workspace</span></span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin [branchName]</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
-<h2 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br></pre></td></tr></table></figure>
+<h3 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本,将HEAD指针指向上一个commitID</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到最新版本</span></span><br><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="回退到修改前的内容"><a href="#回退到修改前的内容" class="headerlink" title="回退到修改前的内容"></a>回退到修改前的内容</h2><blockquote>
+<h3 id="回退到修改前的内容"><a href="#回退到修改前的内容" class="headerlink" title="回退到修改前的内容"></a>回退到修改前的内容</h3><blockquote>
 <p>比如我们改动了文件内容，但是写完后发现太混乱想重写，此时就需要回退到修改前</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改,此时已经可以发现修改内容已丢失</span></span><br><span class="line">git stash</span><br><span class="line"><span class="comment"># 丢弃更改</span></span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改,此时已经可以发现修改内容已丢失</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 丢弃更改</span></span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="代码写到一半修改其他分支内容"><a href="#代码写到一半修改其他分支内容" class="headerlink" title="代码写到一半修改其他分支内容"></a>代码写到一半修改其他分支内容</h2><blockquote>
+<h3 id="代码写到一半修改其他分支内容"><a href="#代码写到一半修改其他分支内容" class="headerlink" title="代码写到一半修改其他分支内容"></a>代码写到一半修改其他分支内容</h3><blockquote>
+<p>注意,如果创建了新的文件,在上一个提交时没有此文件,则此文件不会被暂存</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git stash -u <span class="comment"># 暂存新的文件</span></span><br><span class="line"></span><br><span class="line">git stash -a <span class="comment"># 暂存新的文件+.gitignore忽略的文件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
 <p>单一stash暂存情况</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash</span><br><span class="line"><span class="comment"># 查看刚刚的暂存的修改</span></span><br><span class="line">git stash show</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...修改其他分支中，修改完成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出修改</span></span><br><span class="line">git pop</span><br></pre></td></tr></table></figure>
@@ -110,13 +130,21 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
-<h2 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h2><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 需要先解除gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line">git push -f origin master</span><br></pre></td></tr></table></figure>
+<h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 需要先查看gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line"><span class="comment"># 一般来说只支持Maintainers</span></span><br><span class="line">git push -f origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
 
 <p>强制覆盖本地</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获得更新</span></span><br><span class="line">git fetch --all</span><br><span class="line"><span class="comment"># 覆盖本地</span></span><br><span class="line">git reset --hard origin/master <span class="comment"># 这里可以为任意远程分支</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获得更新</span></span><br><span class="line">git fetch --all</span><br><span class="line"><span class="comment"># 覆盖本地</span></span><br><span class="line">git reset --hard origin/[branchName] <span class="comment"># 这里可以为任意远程分支</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除远程-amp-本地分支"><a href="#删除远程-amp-本地分支" class="headerlink" title="删除远程&amp;本地分支"></a>删除远程&amp;本地分支</h3><blockquote>
+<p>需要在gitlab上将branch的保护状态去掉，不然会删除失败，推荐在gitlab上删除远程分支，本地删除本地分支</p>
+<p>修改保护状态路径,在gitlab上：”Settings” -&gt; “Repository” -&gt; “Protected branches”.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除远程</span></span><br><span class="line">git push origin --delete [branchName] <span class="comment"># 远程分支名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除本地分支,因为删除远程分支时并不会把本地分支一并删除</span></span><br><span class="line"><span class="comment"># 注意删除本地分支时HEAD不能指向该分支,不然会删除失败</span></span><br><span class="line">git branch -D [branchName]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看现有分支</span></span><br><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -3556,89 +3584,6 @@
 <li>保证内网安全：隐藏服务器信息</li>
 <li>负载均衡</li>
 </ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comGit</title>
-    <url>/2020/10/06/comGit/</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><img src="/2020/10/06/comGit/3.jpg" alt="30" style="zoom:70%;">
-
-<p><img src="/2020/10/06/comGit/4.jpg"></p>
-<h3 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h3><ul>
-<li><p>git init 初始化本地仓库，目录下会多加.git隐藏目录</p>
-</li>
-<li><p>git add  .  把文件修改添加到暂存区</p>
-</li>
-<li><p>git commit 把暂存区的内容提交到当前分支</p>
-</li>
-<li><p>git remote add origin … 将本地仓库与远程库关联</p>
-</li>
-<li><p>git push -u origin master 把本地库的所有内容推送到远程库中，-u参数推送与关联</p>
-</li>
-<li><p>git push origin master 本地提交后，推送到远程库</p>
-</li>
-<li><p>git status 查看仓库当前状态</p>
-</li>
-<li><p>git branch 查看当前分支</p>
-</li>
-<li><p>git log 查看提交日志</p>
-</li>
-<li><p>git remote 查看远程库信息</p>
-</li>
-<li><p>git reset –hard HEAD^ 回退到上一个版本</p>
-</li>
-<li><p>git reset –hard HEAD commit_id 退到/进到，指定commit的哈希码回退到指定版本</p>
-</li>
-<li><p>git checkout -b dev 创建新分支dev并切换到dev</p>
-</li>
-<li><p>git checkout dev 切换到dev分支</p>
-</li>
-<li><p>git pull 包含一个git fetch和一个git merge</p>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>origin为远程库名称</li>
-</ul>
-<h2 id="开发者端"><a href="#开发者端" class="headerlink" title="开发者端"></a>开发者端</h2><h3 id="空项目"><a href="#空项目" class="headerlink" title="空项目"></a>空项目</h3><p>在gitlab上创建项目后</p>
-<ol>
-<li><p>输入git config –global user.name “用户名”</p>
-</li>
-<li><p>输入git config –global user.email “邮箱”</p>
-</li>
-<li><p>git init</p>
-</li>
-<li><p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#56;&#x31;&#x2e;&#54;&#x38;&#x2e;&#55;&#51;&#46;&#x35;&#53;">&#x67;&#x69;&#116;&#64;&#56;&#x31;&#x2e;&#54;&#x38;&#x2e;&#55;&#51;&#46;&#x35;&#53;</a>:cdx/testp.git  (放项目clone地址)<img src="/2020/10/06/comGit/1.jpg"></p>
-</li>
-<li><p>git add . //把文件</p>
-</li>
-<li><p>git commit</p>
-</li>
-<li><p>git push  -u origin dev</p>
-</li>
-</ol>
-<h3 id="非空项目"><a href="#非空项目" class="headerlink" title="非空项目"></a>非空项目</h3><p>​    往git上传代码</p>
-<ol>
-<li><p>git add .</p>
-</li>
-<li><p>git commit -m “(写你的改动描述)” </p>
-</li>
-<li><p>git pull  #拉服务器代码</p>
-</li>
-<li><p>git status</p>
-<p><img src="/2020/10/06/comGit/2.jpg"></p>
-</li>
-<li><p>git push</p>
-</li>
-</ol>
-<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>等到开发者把代码git push origin dev到服务器端后</p>
-<p>服务器配置后在命令行输入git pull origin dev将代码拉到本地运行</p>
 ]]></content>
       <categories>
         <category>PStudy</category>
