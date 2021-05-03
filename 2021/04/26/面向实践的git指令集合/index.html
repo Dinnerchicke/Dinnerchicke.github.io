@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">873</span>
+            <span class="post-count">874</span>
         </span>
     </span>
 
@@ -148,14 +148,14 @@
 <blockquote>
 <p>单一stash暂存情况</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash</span><br><span class="line"><span class="comment"># 查看刚刚的暂存的修改</span></span><br><span class="line">git stash show</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...修改其他分支中，修改完成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出修改</span></span><br><span class="line">git pop</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看刚刚的暂存的修改</span></span><br><span class="line">git stash show</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...修改其他分支中，修改完成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出修改</span></span><br><span class="line">git pop</span><br></pre></td></tr></table></figure>
 
 
 
 <blockquote>
 <p>多stash情况</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git stash apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
 <h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
