@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="baidu-site-verification" content="code-QdAXqd4Pi2" />
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    V8工作原理 |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/Logo.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-V8工作原理"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  V8工作原理
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
+  <time datetime="2021-06-02T02:17:10.000Z" itemprop="datePublished">2021-06-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
+<blockquote>
+<p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
+<ul>
+<li>代码空间：存储可执行代码</li>
+<li>栈空间：存储执行上下文，原始类型被存储在里面</li>
+<li>堆空间：存储引用类型，将引用类型地址保留在栈空间中</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>为什么要分栈和堆？</p>
+<ul>
+<li>因为Js引擎需要栈保证上下文切换的效率，所以栈空间一般都不会设置太大</li>
+<li>而堆空间很大可以存放很多大数据，不过缺点是分配内存和回收内存都会占用一定的事件</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>闭包内存创建流程：</p>
+<ol>
+<li>当Js引擎发现内部函数引用了外部函数的变量时，即是闭包。</li>
+<li>于是在堆空间创建一个closure(函数名)的对象</li>
+<li>继续扫描，将引用的变量放入closure中</li>
+</ol>
+</blockquote>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><h3 id="调用栈的数据是如何回收的"><a href="#调用栈的数据是如何回收的" class="headerlink" title="调用栈的数据是如何回收的"></a>调用栈的数据是如何回收的</h3><blockquote>
+<p>通过记录当前执行状态的指针ESP来实现</p>
+<p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
+<h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
+<p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
+<p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
+</blockquote>
+<blockquote>
+<p>V8会把堆分为<code>新生代</code>和<code>老生代</code>两个区域，新生代中存放的是<code>生存时间短的对象</code>，老生代中存放的是<code>生存时间久的对象</code></p>
+<ul>
+<li>新生区通常只支持1-8M的容量，而老生区支持的容量就大很多</li>
+<li>新生区使用<code>副垃圾回收器</code>，老生区使用<code>主垃圾回收器</code></li>
+</ul>
+</blockquote>
+<h4 id="代际假说"><a href="#代际假说" class="headerlink" title="代际假说"></a>代际假说</h4><blockquote>
+<p>后续垃圾回收策略都是建立在该假说的基础上的</p>
+</blockquote>
+<blockquote>
+<p>代际假说特点：适用于大多数动态语言</p>
+<ol>
+<li>大部分对象在内存中存在的时间很短</li>
+<li>不死的对象，会活的更久</li>
+</ol>
+</blockquote>
+<h4 id="垃圾回收器的工作流程"><a href="#垃圾回收器的工作流程" class="headerlink" title="垃圾回收器的工作流程"></a>垃圾回收器的工作流程</h4><blockquote>
+<p>不论什么类型的垃圾回收器，都有一套共同的执行流程</p>
+<ol>
+<li>标记空间中活动对象和非活动对象，所谓活动就是还在使用的对象，非活动对象就是可以进行垃圾回收的对象</li>
+<li>回收非活动对象所占据的内存</li>
+<li>内存管理：因为一般来说，频繁回收对象以后，内存就会存在大量不连续空间，当内存中出现大量的内存碎片以后，如果需要分配较大连续内存的时候就会出现内存不足的情况(这一步其实是可选的，因为有的垃圾回收器不会产生内存碎片，比如副垃圾回收器)</li>
+</ol>
+</blockquote>
+<h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
+<p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
+<blockquote>
+<p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
+<p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
+<p>对象晋升策略：经过两次垃圾回收依然存活的对象，会被移动到老生区中</p>
+</blockquote>
+<blockquote>
+<p>垃圾回收过程：</p>
+<ol>
+<li>首先对对象区域的垃圾做标记</li>
+<li>标记完成后，就进入垃圾清理阶段，副垃圾回收器会把这些存活的对象复制到空闲区域中，同时它还会把这些对象有序排列起来，所以这个过程也就相当于完成了内存整理操作</li>
+<li>完成复制后，对象区域与 空闲区域交换，这样就完成了垃圾对象的回收操作。</li>
+</ol>
+</blockquote>
+<h4 id="主垃圾回收器"><a href="#主垃圾回收器" class="headerlink" title="主垃圾回收器"></a>主垃圾回收器</h4><blockquote>
+<p>标记清除(Mark-Sweep)算法：因为老生区的对象较大，故在老生区使用Scavenge算法进行垃圾回收将会花费大量时间，故使用标记-清除(Mark-Sweep)算法进行回收</p>
+<p>除了新生区的晋升对象，一些大的对象会直接被分配到老生区，因此老生区中的对象有两个特点：</p>
+<ol>
+<li>对象占用空间大</li>
+<li>对象存活时间长</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>标记清除算法流程：</p>
+<ol>
+<li>首先是标记过程，标记元素就是通过一组根元素开始，递归遍历这组元素，在这个遍历过程中能到达的元素就称为活动对象，否则为垃圾数据</li>
+<li>接下来对垃圾数据进行清除</li>
+<li>以上就是标记-清除算法，紧接着是标记-整理(Mark-Compact)算法，因为对一块内存进行多次执行标记后会产生大量不连续的内存碎片，故需要此算法。</li>
+<li>标记-整理算法过程是将所有可活动对象将一遍移动，然后直接清除掉边界以外的内存。</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
+<h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
+<p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
+<p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
+</blockquote>
+<blockquote>
+<p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成,，这个算法叫做增量标记算法。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
+<h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
+<p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
+<p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
+<p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
+<p>这段代码经过转义后生成的AST结构如下</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
+<h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
+<li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
+</ol>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
+<ol start="2">
+<li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
+</ol>
+<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><blockquote>
+<p>解释器的功能：有了AST和执行上下文后，接下来就用解释器(Ignition)，它会根据AST生成字节码，并解释执行字节码</p>
+<p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
+<p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
+<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
+<p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            浏览器中的页面循环系统
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Js执行机制</div>
+      </a>
+    
+  </nav>
+
+  
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> CDX
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/Logo.svg" alt="CDX"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

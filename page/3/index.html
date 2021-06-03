@@ -81,6 +81,64 @@
     
     
     <article
+  id="post-Flex布局"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/04/Flex%E5%B8%83%E5%B1%80/"
+    >Flex布局</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/04/Flex%E5%B8%83%E5%B1%80/" class="article-date">
+  <time datetime="2021-01-04T00:54:06.000Z" itemprop="datePublished">2021-01-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a>Flex布局</h1><p>此笔记是为平时使用flex布局时快速索引</p>
+<h2 id="容器的属性"><a href="#容器的属性" class="headerlink" title="容器的属性"></a>容器的属性</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 决定主轴的方向</span><br><span class="line">flex-direction:row | row-reverse | column | column-reverse;</span><br><span class="line"></span><br><span class="line">// 换行</span><br><span class="line">flex-wrap:nowrap | wrap | wrap-reverse;</span><br><span class="line"></span><br><span class="line">// flex-flow为flex-direction和flex-wrap的简写，默认值为row,nowrap</span><br><span class="line">flex-flow:&lt;flex-direction&gt; || &lt;flex-wrap&gt;;</span><br><span class="line"></span><br><span class="line">// 主轴上的对齐方式</span><br><span class="line">justify-content:flex-start | flex-end | center | space-between | space-around;</span><br><span class="line">// space-between：两端对齐，项目之间的间隔都相等。</span><br><span class="line">// space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</span><br><span class="line"></span><br><span class="line">// 单一交叉轴对齐方式</span><br><span class="line">align-items:flex-start | flex-end | center | baseline | stretch;</span><br><span class="line"></span><br><span class="line">// 多根交叉轴的对齐方式</span><br><span class="line">align-content:flex-start | flex-end | center | space-between | space-around | stretch;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="项目的属性"><a href="#项目的属性" class="headerlink" title="项目的属性"></a>项目的属性</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 项目的排列顺序,数值越小越靠前,默认为0</span><br><span class="line"><span class="selector-tag">order</span>: &lt;<span class="selector-tag">integer</span>&gt;;</span><br><span class="line"></span><br><span class="line">// 项目的放大比例,默认为0</span><br><span class="line"><span class="selector-tag">flex-grow</span>: &lt;<span class="selector-tag">number</span>&gt;;</span><br><span class="line"></span><br><span class="line">// 项目的缩小比例</span><br><span class="line"><span class="selector-tag">flex-shrink</span>: &lt;<span class="selector-tag">number</span>&gt;;</span><br><span class="line"></span><br><span class="line">// flex属性为flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。</span><br><span class="line">flex: none | [ &lt;&#x27;flex-grow&#x27;&gt; &lt;&#x27;flex-shrink&#x27;&gt;? || &lt;&#x27;flex-basis&#x27;&gt; ]</span><br><span class="line">// 该属性有两个快捷值 auto (1 1 auto) 和 none (0 0 auto)。</span><br><span class="line"></span><br><span class="line">// 允许与其他项目不一样的对齐方式,可覆盖align-items属性,默认为auto,继承父的align-items属性,若没有,等同stretch</span><br><span class="line">align-self: auto | flex-start | flex-end | center | baseline | stretch;</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-go服务器部署"
   class="article article-type-post"
   itemscope
@@ -154,7 +212,7 @@
 <ol start="9">
 <li>go常用命令</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go instal</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go install</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
@@ -177,7 +235,7 @@
 
     
     <article
-  id="post-前端权限"
+  id="post-前端权限思路"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -188,15 +246,15 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/"
-    >前端权限</a> 
+  <a class="article-title" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF/"
+    >前端权限思路</a> 
 </h2>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/" class="article-date">
+      <a href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF/" class="article-date">
   <time datetime="2020-12-14T11:04:00.000Z" itemprop="datePublished">2020-12-14</time>
 </a> 
   <div class="article-category">
@@ -471,95 +529,6 @@
 
     
     <article
-  id="post-vue-admin-template"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/24/vue-admin-template/"
-    >vue-admin-template</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/11/24/vue-admin-template/" class="article-date">
-  <time datetime="2020-11-24T01:52:41.000Z" itemprop="datePublished">2020-11-24</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Vue-admin-template"><a href="#Vue-admin-template" class="headerlink" title="Vue-admin-template"></a>Vue-admin-template</h1><blockquote>
-<p>整体把握：整个模版基本都使用抽离模块思想,先写多个组件,然后组合到一个index文件中</p>
-</blockquote>
-<h2 id="api"><a href="#api" class="headerlink" title="api"></a>api</h2><p>接口模块</p>
-<h3 id="table-js"><a href="#table-js" class="headerlink" title="table.js"></a>table.js</h3><p>只有一个getList的get方法Api</p>
-<h3 id="user-js"><a href="#user-js" class="headerlink" title="user.js"></a>user.js</h3><p>getInfo接口需要token才能获取</p>
-<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><p>基础组件</p>
-<h3 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h3><p>面包屑:如下图，可以点击快速跳转</p>
-<p><img src="/2020/11/24/vue-admin-template/1.jpg"></p>
-<h3 id="Hamburger"><a href="#Hamburger" class="headerlink" title="Hamburger"></a>Hamburger</h3><p>上图中点击左/右拉侧边栏的图标</p>
-<h3 id="SvgIcon"><a href="#SvgIcon" class="headerlink" title="SvgIcon"></a>SvgIcon</h3><p>侧边栏的Logo</p>
-<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><p>基础布局</p>
-<h3 id="components"><a href="#components" class="headerlink" title="components"></a>components</h3><p>布局组件</p>
-<h4 id="Sidebar"><a href="#Sidebar" class="headerlink" title="Sidebar"></a>Sidebar</h4><h4 id="AppMain-vue"><a href="#AppMain-vue" class="headerlink" title="AppMain.vue"></a>AppMain.vue</h4><ul>
-<li>这里的transition定义了不同页面的转场动画</li>
-<li>router-view通常用在同时显示多个视图</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;section <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;app-main&quot;</span>&gt;</span><br><span class="line">    &lt;transition name=<span class="string">&quot;fade-transform&quot;</span> mode=<span class="string">&quot;out-in&quot;</span>&gt;</span><br><span class="line">      &lt;router-view :key=<span class="string">&quot;key&quot;</span> /&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导出vue</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Navbar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Navbar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Sidebar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Sidebar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> AppMain &#125; <span class="keyword">from</span> <span class="string">&#x27;./AppMain&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Navbar-vue"><a href="#Navbar-vue" class="headerlink" title="Navbar.vue"></a>Navbar.vue</h4><p>导航栏：最上层的那个栏,有Hamburger,面包屑和用户头像,登陆登出</p>
-<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><p>解除ipad最小化bug</p>
-<h3 id="index-vue"><a href="#index-vue" class="headerlink" title="index.vue"></a>index.vue</h3><p>导出</p>
-<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><p>定义路由，这里使用到了vue嵌套路由,一般情况下，修改页面只会影响app-main主体</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: <span class="string">&#x27;/documentation&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 你可以选择不同的layout组件</span></span><br><span class="line">  component: Layout,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里开始对应的路由都会显示在app-main中 如上图所示</span></span><br><span class="line">  children: [&#123;</span><br><span class="line">    path: <span class="string">&#x27;index&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;documentation/index&#x27;</span>),</span><br><span class="line">    name: <span class="string">&#x27;documentation&#x27;</span></span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当设置 true 的时候该路由不会在侧边栏出现 如401，login等页面，或者如一些编辑页面/edit/1</span></span><br><span class="line">hidden: <span class="literal">true</span> <span class="comment">// (默认 false)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当设置 noRedirect 的时候该路由在面包屑导航中不可被点击</span></span><br><span class="line">redirect: <span class="string">&#x27;noRedirect&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面</span></span><br><span class="line"><span class="comment">// 只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面</span></span><br><span class="line"><span class="comment">// 若你想不管路由下面的 children 声明的个数都显示你的根路由</span></span><br><span class="line"><span class="comment">// 你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由</span></span><br><span class="line">alwaysShow: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">name: <span class="string">&#x27;router-name&#x27;</span> <span class="comment">// 设定路由的名字，一定要填写不然使用&lt;keep-alive&gt;时会出现各种问题</span></span><br><span class="line">meta: &#123;</span><br><span class="line">  roles: [<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;editor&#x27;</span>] <span class="comment">// 设置该路由进入的权限，支持多个权限叠加</span></span><br><span class="line">  title: <span class="string">&#x27;title&#x27;</span> <span class="comment">// 设置该路由在侧边栏和面包屑中展示的名字</span></span><br><span class="line">  icon: <span class="string">&#x27;svg-name&#x27;</span> <span class="comment">// 设置该路由的图标，支持 svg-class，也支持 el-icon-x element-ui 的 icon</span></span><br><span class="line">  noCache: <span class="literal">true</span> <span class="comment">// 如果设置为true，则不会被 &lt;keep-alive&gt; 缓存(默认 false)</span></span><br><span class="line">  breadcrumb: <span class="literal">false</span> <span class="comment">//  如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)</span></span><br><span class="line">  affix: <span class="literal">true</span> <span class="comment">// 若果设置为true，它则会固定在tags-view中(默认 false)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当路由设置了该属性，则会高亮相对应的侧边栏。</span></span><br><span class="line">  <span class="comment">// 这在某些场景非常有用，比如：一个文章的列表页路由为：/article/list</span></span><br><span class="line">  <span class="comment">// 点击文章进入文章详情页，这时候路由为/article/1，但你想在侧边栏高亮文章列表的路由，就可以进行如下设置</span></span><br><span class="line">  activeMenu: <span class="string">&#x27;/article/list&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><p>Vuex</p>
-<h2 id="styles"><a href="#styles" class="headerlink" title="styles"></a>styles</h2><p>Scss样式</p>
-<h2 id="utils"><a href="#utils" class="headerlink" title="utils"></a>utils</h2><p>全局js方法</p>
-<h2 id="views"><a href="#views" class="headerlink" title="views"></a>views</h2><p>页面</p>
-<h2 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h2><p>入口js文件</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
   id="post-jsMdn"
   class="article article-type-post"
   itemscope
@@ -738,86 +707,6 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="built_in">eval</span>()<span class="comment">//eval函数可计算某字符串并执行其中的js代码</span></span><br></pre></td></tr></table></figure>
 
 
-
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-lodash源码分析Array"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/"
-    >lodash源码分析Array</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/" class="article-date">
-  <time datetime="2020-11-14T03:06:56.000Z" itemprop="datePublished">2020-11-14</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="lodash源码分析Array"><a href="#lodash源码分析Array" class="headerlink" title="lodash源码分析Array"></a>lodash源码分析Array</h1><blockquote>
-<p>lodash:4.0.0</p>
-<p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
-<p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
-<p>搜索技巧： 想要搜索的内容+mdn，比在mdn里面搜索快</p>
-</blockquote>
-<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h3><blockquote>
-<p>._chunk(array,[size=1])</p>
-<p>将array拆分成多个size大小的数组，如果最后的不够切则剩下的自己组成一个数组</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">2</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;, &#x27;d&#x27;]] </span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">3</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;d&#x27;]]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseSlice</span>(<span class="params">array, start, end</span>) </span>&#123;<span class="comment">//基本切片</span></span><br><span class="line">      <span class="comment">// 测试后发现，js的数组length只会统计下标大于0的部分，小于0的部分会被忽略</span></span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array.length;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//负数判断，一般用不到</span></span><br><span class="line">      <span class="keyword">if</span> (start &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        start = -start &gt; length ? <span class="number">0</span> : (length + start);</span><br><span class="line">      &#125;</span><br><span class="line">      end = end &gt; length ? length : end;</span><br><span class="line">      <span class="keyword">if</span> (end &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        end += length;</span><br><span class="line">      &#125;</span><br><span class="line">      length = start &gt; end ? <span class="number">0</span> : ((end - start) &gt;&gt;&gt; <span class="number">0</span>);</span><br><span class="line">      start &gt;&gt;&gt;= <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// &gt;&gt;表示有符号位移，&gt;&gt;1表示右移1位</span></span><br><span class="line">      <span class="comment">// &gt;&gt;&gt;表示无符号位移</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> result = <span class="built_in">Array</span>(length);</span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        result[index] = array[index + start];<span class="comment">//赋值</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">      size = nativeMax(toInteger(size), <span class="number">0</span>); <span class="comment">//nativeMax===math.max在size和0之间返回一个较大的数</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> length = array ? array.length : <span class="number">0</span>;  <span class="comment">//数组长度大于0</span></span><br><span class="line">      <span class="keyword">if</span> (!length || size &lt; <span class="number">1</span>) &#123;   <span class="comment">//假如长度非空且size&lt;1，返回空数组，迷惑</span></span><br><span class="line">        <span class="keyword">return</span> [];</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = <span class="built_in">Array</span>(nativeCeil(length / size));<span class="comment">//nativeCeil===math.Ceil()向上取整</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">         <span class="comment">//每次baseSlice嵌入新的数组</span></span><br><span class="line">        result[++resIndex] = baseSlice(array, index, (index += size));</span><br><span class="line">         <span class="comment">//以目前index开始，+size结束</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result; <span class="comment">//返回二维数组</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3><blockquote>
-<p>过滤原数组中的所有非假值元素。例如<code>false</code>, <code>null</code>, <code>0</code>, <code>&quot;&quot;</code>, <code>undefined</code>, 和 <code>NaN</code> 都是被认为是“假值”。</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>, <span class="number">2</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="comment">// =&gt; [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compact</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array ? array.length : <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = [];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        <span class="keyword">var</span> value = array[index];</span><br><span class="line">        <span class="keyword">if</span> (value) &#123;  <span class="comment">//用if过滤假值</span></span><br><span class="line">          result[++resIndex] = value;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
-<p>让原数组与任何数组或值连接到一起</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
@@ -1637,114 +1526,6 @@
 
 <h4 id="行内块巧妙运用"><a href="#行内块巧妙运用" class="headerlink" title="行内块巧妙运用"></a>行内块巧妙运用</h4><p>分页码</p>
 <h4 id="CSS三角巧妙运用"><a href="#CSS三角巧妙运用" class="headerlink" title="CSS三角巧妙运用"></a>CSS三角巧妙运用</h4><p><img src="/2020/11/06/C3/7.jpg"></p>
-<h2 id="CSS初始化"><a href="#CSS初始化" class="headerlink" title="CSS初始化"></a>CSS初始化</h2> 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-H5"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/06/H5/"
-    >H5</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/11/06/H5/" class="article-date">
-  <time datetime="2020-11-06T06:10:17.000Z" itemprop="datePublished">2020-11-06</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="H5"><a href="#H5" class="headerlink" title="H5"></a>H5</h1><h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h3 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h3><p>浏览器内核(渲染引擎)：负责读取网页内容，整理讯息，计算网页的显示方式并显示页面</p>
-<table>
-<thead>
-<tr>
-<th>浏览器</th>
-<th>内核</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>IE</td>
-<td>Trident</td>
-<td>IE、猎豹、360、百度</td>
-</tr>
-<tr>
-<td>FireFox</td>
-<td>Gecko</td>
-<td>火狐</td>
-</tr>
-<tr>
-<td>Safari</td>
-<td>Webkit</td>
-<td>苹果</td>
-</tr>
-<tr>
-<td>Chrome/Opera</td>
-<td>Blink</td>
-<td>chrome/opera，blink其实是webkit的分支</td>
-</tr>
-</tbody></table>
-<h2 id="Web标准"><a href="#Web标准" class="headerlink" title="Web标准"></a>Web标准</h2><p>包括结构、表现和行为</p>
-<table>
-<thead>
-<tr>
-<th>标准</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>结构</td>
-<td>结构用于对网页元素进行分类和整理，HTML</td>
-</tr>
-<tr>
-<td>表现</td>
-<td>表现用于设置网页元素的版式、颜色大小等外观样式，CSS</td>
-</tr>
-<tr>
-<td>行为</td>
-<td>行为是指网页模型的定义及交互的编写，JavaScript</td>
-</tr>
-</tbody></table>
-<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
-<li>!DOCTYPE:文档类型声明，告诉浏览器使用哪种HTML版本来显示网页</li>
-<li>lang:当前文档的显示语言，如zh-CN中文，en英文</li>
-<li>charset:字符集，如UTF-8</li>
-</ul>
-<p>其余部分学过，略过</p>
  
       <!-- reward -->
       
@@ -1872,13 +1653,155 @@
 </article>
 
     
+    <article
+  id="post-Nodejs数据泄漏"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/"
+    >Nodejs数据泄漏</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2020-10-22T09:34:59.000Z" itemprop="datePublished">2020-10-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
+<p><img src="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
+<p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
+<p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
+<p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
+<h2 id="第二部分：排查后端"><a href="#第二部分：排查后端" class="headerlink" title="第二部分：排查后端"></a>第二部分：排查后端</h2><p>从网上查到Nodejs的内存泄漏有以下可能</p>
+<ol>
+<li>全局变量 (排除)</li>
+<li>闭包 (排除)</li>
+<li>事件监听 (待排查)</li>
+<li>缓存使用不当 (可能)</li>
+<li>内存没有即时释放 (排除，查看了node使用内存)</li>
+<li>SetTimeOut方法 (待排查)</li>
+</ol>
+<blockquote>
+<p><em>先关闭了Egg定时器发现CPU增长不是线性增长而是阶梯增长的，但是还会增加到100%</em></p>
+<p><em>然后关了监听还是如此，但是可以跑24h了，缓存用的也不是很多</em>，缓存使用不当也排除了</p>
+</blockquote>
+<h2 id="第三部分：意外之喜"><a href="#第三部分：意外之喜" class="headerlink" title="第三部分：意外之喜"></a>第三部分：意外之喜</h2><p>在整理Linux命令的时候使用了netstat指令</p>
+<p>后面发现一直在给以前项目发数据包</p>
+<p>于是去问后端怎么回事</p>
+<p>原来是WAMP没有关掉</p>
+<p>关掉后CPU就在3-20%之间来回了</p>
+<p>舒服了</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-crawl-Fund"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/20/crawl-Fund/"
+    >crawl:Fund</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/20/crawl-Fund/" class="article-date">
+  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
+<ul>
+<li>去除了三年以内的建立的基金</li>
+<li>去除了部分值</li>
+<li>去除了累计净值&lt;1的基金</li>
+<li>去除了三年和&lt;100%的基金</li>
+</ul>
+<p>部分结果展示：</p>
+<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
+<p>工具：Spyder</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
   </nav>
   
 </section>

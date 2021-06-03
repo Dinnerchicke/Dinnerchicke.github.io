@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="baidu-site-verification" content="code-QdAXqd4Pi2" />
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    前端权限实战 |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/Logo.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-前端权限实战"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  前端权限实战
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E5%AE%9E%E6%88%98/" class="article-date">
+  <time datetime="2021-02-08T02:17:23.000Z" itemprop="datePublished">2021-02-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="前端权限之路"><a href="#前端权限之路" class="headerlink" title="前端权限之路"></a>前端权限之路</h1><p>此版本为权限实操，思路请看《前端权限》</p>
+<h2 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h2><p>在刚开始构建项目的时候，前端权限大多是靠后端传来的数据来定义:这里可以看到完全依赖写死(后端传来的数据)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Hide = &#123;</span><br><span class="line">  id: <span class="number">0</span>,</span><br><span class="line">  hidden: <span class="literal">true</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;首页&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;main&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">21</span>,</span><br><span class="line">      name: <span class="string">&#x27;个人中心&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;person&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">22</span>,</span><br><span class="line">      name: <span class="string">&#x27;example2&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;example2&#x27;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 管理员的样例中心</span></span><br><span class="line"><span class="keyword">const</span> FM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;优化中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;优化样例一&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;exampleManage1&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">2</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;表格样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;table&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">      name: <span class="string">&#x27;图表样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;echarts&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽离直接使用</span></span><br><span class="line"><span class="keyword">const</span> role0 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  F: &#123;</span><br><span class="line">    name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;修改密码&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example1&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;查看信息&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example2&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role1 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role2 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;api管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;api&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;auth&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> allRole = &#123;role0, role1, role2&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为这个是模板，没有多想写死了，这是第一个版本，这里完全是依赖传来的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;main&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-gongyezujian-yibiaopan&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;Dashboard&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;el-submenu :index&#x3D;&quot;item.id+&#39;&#39;&quot; v-for&#x3D;&quot;item in routerMapping&quot; v-if&#x3D;&quot;item.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">      &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;template&gt;</span><br><span class="line">      &lt;el-menu-item :index&#x3D;&quot;items.routerName&quot; v-for&#x3D;&quot;items in item.data&quot; v-if&#x3D;&quot;items.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;items.id&quot;&gt;&#123;&#123;items.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;person&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-icon_zhanghao&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;padding-left:10px&quot;&gt;个人中心&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Version-2"><a href="#Version-2" class="headerlink" title="Version 2"></a>Version 2</h2><p>昨天的时候看上一个项目的代码发现这样做不靠谱，后端不可能传来这么多信息，所以花了几个小时大改了一波。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;div v-for&#x3D;&quot;item in routerGet&quot; :key&#x3D;&quot;item.id&quot; v-if&#x3D;&quot;(item.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(item.name)!&#x3D;&#x3D;-1)&quot;&gt;</span><br><span class="line">      &lt;!-- 循环判断假如有children则进入上面，否则进入下面 --&gt;</span><br><span class="line">      &lt;el-menu-item v-if&#x3D;&quot;item.children.length &#x3D;&#x3D;&#x3D; 1&quot; :index&#x3D;&quot;item.children[0].name&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.meta.icon&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;el-menu-item&gt;</span><br><span class="line"></span><br><span class="line">      &lt;el-submenu v-else :index&#x3D;&quot;item.name&quot;&gt;</span><br><span class="line">        &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">          &lt;i :class&#x3D;&quot;item.meta.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">          &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">        &lt;el-menu-item :index&#x3D;&quot;items.name&quot; v-for&#x3D;&quot;items in item.children&quot; v-if&#x3D;&quot;(items.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(items.name)!&#x3D;&#x3D;-1)&quot; :key&#x3D;&quot;items.id&quot; popper-append-to-body&gt;&#123;&#123;items.meta.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">      &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerGet: &#123;&#125;,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      console.log(this.$store.getters.getCurrentPage)</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">    this.routerinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    &#x2F;&#x2F; handleOpen (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;,</span><br><span class="line">    &#x2F;&#x2F; handleClose (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;</span><br><span class="line">    routerinit () &#123;</span><br><span class="line">      this.routerGet &#x3D; this.$router.options.routes</span><br><span class="line">      &#x2F;&#x2F; console.log(this.routerGet)</span><br><span class="line">    &#125;,</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      &#x2F;&#x2F; console.log(this.studentRouterMapping)</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">      console.log(JSON.stringify(this.routerMapping))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Version3"><a href="#Version3" class="headerlink" title="Version3"></a>Version3</h2><p>但是昨天晚上又想了一下得重新规划，不然后面越来越难改，这是第三个权限版本。目前项目重构会直接摧毁原有架构，所以选择维持方案二，这个项目预计会用vue3重构，到时候选择用方案一。</p>
+<h3 id="方案一-推荐"><a href="#方案一-推荐" class="headerlink" title="方案一(推荐)"></a>方案一(推荐)</h3><p>选择在router里面存储角色信息，用来判断是否是对应权限路由，不然使用indexOf整个路由的方法太笨重，每次都需要调用和转换路由，渲染路由直接addRoute。如果没有对应权限的话，因为不在this.$router里面，所以直接会跳转到404。</p>
+<p>但是出现了问题：</p>
+<p>​    问题一：渲染路由的时候得保证侧边栏路由的顺序是可控的，如何实现？</p>
+<p>​    想法：顺序确定的静态路由写在前面，会变化顺序的动态路由写在后面，但是权限所有用户都有就是。</p>
+<p>​    问题二：addRoute产生的路由不是响应式的，不能用于动态渲染路由</p>
+<p>​    想法：使用vuex来渲染路由</p>
+<h3 id="方案二-维持"><a href="#方案二-维持" class="headerlink" title="方案二(维持)"></a>方案二(维持)</h3><p>维持原来的，只不过尽量缩短roleFront.js的数据，用roleFront.js里面的数据来判断是否渲染侧边栏项目和拦截跳转路由</p>
+<p>vue3重构的时候选择使用方案一，这里顺便提出目前项目的不足：</p>
+<ol>
+<li>侧边栏不能多级路由渲染，只能两级</li>
+<li>权限还是不满意</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E5%AE%9E%E6%88%98/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/02/21/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8C%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            设计原则和编程技巧
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">前端安全</div>
+      </a>
+    
+  </nav>
+
+  
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> CDX
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/Logo.svg" alt="CDX"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

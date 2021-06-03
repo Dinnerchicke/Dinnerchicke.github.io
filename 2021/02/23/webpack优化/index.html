@@ -10,7 +10,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    webpack优化 |  
+    Webpack优化 |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-webpack优化"
+  id="post-Webpack优化"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,14 +56,14 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  webpack优化
+  Webpack优化
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/02/23/webpack%E4%BC%98%E5%8C%96/" class="article-date">
+      <a href="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/" class="article-date">
   <time datetime="2021-02-23T08:24:29.000Z" itemprop="datePublished">2021-02-23</time>
 </a> 
   <div class="article-category">
@@ -102,7 +102,7 @@
   <h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
 <h2 id="小试牛刀-thread-loader"><a href="#小试牛刀-thread-loader" class="headerlink" title="小试牛刀(thread-loader)"></a>小试牛刀(thread-loader)</h2><p>肯定不会用现在的版本去测试，于是用个人项目<code>vue-template</code>去测试</p>
 <p>先上猛料，看看==多线程打包==如何，只能说差强人意吧</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
 <p>还有因为这是vue-cli脚手架形成的，里面的配置项眼花缭乱，只能步步为营</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">cnpm i thread-loader -D</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置项</span></span><br><span class="line">&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;thread-loader&#x27;</span>,&#123;</span><br><span class="line">          loader:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;options&#x27;</span>: &#123;</span><br><span class="line">            <span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span> <span class="comment">// 加了这个并没有明显感到加快</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// loader: [&#x27;thread-loader&#x27;,&#x27;babel-loader&#x27;],</span></span><br><span class="line">        include: [resolve(<span class="string">&#x27;src&#x27;</span>), resolve(<span class="string">&#x27;test&#x27;</span>), resolve(<span class="string">&#x27;node_modules/webpack-dev-server/client&#x27;</span>)],</span><br><span class="line">        </span><br><span class="line">      &#125;,</span><br></pre></td></tr></table></figure>
 
@@ -113,14 +113,14 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev speed-measure-webpack-plugin <span class="comment">// 首先安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack文件内创建对象</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">&#x27;speed-measure-webpack-plugin&#x27;</span>); <span class="comment">//引入插件</span></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin(); <span class="comment">//创建插件对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(&#123; <span class="comment">// 用smp.wrap包注export</span></span><br><span class="line">  context: path.resolve(__dirname, <span class="string">&#x27;../&#x27;</span>),</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">&#x27;./src/main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
 <p>可以看到都是老大哥了，用时都超过1000ms</p>
 <h3 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h3><blockquote>
 <p>通过webpack-bundle-analyzer可以看到各个包的体积</p>
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>);</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
 <p>可以发现echarts和element-ui占用的量最大，可以考虑用cdn来减少打包体积</p>
 <h2 id="dll打包-大大加快"><a href="#dll打包-大大加快" class="headerlink" title="dll打包(大大加快)"></a>dll打包(大大加快)</h2><blockquote>
 <p>根据打包体积的输出，可以看到主要有echarts、element-ui等包体积过大，于是准备用dll来加速打包过程</p>
@@ -128,20 +128,20 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -D add-asset-html-webpack-plugin@<span class="number">2.1</span><span class="number">.2</span> <span class="comment">// 安装插件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在build文件夹下创建新文件webpack.dll.conf.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line">		<span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line">		<span class="built_in">module</span>.exports = &#123;</span><br><span class="line">		  entry: &#123;</span><br><span class="line">		    vendor: [</span><br><span class="line">		      <span class="string">&#x27;vue&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;vue-router&#x27;</span> <span class="comment">// 打包列表</span></span><br><span class="line">		    ]</span><br><span class="line">		  &#125;,</span><br><span class="line">		  output: &#123;</span><br><span class="line">		    path: path.join(__dirname, <span class="string">&#x27;../static/js&#x27;</span>), <span class="comment">//放在项目的static/js目录下面</span></span><br><span class="line">		    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>, <span class="comment">//打包文件的名字</span></span><br><span class="line">		    library: <span class="string">&#x27;[name]_library&#x27;</span> <span class="comment">//可选 暴露出的全局变量名</span></span><br><span class="line">		    <span class="comment">// vendor.dll.js中暴露出的全局变量名。</span></span><br><span class="line">		    <span class="comment">// 主要是给DllPlugin中的name使用，</span></span><br><span class="line">		    <span class="comment">// 故这里需要和webpack.DllPlugin中的`name: &#x27;[name]_library&#x27;,`保持一致。</span></span><br><span class="line">		  &#125;,</span><br><span class="line">		  plugins: [</span><br><span class="line">		    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">		      path: path.join(__dirname, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;[name]-manifest.json&#x27;</span>), <span class="comment">//生成上文说到清单文件，放在当前build文件下面，这个看你自己想放哪里了。</span></span><br><span class="line">		      name: <span class="string">&#x27;[name]_library&#x27;</span>,</span><br><span class="line">		    &#125;),</span><br><span class="line">		  ]</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack.prod.conf.js下添加以下代码</span></span><br><span class="line"><span class="keyword">const</span> AddAssetHtmlPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);  <span class="comment">//在上面导入</span></span><br><span class="line">   <span class="keyword">new</span> webpack.DllReferencePlugin(&#123; <span class="comment">// 这是放在plugins里面的</span></span><br><span class="line">				context: path.resolve(__dirname, <span class="string">&#x27;..&#x27;</span>),</span><br><span class="line">				manifest: <span class="built_in">require</span>(<span class="string">&#x27;./vendor-manifest.json&#x27;</span>)</span><br><span class="line">				&#125;),</span><br><span class="line">				<span class="comment">//这个主要是将生成的vendor.dll.js文件加上hash值插入到页面中。</span></span><br><span class="line">				<span class="keyword">new</span> AddAssetHtmlPlugin([&#123;</span><br><span class="line">				filepath: path.resolve(__dirname, <span class="string">&#x27;../static/js/vendor.dll.js&#x27;</span>),</span><br><span class="line">				outputPath: utils.assetsPath(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">				publicPath: path.posix.join(config.build.assetsPublicPath, <span class="string">&#x27;static/js&#x27;</span>),</span><br><span class="line">				includeSourcemap: <span class="literal">false</span>,</span><br><span class="line">				hash: <span class="literal">true</span>,</span><br><span class="line">				&#125;]),</span><br><span class="line">       </span><br><span class="line"><span class="comment">// 在package.json里面添加指令</span></span><br><span class="line"><span class="string">&quot;dll&quot;</span>: <span class="string">&quot;webpack --config build/webpack.dll.conf.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行生成dll文件</span></span><br><span class="line">cnpm run dll</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打包</span></span><br><span class="line">cnpm run build</span><br></pre></td></tr></table></figure>
 
 <p>可以看到打包速度大大增加</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
 <h3 id="一个大坑-element-ui"><a href="#一个大坑-element-ui" class="headerlink" title="一个大坑(element-ui)"></a>一个大坑(element-ui)</h3><blockquote>
 <p>在线上项目也改过后，发现element-ui的图表老是显示不出来，关掉打包加速发现正常了。把dll加速里面的element-ui移除发现正常了，在网上搜索一番后，element-ui部分决定不使用dll加速，应该使用cdn加速，具体配置如下</p>
 </blockquote>
 <p>webpack.base.conf.js</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
 <p>项目根目录下index.html</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/vue/2.5.2/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> Vue.config.productionTip=<span class="literal">false</span> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
 <p>webpack.dll.conf.js</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
 <p>main.js:注释掉element-ui部分</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
 <p>配置完成</p>
  
       <!-- reward -->
@@ -207,7 +207,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/02/23/webpack%E4%BC%98%E5%8C%96/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/02/23/Webpack%E4%BC%98%E5%8C%96/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -230,9 +230,9 @@
       </a>
     
     
-      <a href="/2021/02/23/webpack/" class="article-nav-link">
+      <a href="/2021/02/23/Webpack%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">webpack</div>
+        <div class="article-nav-title">Webpack基础配置</div>
       </a>
     
   </nav>

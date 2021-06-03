@@ -69,6 +69,272 @@
       </tags>
   </entry>
   <entry>
+    <title>浏览器中的页面循环系统</title>
+    <url>/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="浏览器中的页面循环系统"><a href="#浏览器中的页面循环系统" class="headerlink" title="浏览器中的页面循环系统"></a>浏览器中的页面循环系统</h1><h2 id="消息队列和事件循环"><a href="#消息队列和事件循环" class="headerlink" title="消息队列和事件循环"></a>消息队列和事件循环</h2><blockquote>
+<p>因为每个渲染进程都有一个主进程，并且主进程非常忙碌，所以需要一个系统来对各种任务进行统筹调度，即<code>消息队列</code>和<code>事件循环</code>系统</p>
+</blockquote>
+<h3 id="在线程运行过程中处理新任务"><a href="#在线程运行过程中处理新任务" class="headerlink" title="在线程运行过程中处理新任务"></a>在线程运行过程中处理新任务</h3>]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>V8工作原理</title>
+    <url>/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
+<blockquote>
+<p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
+<ul>
+<li>代码空间：存储可执行代码</li>
+<li>栈空间：存储执行上下文，原始类型被存储在里面</li>
+<li>堆空间：存储引用类型，将引用类型地址保留在栈空间中</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>为什么要分栈和堆？</p>
+<ul>
+<li>因为Js引擎需要栈保证上下文切换的效率，所以栈空间一般都不会设置太大</li>
+<li>而堆空间很大可以存放很多大数据，不过缺点是分配内存和回收内存都会占用一定的事件</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>闭包内存创建流程：</p>
+<ol>
+<li>当Js引擎发现内部函数引用了外部函数的变量时，即是闭包。</li>
+<li>于是在堆空间创建一个closure(函数名)的对象</li>
+<li>继续扫描，将引用的变量放入closure中</li>
+</ol>
+</blockquote>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><h3 id="调用栈的数据是如何回收的"><a href="#调用栈的数据是如何回收的" class="headerlink" title="调用栈的数据是如何回收的"></a>调用栈的数据是如何回收的</h3><blockquote>
+<p>通过记录当前执行状态的指针ESP来实现</p>
+<p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
+<h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
+<p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
+<p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
+</blockquote>
+<blockquote>
+<p>V8会把堆分为<code>新生代</code>和<code>老生代</code>两个区域，新生代中存放的是<code>生存时间短的对象</code>，老生代中存放的是<code>生存时间久的对象</code></p>
+<ul>
+<li>新生区通常只支持1-8M的容量，而老生区支持的容量就大很多</li>
+<li>新生区使用<code>副垃圾回收器</code>，老生区使用<code>主垃圾回收器</code></li>
+</ul>
+</blockquote>
+<h4 id="代际假说"><a href="#代际假说" class="headerlink" title="代际假说"></a>代际假说</h4><blockquote>
+<p>后续垃圾回收策略都是建立在该假说的基础上的</p>
+</blockquote>
+<blockquote>
+<p>代际假说特点：适用于大多数动态语言</p>
+<ol>
+<li>大部分对象在内存中存在的时间很短</li>
+<li>不死的对象，会活的更久</li>
+</ol>
+</blockquote>
+<h4 id="垃圾回收器的工作流程"><a href="#垃圾回收器的工作流程" class="headerlink" title="垃圾回收器的工作流程"></a>垃圾回收器的工作流程</h4><blockquote>
+<p>不论什么类型的垃圾回收器，都有一套共同的执行流程</p>
+<ol>
+<li>标记空间中活动对象和非活动对象，所谓活动就是还在使用的对象，非活动对象就是可以进行垃圾回收的对象</li>
+<li>回收非活动对象所占据的内存</li>
+<li>内存管理：因为一般来说，频繁回收对象以后，内存就会存在大量不连续空间，当内存中出现大量的内存碎片以后，如果需要分配较大连续内存的时候就会出现内存不足的情况(这一步其实是可选的，因为有的垃圾回收器不会产生内存碎片，比如副垃圾回收器)</li>
+</ol>
+</blockquote>
+<h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
+<p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
+<blockquote>
+<p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
+<p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
+<p>对象晋升策略：经过两次垃圾回收依然存活的对象，会被移动到老生区中</p>
+</blockquote>
+<blockquote>
+<p>垃圾回收过程：</p>
+<ol>
+<li>首先对对象区域的垃圾做标记</li>
+<li>标记完成后，就进入垃圾清理阶段，副垃圾回收器会把这些存活的对象复制到空闲区域中，同时它还会把这些对象有序排列起来，所以这个过程也就相当于完成了内存整理操作</li>
+<li>完成复制后，对象区域与 空闲区域交换，这样就完成了垃圾对象的回收操作。</li>
+</ol>
+</blockquote>
+<h4 id="主垃圾回收器"><a href="#主垃圾回收器" class="headerlink" title="主垃圾回收器"></a>主垃圾回收器</h4><blockquote>
+<p>标记清除(Mark-Sweep)算法：因为老生区的对象较大，故在老生区使用Scavenge算法进行垃圾回收将会花费大量时间，故使用标记-清除(Mark-Sweep)算法进行回收</p>
+<p>除了新生区的晋升对象，一些大的对象会直接被分配到老生区，因此老生区中的对象有两个特点：</p>
+<ol>
+<li>对象占用空间大</li>
+<li>对象存活时间长</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>标记清除算法流程：</p>
+<ol>
+<li>首先是标记过程，标记元素就是通过一组根元素开始，递归遍历这组元素，在这个遍历过程中能到达的元素就称为活动对象，否则为垃圾数据</li>
+<li>接下来对垃圾数据进行清除</li>
+<li>以上就是标记-清除算法，紧接着是标记-整理(Mark-Compact)算法，因为对一块内存进行多次执行标记后会产生大量不连续的内存碎片，故需要此算法。</li>
+<li>标记-整理算法过程是将所有可活动对象将一遍移动，然后直接清除掉边界以外的内存。</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
+<h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
+<p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
+<p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
+</blockquote>
+<blockquote>
+<p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成,，这个算法叫做增量标记算法。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
+<h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
+<p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
+<p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
+<p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
+<p>这段代码经过转义后生成的AST结构如下</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
+<h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
+<li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
+</ol>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
+<ol start="2">
+<li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
+</ol>
+<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><blockquote>
+<p>解释器的功能：有了AST和执行上下文后，接下来就用解释器(Ignition)，它会根据AST生成字节码，并解释执行字节码</p>
+<p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
+<p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
+<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
+<p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Js执行机制</title>
+    <url>/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="Js执行机制"><a href="#Js执行机制" class="headerlink" title="Js执行机制"></a>Js执行机制</h1><blockquote>
+<p>首先输入一段JavaScript代码，接下来进入<strong>编译</strong>阶段，紧接着就进入<strong>执行</strong>阶段</p>
+</blockquote>
+<h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><blockquote>
+<p>一段代码经过编译后会生成<strong>执行上下文</strong>和<strong>可执行代码</strong></p>
+</blockquote>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/1.png"></p>
+<h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><blockquote>
+<p>创建执行上下文的情况</p>
+<ul>
+<li>当JavaScript执行全局代码是，会编译全局执行上下文，并且在整个页面生命周期内，<strong>全局上下文只有一份</strong></li>
+<li>当调用一个函数的时候，函数体内的代码会被编译，并创建执行上下文，一般情况下，函数执行结束，创建的函数上下文也会被销毁</li>
+<li>当使用eval函数时，eval的代码也会被编译，并创建执行上下文</li>
+</ul>
+</blockquote>
+<h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><blockquote>
+<p>在执行JavaScript时，可能存在多个执行上下文，Js引擎通过<strong>栈</strong>来管理这些执行上下文，即调用栈</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 示例代码</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">b,c</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> b+c</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addAll</span>(<span class="params">b,c</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> d = <span class="number">10</span></span><br><span class="line">result = add(b,c)</span><br><span class="line"><span class="keyword">return</span>  a+result+d</span><br><span class="line">&#125;</span><br><span class="line">addAll(<span class="number">3</span>,<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li>首先是全局执行上下文，被压入栈中</li>
+<li>接下来执行addAll函数，故addAll函数的执行上下文被压入栈中</li>
+<li>紧接着addAll函数调用add函数，故add函数被压入栈中</li>
+<li>add函数返回值，add函数上下文被销毁</li>
+<li>addAll函数返回值，addAll函数被销毁</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/2.png"></p>
+<h2 id="作用域-scope"><a href="#作用域-scope" class="headerlink" title="作用域(scope)"></a>作用域(scope)</h2><blockquote>
+<p>作用域控制着变量和函数的可见性和生命周期</p>
+<ul>
+<li><p>在ES6之前，ES的作用域只支持<strong>全局</strong>作用域和<strong>函数</strong>作用域</p>
+</li>
+<li><p>ES6通过let和const关键字时Js也拥有了块级作用域</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>变量环境与词法环境：</p>
+<ul>
+<li>通过var创建的变量会被放入变量环境</li>
+<li>通过let/const创建的变量会被放入词法环境</li>
+<li>词法环境也维护了一个小型栈，栈底是最外层变量，进入一个作用域后，会把该作用域内部的变凉压到栈顶，出去后弹出</li>
+<li>当执行到作用域中变量时，会先沿着词法环境的栈顶向下查询，如果没找到就继续在变量环境中查找</li>
+<li>从函数开始到let/const声明变量之间的代码会形成暂时性死区，如果调用该变量会报UncaughtReferenceError错误</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line">      <span class="keyword">var</span> c = <span class="number">4</span></span><br><span class="line">      <span class="keyword">let</span> d = <span class="number">5</span></span><br><span class="line">      <span class="built_in">console</span>.log(a)</span><br><span class="line">      <span class="built_in">console</span>.log(b)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(b) </span><br><span class="line">    <span class="built_in">console</span>.log(c)</span><br><span class="line">    <span class="built_in">console</span>.log(d)</span><br><span class="line">&#125;   </span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/3.png"></p>
+<h2 id="作用域链和闭包"><a href="#作用域链和闭包" class="headerlink" title="作用域链和闭包"></a>作用域链和闭包</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(myName)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myName = <span class="string">&quot; 极客邦 &quot;</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/4.png"></p>
+<h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><blockquote>
+<p>词法作用域是指作用域是由代码中函数声明的位置来决定的，通过它能够预测代码在执行过程中如何查找标识符</p>
+</blockquote>
+<blockquote>
+<p>根据词法作用域，foo 和 bar 的上级作用域都是全局作用域，所以如果 foo 或者 bar 函数使用了一个它们没有定义的变量，那么它们会到全局作用域去查找。也就是说，词法作用域是代码阶段就决定好的，和函数是怎么调用的没有关系</p>
+</blockquote>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/5.png"></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
+<p>在Js中，根据词法作用域规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经<strong>执行结束</strong>了，但是<strong>内部函数引用外部函数的变量</strong>依然保存在内存中，我们就把这些变量的集合称为闭包。</p>
+</blockquote>
+<blockquote>
+<p>闭包的回收：</p>
+<ul>
+<li>如果引用闭包的函数是一个全局变量，那么闭包会一直存在直到页面关闭，容易造成内存泄漏</li>
+<li>如果引用闭包的函数是一个局部变量，等函数销毁后，在下次GC的时候，判断闭包这块内容如果已经不再使用了，那么GC就会回收这块内存</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">    <span class="keyword">let</span> test1 = <span class="number">1</span></span><br><span class="line">    <span class="keyword">const</span> test2 = <span class="number">2</span></span><br><span class="line">    <span class="keyword">var</span> innerBar = &#123;</span><br><span class="line">        getName:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(test1)</span><br><span class="line">            <span class="keyword">return</span> myName</span><br><span class="line">        &#125;,</span><br><span class="line">        setName:<span class="function"><span class="keyword">function</span>(<span class="params">newName</span>)</span>&#123;</span><br><span class="line">            myName = newName</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> innerBar</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = foo()</span><br><span class="line">bar.setName(<span class="string">&quot; 极客邦 &quot;</span>)</span><br><span class="line">bar.getName()</span><br><span class="line"><span class="built_in">console</span>.log(bar.getName())</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通过代码可以看出：</p>
+<ol>
+<li>先是全局执行上下文进入调用栈</li>
+<li>接下来foo函数执行上下文进入调用栈</li>
+<li>当foo函数执行完成后，其</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/6.png"></p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><blockquote>
+<p>代码分为编译阶段和执行阶段</p>
+<p>编译阶段：</p>
+<ul>
+<li>变量在编译阶段会被放入环境对象中被创建并被赋值为undefined</li>
+<li>函数则会整个被放入堆(HEAP)中，并在环境对象中创建一个该函数名的属性，然后将该函数指向堆中函数的位置</li>
+</ul>
+<p>然后进入执行阶段，当遇到变量提升的遍历时会显示为undefined，但函数能正常执行</p>
+</blockquote>
+<h3 id="调用栈溢出"><a href="#调用栈溢出" class="headerlink" title="调用栈溢出"></a>调用栈溢出</h3><blockquote>
+<p>当Js调用函数超出栈最大容量时就会出现栈溢出的情况，一般递归的时候容易出现</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面向实践的git指令集合</title>
     <url>/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[<h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
@@ -566,22 +832,6 @@
       </tags>
   </entry>
   <entry>
-    <title>WebSocket</title>
-    <url>/2021/03/27/WebSocket/</url>
-    <content><![CDATA[<h1 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h1><blockquote>
-<p>WebSocket是基于<code>TCP</code>的新的网络协议，它实现了浏览器和服务器<code>全双工</code>通信，即客户端主动给服务器发，服务器也可以主动给客户端发。</p>
-<p>WebSocket是<code>持久</code>协议，HTTP是非持久协议</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AJAX</title>
     <url>/2021/03/26/AJAX/</url>
     <content><![CDATA[<h1 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h1><blockquote>
@@ -774,91 +1024,6 @@
 </blockquote>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;Print to console&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;prefix&quot;</span>: <span class="string">&quot;log&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;body&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;console.log(&#x27;$1&#x27;);&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$2&quot;</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;Log output to console&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">&quot;Create vue template&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;prefix&quot;</span>: <span class="string">&quot;vue&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;body&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;&lt;template&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  &lt;div class=\&quot;\&quot;&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;    content&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  &lt;/div&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&lt;/template&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&lt;script&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;export default &#123;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  name: &#x27;&#x27;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  components: &#123;&#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  props: [],&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  data () &#123;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;    return &#123;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;    &#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  &#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  computed: &#123;&#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  watch: &#123;&#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  created () &#123;&#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  mounted () &#123;&#125;,&quot;</span>,</span><br><span class="line">                <span class="string">&quot;  methods: &#123;&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&lt;/script&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&lt;style lang=\&quot;scss\&quot; scoped&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&lt;/style&gt;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;&quot;</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;Create vue template&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer</title>
-    <url>/2021/03/05/%E5%89%91%E6%8C%87Offer/</url>
-    <content><![CDATA[<h1 id="面试的流程"><a href="#面试的流程" class="headerlink" title="面试的流程"></a>面试的流程</h1><h2 id="远程面试"><a href="#远程面试" class="headerlink" title="远程面试"></a>远程面试</h2><blockquote>
-<p>面试官会认可应聘者的编程习惯</p>
-<ol>
-<li>思考清楚再开始编码</li>
-<li>良好的代码命名和缩进对齐</li>
-<li>能够单元测试</li>
-<li>遇到问题解决的调试能力</li>
-</ol>
-</blockquote>
-<h2 id="面试的三个环节"><a href="#面试的三个环节" class="headerlink" title="面试的三个环节"></a>面试的三个环节</h2><h3 id="行为面试"><a href="#行为面试" class="headerlink" title="行为面试"></a>行为面试</h3><blockquote>
-<p>面试官参照简历了解应聘者过往的经验</p>
-</blockquote>
-<h4 id="应聘者的项目经验"><a href="#应聘者的项目经验" class="headerlink" title="应聘者的项目经验"></a>应聘者的项目经验</h4><h5 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h5><p>描述项目的STAR模型：</p>
-<ol>
-<li>首先进行<code>简短的项目背景</code>介绍：比如项目的规模，软件的功能，目标用户等</li>
-<li>接下来讲述自己<code>完成的任务</code>：注意区分参与和负责</li>
-<li>为完成任务<code>做了哪些工作</code>，<code>怎么做的</code>：详细介绍</li>
-<li>自己的<code>贡献</code>：具体些，最好用数字加以说明</li>
-</ol>
-<p>常问问题：</p>
-<ul>
-<li>你在该项目中碰到的最大的问题是什么，你是怎么解决的？</li>
-<li>从这个项目中你学到了什么？</li>
-<li>什么时候会和其他团队成员有什么冲突，你们是怎么解决的？</li>
-</ul>
-<h5 id="应聘者掌握的技能"><a href="#应聘者掌握的技能" class="headerlink" title="应聘者掌握的技能"></a>应聘者掌握的技能</h5><blockquote>
-<p>注意了解、熟悉和精通的区别</p>
-<p>了解：对某一个技术只是<code>看过</code>，没有做过实际的项目。不建议在简历中列出只是肤浅了解的技能</p>
-<p>熟悉：在<code>实际项目</code>中使用某一项技术有已经较长的时间，通过<code>查阅相关的文档</code>可以独立解决大部分的问题。</p>
-</blockquote>
-<h5 id="为什么跳槽"><a href="#为什么跳槽" class="headerlink" title="为什么跳槽"></a>为什么跳槽</h5><blockquote>
-<p>根据真实想法即可，但是避免以下原因</p>
-<ol>
-<li>老板太苛责</li>
-<li>同事太难相处</li>
-<li>加班太频繁</li>
-<li>工资太低</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>通式：工作做了一段时间没有激情了，换一份更有挑战的工作。具体论述为什么厌倦以前的职位，这个职位为什么吸引自己。</p>
-</blockquote>
-<h3 id="技术面试"><a href="#技术面试" class="headerlink" title="技术面试"></a>技术面试</h3><blockquote>
-<p>应聘者需要具备的素质：</p>
-<ul>
-<li>基础知识扎实全面，包括编程语言、数据结构、算法等</li>
-<li>编写出高质量的代码：测试先行，再写代码</li>
-<li>能思路清晰的分析，解决复杂问题</li>
-<li>能从时间、空间复杂度两方面优化算法效率</li>
-<li>具备优秀的沟通效率、学习能力、发散思维等</li>
-</ul>
-</blockquote>
-<h3 id="应聘者提问"><a href="#应聘者提问" class="headerlink" title="应聘者提问"></a>应聘者提问</h3><blockquote>
-<p>应聘者提问自己最感兴趣的问题</p>
-</blockquote>
-<blockquote>
-<p>不适合提问的内容：</p>
-<ul>
-<li>不要问和自己职位无关的内容</li>
-<li>不要问薪水</li>
-<li>不要立即打听面试结果</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>适合提问的是<code>与自己的职位或者项目相关的问题.</code></p>
-</blockquote>
-<h1 id="面试需要的基础知识"><a href="#面试需要的基础知识" class="headerlink" title="面试需要的基础知识"></a>面试需要的基础知识</h1><blockquote>
-<p>如常用的设计模式、数据结构等</p>
-</blockquote>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><blockquote>
-<p>大多数面试是围绕着<code>数组</code>、<code>字符串</code>、<code>链表</code>、<code>树</code>、<code>栈</code>及<code>队列</code>这几种常见的数据结构展开的</p>
-<p>在解决问题的时候一定要注意鲁棒性(即健壮性)，不要被边界值给绊倒</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -1378,8 +1543,6 @@
 <h3 id="尽可能少的类和方法"><a href="#尽可能少的类和方法" class="headerlink" title="尽可能少的类和方法"></a>尽可能少的类和方法</h3><blockquote>
 <p>在以上三条的基础上，才是这一条</p>
 </blockquote>
-<h3 id="使用异常代替返回错误码-1"><a href="#使用异常代替返回错误码-1" class="headerlink" title="使用异常代替返回错误码"></a>使用异常代替返回错误码</h3><blockquote>
-</blockquote>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -1390,12 +1553,12 @@
       </tags>
   </entry>
   <entry>
-    <title>webpack优化</title>
-    <url>/2021/02/23/webpack%E4%BC%98%E5%8C%96/</url>
+    <title>Webpack优化</title>
+    <url>/2021/02/23/Webpack%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
 <h2 id="小试牛刀-thread-loader"><a href="#小试牛刀-thread-loader" class="headerlink" title="小试牛刀(thread-loader)"></a>小试牛刀(thread-loader)</h2><p>肯定不会用现在的版本去测试，于是用个人项目<code>vue-template</code>去测试</p>
 <p>先上猛料，看看==多线程打包==如何，只能说差强人意吧</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
 <p>还有因为这是vue-cli脚手架形成的，里面的配置项眼花缭乱，只能步步为营</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">cnpm i thread-loader -D</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置项</span></span><br><span class="line">&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;thread-loader&#x27;</span>,&#123;</span><br><span class="line">          loader:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;options&#x27;</span>: &#123;</span><br><span class="line">            <span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span> <span class="comment">// 加了这个并没有明显感到加快</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// loader: [&#x27;thread-loader&#x27;,&#x27;babel-loader&#x27;],</span></span><br><span class="line">        include: [resolve(<span class="string">&#x27;src&#x27;</span>), resolve(<span class="string">&#x27;test&#x27;</span>), resolve(<span class="string">&#x27;node_modules/webpack-dev-server/client&#x27;</span>)],</span><br><span class="line">        </span><br><span class="line">      &#125;,</span><br></pre></td></tr></table></figure>
 
@@ -1406,14 +1569,14 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install --save-dev speed-measure-webpack-plugin <span class="comment">// 首先安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack文件内创建对象</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">&#x27;speed-measure-webpack-plugin&#x27;</span>); <span class="comment">//引入插件</span></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin(); <span class="comment">//创建插件对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(&#123; <span class="comment">// 用smp.wrap包注export</span></span><br><span class="line">  context: path.resolve(__dirname, <span class="string">&#x27;../&#x27;</span>),</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">&#x27;./src/main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
 <p>可以看到都是老大哥了，用时都超过1000ms</p>
 <h3 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h3><blockquote>
 <p>通过webpack-bundle-analyzer可以看到各个包的体积</p>
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install --save-dev webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>);</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
 <p>可以发现echarts和element-ui占用的量最大，可以考虑用cdn来减少打包体积</p>
 <h2 id="dll打包-大大加快"><a href="#dll打包-大大加快" class="headerlink" title="dll打包(大大加快)"></a>dll打包(大大加快)</h2><blockquote>
 <p>根据打包体积的输出，可以看到主要有echarts、element-ui等包体积过大，于是准备用dll来加速打包过程</p>
@@ -1421,20 +1584,20 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install -D add-asset-html-webpack-plugin@<span class="number">2.1</span><span class="number">.2</span> <span class="comment">// 安装插件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在build文件夹下创建新文件webpack.dll.conf.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line">		<span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line">		<span class="built_in">module</span>.exports = &#123;</span><br><span class="line">		  entry: &#123;</span><br><span class="line">		    vendor: [</span><br><span class="line">		      <span class="string">&#x27;vue&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;vue-router&#x27;</span> <span class="comment">// 打包列表</span></span><br><span class="line">		    ]</span><br><span class="line">		  &#125;,</span><br><span class="line">		  output: &#123;</span><br><span class="line">		    path: path.join(__dirname, <span class="string">&#x27;../static/js&#x27;</span>), <span class="comment">//放在项目的static/js目录下面</span></span><br><span class="line">		    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>, <span class="comment">//打包文件的名字</span></span><br><span class="line">		    library: <span class="string">&#x27;[name]_library&#x27;</span> <span class="comment">//可选 暴露出的全局变量名</span></span><br><span class="line">		    <span class="comment">// vendor.dll.js中暴露出的全局变量名。</span></span><br><span class="line">		    <span class="comment">// 主要是给DllPlugin中的name使用，</span></span><br><span class="line">		    <span class="comment">// 故这里需要和webpack.DllPlugin中的`name: &#x27;[name]_library&#x27;,`保持一致。</span></span><br><span class="line">		  &#125;,</span><br><span class="line">		  plugins: [</span><br><span class="line">		    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">		      path: path.join(__dirname, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;[name]-manifest.json&#x27;</span>), <span class="comment">//生成上文说到清单文件，放在当前build文件下面，这个看你自己想放哪里了。</span></span><br><span class="line">		      name: <span class="string">&#x27;[name]_library&#x27;</span>,</span><br><span class="line">		    &#125;),</span><br><span class="line">		  ]</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack.prod.conf.js下添加以下代码</span></span><br><span class="line"><span class="keyword">const</span> AddAssetHtmlPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);  <span class="comment">//在上面导入</span></span><br><span class="line">   <span class="keyword">new</span> webpack.DllReferencePlugin(&#123; <span class="comment">// 这是放在plugins里面的</span></span><br><span class="line">				context: path.resolve(__dirname, <span class="string">&#x27;..&#x27;</span>),</span><br><span class="line">				manifest: <span class="built_in">require</span>(<span class="string">&#x27;./vendor-manifest.json&#x27;</span>)</span><br><span class="line">				&#125;),</span><br><span class="line">				<span class="comment">//这个主要是将生成的vendor.dll.js文件加上hash值插入到页面中。</span></span><br><span class="line">				<span class="keyword">new</span> AddAssetHtmlPlugin([&#123;</span><br><span class="line">				filepath: path.resolve(__dirname, <span class="string">&#x27;../static/js/vendor.dll.js&#x27;</span>),</span><br><span class="line">				outputPath: utils.assetsPath(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">				publicPath: path.posix.join(config.build.assetsPublicPath, <span class="string">&#x27;static/js&#x27;</span>),</span><br><span class="line">				includeSourcemap: <span class="literal">false</span>,</span><br><span class="line">				hash: <span class="literal">true</span>,</span><br><span class="line">				&#125;]),</span><br><span class="line">       </span><br><span class="line"><span class="comment">// 在package.json里面添加指令</span></span><br><span class="line"><span class="string">&quot;dll&quot;</span>: <span class="string">&quot;webpack --config build/webpack.dll.conf.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行生成dll文件</span></span><br><span class="line">cnpm run dll</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打包</span></span><br><span class="line">cnpm run build</span><br></pre></td></tr></table></figure>
 
 <p>可以看到打包速度大大增加</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
 <h3 id="一个大坑-element-ui"><a href="#一个大坑-element-ui" class="headerlink" title="一个大坑(element-ui)"></a>一个大坑(element-ui)</h3><blockquote>
 <p>在线上项目也改过后，发现element-ui的图表老是显示不出来，关掉打包加速发现正常了。把dll加速里面的element-ui移除发现正常了，在网上搜索一番后，element-ui部分决定不使用dll加速，应该使用cdn加速，具体配置如下</p>
 </blockquote>
 <p>webpack.base.conf.js</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
 <p>项目根目录下index.html</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/vue/2.5.2/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> Vue.config.productionTip=<span class="literal">false</span> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
 <p>webpack.dll.conf.js</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
 <p>main.js:注释掉element-ui部分</p>
-<p><img src="/2021/02/23/webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
 <p>配置完成</p>
 ]]></content>
       <categories>
@@ -1446,8 +1609,8 @@
       </tags>
   </entry>
   <entry>
-    <title>webpack</title>
-    <url>/2021/02/23/webpack/</url>
+    <title>Webpack基础配置</title>
+    <url>/2021/02/23/Webpack%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
 <p>Webpack是一种前端构建工具，一种静态模块打包器</p>
 <p>Webpack可以将浏览器不能识别的代码转化为浏览器可以识别的代码，如scss/less转化为css</p>
@@ -1680,8 +1843,8 @@
       </tags>
   </entry>
   <entry>
-    <title>前端权限之路</title>
-    <url>/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E4%B9%8B%E8%B7%AF/</url>
+    <title>前端权限实战</title>
+    <url>/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h1 id="前端权限之路"><a href="#前端权限之路" class="headerlink" title="前端权限之路"></a>前端权限之路</h1><p>此版本为权限实操，思路请看《前端权限》</p>
 <h2 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h2><p>在刚开始构建项目的时候，前端权限大多是靠后端传来的数据来定义:这里可以看到完全依赖写死(后端传来的数据)</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Hide = &#123;</span><br><span class="line">  id: <span class="number">0</span>,</span><br><span class="line">  hidden: <span class="literal">true</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;首页&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;main&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">21</span>,</span><br><span class="line">      name: <span class="string">&#x27;个人中心&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;person&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">22</span>,</span><br><span class="line">      name: <span class="string">&#x27;example2&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;example2&#x27;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 管理员的样例中心</span></span><br><span class="line"><span class="keyword">const</span> FM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;优化中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;优化样例一&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;exampleManage1&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">2</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;表格样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;table&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">      name: <span class="string">&#x27;图表样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;echarts&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽离直接使用</span></span><br><span class="line"><span class="keyword">const</span> role0 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  F: &#123;</span><br><span class="line">    name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;修改密码&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example1&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;查看信息&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example2&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role1 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role2 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;api管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;api&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;auth&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> allRole = &#123;role0, role1, role2&#125;</span><br></pre></td></tr></table></figure>
@@ -2053,7 +2216,7 @@
 <ol start="9">
 <li>go常用命令</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go instal</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go install</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -2066,8 +2229,8 @@
       </tags>
   </entry>
   <entry>
-    <title>前端权限</title>
-    <url>/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90/</url>
+    <title>前端权限思路</title>
+    <url>/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF/</url>
     <content><![CDATA[<h1 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h1><p>此版本为权限的思路，实例请看《前端权限之路》</p>
 <h2 id="权限分类"><a href="#权限分类" class="headerlink" title="权限分类"></a>权限分类</h2><h3 id="后端权限"><a href="#后端权限" class="headerlink" title="后端权限"></a>后端权限</h3><p>后端获取用户状态方式：</p>
 <ul>
@@ -2282,56 +2445,6 @@
       </tags>
   </entry>
   <entry>
-    <title>vue-admin-template</title>
-    <url>/2020/11/24/vue-admin-template/</url>
-    <content><![CDATA[<h1 id="Vue-admin-template"><a href="#Vue-admin-template" class="headerlink" title="Vue-admin-template"></a>Vue-admin-template</h1><blockquote>
-<p>整体把握：整个模版基本都使用抽离模块思想,先写多个组件,然后组合到一个index文件中</p>
-</blockquote>
-<h2 id="api"><a href="#api" class="headerlink" title="api"></a>api</h2><p>接口模块</p>
-<h3 id="table-js"><a href="#table-js" class="headerlink" title="table.js"></a>table.js</h3><p>只有一个getList的get方法Api</p>
-<h3 id="user-js"><a href="#user-js" class="headerlink" title="user.js"></a>user.js</h3><p>getInfo接口需要token才能获取</p>
-<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><p>基础组件</p>
-<h3 id="Breadcrumb"><a href="#Breadcrumb" class="headerlink" title="Breadcrumb"></a>Breadcrumb</h3><p>面包屑:如下图，可以点击快速跳转</p>
-<p><img src="/2020/11/24/vue-admin-template/1.jpg"></p>
-<h3 id="Hamburger"><a href="#Hamburger" class="headerlink" title="Hamburger"></a>Hamburger</h3><p>上图中点击左/右拉侧边栏的图标</p>
-<h3 id="SvgIcon"><a href="#SvgIcon" class="headerlink" title="SvgIcon"></a>SvgIcon</h3><p>侧边栏的Logo</p>
-<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><p>基础布局</p>
-<h3 id="components"><a href="#components" class="headerlink" title="components"></a>components</h3><p>布局组件</p>
-<h4 id="Sidebar"><a href="#Sidebar" class="headerlink" title="Sidebar"></a>Sidebar</h4><h4 id="AppMain-vue"><a href="#AppMain-vue" class="headerlink" title="AppMain.vue"></a>AppMain.vue</h4><ul>
-<li>这里的transition定义了不同页面的转场动画</li>
-<li>router-view通常用在同时显示多个视图</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;section <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;app-main&quot;</span>&gt;</span><br><span class="line">    &lt;transition name=<span class="string">&quot;fade-transform&quot;</span> mode=<span class="string">&quot;out-in&quot;</span>&gt;</span><br><span class="line">      &lt;router-view :key=<span class="string">&quot;key&quot;</span> /&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//导出vue</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Navbar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Navbar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> Sidebar &#125; <span class="keyword">from</span> <span class="string">&#x27;./Sidebar&#x27;</span></span><br><span class="line"><span class="keyword">export</span> &#123; <span class="keyword">default</span> <span class="keyword">as</span> AppMain &#125; <span class="keyword">from</span> <span class="string">&#x27;./AppMain&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Navbar-vue"><a href="#Navbar-vue" class="headerlink" title="Navbar.vue"></a>Navbar.vue</h4><p>导航栏：最上层的那个栏,有Hamburger,面包屑和用户头像,登陆登出</p>
-<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><p>解除ipad最小化bug</p>
-<h3 id="index-vue"><a href="#index-vue" class="headerlink" title="index.vue"></a>index.vue</h3><p>导出</p>
-<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><p>定义路由，这里使用到了vue嵌套路由,一般情况下，修改页面只会影响app-main主体</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: <span class="string">&#x27;/documentation&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 你可以选择不同的layout组件</span></span><br><span class="line">  component: Layout,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里开始对应的路由都会显示在app-main中 如上图所示</span></span><br><span class="line">  children: [&#123;</span><br><span class="line">    path: <span class="string">&#x27;index&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;documentation/index&#x27;</span>),</span><br><span class="line">    name: <span class="string">&#x27;documentation&#x27;</span></span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当设置 true 的时候该路由不会在侧边栏出现 如401，login等页面，或者如一些编辑页面/edit/1</span></span><br><span class="line">hidden: <span class="literal">true</span> <span class="comment">// (默认 false)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当设置 noRedirect 的时候该路由在面包屑导航中不可被点击</span></span><br><span class="line">redirect: <span class="string">&#x27;noRedirect&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面</span></span><br><span class="line"><span class="comment">// 只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面</span></span><br><span class="line"><span class="comment">// 若你想不管路由下面的 children 声明的个数都显示你的根路由</span></span><br><span class="line"><span class="comment">// 你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由</span></span><br><span class="line">alwaysShow: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">name: <span class="string">&#x27;router-name&#x27;</span> <span class="comment">// 设定路由的名字，一定要填写不然使用&lt;keep-alive&gt;时会出现各种问题</span></span><br><span class="line">meta: &#123;</span><br><span class="line">  roles: [<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;editor&#x27;</span>] <span class="comment">// 设置该路由进入的权限，支持多个权限叠加</span></span><br><span class="line">  title: <span class="string">&#x27;title&#x27;</span> <span class="comment">// 设置该路由在侧边栏和面包屑中展示的名字</span></span><br><span class="line">  icon: <span class="string">&#x27;svg-name&#x27;</span> <span class="comment">// 设置该路由的图标，支持 svg-class，也支持 el-icon-x element-ui 的 icon</span></span><br><span class="line">  noCache: <span class="literal">true</span> <span class="comment">// 如果设置为true，则不会被 &lt;keep-alive&gt; 缓存(默认 false)</span></span><br><span class="line">  breadcrumb: <span class="literal">false</span> <span class="comment">//  如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)</span></span><br><span class="line">  affix: <span class="literal">true</span> <span class="comment">// 若果设置为true，它则会固定在tags-view中(默认 false)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当路由设置了该属性，则会高亮相对应的侧边栏。</span></span><br><span class="line">  <span class="comment">// 这在某些场景非常有用，比如：一个文章的列表页路由为：/article/list</span></span><br><span class="line">  <span class="comment">// 点击文章进入文章详情页，这时候路由为/article/1，但你想在侧边栏高亮文章列表的路由，就可以进行如下设置</span></span><br><span class="line">  activeMenu: <span class="string">&#x27;/article/list&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><p>Vuex</p>
-<h2 id="styles"><a href="#styles" class="headerlink" title="styles"></a>styles</h2><p>Scss样式</p>
-<h2 id="utils"><a href="#utils" class="headerlink" title="utils"></a>utils</h2><p>全局js方法</p>
-<h2 id="views"><a href="#views" class="headerlink" title="views"></a>views</h2><p>页面</p>
-<h2 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h2><p>入口js文件</p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jsMdn</title>
     <url>/2020/11/14/jsMdn/</url>
     <content><![CDATA[<h1 id="JsMdn"><a href="#JsMdn" class="headerlink" title="JsMdn"></a>JsMdn</h1><blockquote>
@@ -2482,47 +2595,6 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="built_in">eval</span>()<span class="comment">//eval函数可计算某字符串并执行其中的js代码</span></span><br></pre></td></tr></table></figure>
 
 
-
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>lodash源码分析Array</title>
-    <url>/2020/11/14/lodash%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90Array/</url>
-    <content><![CDATA[<h1 id="lodash源码分析Array"><a href="#lodash源码分析Array" class="headerlink" title="lodash源码分析Array"></a>lodash源码分析Array</h1><blockquote>
-<p>lodash:4.0.0</p>
-<p>下载源码后在/dist/lodash.js中ctrl+f寻找即可</p>
-<p>vscode返回上一个跳转点Alt+(&lt;-左方向键)</p>
-<p>搜索技巧： 想要搜索的内容+mdn，比在mdn里面搜索快</p>
-</blockquote>
-<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><p>试看了前面部分代码，因为太多了于是准备先按实例来，自顶向下学习</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMapEntry</span>(<span class="params">map, pair</span>) </span>&#123; <span class="comment">//369行,源码开始</span></span><br><span class="line">    map.set(pair[<span class="number">0</span>], pair[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">// 向map对象添加新元素，这里pair为数组类型，值得注意，应该为基础方法类</span></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//set为es6中新增加的对象，自动排除重复项</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSetEntry</span>(<span class="params">set, value</span>) </span>&#123;</span><br><span class="line">    set.add(value);</span><br><span class="line">    <span class="keyword">return</span> set;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params">func, thisArg, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = args ? args.length : <span class="number">0</span>;<span class="comment">//当args有值的时候返回args.length，否则返回0</span></span><br><span class="line">    <span class="comment">// 有个小疑点：测试了当数组的大小为0时，arr.length输出会是0，这里为什么要用三元表达式</span></span><br><span class="line">    <span class="comment">//这里有引入function.apply()和function.call()</span></span><br><span class="line">    <span class="comment">//fuc apply(testO,args),第二个参数为数组即可</span></span><br><span class="line">    <span class="comment">//fuc call(testO,a,b,c),需要把参数全列出</span></span><br><span class="line">    <span class="keyword">switch</span> (length) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> func.call(thisArg);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> func.call(thisArg, args[<span class="number">0</span>], args[<span class="number">1</span>], args[<span class="number">2</span>]);<span class="comment">//只要三个参数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> func.apply(thisArg, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arrayConcat</span>(<span class="params">array, other</span>) </span>&#123; <span class="comment">//数组拼接</span></span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">        length = array.length, <span class="comment">//原数组长度</span></span><br><span class="line">        othIndex = <span class="number">-1</span>,</span><br><span class="line">        othLength = other.length, <span class="comment">//新数组长度</span></span><br><span class="line">        result = <span class="built_in">Array</span>(length + othLength); <span class="comment">//新数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (++index &lt; length) &#123;  <span class="comment">//新数组建立</span></span><br><span class="line">      result[index] = array[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (++othIndex &lt; othLength) &#123;  <span class="comment">//第二轮</span></span><br><span class="line">      result[index++] = other[othIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h3><blockquote>
-<p>._chunk(array,[size=1])</p>
-<p>将array拆分成多个size大小的数组，如果最后的不够切则剩下的自己组成一个数组</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">2</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;, &#x27;d&#x27;]] </span></span><br><span class="line">_.chunk([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], <span class="number">3</span>);<span class="comment">// =&gt; [[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;d&#x27;]]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseSlice</span>(<span class="params">array, start, end</span>) </span>&#123;<span class="comment">//基本切片</span></span><br><span class="line">      <span class="comment">// 测试后发现，js的数组length只会统计下标大于0的部分，小于0的部分会被忽略</span></span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array.length;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//负数判断，一般用不到</span></span><br><span class="line">      <span class="keyword">if</span> (start &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        start = -start &gt; length ? <span class="number">0</span> : (length + start);</span><br><span class="line">      &#125;</span><br><span class="line">      end = end &gt; length ? length : end;</span><br><span class="line">      <span class="keyword">if</span> (end &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        end += length;</span><br><span class="line">      &#125;</span><br><span class="line">      length = start &gt; end ? <span class="number">0</span> : ((end - start) &gt;&gt;&gt; <span class="number">0</span>);</span><br><span class="line">      start &gt;&gt;&gt;= <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// &gt;&gt;表示有符号位移，&gt;&gt;1表示右移1位</span></span><br><span class="line">      <span class="comment">// &gt;&gt;&gt;表示无符号位移</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> result = <span class="built_in">Array</span>(length);</span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        result[index] = array[index + start];<span class="comment">//赋值</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">      size = nativeMax(toInteger(size), <span class="number">0</span>); <span class="comment">//nativeMax===math.max在size和0之间返回一个较大的数</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> length = array ? array.length : <span class="number">0</span>;  <span class="comment">//数组长度大于0</span></span><br><span class="line">      <span class="keyword">if</span> (!length || size &lt; <span class="number">1</span>) &#123;   <span class="comment">//假如长度非空且size&lt;1，返回空数组，迷惑</span></span><br><span class="line">        <span class="keyword">return</span> [];</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = <span class="built_in">Array</span>(nativeCeil(length / size));<span class="comment">//nativeCeil===math.Ceil()向上取整</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">         <span class="comment">//每次baseSlice嵌入新的数组</span></span><br><span class="line">        result[++resIndex] = baseSlice(array, index, (index += size));</span><br><span class="line">         <span class="comment">//以目前index开始，+size结束</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result; <span class="comment">//返回二维数组</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3><blockquote>
-<p>过滤原数组中的所有非假值元素。例如<code>false</code>, <code>null</code>, <code>0</code>, <code>&quot;&quot;</code>, <code>undefined</code>, 和 <code>NaN</code> 都是被认为是“假值”。</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//例子</span></span><br><span class="line">_.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>, <span class="number">2</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="comment">// =&gt; [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compact</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">-1</span>,</span><br><span class="line">          length = array ? array.length : <span class="number">0</span>,</span><br><span class="line">          resIndex = <span class="number">-1</span>,</span><br><span class="line">          result = [];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (++index &lt; length) &#123;</span><br><span class="line">        <span class="keyword">var</span> value = array[index];</span><br><span class="line">        <span class="keyword">if</span> (value) &#123;  <span class="comment">//用if过滤假值</span></span><br><span class="line">          result[++resIndex] = value;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
-<p>让原数组与任何数组或值连接到一起</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -3264,75 +3336,6 @@
 
 <h4 id="行内块巧妙运用"><a href="#行内块巧妙运用" class="headerlink" title="行内块巧妙运用"></a>行内块巧妙运用</h4><p>分页码</p>
 <h4 id="CSS三角巧妙运用"><a href="#CSS三角巧妙运用" class="headerlink" title="CSS三角巧妙运用"></a>CSS三角巧妙运用</h4><p><img src="/2020/11/06/C3/7.jpg"></p>
-<h2 id="CSS初始化"><a href="#CSS初始化" class="headerlink" title="CSS初始化"></a>CSS初始化</h2>]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>H5</title>
-    <url>/2020/11/06/H5/</url>
-    <content><![CDATA[<h1 id="H5"><a href="#H5" class="headerlink" title="H5"></a>H5</h1><h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h3 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h3><p>浏览器内核(渲染引擎)：负责读取网页内容，整理讯息，计算网页的显示方式并显示页面</p>
-<table>
-<thead>
-<tr>
-<th>浏览器</th>
-<th>内核</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>IE</td>
-<td>Trident</td>
-<td>IE、猎豹、360、百度</td>
-</tr>
-<tr>
-<td>FireFox</td>
-<td>Gecko</td>
-<td>火狐</td>
-</tr>
-<tr>
-<td>Safari</td>
-<td>Webkit</td>
-<td>苹果</td>
-</tr>
-<tr>
-<td>Chrome/Opera</td>
-<td>Blink</td>
-<td>chrome/opera，blink其实是webkit的分支</td>
-</tr>
-</tbody></table>
-<h2 id="Web标准"><a href="#Web标准" class="headerlink" title="Web标准"></a>Web标准</h2><p>包括结构、表现和行为</p>
-<table>
-<thead>
-<tr>
-<th>标准</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>结构</td>
-<td>结构用于对网页元素进行分类和整理，HTML</td>
-</tr>
-<tr>
-<td>表现</td>
-<td>表现用于设置网页元素的版式、颜色大小等外观样式，CSS</td>
-</tr>
-<tr>
-<td>行为</td>
-<td>行为是指网页模型的定义及交互的编写，JavaScript</td>
-</tr>
-</tbody></table>
-<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
-<li>!DOCTYPE:文档类型声明，告诉浏览器使用哪种HTML版本来显示网页</li>
-<li>lang:当前文档的显示语言，如zh-CN中文，en英文</li>
-<li>charset:字符集，如UTF-8</li>
-</ul>
-<p>其余部分学过，略过</p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -3411,49 +3414,10 @@
       </tags>
   </entry>
   <entry>
-    <title>vueP1</title>
-    <url>/2020/10/23/vueP1/</url>
-    <content><![CDATA[<h1 id="VueP1"><a href="#VueP1" class="headerlink" title="VueP1"></a>VueP1</h1><h2 id="vue目录"><a href="#vue目录" class="headerlink" title="vue目录"></a>vue目录</h2><p><img src="/2020/10/23/vueP1/1.png"></p>
-<p>项目加载main.js-&gt;app.vue-&gt;index.js-&gt;helloworld.vue</p>
-<ul>
-<li>mainjs:程序入口，初始化vue实例并使用插件，加载各种公用组件</li>
-<li>APPvue:主组件，页面入口文件，构建定义及页面组件归集</li>
-<li>router indexjs：准备好的路由组件注册到路由里</li>
-<li>index.html:文件路口</li>
-<li>node_modules：依赖模块</li>
-<li>build：配置webpack基本配置、开发环境配置等</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>webpack.base.conf.js 注释createLintingRule()清除拼写检查</li>
-</ul>
-<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
-<li>template:写html模版，且内部必须有一个根元素div</li>
-<li>script:写JavaScript</li>
-<li>style:写样式</li>
-<li>div:块级元素，将文档分割，固定换行</li>
-<li>export default: 导出模块，当别的模块需要导出数据时</li>
-<li>new Vue() 写在mainjs，其他文件使用export default就行</li>
-</ul>
-<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>Model ViewModel View</p>
-<img src="/2020/10/23/vueP1/1.jpg" style="zoom:150%;">
-
-<p>DOM Listeners：DOM监听</p>
-<p>Data Bindings：数据绑定</p>
-<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><img src="/2020/10/23/vueP1/2.png"></p>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nodejs数据泄漏</title>
-    <url>/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</url>
+    <title>Nodejs数据泄漏</title>
+    <url>/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</url>
     <content><![CDATA[<h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
-<p><img src="/2020/10/22/nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
+<p><img src="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
 <p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
 <p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
 <p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
@@ -3533,28 +3497,6 @@
         <category>PStudy</category>
         <category>devOps</category>
         <category>crawl</category>
-      </categories>
-      <tags>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>comPy</title>
-    <url>/2020/10/12/comPy/</url>
-    <content><![CDATA[<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>常用库与响应操作</p>
-<h3 id="常用内置方法"><a href="#常用内置方法" class="headerlink" title="常用内置方法"></a>常用内置方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list((<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)) <span class="comment">#[1, 2, 3, 4, 5, 6]  将一个可迭代对象转换成列表</span></span><br><span class="line"></span><br><span class="line">tuple([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]) <span class="comment">#(1, 2, 3, 4, 5, 6)将一个可迭代对象转换成元组</span></span><br><span class="line"></span><br><span class="line">reversed() <span class="comment">#将一个序列翻转, 返回翻转序列的迭代器</span></span><br><span class="line"></span><br><span class="line">slice(start_index:end_index:step) <span class="comment">#列表的切片 st开始，en结束，step方向&gt;0，从左往右反之向左</span></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">slice(<span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>) <span class="comment">#[2,3]</span></span><br><span class="line"></span><br><span class="line">repr() <span class="comment">#返回一个对象的String形式</span></span><br><span class="line"></span><br><span class="line">len() <span class="comment">#返回一个对象中元素的个数</span></span><br><span class="line"></span><br><span class="line">sorted() <span class="comment">#对可迭代对象进行排序操作(lamda)</span></span><br><span class="line"></span><br><span class="line">all() <span class="comment">#可迭代对象中全是True才是True</span></span><br><span class="line">any() <span class="comment">#可迭代对象中有一个是True才是True</span></span><br><span class="line"></span><br><span class="line">filter() <span class="comment">#用lamda过滤</span></span><br><span class="line"></span><br><span class="line">map(f, lst) <span class="comment"># 把可迭代对象中的每一个元素传递给前面的函数进行处理. 处理的结果会返回成迭代器[1, 2, 3, 4, 5, 6, 7]</span></span><br><span class="line"></span><br><span class="line">range() <span class="comment">#生成数据</span></span><br><span class="line">next() <span class="comment">#迭代器向下执行一次, 内部实际使用了__ next__()方法返回迭代器的下一个项目</span></span><br><span class="line">iter() <span class="comment">#获取迭代器</span></span><br><span class="line"></span><br><span class="line">eval() <span class="comment">#执行字符串类型的编码并返回结果，如输入8+9 返回17</span></span><br><span class="line">exec() <span class="comment">#执行代码但不返回内容</span></span><br><span class="line">compile() <span class="comment">#将字符串类型的代码编码. 代码对象能够通过exec语句来执行或者eval()进行求值</span></span><br><span class="line"></span><br><span class="line">hash() <span class="comment">#获取到对象的hash值</span></span><br><span class="line"></span><br><span class="line">dir() <span class="comment">#查看对象的内置属性</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="you-get-获取媒体内容"><a href="#you-get-获取媒体内容" class="headerlink" title="you-get 获取媒体内容"></a>you-get 获取媒体内容</h3><p>you-get用于从Web下载媒体内容(视频)</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#下载视频</span></span><br><span class="line">you-get 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定存储位置和重命名</span></span><br><span class="line">you-get -o 存放的绝对路径 -O 新名称 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看视频信息</span></span><br><span class="line">you-get -i 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#选择下载清晰度和格式</span></span><br><span class="line"></span><br><span class="line">you-get --format=视频格式 视频地址</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载图片同视频</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="爬评论"><a href="#爬评论" class="headerlink" title="爬评论"></a>爬评论</h3>]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>devOps</category>
       </categories>
       <tags>
         <tag>DevOps</tag>
@@ -4182,7 +4124,8 @@
   <entry>
     <title>comRegEx</title>
     <url>/2020/10/01/comRegEx/</url>
-    <content><![CDATA[<p>^ 匹配输入字行首</p>
+    <content><![CDATA[<blockquote>
+<p>^ 匹配输入字行首</p>
 <p>$ 匹配输入行尾</p>
 <p>* 匹配前面的子表达式任意次，等价于{0,}</p>
 <p>+ 匹配前面的子表达式一次或多次，等价于{1,}</p>
@@ -4198,6 +4141,7 @@
 <p>\D 匹配一个非数字字符</p>
 <p>\w 匹配包括下划线的任何单词字符</p>
 <p>\W 匹配任何非单词字符</p>
+</blockquote>
 <p><img src="/2020/10/01/comRegEx/1.jpg"></p>
 ]]></content>
       <categories>
@@ -4467,84 +4411,8 @@
       </tags>
   </entry>
   <entry>
-    <title>JS</title>
-    <url>/2020/09/30/JS%E7%BA%A2%E5%AE%9D%E4%B9%A6/</url>
-    <content><![CDATA[<h1 id="Part-1-JS简介"><a href="#Part-1-JS简介" class="headerlink" title="Part 1 JS简介"></a>Part 1 JS简介</h1><h2 id="Js实现"><a href="#Js实现" class="headerlink" title="Js实现"></a>Js实现</h2><p>JS由核心(ECMAScript)、文档对象模型(DOM)、浏览器对象模型(BOM)组成</p>
-<ul>
-<li>核心：规定了这门语言的语法、类型等基础内容</li>
-<li>DOM：提供访问和操作网页内容的方法和接口，暂理解为标签树</li>
-<li>BOM：提供与浏览器交互的方法和接口</li>
-</ul>
-<h1 id="Part-2-在HTML中使用JS"><a href="#Part-2-在HTML中使用JS" class="headerlink" title="Part 2 在HTML中使用JS"></a>Part 2 在HTML中使用JS</h1><h1 id="“script”元素"><a href="#“script”元素" class="headerlink" title="“script”元素"></a>“script”元素</h1><ul>
-<li>src：里面放外部文件，如a.png等</li>
-<li>type：必选，一般来用text/javascript</li>
-</ul>
-<p>Tips：</p>
-<ul>
-<li><p>script按照顺序解析</p>
-</li>
-<li><p>现代Web应用一般把JS引用放在body后面，如bodyscript type=”…” src=””</p>
-</li>
-<li><p>HTML中推荐使用外部JS导入来使用</p>
-</li>
-</ul>
-<h1 id="Part-3-基本概念"><a href="#Part-3-基本概念" class="headerlink" title="Part 3 基本概念"></a>Part 3 基本概念</h1><p>Tips：JS大量借鉴C</p>
-<ul>
-<li>区分大小写</li>
-<li>严格模式：来源于JS</li>
-<li>注释：//或/* */</li>
-<li>加分号</li>
-<li>定义变量：var a=100;函数内var定义局部变量，不加var定义全局变量</li>
-<li>‘’和””同样理解为String类型，没区别</li>
-<li>Object是所有对象的基础</li>
-<li>默认情况下JS中所有整数都是有符号整数</li>
-<li>for-in枚举对象属性</li>
-<li>函数声明：function 函数名(a,b,c…){…}</li>
-<li>JS传参可以随意传，如定义一个形参，但可以不传或多传，因为JS传参为数组，可以使用argument.length==?来根据参数个数进行操作</li>
-<li>return;返回undefined</li>
-</ul>
-<h1 id="Part-4-变量、作用域和内存问题"><a href="#Part-4-变量、作用域和内存问题" class="headerlink" title="Part 4 变量、作用域和内存问题"></a>Part 4 变量、作用域和内存问题</h1><p>Tips：</p>
-<ul>
-<li>创建对象new Object()</li>
-<li>复制变量即复制值，var num1=num//num==num1</li>
-<li>复制对象即复制对象，var obj2=obj1;对象()，此时对象名即指针，复制对象名等于复制地址</li>
-<li>JS中所有函数的参数都是按值传递的</li>
-<li>typeof()检测基本类型、instanceof()检测引用类型</li>
-<li>全局环境即window对象，全局变量和函数都作为window对象的属性和方法创建的，代码执行完后，环境中所有变量均被销毁</li>
-<li>if、for语句中声明的变量即为全局变量</li>
-<li>JS有垃圾回收机制</li>
-</ul>
-<h1 id="Part-5-引用类型"><a href="#Part-5-引用类型" class="headerlink" title="Part 5 引用类型"></a>Part 5 引用类型</h1><p>引用类型：复制类型名即复制地址</p>
-<ul>
-<li>Object：var person=new Object();和var person={name:”aa”,age:29}对象字面量表示法，这种不调用构建方法。</li>
-<li>Array：数组内不限制类型、动态大小、可以省略new、数组.length可修改</li>
-<li>Date：Date.parse()换成ms</li>
-<li>RegEXP：正则表达式</li>
-<li>Function：函数名实际是指向函数对象的指针、没有重载，一样的名字会覆盖。</li>
-</ul>
-<p>Tips:</p>
-<ul>
-<li>类似栈函数push()、pop()</li>
-<li>类似队列函数shift()、push()</li>
-<li>数组反序方法reverse()、排列方法sort()不过是先toString()用字符串进行排序的，如果需要数值比较则需要写一个compare()函数</li>
-<li>concat()方法对数组内元素进行删除、插入、替换</li>
-<li>可以将一个函数作为另一个函数的结果返回</li>
-<li>函数内部对象this引用函数当前对象的属性如this.color</li>
-<li>函数名.length表示接收参数的个数</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PStudy</category>
-        <category>web-Design</category>
-        <category>JS红宝书</category>
-      </categories>
-      <tags>
-        <tag>web-design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shell/Mongo定时导出删除</title>
-    <url>/2020/09/30/shell/</url>
+    <url>/2020/09/30/Shell&amp;Mongo%E5%AE%9A%E6%97%B6%E5%AF%BC%E5%87%BA%E5%88%A0%E9%99%A4/</url>
     <content><![CDATA[<p>代码：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Shell</span></span><br><span class="line"></span><br><span class="line">log10=$(date +%s)<span class="comment">#先取当前时间</span></span><br><span class="line">t1=$((-<span class="number">3</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#三天</span></span><br><span class="line">log11=$((<span class="variable">$t1</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))<span class="comment">#时区转换为格林尼治时间</span></span><br><span class="line">log1=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log11</span> seconds&quot;</span> <span class="string">&quot;+%Y-%m-%dT00:00:00.000Z&quot;</span> )<span class="comment">#直接用字符串锁死时分秒</span></span><br><span class="line"></span><br><span class="line">t2=$((-<span class="number">2</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log12=$((<span class="variable">$t2</span>-<span class="number">8</span>*<span class="number">60</span>*<span class="number">60</span>))</span><br><span class="line">log2=$(date -d <span class="string">&quot;<span class="variable">$date</span> UTC <span class="variable">$log12</span> seconds&quot;</span> <span class="string">&quot;+%FT00:00:00.000Z&quot;</span> )</span><br><span class="line"></span><br><span class="line">mongoexport --host ... --port 27017 --username ... -p ... --authenticationDatabase  admin --db  ...  --collection  ... --query <span class="string">&#x27;&#123; &quot;createdAt&quot; : &#123; &quot;$gte&quot; : &#123; &quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log1&#125;</span><span class="string">&#x27;&quot; &#125;,&quot;$lte&quot;:&#123;&quot;$date&quot; : &quot;&#x27;</span><span class="variable">$&#123;log2&#125;</span><span class="string">&#x27;&quot;&#125;&#125;&#125;&#x27;</span> --out /home/ubuntu/...$(date -d <span class="string">&#x27;2 day ago&#x27;</span> <span class="string">&quot;+%Y%m%d&quot;</span>).json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#Mongo</span></span><br><span class="line">mongo 127.0.0.1:27017&lt;&lt;EOF</span><br><span class="line">use admin</span><br><span class="line">db.auth(账号,密码)</span><br><span class="line">use 库名</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>=new Date().valueOf()<span class="comment">#用时间戳的方式</span></span><br><span class="line">t1=-3*24*60*60*1000-1.5*60*60*1000<span class="comment">#因为要求在当天1.30</span></span><br><span class="line">t2=-2*24*60*60*1000-1.5*60*60*1000</span><br><span class="line">log1=<span class="built_in">log</span>+t1</span><br><span class="line">log2=<span class="built_in">log</span>+t2</span><br><span class="line">log1=new Date(log1)<span class="comment">#规格化时间</span></span><br><span class="line">log2=new Date(log2)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">db.表名.deleteMany(&#123;<span class="string">&quot;createdAt&quot;</span>:&#123;<span class="string">&quot;\$gte&quot;</span>:log1,<span class="string">&quot;\$lte&quot;</span>:log2&#125;&#125;)</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#月份	</span></span><br><span class="line"><span class="comment">#在月份使用的时候有一个问题就是怎么获取上上个月的月份才好使用时间戳确定时间</span></span><br><span class="line"><span class="comment">#想到可以用数组，本来是想用m[-1]==m[m.length-1]的思路，发现js不是这样，但是可以赋值-1</span></span><br><span class="line">var m=new Array()</span><br><span class="line">m[-2]=30</span><br><span class="line">m[-1]=31</span><br><span class="line">m[0]=31</span><br><span class="line">m[1]=28</span><br><span class="line">m[2]=31</span><br><span class="line">m[3]=30</span><br><span class="line">m[4]=31</span><br><span class="line">m[5]=30</span><br><span class="line">m[6]=31</span><br><span class="line">m[7]=31</span><br><span class="line">m[8]=30</span><br><span class="line">m[9]=31</span><br><span class="line">m[10]=30</span><br><span class="line">m[11]=31</span><br><span class="line">log4=new Date()</span><br><span class="line">log3=new Date().valueOf()</span><br><span class="line">t1=-(m[log4.getMonth()-1]+m[log4.getMonth()-2]+m[log4.getMonth()-3])*24*60*60*1000</span><br><span class="line">t2=-(m[log4.getMonth()-1]+m[log4.getMonth()-2])*24*60*60*1000</span><br><span class="line">log1=log3+t1-1.5*60*60*1000</span><br><span class="line">log2=log3+t2-1.5*60*60*1000</span><br><span class="line">log1=new Date(log1)</span><br><span class="line">log2=new Date(log2)</span><br></pre></td></tr></table></figure>
 
