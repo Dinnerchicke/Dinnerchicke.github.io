@@ -69,6 +69,76 @@
       </tags>
   </entry>
   <entry>
+    <title>浏览器页面相关</title>
+    <url>/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h1 id="浏览器页面相关"><a href="#浏览器页面相关" class="headerlink" title="浏览器页面相关"></a>浏览器页面相关</h1><h2 id="DOM树的形成流程"><a href="#DOM树的形成流程" class="headerlink" title="DOM树的形成流程"></a>DOM树的形成流程</h2><blockquote>
+<ol>
+<li>网络进程接收到响应头后，根据Content-Type字段判断文件类型</li>
+<li>如果是”text/html”，浏览器会判断这是一个HTML类型的文件，然后为该请求选择或者创建一个渲染进程</li>
+<li>渲染进程准备好后，网络进程和渲染进程之间会建立一个共享数据的管道</li>
+<li>网络进程接收的字节流会传向渲染进程的HTML解析器</li>
+<li>HTML解析器会动态接收字节流并将其解析为DOM</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/1.png"></p>
+<h3 id="字节流转换为DOM的流程"><a href="#字节流转换为DOM的流程" class="headerlink" title="字节流转换为DOM的流程"></a>字节流转换为DOM的流程</h3><blockquote>
+<p>第一阶段：通过<code>分词器</code>将字节流转换为Token，上述的HTML代码转换为Token如下</p>
+</blockquote>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/2.png"></p>
+<h3 id="Token解析为DOM-DOM添加到DOM树"><a href="#Token解析为DOM-DOM添加到DOM树" class="headerlink" title="Token解析为DOM/DOM添加到DOM树"></a>Token解析为DOM/DOM添加到DOM树</h3><blockquote>
+<p>第二/三阶段：这两个阶段是同步进行的，将Token解析为DOM节点的同时将其添加到DOM树中</p>
+<p>HTML解析器维护了一个Token栈结构，具体实现如Mustache模板引擎<a href="https://git.io/JYv3A">https://git.io/JYv3A</a></p>
+<p>算法实现即使用栈结构对tag进行判断，将其闭合输出为DOM</p>
+</blockquote>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/3.png"></p>
+<h2 id="JavaScript是如何影响DOM树构建的"><a href="#JavaScript是如何影响DOM树构建的" class="headerlink" title="JavaScript是如何影响DOM树构建的"></a>JavaScript是如何影响DOM树构建的</h2><blockquote>
+<p>引入JavaScript会阻塞DOM：假如在DOM中插入一段JavaScript脚本，解析到JavaScript时，渲染引擎检测到这是一段脚本，此时HTML会<code>暂停DOM的解析</code>，因为接下来可能要修改已生成的DOM。执行这段脚本以后，继续解析后序的内容，直至生成最终的DOM。</p>
+<p>因为Js可能操作样式，所以如果代码里<code>引用了外部的CSS文件</code>，那么在执行Js之前，还需要<code>等待外部CSS文件下载完成</code>，并解析生成CSSOM对象后，才执行Js脚本。</p>
+<p>所以Js会阻塞DOM加载，CSS会阻塞Js加载。</p>
+</blockquote>
+<blockquote>
+<p>Chrome浏览器对Js阻塞DOM的优化：</p>
+<ol>
+<li><code>预解析</code>：当渲染引擎收到字节流后，会开启一个预解析线程，用来分析HTML中包含的Js、CSS等文件，解析到相关文件后，预解析线程会提前下载这些文件</li>
+<li><code>CDN</code>：加速Js文件加载、压缩Js文件的体积</li>
+<li>如果Js文件中没有操作DOM相关的代码，就可以将该Js脚本设置为异步加载，如<code>async</code>或<code>defer</code></li>
+</ol>
+</blockquote>
+<blockquote>
+<p>当HTML文件中包含了CSS外部引用和Js外部文件时，它们的渲染流水线如下：</p>
+<ul>
+<li>在接收到HTML数据后的解析过程中，HTML预解析器识别出有CSS、Js文件需要下载，同时发起请求，且这个过程是并行的</li>
+</ul>
+</blockquote>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/4.png"></p>
+<h2 id="影响页面展示的因素及优化策略"><a href="#影响页面展示的因素及优化策略" class="headerlink" title="影响页面展示的因素及优化策略"></a>影响页面展示的因素及优化策略</h2><blockquote>
+<p>从发起URL请求到首次显示页面的内容，在视觉上经历的三个阶段：</p>
+<ol>
+<li>等请求发出去</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Axios源码分析</title>
+    <url>/2021/06/03/Axios%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="Axios源码分析"><a href="#Axios源码分析" class="headerlink" title="Axios源码分析"></a>Axios源码分析</h1>]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浏览器中的页面循环系统</title>
     <url>/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h1 id="浏览器中的页面循环系统"><a href="#浏览器中的页面循环系统" class="headerlink" title="浏览器中的页面循环系统"></a>浏览器中的页面循环系统</h1><h2 id="消息队列和事件循环"><a href="#消息队列和事件循环" class="headerlink" title="消息队列和事件循环"></a>消息队列和事件循环</h2><blockquote>
@@ -691,7 +761,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Promise深入</title>
+    <title>Promise&amp;async/await深入</title>
     <url>/2021/04/15/Promise%E6%B7%B1%E5%85%A5/</url>
     <content><![CDATA[<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><blockquote>
 <p>简介：Promise是ES6引入的异步解决方案，语法上来说是一个构造函数</p>
@@ -702,6 +772,13 @@
 </ol>
 </blockquote>
 <blockquote>
+<p>为了解决异步地狱的问题，ES6参考其他第三方库推出了Promise</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 异步地狱</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> file1 = <span class="string">&#x27;./file1.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file2 = <span class="string">&#x27;./file2.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file3 = <span class="string">&#x27;./file3.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file4 = <span class="string">&#x27;./file4.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file5 = <span class="string">&#x27;./file5.txt&#x27;</span></span><br><span class="line"></span><br><span class="line">fs.readFile(file1, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">  <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">  fs.readFile(file2, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">    fs.readFile(file3, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;file3&#x27;</span>, data.toString());</span><br><span class="line"></span><br><span class="line">      fs.readFile(file4, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">        fs.readFile(file5, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">          <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
 <p>Promise属性：</p>
 <ul>
 <li>状态(PromiseState)：Promise的状态只能变一次(pending-&gt;resolved/rejected)</li>
@@ -709,14 +786,57 @@
 </ul>
 <p>Promise的执行顺序：</p>
 <ul>
-<li>Promise内部的代码是同步的</li>
-<li>而then/catch的代码是异步的</li>
+<li>Promise内部的代码是同步宏任务</li>
+<li>而then/catch/finally的代码是微任务</li>
+<li>当给Promise添加了多个处理程序，当Promise状态改变时，相关处理程序(then/catch/finally)会按添加顺序执行</li>
 </ul>
 </blockquote>
-<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><blockquote>
+<p>Promise状态机：</p>
+<ul>
+<li>待定(pending)</li>
+<li>解决(fulfilled/resolved)</li>
+<li>拒绝(rejected)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>可以通过Promise.prototype查看Promise上的方法</p>
+</blockquote>
+<p><img src="/2021/04/15/Promise%E6%B7%B1%E5%85%A5/1.jpg"></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
 
+<h3 id="异步错误捕获"><a href="#异步错误捕获" class="headerlink" title="异步错误捕获"></a>异步错误捕获</h3><blockquote>
+<p>正常情况下，通过throw关键字抛出异常时，Js的错误处理机制会<code>停止执行抛出错误之后的任何指令</code></p>
+<p>但是在Promise中抛出错误时，因为错误是从消息队列中异步抛出的，所以并<code>不会阻止继续执行同步任务</code></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;同步错误&#x27;</span>) <span class="comment">// 这条指令以下均不执行</span></span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是同步错误执行后的指令&#x27;</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error) <span class="comment">// 同步错误捕获成功</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;异步错误&#x27;</span>)) <span class="comment">// 这条指令下的同步任务均被执行</span></span><br><span class="line">    <span class="comment">// .catch(reason=&gt;&#123; // 这样才能捕获异步错误</span></span><br><span class="line">    <span class="comment">//    console.log(reason)</span></span><br><span class="line">    <span class="comment">//  &#125;)</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>) <span class="comment">// 异步指令未被执行</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error) <span class="comment">// 异步错误捕获失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><blockquote>
+<p>then最多接收两个参数：<code>onResolved</code>和<code>onRejected</code>，二者<code>必须是函数类型</code>，否则会被静默忽略。</p>
+<p>二者都是可选的，如果传入的话会<code>分别</code>在resolve和reject阶段执行。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">p.then(<span class="function">()=&gt;</span>&#123;<span class="built_in">console</span>.log(<span class="string">&#x27;我是onResolved函数&#x27;</span>), <span class="function">()=&gt;</span>&#123;<span class="built_in">console</span>.log(<span class="string">&#x27;我是onRejected函数&#x27;</span>)&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 传入非函数处理程序会被静默处理</span></span><br><span class="line">p.then(<span class="string">&#x27;ignoredString&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只传入onRejected的规范写法</span></span><br><span class="line">p.then(<span class="literal">null</span>, <span class="function">()=&gt;</span>onRejected(<span class="string">&#x27;只传入onRejected，onResolved位置应该设为null&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用then/catch/finally实现链式调用：</p>
+<p>​    因为三者均会返回一个新的Promise对象，所以通过.then/.catch/.finally可以构成<code>链式调用</code></p>
+</blockquote>
+<h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><blockquote>
+<p>此方法用于给Promise添加统一处理reject，这个方法只接收一个参数：onRejected处理程序</p>
+<p>这个方法其实就是一个语法糖，相当于Promise.prototype.then(null, onRejected)</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">p.then(...)</span><br><span class="line">	.then(...)</span><br><span class="line">		.then(...)</span><br><span class="line">            ...</span><br><span class="line">				.catch(<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">              		<span class="built_in">console</span>.log(<span class="string">&#x27;统一错误捕获&#x27;</span>)</span><br><span class="line">              	&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Promise-prototype-finally"><a href="#Promise-prototype-finally" class="headerlink" title="Promise.prototype.finally()"></a>Promise.prototype.finally()</h3><blockquote>
+<p>这个方法类似switch/case里的finally，故不多赘述</p>
+<p>但是值得注意的是，这个finally与then/catch同属于<code>微任务</code>，执行时顺序可能与预期不同</p>
+</blockquote>
 <h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h3><blockquote>
 <p>Promise.all([])</p>
 <p>参数：Promise数组</p>
@@ -779,7 +899,35 @@
 <h2 id="手写Promise"><a href="#手写Promise" class="headerlink" title="手写Promise"></a>手写Promise</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">constructor</span>(func) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;pending&#x27;</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.PromiseResult = <span class="literal">null</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.resolvedTasks = []</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.rejectedTasks = []</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>._resolve = <span class="built_in">this</span>._resolve.bind(<span class="built_in">this</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>._reject = <span class="built_in">this</span>._reject.bind(<span class="built_in">this</span>)</span></span><br><span class="line"><span class="javascript">      <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">        func(<span class="built_in">this</span>._resolve, <span class="built_in">this</span>._reject)</span></span><br><span class="line"><span class="javascript">      &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>._reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _resolve(value) &#123;</span><br><span class="line"><span class="javascript">      <span class="comment">// 将其变成异步</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;fulfilled&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseResult = value</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.resolvedTasks.forEach(<span class="function"><span class="params">t</span> =&gt;</span> t(value))</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _reject(reason) &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;reject&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseResult = reason</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.rejectedTasks.forEach(<span class="function"><span class="params">t</span> =&gt;</span> t(reason))</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// then返回一个pending状态的Promise处理链式调用</span></span></span><br><span class="line">    then(onFulfilled, onRejected) &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;onFulfilled&#x27;</span>,onFulfilled)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;onRejected&#x27;</span>,onRejected)</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.resolvedTasks.push(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> res = onFulfilled(value)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span></span><br><span class="line">              res.then(resolve, reject)</span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line">              resolve(res)</span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.rejectedTasks.push(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> res = onRejected(value)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span></span><br><span class="line">              res.then(resolve, reject)</span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line">              reject(res)</span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">catch</span>(onRejected) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="built_in">this</span>.then(<span class="literal">null</span>, onRejected);</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">  <span class="comment">// 测试</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">      resolve(1);</span><br><span class="line">    &#125;, 500);</span><br><span class="line"><span class="javascript">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(res);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">        resolve(2);</span><br><span class="line">      &#125;, 500);</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(res);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;a error&#x27;</span>)</span></span><br><span class="line"><span class="javascript">  &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">&#x27;==&gt;&#x27;</span>, err);</span></span><br><span class="line">  &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 
-]]></content>
+
+
+
+<h1 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h1><blockquote>
+<p>async关键字用于声明异步函数，这个关键字可以用在<code>函数声明</code>、<code>函数表达式</code>、<code>箭头函数</code>和<code>方法</code>上</p>
+<p>使用async关键字可以让函数具有<code>异步特征</code>，但在总体上其<code>代码仍然是同步求值的</code></p>
+<p>如果async使用return关键字返回了值，这个值会被Promise.resolve包装成一个<code>Promise</code>，也就是可以使用then/catch等挂载在Promise上的方法</p>
+</blockquote>
+<blockquote>
+<p>await关键字可以暂停函数代码的执行，<code>等待</code>Promise进入resolve状态</p>
+<p>Js运行时在碰到await关键字时会记录在哪里暂停执行，等到await右边的值可用了，会往消息队列中推送一个任务，这个任务会恢复异步函数的执行。即使后面的值立即可用，函数的其余部分也会变为异步执行。</p>
+<p>注意：</p>
+<ol>
+<li>await会暂停后面的代码，await下面的代码可以理解为变为异步执行，等待下一次执行</li>
+<li>await关键字只能直接出现在async函数的定义中，在同步函数中使用await会抛出语法错误</li>
+</ol>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> data = <span class="literal">null</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> axios.get(<span class="string">&#x27;http://localhost:9010/server&#x27;</span>)</span><br><span class="line">    .then(<span class="keyword">async</span> res=&gt;&#123; <span class="comment">// 实际场景：await等待res数据</span></span><br><span class="line">      <span class="keyword">await</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res.data)</span><br><span class="line">      &#125;, <span class="number">1000</span>);</span><br><span class="line">      data = res.data</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;1&#x27;</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;2&#x27;</span>))</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;data:&#x27;</span>,data)</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="平行执行加速"><a href="#平行执行加速" class="headerlink" title="平行执行加速"></a>平行执行加速</h2><blockquote>
+<p>因为await会阻塞后面的代码执行，就算他们之间没有依赖关系。</p>
+<p>如果顺序不是必需保证的，可以<code>先一次性初始化所有Promise</code>，然后再分别<code>等待他们的结果</code></p>
+</blockquote>
+<blockquote>
+<p>注意Promise虽然没有按照顺序执行，但是await按照顺序返回了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">randomDelay</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> delay = <span class="built_in">Math</span>.random() * <span class="number">1000</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;id&#125;</span> finished`</span>)</span><br><span class="line">    resolve(id)</span><br><span class="line">  &#125;, delay))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">delayItem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> t0 = <span class="built_in">Date</span>.now()</span><br><span class="line">  <span class="keyword">const</span> promises = <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="literal">null</span>).map(<span class="function">(<span class="params">_, i</span>)=&gt;</span>randomDelay(i))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">const</span> p <span class="keyword">of</span> promises)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`awaited <span class="subst">$&#123;<span class="keyword">await</span> p&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;<span class="built_in">Date</span>.now() - t0&#125;</span>ms elapsed`</span>)</span><br><span class="line">&#125;</span><br><span class="line">delayItem()</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>PStudy</category>
         <category>web-Design</category>
@@ -4079,8 +4227,8 @@
   </entry>
   <entry>
     <title>Authentication</title>
-    <url>/2020/10/02/authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/authentication/1.png"></p>
+    <url>/2020/10/02/Authentication/</url>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/Authentication/1.png"></p>
 <h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
 <ol>
 <li>登陆Post/login{“登陆信息”}</li>

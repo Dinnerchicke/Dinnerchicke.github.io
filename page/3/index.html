@@ -81,6 +81,352 @@
     
     
     <article
+  id="post-前端安全"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"
+    >前端安全</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" class="article-date">
+  <time datetime="2021-02-06T00:20:07.000Z" itemprop="datePublished">2021-02-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="前端安全"><a href="#前端安全" class="headerlink" title="前端安全"></a>前端安全</h1><h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><blockquote>
+<p>xss：跨站脚本攻击(Cross Site Scripting)，最常见的攻击方法，攻击者通过注入非法的html标签或者JavaScript代码，当用户浏览该网页时控制用户浏览器</p>
+</blockquote>
+<p>危害：</p>
+<ul>
+<li>利用虚假输入表单骗取用户个人信息</li>
+<li>利用脚本窃取用户cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求</li>
+<li>显示伪造的文章或图片</li>
+</ul>
+<h3 id="DOM-xss"><a href="#DOM-xss" class="headerlink" title="DOM xss"></a>DOM xss</h3><blockquote>
+<p>使用DOM可以允许程序和脚本动态的访问和更新DOM的内容、结构和样式，它不需要服务器解析响应，可以认为是客户端攻击</p>
+</blockquote>
+<p>DOM 型 XSS 的攻击步骤：</p>
+<ol>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码。</li>
+<li>用户打开带有恶意代码的 URL。</li>
+<li>用户浏览器接收到响应后解析执行，前端 JavaScript 取出 URL 中的恶意代码并执行。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ol>
+<p>DOM 型 XSS 跟后两种 XSS 的区别：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
+<h4 id="预防"><a href="#预防" class="headerlink" title="预防"></a>预防</h4><p>在使用 <code>.innerHTML</code>、<code>.outerHTML</code>、<code>document.write()</code> 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 <code>.textContent</code>、<code>.setAttribute()</code> 等。</p>
+<p>如果用 Vue/React 技术栈，并且不使用 <code>v-html</code>/<code>dangerouslySetInnerHTML</code> 功能，就在前端 render 阶段避免 <code>innerHTML</code>、<code>outerHTML</code> 的 XSS 隐患。</p>
+<p>DOM 中的内联事件监听器，如 <code>location</code>、<code>onclick</code>、<code>onerror</code>、<code>onload</code>、<code>onmouseover</code> 等，标签的 <code>href</code> 属性，JavaScript 的 <code>eval()</code>、<code>setTimeout()</code>、<code>setInterval()</code> 等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。</p>
+<h3 id="反射型-xss"><a href="#反射型-xss" class="headerlink" title="反射型 xss"></a>反射型 xss</h3><blockquote>
+<p>反射型xss也称为非持久性xss，是现在**<em>最容易出现**</em>的一种xss漏洞。发出请求时，xss代码出现在url中，最后提交给服务器，服务器解析后响应xss代码，最后浏览器执行</p>
+</blockquote>
+<p>反射型 XSS 的攻击步骤：</p>
+<ol>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码。</li>
+<li>用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ol>
+<h3 id="存储型-xss"><a href="#存储型-xss" class="headerlink" title="存储型 xss"></a>存储型 xss</h3><blockquote>
+<p>存储型xss又称为持久性xss，是最危险的一种跨站脚本，相比其他两种具有更高的隐蔽性，所以危害更大，它不需要用户手动触发，允许用户存储数据的web程序都可能存在存储型xss漏洞，当攻击者提交一段xss代码后，被服务器接受并存储，当所有浏览者访问某个页面时都会被xss，最典型的例子就是留言板</p>
+</blockquote>
+<h4 id="存储型xss攻击样例"><a href="#存储型xss攻击样例" class="headerlink" title="存储型xss攻击样例"></a>存储型xss攻击样例</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">showInput</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">var</span> col = <span class="built_in">document</span>.getElementById(<span class="string">&quot;txt&quot;</span>);</span></span><br><span class="line"><span class="javascript">          <span class="keyword">var</span> val = col.value;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">var</span> dv = <span class="built_in">document</span>.getElementById(<span class="string">&quot;display&quot;</span>);</span></span><br><span class="line"><span class="javascript">          dv.innerText = val; <span class="comment">// 这里可以看到直接innerText的不会被执行</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">&quot;h1&quot;</span>&gt;</span>存储型XSS<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">id</span>=<span class="string">&quot;txt&quot;</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;showInput()&quot;</span> <span class="attr">value</span>=<span class="string">&quot;提交&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;display&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">font</span> <span class="attr">size</span>=<span class="string">&quot;100&quot;</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span>&gt;</span>试试水<span class="tag">&lt;/<span class="name">font</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> <span class="comment">// 但是直接放入的会被执行，故需要防止数据库直接存储信息</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// while (true) &#123;</span></span></span><br><span class="line"><span class="javascript">          alert(<span class="string">&#x27;Hello&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="comment">// &#125;</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      alert(<span class="built_in">document</span>.cookie)</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>如果数据库直接存储脚本的话，就会执行脚本，在客户端不会执行<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><ul>
+<li><p>httpOnly：在cookie中设置httpOnly</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// koa</span></span><br><span class="line">  ctx.cookies.set(name, value, &#123;</span><br><span class="line">      httpOnly: <span class="literal">true</span> <span class="comment">// 默认为 true</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>输入检查：对邮箱、电话号码、用户名、密码等按照规定格式输入。前后端都要检查，因为可以绕过直接访问接口。</p>
+<ol>
+<li>HTML 转义是非常复杂的，在不同的情况下要采用不同的转义规则。如果采用了错误的转义规则，很有可能会埋下 XSS 隐患。</li>
+<li>应当尽量避免自己写转义库，而应当采用成熟的、业界通用的转义库。</li>
+</ol>
+</li>
+<li><p>对于链接跳转，如a href=”xxx” 或 location.href=”xxx”，要检验其内容，禁止以 javascript:开头的链接，和其他非法的 scheme。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/?redirect_to=javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line">http://xxx/?redirect_to=%20javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        sessionStorage.setItem(<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;session内容&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 直接获取session内容</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(sessionStorage.getItem(&#x27;a&#x27;))&quot;</span>&gt;</span>XSS<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>HtmlEncode：某些情况下，不能对用户进行严格过滤，这时候需要对标签进行转换</li>
+</ul>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/1.jpg"></p>
+<ul>
+<li><p>JavaScriptEncode：对下列字符加上反斜杠</p>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/2.jpg"></p>
+</li>
+</ul>
+<h3 id="XSS注入方法"><a href="#XSS注入方法" class="headerlink" title="XSS注入方法"></a>XSS注入方法</h3><ul>
+<li>在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。</li>
+<li>在内联的 JavaScript 中，拼接的数据突破了原本的限制（字符串，变量，方法名等）。</li>
+<li>在标签属性中，恶意内容包含引号，从而突破属性值的限制，注入其他属性或者标签。</li>
+<li>在标签的 href、src 等属性中，包含 <code>javascript:</code> 等可执行代码。</li>
+<li>在 onload、onerror、onclick 等事件中，注入不受控制代码。</li>
+<li>在 style 属性和标签中，包含类似 <code>background-image:url(&quot;javascript:...&quot;);</code> 的代码（新版本浏览器已经可以防范）。</li>
+<li>在 style 属性和标签中，包含类似 <code>expression(...)</code> 的 CSS 表达式代码（新版本浏览器已经可以防范）。</li>
+</ul>
+<h3 id="减少漏洞产生"><a href="#减少漏洞产生" class="headerlink" title="减少漏洞产生"></a>减少漏洞产生</h3><ul>
+<li><strong>利用模板引擎</strong> 开启模板引擎自带的 HTML 转义功能。例如： 在 ejs 中，尽量使用 <code>&lt;%= data %&gt;</code> 而不是 <code>&lt;%- data %&gt;</code>； 在 doT.js 中，尽量使用 <code>&#123;&#123;! data &#125;` 而不是 `&#123;&#123;= data &#125;`； 在 FreeMarker 中，确保引擎版本高于 2.3.24，并且选择正确的 `freemarker.core.OutputFormat`。
+- **避免内联事件** 尽量不要使用 `onLoad="onload('&#123;&#123;data&#125;&#125;&#39;)&quot;</code>、<code>onClick=&quot;go(&#39;&#123;&#123;action&#125;&#125;&#39;)&quot;</code> 这种拼接内联事件的写法。在 JavaScript 中通过 <code>.addEventlistener()</code> 事件绑定会更安全。</li>
+<li><strong>避免拼接 HTML</strong> 前端采用拼接 HTML 的方法比较危险，如果框架允许，使用 <code>createElement</code>、<code>setAttribute</code> 之类的方法实现。或者采用比较成熟的渲染框架，如 Vue/React 等。</li>
+<li><strong>时刻保持警惕</strong> 在插入位置为 DOM 属性、链接等位置时，要打起精神，严加防范。</li>
+<li><strong>增加攻击难度，降低攻击后果</strong> 通过 CSP、输入长度配置、接口安全措施等方法，增加攻击的难度，降低攻击的后果。</li>
+<li><strong>主动检测和发现</strong> 可使用 XSS 攻击字符串和自动扫描工具寻找潜在的 XSS 漏洞。</li>
+</ul>
+<h3 id="XSS攻击练习"><a href="#XSS攻击练习" class="headerlink" title="XSS攻击练习"></a>XSS攻击练习</h3><p><a target="_blank" rel="noopener" href="https://alf.nu/alert1">alert(1) to win</a> <a target="_blank" rel="noopener" href="http://prompt.ml/">prompt(1) to win</a> <a target="_blank" rel="noopener" href="https://xss-game.appspot.com/">XSS game</a></p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><blockquote>
+<p>csrf：跨站点请求伪造(Cross-Site Request Forgeries)。冒充用户发起请求(在用户不知情的情况下)，完成一些违背用户意愿的事情(如修改用户信息等)</p>
+</blockquote>
+<p>可能造成以下影响：</p>
+<ul>
+<li>利用已通过认证的用户权限更新设定信息等</li>
+<li>利用已通过认证的用户权限购买商品</li>
+</ul>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/3.jpg"></p>
+<h3 id="CSRF攻击流程与特点"><a href="#CSRF攻击流程与特点" class="headerlink" title="CSRF攻击流程与特点"></a>CSRF攻击流程与特点</h3><p>一个典型的CSRF攻击有着如下的流程：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://受害者登录a.com/">受害者登录a.com</a>，并保留了登录凭证（Cookie）。</li>
+<li><a target="_blank" rel="noopener" href="http://攻击者引诱受害者访问了b.com/">攻击者引诱受害者访问了b.com</a>。</li>
+<li><a target="_blank" rel="noopener" href="http://b.com/">b.com</a> 向 <a target="_blank" rel="noopener" href="http://a.com/">a.com</a> 发送了一个请求：<a target="_blank" rel="noopener" href="http://a.com/act=xx%E3%80%82%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BC%9A%E9%BB%98%E8%AE%A4%E6%90%BA%E5%B8%A6a.com%E7%9A%84Cookie%E3%80%82">a.com/act=xx。浏览器会…</a></li>
+<li>a.com接收到请求后，对请求进行验证，并确认是受害者的凭证，误以为是受害者自己发送的请求。</li>
+<li>a.com以受害者的名义执行了act=xx。</li>
+<li>攻击完成，攻击者在受害者不知情的情况下，冒充受害者，让a.com执行了自己定义的操作。</li>
+</ul>
+<p>CSRF的特点</p>
+<ul>
+<li>攻击一般发起在第三方网站，而不是被攻击的网站。被攻击的网站无法防止攻击发生。</li>
+<li>攻击利用受害者在被攻击网站的登录凭证，冒充受害者提交操作；而不是直接窃取数据。</li>
+<li>整个过程<em>攻击者并不能获取到受害者的登录凭证</em>，仅仅是“冒用”。</li>
+<li>跨站请求可以用各种方式：图片URL、超链接、CORS、Form提交等等。部分请求方式可以直接嵌入在第三方论坛、文章中，难以进行追踪。</li>
+</ul>
+<h3 id="防御-1"><a href="#防御-1" class="headerlink" title="防御"></a>防御</h3><p>攻击特征：</p>
+<ul>
+<li>跨域请求。</li>
+<li>GET类型请求Header的MIME类型大概率为图片，而实际返回Header的MIME类型为Text、JSON、HTML。</li>
+</ul>
+<p>思路：</p>
+<ul>
+<li>阻止不明外域的访问<ul>
+<li>同源检测</li>
+<li>Samesite Cookie</li>
+</ul>
+</li>
+<li>提交时要求附加本域才能获取的信息<ul>
+<li>CSRF Token</li>
+<li>双重Cookie验证</li>
+</ul>
+</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>验证码：强迫用户与应用交互才能完成请求，很有效但是用户体验较差</li>
+<li>尽量使用post，限制使用get</li>
+<li>Referer check：请求来源限制，但不能保证100%有效，可能取不到Referer或者收到伪造的Referer</li>
+<li>token:思路如下<ol>
+<li>后端随机产生token，存到session中，同时后端把token传给前端</li>
+<li>前端提交请求时，把token加入头部传给后端</li>
+<li>后端验证传来的token与session是否一致，一致则合法</li>
+<li>Tip:若网站同时存在XSS漏洞时，这个方法没用！</li>
+</ol>
+</li>
+</ul>
+<p>用户安全建议：</p>
+<ul>
+<li>使用网页版邮件的浏览邮件或者新闻也会带来额外的风险，因为查看邮件或者新闻消息有可能导致恶意代码的攻击。</li>
+<li>尽量不要打开可疑的链接，一定要打开时，使用不常用的浏览器。</li>
+</ul>
+<h2 id="点击劫持ClickJacking"><a href="#点击劫持ClickJacking" class="headerlink" title="点击劫持ClickJacking"></a>点击劫持ClickJacking</h2><blockquote>
+<p>是指透明的按钮或链接做成的陷阱，覆盖在web页面上，诱使用户在不知情的情况下，点击链接的攻击手段，这种行为又称为界面伪装(UI Redressing)</p>
+</blockquote>
+<h3 id="防御-2"><a href="#防御-2" class="headerlink" title="防御"></a>防御</h3><ul>
+<li>X-FRAME-OPTIONS</li>
+</ul>
+<p>X-FRAME-OPTIONS响应头给浏览器指示允许一个页面是否可在frame、iframe或者object展示的标记，网站可以使用此功能确保自己的网站内容没有被嵌到比尔网站中，也可以避免点击劫持</p>
+<ul>
+<li>js 判断顶层窗口跳转，可轻易破解，意义不大</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-Chrome-DevTools"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/02/05/Chrome-DevTools/"
+    >Chrome-DevTools</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/05/Chrome-DevTools/" class="article-date">
+  <time datetime="2021-02-05T00:36:13.000Z" itemprop="datePublished">2021-02-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Chrome-DevTools"><a href="#Chrome-DevTools" class="headerlink" title="Chrome-DevTools"></a>Chrome-DevTools</h1><h2 id="通过节点截图获取DOM元素"><a href="#通过节点截图获取DOM元素" class="headerlink" title="通过节点截图获取DOM元素"></a>通过节点截图获取DOM元素</h2><p><img src="/2021/02/05/Chrome-DevTools/1.jpg"></p>
+<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><h3 id="在控制台中使用上次操作的值"><a href="#在控制台中使用上次操作的值" class="headerlink" title="在控制台中使用上次操作的值"></a>在控制台中使用上次操作的值</h3><p><img src="/2021/02/05/Chrome-DevTools/2.jpg"></p>
+<h3 id="x-获取元素"><a href="#x-获取元素" class="headerlink" title="$x()/$()/?()获取元素"></a>$x()/$()/?()获取元素</h3><p><code>$()</code> - 返回满足指定 CSS 规则的第一个元素，此方法为 document.querySelector()的简化。</p>
+<p><code>?()</code> - 返回满足指定 CSS 规则的所有元素，此方法为 querySelectorAll()的简化。</p>
+<p><code>$x()</code> - 返回满足指定 XPath 的所有元素。</p>
+<p><img src="/2021/02/05/Chrome-DevTools/12.jpg"></p>
+<h3 id="获取最近5个审查元素选中过的DOM节点"><a href="#获取最近5个审查元素选中过的DOM节点" class="headerlink" title="获取最近5个审查元素选中过的DOM节点"></a>获取最近5个审查元素选中过的DOM节点</h3><p><img src="/2021/02/05/Chrome-DevTools/11.jpg"></p>
+<h3 id="keys-values"><a href="#keys-values" class="headerlink" title="keys()/values()"></a>keys()/values()</h3><p><img src="/2021/02/05/Chrome-DevTools/13.jpg"></p>
+<h3 id="copy-Save-global-variable"><a href="#copy-Save-global-variable" class="headerlink" title="copy()/Save global variable()"></a>copy()/Save global variable()</h3><p><img src="/2021/02/05/Chrome-DevTools/14.jpg"></p>
+<h3 id="console-log-warn-error"><a href="#console-log-warn-error" class="headerlink" title="console.log/warn/error()"></a>console.log/warn/error()</h3><p><img src="/2021/02/05/Chrome-DevTools/5.jpg"></p>
+<h3 id="console-time-console-timeEnd"><a href="#console-time-console-timeEnd" class="headerlink" title="console.time(),console.timeEnd()"></a>console.time(),console.timeEnd()</h3><p><img src="/2021/02/05/Chrome-DevTools/6.jpg"></p>
+<h3 id="console-count"><a href="#console-count" class="headerlink" title="console.count()"></a>console.count()</h3><p><img src="/2021/02/05/Chrome-DevTools/7.jpg"></p>
+<h3 id="console-trace"><a href="#console-trace" class="headerlink" title="console.trace()"></a>console.trace()</h3><p><img src="/2021/02/05/Chrome-DevTools/8.jpg"></p>
+<h3 id="console-group"><a href="#console-group" class="headerlink" title="console.group()"></a>console.group()</h3><p><img src="/2021/02/05/Chrome-DevTools/9.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/10.jpg"></p>
+<h3 id="任意编辑网页内文本"><a href="#任意编辑网页内文本" class="headerlink" title="任意编辑网页内文本"></a>任意编辑网页内文本</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.contentEditable=<span class="string">&quot;true&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2021/02/05/Chrome-DevTools/3.jpg"></p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><h3 id="递增-递减CSS属性值"><a href="#递增-递减CSS属性值" class="headerlink" title="递增/递减CSS属性值"></a>递增/递减CSS属性值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">* 增量0.1</span><br><span class="line">  * Windows： Alt +向上和Alt +向下</span><br><span class="line">* 增量1</span><br><span class="line">  * Windows：向上+向下</span><br><span class="line">* 增量10</span><br><span class="line">  * Windows：shift+向上和shift+向下</span><br><span class="line">* 递增100</span><br><span class="line">  * Windows： Ctrl +向上和Ctrl +向下</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="取色"><a href="#取色" class="headerlink" title="取色"></a>取色</h3><p><img src="/2021/02/05/Chrome-DevTools/25.jpg"></p>
+<h3 id="css调试"><a href="#css调试" class="headerlink" title="css调试"></a>css调试</h3><p>选择元素状态</p>
+<p><img src="/2021/02/05/Chrome-DevTools/15.jpg"></p>
+<p>computed样式跳转</p>
+<p><img src="/2021/02/05/Chrome-DevTools/16.jpg"></p>
+<h3 id="选中元素按H隐藏-按删除键删除"><a href="#选中元素按H隐藏-按删除键删除" class="headerlink" title="选中元素按H隐藏/按删除键删除"></a>选中元素按H隐藏/按删除键删除</h3><p><img src="/2021/02/05/Chrome-DevTools/17.jpg"></p>
+<h2 id="NetWork"><a href="#NetWork" class="headerlink" title="NetWork"></a>NetWork</h2><p><img src="/2021/02/05/Chrome-DevTools/18.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/19.jpg"></p>
+<h3 id="Request-Table"><a href="#Request-Table" class="headerlink" title="Request Table"></a>Request Table</h3><p><img src="/2021/02/05/Chrome-DevTools/23.jpg"></p>
+<h3 id="单个资源的Timing标签"><a href="#单个资源的Timing标签" class="headerlink" title="单个资源的Timing标签"></a>单个资源的Timing标签</h3><p><img src="/2021/02/05/Chrome-DevTools/21.jpg"></p>
+<ul>
+<li><code>Queuing</code> (排队)</li>
+</ul>
+<blockquote>
+<p>浏览器在以下情况下对请求排队</p>
+<ol>
+<li>存在更高优先级的请求, 请求被渲染引擎推迟，这经常发生在 images（图像）上, 因为它被认为比关键资源（如脚本 / 样式）的优先级低。</li>
+<li>此源已打开六个 TCP 连接，达到限值，仅适用于 HTTP/1.0 和 HTTP/1.1。在等待一个即将被释放的不可用的 TCP socket</li>
+<li>浏览器正在短暂分配磁盘缓存中的空间，生成磁盘缓存条目（通常非常快）</li>
+</ol>
+</blockquote>
+<ul>
+<li><p><code>Stalled</code> (停滞) - 发送请求之前等待的时间。它可能因为进入队列的任意原因而被阻塞，这个时间包括代理协商的时间。请求可能会因 Queueing 中描述的任何原因而停止。</p>
+</li>
+<li><p><code>DNS lookup</code> (DNS 查找) - 浏览器正在解析请求 IP 地址，页面上的每个新域都需要完整的往返 (roundtrip) 才能进行 DNS 查找</p>
+</li>
+<li><p><code>Proxy Negotiation</code> - 浏览器正在与代理服务器协商请求</p>
+</li>
+<li><p><code>initial connection</code> (初始连接) - 建立连接所需的时间，包括 TCP 握手 / 重试和协商 SSL。</p>
+</li>
+<li><p><code>SSL handshake</code> (SSL 握手) - 完成 SSL 握手所用的时间</p>
+</li>
+<li><p><code>Request sent</code> (请求发送) - 发出网络请求所花费的时间，通常是几分之一毫秒。</p>
+</li>
+<li><p><code>Waiting</code> (等待) - 等待初始响应所花费的时间，也称为<code>Time To First Byte</code>(接收到第一个字节所花费的时间)。这个时间除了等待服务器传递响应所花费的时间之外，还包括 1 次往返延迟时间及服务器准备响应所用的时间（服务器发送数据的延迟时间）</p>
+</li>
+<li><p><code>Content Download</code>(内容下载) - 接收响应数据所花费的时间 (从接收到第一个字节开始，到下载完最后一个字节结束)</p>
+</li>
+<li><p><code>ServiceWorker Preparation</code> - 浏览器正在启动 Service Worker</p>
+</li>
+<li><p><code>Request to ServiceWorker</code> - 正在将请求发送到 Service Worker</p>
+</li>
+<li><p><code>Receiving Push</code> - 浏览器正在通过 HTTP/2 服务器推送接收此响应的数据</p>
+</li>
+<li><p><code>Reading Push</code> - 浏览器正在读取之前收到的本地数据</p>
+</li>
+</ul>
+<p><img src="/2021/02/05/Chrome-DevTools/20.jpg"></p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p><img src="/2021/02/05/Chrome-DevTools/22.jpg"></p>
+<ul>
+<li><code>requests</code> 查看请求的总数量 </li>
+<li><code>transferred</code> 查看请求的总大小</li>
+<li><code>resources</code> 资源</li>
+<li><code>Finish</code> 所有 http 请求响应完成的时间</li>
+<li>DOMContentLoaded 时间</li>
+<li>load 时间</li>
+</ul>
+<h3 id="选择网络速度"><a href="#选择网络速度" class="headerlink" title="选择网络速度"></a>选择网络速度</h3><p><img src="/2021/02/05/Chrome-DevTools/4.jpg"></p>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p><img src="/2021/02/05/Chrome-DevTools/25.jpg"></p>
+<h2 id="Render实时检测网页变化"><a href="#Render实时检测网页变化" class="headerlink" title="Render实时检测网页变化"></a>Render实时检测网页变化</h2><p><img src="/2021/02/05/Chrome-DevTools/26.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-Flex布局"
   class="article article-type-post"
   itemscope
@@ -1653,155 +1999,13 @@
 </article>
 
     
-    <article
-  id="post-Nodejs数据泄漏"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/"
-    >Nodejs数据泄漏</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/" class="article-date">
-  <time datetime="2020-10-22T09:34:59.000Z" itemprop="datePublished">2020-10-22</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
-<p><img src="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
-<p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
-<p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
-<p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
-<h2 id="第二部分：排查后端"><a href="#第二部分：排查后端" class="headerlink" title="第二部分：排查后端"></a>第二部分：排查后端</h2><p>从网上查到Nodejs的内存泄漏有以下可能</p>
-<ol>
-<li>全局变量 (排除)</li>
-<li>闭包 (排除)</li>
-<li>事件监听 (待排查)</li>
-<li>缓存使用不当 (可能)</li>
-<li>内存没有即时释放 (排除，查看了node使用内存)</li>
-<li>SetTimeOut方法 (待排查)</li>
-</ol>
-<blockquote>
-<p><em>先关闭了Egg定时器发现CPU增长不是线性增长而是阶梯增长的，但是还会增加到100%</em></p>
-<p><em>然后关了监听还是如此，但是可以跑24h了，缓存用的也不是很多</em>，缓存使用不当也排除了</p>
-</blockquote>
-<h2 id="第三部分：意外之喜"><a href="#第三部分：意外之喜" class="headerlink" title="第三部分：意外之喜"></a>第三部分：意外之喜</h2><p>在整理Linux命令的时候使用了netstat指令</p>
-<p>后面发现一直在给以前项目发数据包</p>
-<p>于是去问后端怎么回事</p>
-<p>原来是WAMP没有关掉</p>
-<p>关掉后CPU就在3-20%之间来回了</p>
-<p>舒服了</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-crawl-Fund"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/20/crawl-Fund/"
-    >crawl:Fund</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/20/crawl-Fund/" class="article-date">
-  <time datetime="2020-10-20T07:18:18.000Z" itemprop="datePublished">2020-10-20</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/crawl/">crawl</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="爬虫：基金"><a href="#爬虫：基金" class="headerlink" title="爬虫：基金"></a>爬虫：基金</h1><p>因为发现以前找基金的方法太经验化了，所以准备整个排序</p>
-<ul>
-<li>去除了三年以内的建立的基金</li>
-<li>去除了部分值</li>
-<li>去除了累计净值&lt;1的基金</li>
-<li>去除了三年和&lt;100%的基金</li>
-</ul>
-<p>部分结果展示：</p>
-<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
-<p>工具：Spyder</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>也没有涉及到多个页面，就小试牛刀</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
   </nav>
   
 </section>
