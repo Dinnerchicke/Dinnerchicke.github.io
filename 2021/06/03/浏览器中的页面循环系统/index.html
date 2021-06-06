@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">89</span>
+            <span class="post-count">1.6k</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -102,7 +102,123 @@
   <h1 id="浏览器中的页面循环系统"><a href="#浏览器中的页面循环系统" class="headerlink" title="浏览器中的页面循环系统"></a>浏览器中的页面循环系统</h1><h2 id="消息队列和事件循环"><a href="#消息队列和事件循环" class="headerlink" title="消息队列和事件循环"></a>消息队列和事件循环</h2><blockquote>
 <p>因为每个渲染进程都有一个主进程，并且主进程非常忙碌，所以需要一个系统来对各种任务进行统筹调度，即<code>消息队列</code>和<code>事件循环</code>系统</p>
 </blockquote>
-<h3 id="在线程运行过程中处理新任务"><a href="#在线程运行过程中处理新任务" class="headerlink" title="在线程运行过程中处理新任务"></a>在线程运行过程中处理新任务</h3> 
+<h3 id="单线程处理"><a href="#单线程处理" class="headerlink" title="单线程处理"></a>单线程处理</h3><blockquote>
+<p>如果使用单线程顺序执行任务的话，显而易见并不能持续的执行任务，当任务执行完后就会退出线程</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/2.png"></p>
+<h3 id="循环处理任务"><a href="#循环处理任务" class="headerlink" title="循环处理任务"></a>循环处理任务</h3><blockquote>
+<p>引入循环机制：</p>
+<ol>
+<li>线程会一直循环</li>
+<li>可以通过事件来等待用户输入，输入完成后激活线程</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/3.png"></p>
+<h3 id="引入多线程模型"><a href="#引入多线程模型" class="headerlink" title="引入多线程模型"></a>引入多线程模型</h3><blockquote>
+<p>当出现多线程时，情况就不一样了</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/4.png"></p>
+<blockquote>
+<p>线程需要接收其他线程传来的数据，一个通用的模式就是使用<code>消息队列</code>，先进先出的队列</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/5.png"></p>
+<blockquote>
+<p>从图中可知：</p>
+<ul>
+<li>渲染主线程会循环从消息队列的队首中取出任务执行</li>
+<li>其他线程会向消息队列的队尾推送任务以供主线程执行</li>
+</ul>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/6.png"></p>
+<h3 id="引入跨进程通信-IPC-模型"><a href="#引入跨进程通信-IPC-模型" class="headerlink" title="引入跨进程通信(IPC)模型"></a>引入跨进程通信(IPC)模型</h3><blockquote>
+<p>从图中可以看出，IO线程会处理其他进程传来的IPC内容，然后提交到消息队列执行</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/1.png"></p>
+<h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><blockquote>
+<p>随着浏览器的发展，消息队列这种粗时间粒度的任务已经不能胜任部分需求，所以出现了<code>微任务</code>，在实时性和效率之间做一个权衡</p>
+</blockquote>
+<h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><blockquote>
+<p>宏任务(macrotask)：</p>
+<ul>
+<li>script</li>
+<li>setTimeout/setInterval</li>
+<li>UI渲染</li>
+<li>I/O</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>为了协调这些任务能有条不紊的在主线程上运行，渲染进程内部会维护多个消息队列，比如<code>延迟执行队列</code>和普通的<code>消息队列</code>，然后主线程不断从这些任务队列中取出任务执行任务，我们将这些消息队列中的任务称为<code>宏任务</code></p>
+<p>但是宏任务例如settimeout，想延迟xms后执行，但是往往可能会被插入很多系统级的任务，导致不会在我们预期的时间执行回调函数。</p>
+<p>故宏任务的时间粒度不能满足一些高实时性的需求，所以就有了微任务。</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/7.png"></p>
+<h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><blockquote>
+<p>微任务(microtask)：</p>
+<ol>
+<li>Promise.then/catch/finally</li>
+<li>Object.observe</li>
+<li>MutaionObserver</li>
+<li>process.nextTick(Node.js)</li>
+</ol>
+<p>产生微任务的方式：</p>
+<ol>
+<li>使用MustationObserver监控某个DOM节点，然后通过JavaScript来修改这个节点，或者为这个节点添加、删除部分子节点，当DOM节点发生变化时，就会产生DOM变化记录的微任务</li>
+<li>使用Promise，当调用Promise.resolve()/reject()时，也会产生微任务</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>微任务就是一个需要<code>异步执行</code>的函数，执行时机在<code>主函数执行结束之后</code>，当前<code>宏任务结束之前</code></p>
+<p>创建时机：在JavaScript执行一段脚本时，V8会为其创建一个全局执行上下文，与此同时也会创建一个<code>微任务队列</code>。</p>
+<p>何时被执行：通常在宏任务中的JavaScript快执行完成时，即<code>JavaScript引擎准备退出全局执行上下文并清空调用栈时</code>，JavaScript引擎会检查全局执行上下文的微任务队列，并按照顺序执行其中的任务，除了在退出全局执行上下文这个检查点外还有其他检查点，不过不太重要。</p>
+<p>如果在执行微任务的过程中产生了新的微任务，同样会把该微任务添加到微任务队列中并执行，直到队列为空才结束。</p>
+</blockquote>
+<blockquote>
+<p>该示意图是在执行一个 ParseHTML 的宏任务，在执行过程中，遇到了 JavaScript 脚本，那么就暂停解析流程，进入到 JavaScript 的执行环境。从图中可以看到，全局上下文中包含了微任务列表。</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/8.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/9.png"></p>
+<blockquote>
+<p>结论：</p>
+<ul>
+<li>微任务和宏任务是<code>绑定的</code>，每个宏任务在执行时，会创建自己的微任务队列</li>
+<li>微任务的执行时长会影响到当前宏任务的时长</li>
+</ul>
+</blockquote>
+<h2 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h2><h3 id="生成器-Generator-amp-协程-Coroutine"><a href="#生成器-Generator-amp-协程-Coroutine" class="headerlink" title="生成器(Generator)&amp;协程(Coroutine)"></a>生成器(Generator)&amp;协程(Coroutine)</h3><blockquote>
+<p>生成器函数的特性：</p>
+<ul>
+<li>在生成器函数内部执行一段代码，如果遇到 yield 关键字，那么 JavaScript 引擎将返回关键字后面的内容给外部，并暂停该函数的执行。</li>
+<li>外部函数可以通过 next 方法恢复函数的执行</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>协程：协程是比线程更轻量级的存在，可以看成跑在线程上的任务，一个线程上可以<code>存在多个协程</code>，但是在线程上只能<code>执行一个线程</code>。</p>
+<p>一个线程可以拥有多个协程，协程不是被操作系统内核管理的，而完全是由程序所控制(也就是在用户态执行)，性能大大提升，不会像线程切换那样消耗性能。</p>
+</blockquote>
+<blockquote>
+<p>执行这一段代码，会发现genDemo()函数是与全局代码交替执行的，这就是生成器函数Generator的特性，可以暂停执行，也可以恢复执行</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">genDemo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第一段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第二段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第三段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 执行结束 &quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 0&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> gen = genDemo()</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 1&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 2&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 3&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 4&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/10.png"></p>
+<blockquote>
+<p>父协程和gen协程切换调用栈</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/11.png"></p>
+<blockquote>
+<p>在JavaScript中，生成器就是协程的一种实现方式</p>
+</blockquote>
+<blockquote>
+<p>通过生成器·配合执行器，就能使用同步的方式写出异步代码了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//foo 函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> response1 = <span class="keyword">yield</span> fetch(<span class="string">&#x27;https://www.geekbang.org&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response1&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response1)</span><br><span class="line">    <span class="keyword">let</span> response2 = <span class="keyword">yield</span> fetch(<span class="string">&#x27;https://www.geekbang.org/test&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response2&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response2)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 执行 foo 函数的代码</span></span><br><span class="line"><span class="keyword">let</span> gen = foo()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGenPromise</span>(<span class="params">gen</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gen.next().value</span><br><span class="line">&#125;</span><br><span class="line">getGenPromise(gen).then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response1&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response)</span><br><span class="line">    <span class="keyword">return</span> getGenPromise(gen)</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response2&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Async-Await与协程"><a href="#Async-Await与协程" class="headerlink" title="Async/Await与协程"></a>Async/Await与协程</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">await</span> <span class="number">100</span></span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>)</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/12.png"></p>
+ 
       <!-- reward -->
       
     </div>

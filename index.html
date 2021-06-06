@@ -263,8 +263,23 @@
 <h2 id="影响页面展示的因素及优化策略"><a href="#影响页面展示的因素及优化策略" class="headerlink" title="影响页面展示的因素及优化策略"></a>影响页面展示的因素及优化策略</h2><blockquote>
 <p>从发起URL请求到首次显示页面的内容，在视觉上经历的三个阶段：</p>
 <ol>
-<li>等请求发出去</li>
+<li>等请求发出去，到提交数据阶段，这时页面显示出来的还是<code>之前页面的内容</code></li>
+<li>提交数据之后渲染进程会创建一个空白页面，我们通常把这段时间称之为<code>解析白屏</code>，并等待CSS文件和JavaScript文件加载完成，并生成CSSOM和DOM，合成布局树，最后经过一系列步骤准备首屏渲染。</li>
+<li>等首次渲染完成后，就开始进入完整页面的生成阶段了，紧接着页面会被一点点渲染出来</li>
 </ol>
+</blockquote>
+<blockquote>
+<p>缩短白屏解析时间策略：</p>
+<ul>
+<li>通过内联JavaScript、内联CSS来移除这两种类型的文件下载</li>
+<li>并不是所有场合都适合内联，还可以尽量减少文件大小，比如通过webpack的shaking tree、dropConsole等方法压缩JavaScript</li>
+<li>还可以将一些不需要在解析HTML阶段使用的JavaScript标记上async或者defer</li>
+<li>对于大CSS文件，可以通过媒体查询属性将其拆分为多个不同用途的CSS文件，在特定场景下才会加载的特定CSS文件</li>
+</ul>
+</blockquote>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/5.png"></p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="为什么CSS动画比JavaScript高效"><a href="#为什么CSS动画比JavaScript高效" class="headerlink" title="为什么CSS动画比JavaScript高效"></a>为什么CSS动画比JavaScript高效</h3><blockquote>
+<p>因为CSS动画中的合成阶段是使用分层线程完成的，并不会占据主线程，所以比JavaScript高效</p>
 </blockquote>
  
       <!-- reward -->
@@ -371,7 +386,123 @@
   <h1 id="浏览器中的页面循环系统"><a href="#浏览器中的页面循环系统" class="headerlink" title="浏览器中的页面循环系统"></a>浏览器中的页面循环系统</h1><h2 id="消息队列和事件循环"><a href="#消息队列和事件循环" class="headerlink" title="消息队列和事件循环"></a>消息队列和事件循环</h2><blockquote>
 <p>因为每个渲染进程都有一个主进程，并且主进程非常忙碌，所以需要一个系统来对各种任务进行统筹调度，即<code>消息队列</code>和<code>事件循环</code>系统</p>
 </blockquote>
-<h3 id="在线程运行过程中处理新任务"><a href="#在线程运行过程中处理新任务" class="headerlink" title="在线程运行过程中处理新任务"></a>在线程运行过程中处理新任务</h3> 
+<h3 id="单线程处理"><a href="#单线程处理" class="headerlink" title="单线程处理"></a>单线程处理</h3><blockquote>
+<p>如果使用单线程顺序执行任务的话，显而易见并不能持续的执行任务，当任务执行完后就会退出线程</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/2.png"></p>
+<h3 id="循环处理任务"><a href="#循环处理任务" class="headerlink" title="循环处理任务"></a>循环处理任务</h3><blockquote>
+<p>引入循环机制：</p>
+<ol>
+<li>线程会一直循环</li>
+<li>可以通过事件来等待用户输入，输入完成后激活线程</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/3.png"></p>
+<h3 id="引入多线程模型"><a href="#引入多线程模型" class="headerlink" title="引入多线程模型"></a>引入多线程模型</h3><blockquote>
+<p>当出现多线程时，情况就不一样了</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/4.png"></p>
+<blockquote>
+<p>线程需要接收其他线程传来的数据，一个通用的模式就是使用<code>消息队列</code>，先进先出的队列</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/5.png"></p>
+<blockquote>
+<p>从图中可知：</p>
+<ul>
+<li>渲染主线程会循环从消息队列的队首中取出任务执行</li>
+<li>其他线程会向消息队列的队尾推送任务以供主线程执行</li>
+</ul>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/6.png"></p>
+<h3 id="引入跨进程通信-IPC-模型"><a href="#引入跨进程通信-IPC-模型" class="headerlink" title="引入跨进程通信(IPC)模型"></a>引入跨进程通信(IPC)模型</h3><blockquote>
+<p>从图中可以看出，IO线程会处理其他进程传来的IPC内容，然后提交到消息队列执行</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/1.png"></p>
+<h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><blockquote>
+<p>随着浏览器的发展，消息队列这种粗时间粒度的任务已经不能胜任部分需求，所以出现了<code>微任务</code>，在实时性和效率之间做一个权衡</p>
+</blockquote>
+<h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><blockquote>
+<p>宏任务(macrotask)：</p>
+<ul>
+<li>script</li>
+<li>setTimeout/setInterval</li>
+<li>UI渲染</li>
+<li>I/O</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>为了协调这些任务能有条不紊的在主线程上运行，渲染进程内部会维护多个消息队列，比如<code>延迟执行队列</code>和普通的<code>消息队列</code>，然后主线程不断从这些任务队列中取出任务执行任务，我们将这些消息队列中的任务称为<code>宏任务</code></p>
+<p>但是宏任务例如settimeout，想延迟xms后执行，但是往往可能会被插入很多系统级的任务，导致不会在我们预期的时间执行回调函数。</p>
+<p>故宏任务的时间粒度不能满足一些高实时性的需求，所以就有了微任务。</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/7.png"></p>
+<h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><blockquote>
+<p>微任务(microtask)：</p>
+<ol>
+<li>Promise.then/catch/finally</li>
+<li>Object.observe</li>
+<li>MutaionObserver</li>
+<li>process.nextTick(Node.js)</li>
+</ol>
+<p>产生微任务的方式：</p>
+<ol>
+<li>使用MustationObserver监控某个DOM节点，然后通过JavaScript来修改这个节点，或者为这个节点添加、删除部分子节点，当DOM节点发生变化时，就会产生DOM变化记录的微任务</li>
+<li>使用Promise，当调用Promise.resolve()/reject()时，也会产生微任务</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>微任务就是一个需要<code>异步执行</code>的函数，执行时机在<code>主函数执行结束之后</code>，当前<code>宏任务结束之前</code></p>
+<p>创建时机：在JavaScript执行一段脚本时，V8会为其创建一个全局执行上下文，与此同时也会创建一个<code>微任务队列</code>。</p>
+<p>何时被执行：通常在宏任务中的JavaScript快执行完成时，即<code>JavaScript引擎准备退出全局执行上下文并清空调用栈时</code>，JavaScript引擎会检查全局执行上下文的微任务队列，并按照顺序执行其中的任务，除了在退出全局执行上下文这个检查点外还有其他检查点，不过不太重要。</p>
+<p>如果在执行微任务的过程中产生了新的微任务，同样会把该微任务添加到微任务队列中并执行，直到队列为空才结束。</p>
+</blockquote>
+<blockquote>
+<p>该示意图是在执行一个 ParseHTML 的宏任务，在执行过程中，遇到了 JavaScript 脚本，那么就暂停解析流程，进入到 JavaScript 的执行环境。从图中可以看到，全局上下文中包含了微任务列表。</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/8.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/9.png"></p>
+<blockquote>
+<p>结论：</p>
+<ul>
+<li>微任务和宏任务是<code>绑定的</code>，每个宏任务在执行时，会创建自己的微任务队列</li>
+<li>微任务的执行时长会影响到当前宏任务的时长</li>
+</ul>
+</blockquote>
+<h2 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h2><h3 id="生成器-Generator-amp-协程-Coroutine"><a href="#生成器-Generator-amp-协程-Coroutine" class="headerlink" title="生成器(Generator)&amp;协程(Coroutine)"></a>生成器(Generator)&amp;协程(Coroutine)</h3><blockquote>
+<p>生成器函数的特性：</p>
+<ul>
+<li>在生成器函数内部执行一段代码，如果遇到 yield 关键字，那么 JavaScript 引擎将返回关键字后面的内容给外部，并暂停该函数的执行。</li>
+<li>外部函数可以通过 next 方法恢复函数的执行</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>协程：协程是比线程更轻量级的存在，可以看成跑在线程上的任务，一个线程上可以<code>存在多个协程</code>，但是在线程上只能<code>执行一个线程</code>。</p>
+<p>一个线程可以拥有多个协程，协程不是被操作系统内核管理的，而完全是由程序所控制(也就是在用户态执行)，性能大大提升，不会像线程切换那样消耗性能。</p>
+</blockquote>
+<blockquote>
+<p>执行这一段代码，会发现genDemo()函数是与全局代码交替执行的，这就是生成器函数Generator的特性，可以暂停执行，也可以恢复执行</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">genDemo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第一段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第二段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第三段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 执行结束 &quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 0&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> gen = genDemo()</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 1&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 2&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 3&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 4&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/10.png"></p>
+<blockquote>
+<p>父协程和gen协程切换调用栈</p>
+</blockquote>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/11.png"></p>
+<blockquote>
+<p>在JavaScript中，生成器就是协程的一种实现方式</p>
+</blockquote>
+<blockquote>
+<p>通过生成器·配合执行器，就能使用同步的方式写出异步代码了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//foo 函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> response1 = <span class="keyword">yield</span> fetch(<span class="string">&#x27;https://www.geekbang.org&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response1&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response1)</span><br><span class="line">    <span class="keyword">let</span> response2 = <span class="keyword">yield</span> fetch(<span class="string">&#x27;https://www.geekbang.org/test&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response2&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response2)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 执行 foo 函数的代码</span></span><br><span class="line"><span class="keyword">let</span> gen = foo()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGenPromise</span>(<span class="params">gen</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gen.next().value</span><br><span class="line">&#125;</span><br><span class="line">getGenPromise(gen).then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response1&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response)</span><br><span class="line">    <span class="keyword">return</span> getGenPromise(gen)</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;response2&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(response)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Async-Await与协程"><a href="#Async-Await与协程" class="headerlink" title="Async/Await与协程"></a>Async/Await与协程</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">await</span> <span class="number">100</span></span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>)</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/12.png"></p>
+ 
       <!-- reward -->
       
     </div>
@@ -1193,7 +1324,7 @@
 
     
     <article
-  id="post-Promise&amp;Async&amp;Await%Axios深入"
+  id="post-Promise&amp;asyn&amp;cawait深入"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -1204,15 +1335,15 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2021/04/15/Promise&Async&Await%25Axios%EF%BF%BDe/"
-    >Promise&amp;async/await深入</a> 
+  <a class="article-title" href="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/"
+    >Promise&amp;asyn&amp;cawait深入</a> 
 </h2>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/04/15/Promise&Async&Await%25Axios%EF%BF%BDe/" class="article-date">
+      <a href="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/" class="article-date">
   <time datetime="2021-04-15T02:39:33.000Z" itemprop="datePublished">2021-04-15</time>
 </a> 
   <div class="article-category">
@@ -1262,7 +1393,7 @@
 <blockquote>
 <p>可以通过Promise.prototype查看Promise上的方法</p>
 </blockquote>
-<p><img src="/2021/04/15/Promise&Async&Await%Axios%E6%B7%B1%E5%85%A5/1.jpg"></p>
+<p><img src="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/1.jpg"></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
@@ -1398,7 +1529,7 @@
 <li>浏览器端/node 端都可以使用</li>
 </ol>
 </blockquote>
-<p><img src="/2021/04/15/Promise&Async&Await%Axios%E6%B7%B1%E5%85%A5/2.jpg"></p>
+<p><img src="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/2.jpg"></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.19.0/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> request = axios.create(&#123;</span></span><br><span class="line"><span class="javascript">      baseURL: <span class="string">&#x27;http://localhost:9010/&#x27;</span></span></span><br><span class="line">    &#125;)</span><br><span class="line">    request.interceptors.request.use(</span><br><span class="line">      config=&gt;&#123;</span><br><span class="line"><span class="javascript">        config[<span class="string">&#x27;token&#x27;</span>] = <span class="string">&#x27;config&#x27;</span> <span class="comment">// 请求头内添加字段向后端发送token</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;请求拦截器config:&#x27;</span>, config)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> config</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    request.interceptors.response.use(</span><br><span class="line">      response=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;响应拦截器response:&#x27;</span>, response)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> response</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装接口，放在/api目录下</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// get接口封装一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addExample</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 未传递数据直接get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;server&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayExample</span>(<span class="params">params</span>) </span>&#123; <span class="comment">// 传递数据get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        params <span class="comment">// ES6语法，对象内用params代替params: params</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">notRealDelayExample</span>(<span class="params">_id</span>) </span>&#123; <span class="comment">// 根据Id查询数据,该接口未写</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// post接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addApi</span>(<span class="params">payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;api&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;post&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// put接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">updateExample</span>(<span class="params">_id, payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123; <span class="comment">// 一般通过url来传id,通过data传递修改后的内容,但是只通过body传参也可以</span></span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;update/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;put&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// delete接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delExample</span>(<span class="params">_id</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;del/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;delete&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> neededData = <span class="string">&#x27;&#x27;</span> <span class="comment">// 需要渲染的data</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 调用接口，使用async/await来等待接口数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getAddExample</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> addExample().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDelayExample</span>(<span class="params">params</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> delayExample(params).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;await阻塞代码&#x27;</span>)</span></span><br><span class="line">        neededData = res</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;neededData:&#x27;</span>,neededData)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAddExample()</span><br><span class="line"><span class="javascript">    getDelayExample(<span class="string">&#x27;DelayData&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    addApi(<span class="string">&#x27;RequestBody&#x27;</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
  
