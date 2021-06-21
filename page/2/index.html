@@ -81,6 +81,360 @@
     
     
     <article
+  id="post-前端优化实践"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/"
+    >前端优化实践</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/" class="article-date">
+  <time datetime="2021-04-21T00:29:54.000Z" itemprop="datePublished">2021-04-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="前端优化实践"><a href="#前端优化实践" class="headerlink" title="前端优化实践"></a>前端优化实践</h1><blockquote>
+<p>背景：因为我们接手维护的项目运行太过缓慢，于是下定决心好好优化一番</p>
+</blockquote>
+<h2 id="去除未用部分"><a href="#去除未用部分" class="headerlink" title="去除未用部分"></a>去除未用部分</h2><blockquote>
+<p>在看完一遍项目结构以后，发现有很多未使用部分在项目内部</p>
+<p>虽然打包的时候webpack有shaking tree去除未使用部分，但是开发的时候仍然让人难以忍受</p>
+<p>去除无用部分后，通过lightHouse我们可以看到分数十分惨淡</p>
+</blockquote>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/1.jpg"></p>
+<h2 id="从webpack起步"><a href="#从webpack起步" class="headerlink" title="从webpack起步"></a>从webpack起步</h2><blockquote>
+<p>webpack主要是在打包速度方面提升速度</p>
+</blockquote>
+<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/2.jpg">build/webpack.base.conf.js</p>
+<h3 id="dll加速-amp-cdn加速"><a href="#dll加速-amp-cdn加速" class="headerlink" title="dll加速&amp;cdn加速"></a>dll加速&amp;cdn加速</h3><blockquote>
+<p>根据我原来的<a target="_blank" rel="noopener" href="https://dinnerchicke.github.io/2021/02/23/webpack%E4%BC%98%E5%8C%96/">webpack优化</a>即可，这里不再赘述</p>
+</blockquote>
+<h3 id="开启gzip压缩"><a href="#开启gzip压缩" class="headerlink" title="开启gzip压缩"></a>开启gzip压缩</h3><blockquote>
+<p>这个早已有实现，确保compression-webpack-plugin版本在1.1.2以下</p>
+</blockquote>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/4.jpg">config/index.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/7.jpg">build/webpack.prod.conf.js</p>
+<h3 id="生产环境关闭console"><a href="#生产环境关闭console" class="headerlink" title="生产环境关闭console"></a>生产环境关闭console</h3><blockquote>
+<p>虽然并不影响性能，但也算一个小tip，值得添加</p>
+</blockquote>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/6.jpg">build/webpack.prod.conf.js</p>
+<p>添加drop_dubugger/drop_console即可</p>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><blockquote>
+<p>浏览器运行过程中会生成两棵树：</p>
+<ul>
+<li>CSSOM树</li>
+<li>DOM树</li>
+</ul>
+<p>浏览器运行流程：</p>
+</blockquote>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/5.jpg"></p>
+<h3 id="CSS和JS的加载顺序优化"><a href="#CSS和JS的加载顺序优化" class="headerlink" title="CSS和JS的加载顺序优化"></a>CSS和JS的加载顺序优化</h3><p>CSS渲染：</p>
+<blockquote>
+<p>只有当我们开始解析HTML的link、style标签时，CSS才登场，是因为避免让页面的css未加载就裸奔在用户面前</p>
+<p>所以我们应该将CSS放在head标签内以尽早渲染</p>
+</blockquote>
+<p>JS渲染：</p>
+<blockquote>
+<p>而JS会阻塞CSS渲染，比如我们在CSS渲染时进行DOM查询，会阻塞CSS。</p>
+<p>这就是为什么要避买在布局改变时做DOM查询。</p>
+</blockquote>
+<h3 id="从样式渲染开始"><a href="#从样式渲染开始" class="headerlink" title="从样式渲染开始"></a>从样式渲染开始</h3><p>刚刚入门的同学很可能学过以下的重置样式代码</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">	<span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是后来大家都不用它了，为什么呢？</p>
+<p>因为这个代码会带来很大的性能问题：<strong>它会遍历每一个元素</strong>，所以后面我们会使用cssReset或者normalize.css去重置默认样式</p>
+<p>对于样式渲染，有以下的建议：</p>
+<ul>
+<li>避免*通配符</li>
+<li>尽量通过继承实现</li>
+<li>少用标签选择器，可以使用类选择器代替</li>
+<li>减少嵌套：避免重排重绘</li>
+</ul>
+<h3 id="Js-昂贵的DOM操作"><a href="#Js-昂贵的DOM操作" class="headerlink" title="Js-昂贵的DOM操作"></a>Js-昂贵的DOM操作</h3><blockquote>
+<p>因为当布局改变的时候会触发<strong>重排</strong>，当如颜色等不改变布局的样式改变时会触发<strong>重绘</strong></p>
+<p>HTML渲染大致分为如下几步：</p>
+<ol>
+<li>HTML被HTML解析器解析成DOM Tree, css则被css解析器解析成CSSOM Tree。</li>
+<li>DOM Tree和CSSOM Tree解析完成后，被附加到一起，形成渲染树（Render Tree）。</li>
+<li>节点信息计算(重排)，这个过程被叫做Layout(Webkit)或者Reflow(Mozilla)。即根据渲染树计算每个节点的几何信息。</li>
+<li>渲染绘制(重绘)，这个过程被叫做(Painting 或者 Repaint)。即根据计算好的信息绘制整个页面。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>这里可以看到，重排一定会导致重绘，重绘不一定导致重排。</p>
+<p>且重排重绘成本很高，也就是我们所说的<strong>DOM操作的成本很高</strong></p>
+<p>但是JS很快，所以能交给Js的就避免多次进行DOM操作</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 如添加1000个div</span><br><span class="line">&#x2F;&#x2F; 错误示范</span><br><span class="line">for(1000次循环)&#123;</span><br><span class="line">	document.body.appendChild(document.createElement(&#39;div&#39;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确示范</span><br><span class="line">for(1000次循环)&#123;</span><br><span class="line">	document.createElement(&#39;div&#39;)</span><br><span class="line">	添加到一个element中</span><br><span class="line">&#125;</span><br><span class="line">document.body.appendChild(结果元素)</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-Promise&amp;async&amp;await深入"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/"
+    >Promise&amp;async&amp;await深入</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/" class="article-date">
+  <time datetime="2021-04-15T02:39:33.000Z" itemprop="datePublished">2021-04-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><blockquote>
+<p>简介：Promise是ES6引入的异步解决方案，语法上来说是一个构造函数</p>
+<p>意义：</p>
+<ol>
+<li>指定回调函数更灵活</li>
+<li>链式调用解决回调地狱难以阅读、难以处理异常的痛点</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>为了解决异步地狱的问题，ES6参考其他第三方库推出了Promise</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步地狱</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> file1 = <span class="string">&#x27;./file1.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file2 = <span class="string">&#x27;./file2.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file3 = <span class="string">&#x27;./file3.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file4 = <span class="string">&#x27;./file4.txt&#x27;</span></span><br><span class="line"><span class="keyword">const</span> file5 = <span class="string">&#x27;./file5.txt&#x27;</span></span><br><span class="line"></span><br><span class="line">fs.readFile(file1, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">  <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">  fs.readFile(file2, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">    fs.readFile(file3, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;file3&#x27;</span>, data.toString());</span><br><span class="line"></span><br><span class="line">      fs.readFile(file4, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="built_in">console</span>.log(data.toString());</span><br><span class="line"></span><br><span class="line">        fs.readFile(file5, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">          <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>Promise属性：</p>
+<ul>
+<li>状态(PromiseState)：Promise的状态只能变一次(pending-&gt;resolved/rejected)</li>
+<li>对象的值(PromiseResult)：保存着对象[resolved/rejected]的结果</li>
+</ul>
+<p>Promise的执行顺序：</p>
+<ul>
+<li>Promise内部的代码是同步宏任务</li>
+<li>而then/catch/finally的代码是微任务</li>
+<li>当给Promise添加了多个处理程序，当Promise状态改变时，相关处理程序(then/catch/finally)会按添加顺序执行</li>
+</ul>
+</blockquote>
+<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><blockquote>
+<p>Promise状态机：</p>
+<ul>
+<li>待定(pending)</li>
+<li>解决(fulfilled/resolved)</li>
+<li>拒绝(rejected)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>可以通过Promise.prototype查看Promise上的方法</p>
+</blockquote>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/1.jpg"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="异步错误捕获"><a href="#异步错误捕获" class="headerlink" title="异步错误捕获"></a>异步错误捕获</h3><blockquote>
+<p>正常情况下，通过throw关键字抛出异常时，Js的错误处理机制会<code>停止执行抛出错误之后的任何指令</code></p>
+<p>但是在Promise中抛出错误时，因为错误是从消息队列中异步抛出的，所以并<code>不会阻止继续执行同步任务</code></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;同步错误&#x27;</span>) <span class="comment">// 这条指令以下均不执行</span></span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是同步错误执行后的指令&#x27;</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error) <span class="comment">// 同步错误捕获成功</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;异步错误&#x27;</span>)) <span class="comment">// 这条指令下的同步任务均被执行</span></span><br><span class="line">    <span class="comment">// .catch(reason=&gt;&#123; // 这样才能捕获异步错误</span></span><br><span class="line">    <span class="comment">//    console.log(reason)</span></span><br><span class="line">    <span class="comment">//  &#125;)</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>) <span class="comment">// 异步指令未被执行</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error) <span class="comment">// 异步错误捕获失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><blockquote>
+<p>then最多接收两个参数：<code>onResolved</code>和<code>onRejected</code>，二者<code>必须是函数类型</code>，否则会被静默忽略。</p>
+<p>二者都是可选的，如果传入的话会<code>分别</code>在resolve和reject阶段执行。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p.then(<span class="function">()=&gt;</span>&#123;<span class="built_in">console</span>.log(<span class="string">&#x27;我是onResolved函数&#x27;</span>), <span class="function">()=&gt;</span>&#123;<span class="built_in">console</span>.log(<span class="string">&#x27;我是onRejected函数&#x27;</span>)&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 传入非函数处理程序会被静默处理</span></span><br><span class="line">p.then(<span class="string">&#x27;ignoredString&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只传入onRejected的规范写法</span></span><br><span class="line">p.then(<span class="literal">null</span>, <span class="function">()=&gt;</span>onRejected(<span class="string">&#x27;只传入onRejected，onResolved位置应该设为null&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用then/catch/finally实现链式调用：</p>
+<p>​    因为三者均会返回一个新的Promise对象，所以通过.then/.catch/.finally可以构成<code>链式调用</code></p>
+</blockquote>
+<h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><blockquote>
+<p>此方法用于给Promise添加统一处理reject，这个方法只接收一个参数：onRejected处理程序</p>
+<p>这个方法其实就是一个语法糖，相当于Promise.prototype.then(null, onRejected)</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p.then(...)</span><br><span class="line">	.then(...)</span><br><span class="line">		.then(...)</span><br><span class="line">            ...</span><br><span class="line">				.catch(<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">              		<span class="built_in">console</span>.log(<span class="string">&#x27;统一错误捕获&#x27;</span>)</span><br><span class="line">              	&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Promise-prototype-finally"><a href="#Promise-prototype-finally" class="headerlink" title="Promise.prototype.finally()"></a>Promise.prototype.finally()</h3><blockquote>
+<p>这个方法类似switch/case里的finally，故不多赘述</p>
+<p>但是值得注意的是，这个finally与then/catch同属于<code>微任务</code>，执行时顺序可能与预期不同</p>
+</blockquote>
+<h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h3><blockquote>
+<p>Promise.all([])</p>
+<p>参数：Promise数组</p>
+<p>返回状态：只有所有Promise成功才算成功，只要有一个失败就失败</p>
+<p>返回值：多个Promise返回值组成的数组</p>
+</blockquote>
+<h2 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race"></a>Promise.race</h2><blockquote>
+<p>Promise.race([])</p>
+<p>参数：Promise数组</p>
+<p>返回状态：第一个完成Promise的结果状态就是race的结果状态</p>
+<p>返回值：多个Promise返回值组成的数组</p>
+</blockquote>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="当给Promise指定多个回调，执行情况"><a href="#当给Promise指定多个回调，执行情况" class="headerlink" title="当给Promise指定多个回调，执行情况"></a>当给Promise指定多个回调，执行情况</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只要状态改变，多个回调均会执行</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">	resolve(<span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	alert(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="改变promise状态和指定回调两者顺序"><a href="#改变promise状态和指定回调两者顺序" class="headerlink" title="改变promise状态和指定回调两者顺序"></a>改变promise状态和指定回调两者顺序</h3><blockquote>
+<p>先指定回调再改变promise状态情况：</p>
+<ul>
+<li>promise内部是同步的</li>
+</ul>
+<p>先改变promise状态再指定回调情况：</p>
+<ul>
+<li><p>如果promise内部使用定时器</p>
+</li>
+<li><p>如果promise内容调用resolve/reject改变状态</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>触发时间：</p>
+<ul>
+<li>先指定回调再改变promise状态，当状态改变时，回调就会被调用</li>
+<li>先改变promise状态再指定回调情况，当指定回调时，回调就会被调用</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">	resolve(<span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="then返回的结果"><a href="#then返回的结果" class="headerlink" title="then返回的结果"></a>then返回的结果</h3><blockquote>
+<p>情况如下：</p>
+<ol>
+<li>如果抛出异常，则状态变为rejected</li>
+<li>如果返回结果是非Promise对象，则状态变为resolved</li>
+<li>如果返回的结果是Promise对象，则return的Promise的状态决定了then返回的状态</li>
+</ol>
+</blockquote>
+<h3 id="异常穿透"><a href="#异常穿透" class="headerlink" title="异常穿透"></a>异常穿透</h3><blockquote>
+<p>可以只在链式调用最后使用.catch捕获错误</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;).catch(<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="中断promise链"><a href="#中断promise链" class="headerlink" title="中断promise链"></a>中断promise链</h3><blockquote>
+<p>有且只有一个方法：return new Promise()</p>
+<p>因为这个Promise是pending状态，所以后面的链式调用无法启用</p>
+</blockquote>
+<h2 id="手写Promise"><a href="#手写Promise" class="headerlink" title="手写Promise"></a>手写Promise</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">constructor</span>(func) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;pending&#x27;</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.PromiseResult = <span class="literal">null</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.resolvedTasks = []</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.rejectedTasks = []</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>._resolve = <span class="built_in">this</span>._resolve.bind(<span class="built_in">this</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>._reject = <span class="built_in">this</span>._reject.bind(<span class="built_in">this</span>)</span></span><br><span class="line"><span class="javascript">      <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">        func(<span class="built_in">this</span>._resolve, <span class="built_in">this</span>._reject)</span></span><br><span class="line"><span class="javascript">      &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>._reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _resolve(value) &#123;</span><br><span class="line"><span class="javascript">      <span class="comment">// 将其变成异步</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;fulfilled&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseResult = value</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.resolvedTasks.forEach(<span class="function"><span class="params">t</span> =&gt;</span> t(value))</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _reject(reason) &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseState = <span class="string">&#x27;reject&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.PromiseResult = reason</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.rejectedTasks.forEach(<span class="function"><span class="params">t</span> =&gt;</span> t(reason))</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// then返回一个pending状态的Promise处理链式调用</span></span></span><br><span class="line">    then(onFulfilled, onRejected) &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;onFulfilled&#x27;</span>,onFulfilled)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;onRejected&#x27;</span>,onRejected)</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.resolvedTasks.push(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> res = onFulfilled(value)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span></span><br><span class="line">              res.then(resolve, reject)</span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line">              resolve(res)</span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.rejectedTasks.push(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> res = onRejected(value)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span></span><br><span class="line">              res.then(resolve, reject)</span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line">              reject(res)</span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">catch</span>(onRejected) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="built_in">this</span>.then(<span class="literal">null</span>, onRejected);</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">  <span class="comment">// 测试</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">      resolve(1);</span><br><span class="line">    &#125;, 500);</span><br><span class="line"><span class="javascript">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(res);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">        resolve(2);</span><br><span class="line">      &#125;, 500);</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(res);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;a error&#x27;</span>)</span></span><br><span class="line"><span class="javascript">  &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">&#x27;==&gt;&#x27;</span>, err);</span></span><br><span class="line">  &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h1><blockquote>
+<p>async关键字用于声明异步函数，这个关键字可以用在<code>函数声明</code>、<code>函数表达式</code>、<code>箭头函数</code>和<code>方法</code>上</p>
+<p>使用async关键字可以让函数具有<code>异步特征</code>，但在总体上其<code>代码仍然是同步求值的</code></p>
+<p>如果async使用return关键字返回了值，这个值会被Promise.resolve包装成一个<code>Promise</code>，也就是可以使用then/catch等挂载在Promise上的方法</p>
+</blockquote>
+<blockquote>
+<p>await关键字可以暂停函数代码的执行，<code>等待</code>Promise进入resolve状态</p>
+<p>Js运行时在碰到await关键字时会记录在哪里暂停执行，等到await右边的值可用了，会往消息队列中推送一个任务，这个任务会恢复异步函数的执行。即使后面的值立即可用，函数的其余部分也会变为异步执行。</p>
+<p>注意：</p>
+<ol>
+<li>await会暂停后面的代码，await下面的代码可以理解为变为异步执行，等待下一次执行</li>
+<li>await关键字只能直接出现在async函数的定义中，在同步函数中使用await会抛出语法错误</li>
+</ol>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = <span class="literal">null</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> axios.get(<span class="string">&#x27;http://localhost:9010/server&#x27;</span>)</span><br><span class="line">    .then(<span class="keyword">async</span> res=&gt;&#123; <span class="comment">// 实际场景：await等待res数据</span></span><br><span class="line">      <span class="keyword">await</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res.data)</span><br><span class="line">      &#125;, <span class="number">1000</span>);</span><br><span class="line">      data = res.data</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;1&#x27;</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;2&#x27;</span>))</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;data:&#x27;</span>,data)</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="平行执行加速"><a href="#平行执行加速" class="headerlink" title="平行执行加速"></a>平行执行加速</h2><blockquote>
+<p>因为await会阻塞后面的代码执行，就算他们之间没有依赖关系。</p>
+<p>如果顺序不是必需保证的，可以<code>先一次性初始化所有Promise</code>，然后再分别<code>等待他们的结果</code></p>
+</blockquote>
+<blockquote>
+<p>注意Promise虽然没有按照顺序执行，但是await按照顺序返回了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">randomDelay</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> delay = <span class="built_in">Math</span>.random() * <span class="number">1000</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;id&#125;</span> finished`</span>)</span><br><span class="line">    resolve(id)</span><br><span class="line">  &#125;, delay))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">delayItem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> t0 = <span class="built_in">Date</span>.now()</span><br><span class="line">  <span class="keyword">const</span> promises = <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="literal">null</span>).map(<span class="function">(<span class="params">_, i</span>)=&gt;</span>randomDelay(i))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">const</span> p <span class="keyword">of</span> promises)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`awaited <span class="subst">$&#123;<span class="keyword">await</span> p&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;<span class="built_in">Date</span>.now() - t0&#125;</span>ms elapsed`</span>)</span><br><span class="line">&#125;</span><br><span class="line">delayItem()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Axios在项目中的运用"><a href="#Axios在项目中的运用" class="headerlink" title="Axios在项目中的运用"></a>Axios在项目中的运用</h1><blockquote>
+<p>Axios的特点：</p>
+<ol>
+<li>基于 xhr + promise 的异步 ajax请求库</li>
+<li>浏览器端/node 端都可以使用</li>
+</ol>
+</blockquote>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/2.jpg"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.19.0/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> request = axios.create(&#123;</span></span><br><span class="line"><span class="javascript">      baseURL: <span class="string">&#x27;http://localhost:9010/&#x27;</span></span></span><br><span class="line">    &#125;)</span><br><span class="line">    request.interceptors.request.use(</span><br><span class="line">      config=&gt;&#123;</span><br><span class="line"><span class="javascript">        config[<span class="string">&#x27;token&#x27;</span>] = <span class="string">&#x27;config&#x27;</span> <span class="comment">// 请求头内添加字段向后端发送token</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;请求拦截器config:&#x27;</span>, config)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> config</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    request.interceptors.response.use(</span><br><span class="line">      response=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;响应拦截器response:&#x27;</span>, response)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> response</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装接口，放在/api目录下</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// get接口封装一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addExample</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 未传递数据直接get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;server&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayExample</span>(<span class="params">params</span>) </span>&#123; <span class="comment">// 传递数据get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        params <span class="comment">// ES6语法，对象内用params代替params: params</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">notRealDelayExample</span>(<span class="params">_id</span>) </span>&#123; <span class="comment">// 根据Id查询数据,该接口未写</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// post接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addApi</span>(<span class="params">payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;api&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;post&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// put接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">updateExample</span>(<span class="params">_id, payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123; <span class="comment">// 一般通过url来传id,通过data传递修改后的内容,但是只通过body传参也可以</span></span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;update/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;put&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// delete接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delExample</span>(<span class="params">_id</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;del/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;delete&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> neededData = <span class="string">&#x27;&#x27;</span> <span class="comment">// 需要渲染的data</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 调用接口，使用async/await来等待接口数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getAddExample</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> addExample().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDelayExample</span>(<span class="params">params</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> delayExample(params).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;await阻塞代码&#x27;</span>)</span></span><br><span class="line">        neededData = res</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;neededData:&#x27;</span>,neededData)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAddExample()</span><br><span class="line"><span class="javascript">    getDelayExample(<span class="string">&#x27;DelayData&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    addApi(<span class="string">&#x27;RequestBody&#x27;</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-事件循环EventLoop"
   class="article article-type-post"
   itemscope
@@ -1386,175 +1740,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-设计原则和编程技巧"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/21/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8C%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/"
-    >设计原则和编程技巧</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/02/21/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8C%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/" class="article-date">
-  <time datetime="2021-02-21T08:10:48.000Z" itemprop="datePublished">2021-02-21</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="设计原则和编程技巧"><a href="#设计原则和编程技巧" class="headerlink" title="设计原则和编程技巧"></a>设计原则和编程技巧</h1><p>取自《JavaScript设计模式与开发实践》</p>
-<h2 id="单一职责原则-SRP"><a href="#单一职责原则-SRP" class="headerlink" title="单一职责原则(SRP)"></a>单一职责原则(SRP)</h2><p><strong>定义</strong>：引起一个方法改变的动机只能有一个，简而言之就是如果需要修改这个方法的内容，那样的动机只能有一个</p>
-<p><strong>为什么？</strong>：如果一个方法承担了太多的职责，后期修改这个方法的可能性越大，也越难修改。是低内聚和高耦合的脆弱设计。</p>
-<p><strong>什么时候？</strong>：并不是所有的职责都需要分离，以下情况可以不用着急分离</p>
-<ol>
-<li>如果随着需求的变化，有两个职责总是同时改变，那么就没必要分离他们，可以看作同一个职责</li>
-<li>即使两个职责已经被耦合在一起，但他们还没有发生改变的征兆，可以等到重构但时候再分离也不迟</li>
-</ol>
-<p><strong>优点</strong>：降低单个类或者对象的复杂度</p>
-<p><strong>缺点</strong>：增加代码的复杂度，分离后实际上也增加了对象之间相互联系的难度</p>
-<h2 id="最少知识原则-LKP"><a href="#最少知识原则-LKP" class="headerlink" title="最少知识原则(LKP)"></a>最少知识原则(LKP)</h2><p><strong>定义</strong>：一个实体应该尽可能少的与其他实体发生相互作用。即应该减少对象之间的交互，常见的方法是引入第三者来转发</p>
-<h2 id="开放-封闭原则-OCP"><a href="#开放-封闭原则-OCP" class="headerlink" title="开放-封闭原则(OCP)"></a>开放-封闭原则(OCP)</h2><p><strong>定义</strong>：实体应该是可以扩展的，但是不可修改</p>
-<p><strong>思路</strong>：分离出代码中不可变和可变的地方，运用多态来动态使用他们</p>
-<p><strong>怎么做</strong>：有些代码确实不能完全封闭，我们只能做到以下的点</p>
-<ol>
-<li>挑选出最容易发生变化的地方，然后构造抽象来封闭这些变化</li>
-<li>在不可避免发生修改的时候，尽量修改那些容易修改的地方而不是选择难以修改</li>
-</ol>
-<h2 id="接口和面向接口编程"><a href="#接口和面向接口编程" class="headerlink" title="接口和面向接口编程"></a>接口和面向接口编程</h2><p><strong>思想</strong>：面向抽象编程而不是面向实现编程</p>
-<h2 id="代码重构"><a href="#代码重构" class="headerlink" title="代码重构"></a>代码重构</h2><p>以下为重构的手段</p>
-<h3 id="提炼函数"><a href="#提炼函数" class="headerlink" title="提炼函数"></a>提炼函数</h3><p>一个函数过长，需要将函数内的代码提炼出来，有以下好处：</p>
-<ol>
-<li>避免出现超大函数</li>
-<li>独立出来的函数有助于代码复用</li>
-<li>独立出来的函数更容易被覆写</li>
-<li>独立出来的函数如果拥有一个良好的命名，本身就起到了注释的作用</li>
-</ol>
-<h3 id="合并重复的条件片段"><a href="#合并重复的条件片段" class="headerlink" title="合并重复的条件片段"></a>合并重复的条件片段</h3><h3 id="把条件分支语句提炼成函数"><a href="#把条件分支语句提炼成函数" class="headerlink" title="把条件分支语句提炼成函数"></a>把条件分支语句提炼成函数</h3><p>简而言之就是将长条件提炼成短函数，用函数的名称来当作注释，增加代码可读性</p>
-<h3 id="提前让函数退出代替嵌套条件分支"><a href="#提前让函数退出代替嵌套条件分支" class="headerlink" title="提前让函数退出代替嵌套条件分支"></a>提前让函数退出代替嵌套条件分支</h3><p>没必要遵守“函数只有一个入口和出口的条件”，多个出口也未尝不好</p>
-<h3 id="传递对象参数已代替过长的参数列表"><a href="#传递对象参数已代替过长的参数列表" class="headerlink" title="传递对象参数已代替过长的参数列表"></a>传递对象参数已代替过长的参数列表</h3><p><strong>在过长参数的函数中</strong>，以对象的竖序排列代替参数的横向排列以增加代码的可读性</p>
-<h3 id="尽量减少参数数量"><a href="#尽量减少参数数量" class="headerlink" title="尽量减少参数数量"></a>尽量减少参数数量</h3><p>因为这样会使这个函数的复用率降低</p>
-<h3 id="少用三目运算符"><a href="#少用三目运算符" class="headerlink" title="少用三目运算符"></a>少用三目运算符</h3><p>可读性太差了</p>
-<h3 id="合理使用链式调用"><a href="#合理使用链式调用" class="headerlink" title="合理使用链式调用"></a>合理使用链式调用</h3><p>不要习惯于链式调用即类似new User().setId(123).setName(‘aaa’)</p>
-<p>因为一旦出问题很难追踪错误</p>
-<p>如果该链稳定的话无可厚非，但是如果很容易发生变化的话，建议使用普通调用模式</p>
-<h3 id="用return退出多重循环"><a href="#用return退出多重循环" class="headerlink" title="用return退出多重循环"></a>用return退出多重循环</h3><p>因为用break的话可读性很差，很难分辨跳到哪一层循环了，而用return的话就很容易读懂</p>
-<p>如果return以后还有要执行的内容，可以通过在外面声明函数，里面放要执行的代码</p>
-<p>类似return thisFunction()的方式来执行最后的函数</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-前端权限实战"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E5%AE%9E%E6%88%98/"
-    >前端权限实战</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/02/08/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E5%AE%9E%E6%88%98/" class="article-date">
-  <time datetime="2021-02-08T02:17:23.000Z" itemprop="datePublished">2021-02-08</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="前端权限之路"><a href="#前端权限之路" class="headerlink" title="前端权限之路"></a>前端权限之路</h1><p>此版本为权限实操，思路请看《前端权限》</p>
-<h2 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h2><p>在刚开始构建项目的时候，前端权限大多是靠后端传来的数据来定义:这里可以看到完全依赖写死(后端传来的数据)</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Hide = &#123;</span><br><span class="line">  id: <span class="number">0</span>,</span><br><span class="line">  hidden: <span class="literal">true</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;首页&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;main&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">21</span>,</span><br><span class="line">      name: <span class="string">&#x27;个人中心&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;person&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">22</span>,</span><br><span class="line">      name: <span class="string">&#x27;example2&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;example2&#x27;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 管理员的样例中心</span></span><br><span class="line"><span class="keyword">const</span> FM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;优化中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;优化样例一&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;exampleManage1&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SM = &#123;</span><br><span class="line">  name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">  id: <span class="number">2</span>,</span><br><span class="line">  icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">  data: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">      name: <span class="string">&#x27;表格样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;table&#x27;</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">      name: <span class="string">&#x27;图表样例&#x27;</span>,</span><br><span class="line">      routerName: <span class="string">&#x27;echarts&#x27;</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽离直接使用</span></span><br><span class="line"><span class="keyword">const</span> role0 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  F: &#123;</span><br><span class="line">    name: <span class="string">&#x27;样例中心&#x27;</span>,</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-daibanshixiang&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;修改密码&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example1&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;查看信息&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;example2&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role1 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> role2 = &#123;</span><br><span class="line">  Hide,</span><br><span class="line">  FM,</span><br><span class="line">  SM,</span><br><span class="line">  S: &#123;</span><br><span class="line">    name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">    id: <span class="number">3</span>,</span><br><span class="line">    icon: <span class="string">&#x27;iconfont icon-renjijiaohu&#x27;</span>,</span><br><span class="line">    data: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">11</span>,</span><br><span class="line">        name: <span class="string">&#x27;api管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;api&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">12</span>,</span><br><span class="line">        name: <span class="string">&#x27;权限管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;auth&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">13</span>,</span><br><span class="line">        name: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;role&#x27;</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">14</span>,</span><br><span class="line">        name: <span class="string">&#x27;用户管理&#x27;</span>,</span><br><span class="line">        routerName: <span class="string">&#x27;user&#x27;</span>&#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> allRole = &#123;role0, role1, role2&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>因为这个是模板，没有多想写死了，这是第一个版本，这里完全是依赖传来的数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;main&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-gongyezujian-yibiaopan&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;Dashboard&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;el-submenu :index&#x3D;&quot;item.id+&#39;&#39;&quot; v-for&#x3D;&quot;item in routerMapping&quot; v-if&#x3D;&quot;item.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">      &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;template&gt;</span><br><span class="line">      &lt;el-menu-item :index&#x3D;&quot;items.routerName&quot; v-for&#x3D;&quot;items in item.data&quot; v-if&#x3D;&quot;items.hidden&#x3D;&#x3D;undefined&quot; :key&#x3D;&quot;items.id&quot;&gt;&#123;&#123;items.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">    &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;el-menu-item index&#x3D;&quot;person&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;iconfont icon-icon_zhanghao&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">      &lt;span style&#x3D;&quot;margin-right:70px;padding-left:10px&quot;&gt;个人中心&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;el-menu-item&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Version-2"><a href="#Version-2" class="headerlink" title="Version 2"></a>Version 2</h2><p>昨天的时候看上一个项目的代码发现这样做不靠谱，后端不可能传来这么多信息，所以花了几个小时大改了一波。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-menu</span><br><span class="line">    class&#x3D;&quot;menu&quot;</span><br><span class="line">    :default-active&#x3D;&quot;currentPage&quot;</span><br><span class="line">    background-color&#x3D;&quot;#2e3f53&quot;</span><br><span class="line">    text-color&#x3D;&quot;#b9c5d2&quot;</span><br><span class="line">    router</span><br><span class="line">    :collapse-transition&#x3D;false</span><br><span class="line">    :collapse&#x3D;&quot;isCollapse&quot;</span><br><span class="line">    style&#x3D;&quot;height:100%;overflow-y:scroll;&quot;</span><br><span class="line">    active-text-color&#x3D;&quot;#3e99d5&quot;&gt;</span><br><span class="line">    &lt;div v-for&#x3D;&quot;item in routerGet&quot; :key&#x3D;&quot;item.id&quot; v-if&#x3D;&quot;(item.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(item.name)!&#x3D;&#x3D;-1)&quot;&gt;</span><br><span class="line">      &lt;!-- 循环判断假如有children则进入上面，否则进入下面 --&gt;</span><br><span class="line">      &lt;el-menu-item v-if&#x3D;&quot;item.children.length &#x3D;&#x3D;&#x3D; 1&quot; :index&#x3D;&quot;item.children[0].name&quot;&gt;</span><br><span class="line">        &lt;i :class&#x3D;&quot;item.meta.icon&quot; style&#x3D;&quot;&quot;&gt; &lt;&#x2F;i&gt;</span><br><span class="line">        &lt;span style&#x3D;&quot;margin-right:70px;margin-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;&#x2F;el-menu-item&gt;</span><br><span class="line"></span><br><span class="line">      &lt;el-submenu v-else :index&#x3D;&quot;item.name&quot;&gt;</span><br><span class="line">        &lt;template slot&#x3D;&quot;title&quot;&gt;</span><br><span class="line">          &lt;i :class&#x3D;&quot;item.meta.icon&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">          &lt;span style&#x3D;&quot;margin-right:90px;padding-left:10px&quot;&gt;&#123;&#123;item.meta.name&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">        &lt;el-menu-item :index&#x3D;&quot;items.name&quot; v-for&#x3D;&quot;items in item.children&quot; v-if&#x3D;&quot;(items.hidden&#x3D;&#x3D;undefined) &amp;&amp; (JSON.stringify(routerMapping).indexOf(items.name)!&#x3D;&#x3D;-1)&quot; :key&#x3D;&quot;items.id&quot; popper-append-to-body&gt;&#123;&#123;items.meta.name&#125;&#125;&lt;&#x2F;el-menu-item&gt;</span><br><span class="line">      &lt;&#x2F;el-submenu&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-menu&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; allRole &#125; from &#39;@&#x2F;assets&#x2F;staticData&#x2F;rolesFront.js&#39;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;Aside&#39;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">  props: [&#39;is-collapse&#39;],</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      allRole,</span><br><span class="line">      routerGet: &#123;&#125;,</span><br><span class="line">      routerMapping: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    currentPage () &#123;</span><br><span class="line">      console.log(this.$store.getters.getCurrentPage)</span><br><span class="line">      return this.$store.getters.getCurrentPage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;&#125;,</span><br><span class="line">  beforeCreate () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    &#x2F;&#x2F; this.roleinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.roleinit()</span><br><span class="line">    this.routerinit()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    &#x2F;&#x2F; handleOpen (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;,</span><br><span class="line">    &#x2F;&#x2F; handleClose (key, keyPath) &#123;</span><br><span class="line">    &#x2F;&#x2F;   console.log(key, keyPath)</span><br><span class="line">    &#x2F;&#x2F; &#125;</span><br><span class="line">    routerinit () &#123;</span><br><span class="line">      this.routerGet &#x3D; this.$router.options.routes</span><br><span class="line">      &#x2F;&#x2F; console.log(this.routerGet)</span><br><span class="line">    &#125;,</span><br><span class="line">    roleinit () &#123;</span><br><span class="line">      &#x2F;&#x2F; 假如role的权限为0,则使用学生权限,反之使用管理员权限</span><br><span class="line">      &#x2F;&#x2F; console.log(this.studentRouterMapping)</span><br><span class="line">      const roleState &#x3D; this.$store.getters.getRole</span><br><span class="line">      this.routerMapping &#x3D; this.allRole[&#39;role&#39; + roleState]</span><br><span class="line">      console.log(JSON.stringify(this.routerMapping))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"> .menu::-webkit-scrollbar&#123;</span><br><span class="line">    width: 0 !important;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Version3"><a href="#Version3" class="headerlink" title="Version3"></a>Version3</h2><p>但是昨天晚上又想了一下得重新规划，不然后面越来越难改，这是第三个权限版本。目前项目重构会直接摧毁原有架构，所以选择维持方案二，这个项目预计会用vue3重构，到时候选择用方案一。</p>
-<h3 id="方案一-推荐"><a href="#方案一-推荐" class="headerlink" title="方案一(推荐)"></a>方案一(推荐)</h3><p>选择在router里面存储角色信息，用来判断是否是对应权限路由，不然使用indexOf整个路由的方法太笨重，每次都需要调用和转换路由，渲染路由直接addRoute。如果没有对应权限的话，因为不在this.$router里面，所以直接会跳转到404。</p>
-<p>但是出现了问题：</p>
-<p>​    问题一：渲染路由的时候得保证侧边栏路由的顺序是可控的，如何实现？</p>
-<p>​    想法：顺序确定的静态路由写在前面，会变化顺序的动态路由写在后面，但是权限所有用户都有就是。</p>
-<p>​    问题二：addRoute产生的路由不是响应式的，不能用于动态渲染路由</p>
-<p>​    想法：使用vuex来渲染路由</p>
-<h3 id="方案二-维持"><a href="#方案二-维持" class="headerlink" title="方案二(维持)"></a>方案二(维持)</h3><p>维持原来的，只不过尽量缩短roleFront.js的数据，用roleFront.js里面的数据来判断是否渲染侧边栏项目和拦截跳转路由</p>
-<p>vue3重构的时候选择使用方案一，这里顺便提出目前项目的不足：</p>
-<ol>
-<li>侧边栏不能多级路由渲染，只能两级</li>
-<li>权限还是不满意</li>
-</ol>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
 
     </footer>
   </div>

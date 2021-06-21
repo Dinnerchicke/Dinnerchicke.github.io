@@ -69,6 +69,100 @@
       </tags>
   </entry>
   <entry>
+    <title>客户端存储</title>
+    <url>/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/</url>
+    <content><![CDATA[<h1 id="客户端存储"><a href="#客户端存储" class="headerlink" title="客户端存储"></a>客户端存储</h1><p>注意如果想用HTML运行浏览器环境需要安装Live Server插件并运行该HTML文件</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><blockquote>
+<p>Cookie是客户端存储的一种方法，但这个方法可以与服务器通信。</p>
+<p>Cookie中存储的信息只对<code>被认可的接收者</code>开放，不被其他域访问。</p>
+</blockquote>
+<blockquote>
+<p>Cookie限制：一般来说，遵守以下规则，就不会在任何浏览器中遇到问题；当然如果忽略兼容性，每个浏览器各不相同。</p>
+<ol>
+<li>不超过300个cookie</li>
+<li>每个cookie不超过4096字节</li>
+<li>每个域不超过20个cookie</li>
+<li>每个域不超过81920字节</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>Cookie组成：除了名称和值，其他都是告诉浏览器什么情况下会在请求中包含cookie，<code>不会发送给服务器</code></p>
+<ol>
+<li>名称：唯一标识cookie的名称，不区分大小写，会经过URL编码</li>
+<li>值：存储在cookie1里的字符串值，会经过URL编码</li>
+<li>域：cookie有效的域</li>
+<li>路径：请求URL包含这个路径才会把cookie发送给服务器</li>
+<li>过期时间</li>
+<li>安全标识：设置后只有SSL安全连接时才会把cookie发送给服务器</li>
+</ol>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Cookie<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">setCookie</span>(<span class="params">cookieName,cookieValue,expiresDays</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</span></span><br><span class="line">      d.setTime(d.getTime()+(expiresDays*24*60*60*1000));</span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> expires = <span class="string">&quot;expires=&quot;</span>+d.toGMTString();</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.cookie = cookieName+<span class="string">&quot;=&quot;</span>+cookieValue+<span class="string">&quot;; &quot;</span>+expires; <span class="comment">// 键+值+时间</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">cookieName</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> name = cookieName + <span class="string">&quot;=&quot;</span>;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> cookieArr = <span class="built_in">document</span>.cookie.split(<span class="string">&#x27;;&#x27;</span>);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt; cookieArr.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> cookieItem = cookieArr[i].trim();</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (cookieItem.indexOf(name)==<span class="number">0</span>) &#123; <span class="keyword">return</span> cookieItem.substring(name.length,cookieItem.length); &#125;</span></span><br><span class="line">      &#125;</span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delCookie</span>(<span class="params">cookieName</span>) </span>&#123; <span class="comment">// 通过立即设置过期时间删除Cookie</span></span></span><br><span class="line"><span class="javascript">      setCookie(cookieName, <span class="string">&quot;&quot;</span>, <span class="number">-1</span>)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;Admin&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;Nike&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;lastName&quot;</span>,<span class="string">&quot;Mike&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(getCookie(<span class="string">&quot;name&quot;</span>))</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.cookie)</span></span><br><span class="line"><span class="javascript">    delCookie(<span class="string">&quot;username&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.cookie)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Cookie安全与适用性：</p>
+<p>因为CSRF跨站脚本攻击可能会通过插入脚本来窃取网站的Cookie来获取敏感信息，所以有了<code>HTTP-only</code>字段来限制cookie只能在服务器上读取。</p>
+<p>并且因为Cookie会与服务器通信，Cookie中保存大量信息可能会影响通信效率，所以Cookie并不是理想的存储大量数据的方式。Cookie应只保留必要信息，但Cookie存在的环境也不是安全的环境，所以也不要将敏感信息放入Cookie。</p>
+<p>因为Cookie不适合大容量存储的应用场景，因此其他的客户端存储技术出现了。</p>
+</blockquote>
+<h2 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h2><blockquote>
+<p>Web Storage定义了两个对象<code>localStorage(永久存储机制)</code>和<code>sessionStorage(跨会话存储机制)</code>，这两种浏览器存储API提供了在浏览器中不受页面刷新影响而影响存储数据的两种方式</p>
+</blockquote>
+<blockquote>
+<p>Storage类型的方法：可以认为是两个对象的基类，二者都继承它的方法</p>
+<ul>
+<li>clear():删除所有值，不在FireFox中实现</li>
+<li>getItem(name):取得给定name的值</li>
+<li>key(index):取得给定数值位置的名称</li>
+<li>removeItem(name):删除给定name的键值对</li>
+<li>setItem(name,value):设置给定name的值</li>
+</ul>
+</blockquote>
+<h3 id="SessionStorage对象-跨会话存储"><a href="#SessionStorage对象-跨会话存储" class="headerlink" title="SessionStorage对象(跨会话存储)"></a>SessionStorage对象(跨会话存储)</h3><blockquote>
+<p>sessionStorage对象只存储会话数据，数据只存储到浏览器关闭，<code>不受到刷新影响</code></p>
+<p>大小限制：5M</p>
+</blockquote>
+<h3 id="localStorage-持久化存储"><a href="#localStorage-持久化存储" class="headerlink" title="localStorage(持久化存储)"></a>localStorage(持久化存储)</h3><blockquote>
+<p>localStorage会保留到通过JavaScript删除或者用户清除浏览器缓存，<code>不受刷新、关闭窗口、或者重启浏览器影响</code></p>
+<p>大小限制：5M</p>
+</blockquote>
+<h3 id="存储事件"><a href="#存储事件" class="headerlink" title="存储事件"></a>存储事件</h3><blockquote>
+<p>Storage对象发生变化时会触发对应事件，使用属性或setItem()/removeItem()/clear()都会触发这个事件，有以下属性</p>
+<ul>
+<li>domain(存储变化对应的域)</li>
+<li>key(对应的键值)</li>
+<li>newValue(新值)</li>
+<li>oldValue(旧值)</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&quot;storage&quot;</span>,<span class="function"><span class="params">event</span>=&gt;</span>alert(<span class="string">&#x27;$&#123;event.domain&#125;&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="IndexDB"><a href="#IndexDB" class="headerlink" title="IndexDB"></a>IndexDB</h2><blockquote>
+<p>会出现兼容性问题，不赘述</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Animation动画</title>
+    <url>/2021/06/08/Animation%E5%8A%A8%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="Animation动画"><a href="#Animation动画" class="headerlink" title="Animation动画"></a>Animation动画</h1>]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浏览器页面相关</title>
     <url>/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<h1 id="浏览器页面相关"><a href="#浏览器页面相关" class="headerlink" title="浏览器页面相关"></a>浏览器页面相关</h1><h2 id="DOM树的形成流程"><a href="#DOM树的形成流程" class="headerlink" title="DOM树的形成流程"></a>DOM树的形成流程</h2><blockquote>
@@ -892,8 +986,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Promise&amp;asyn&amp;cawait深入</title>
-    <url>/2021/04/15/Promise&amp;asyn&amp;cawait%E6%B7%B1%E5%85%A5/</url>
+    <title>Promise&amp;async&amp;await深入</title>
+    <url>/2021/04/15/Promise&amp;async&amp;await%E6%B7%B1%E5%85%A5/</url>
     <content><![CDATA[<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><blockquote>
 <p>简介：Promise是ES6引入的异步解决方案，语法上来说是一个构造函数</p>
 <p>意义：</p>
@@ -933,7 +1027,7 @@
 <blockquote>
 <p>可以通过Promise.prototype查看Promise上的方法</p>
 </blockquote>
-<p><img src="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/1.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/1.jpg"></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
@@ -1069,7 +1163,7 @@
 <li>浏览器端/node 端都可以使用</li>
 </ol>
 </blockquote>
-<p><img src="/2021/04/15/Promise&asyn&cawait%E6%B7%B1%E5%85%A5/2.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/2.jpg"></p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.19.0/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> request = axios.create(&#123;</span></span><br><span class="line"><span class="javascript">      baseURL: <span class="string">&#x27;http://localhost:9010/&#x27;</span></span></span><br><span class="line">    &#125;)</span><br><span class="line">    request.interceptors.request.use(</span><br><span class="line">      config=&gt;&#123;</span><br><span class="line"><span class="javascript">        config[<span class="string">&#x27;token&#x27;</span>] = <span class="string">&#x27;config&#x27;</span> <span class="comment">// 请求头内添加字段向后端发送token</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;请求拦截器config:&#x27;</span>, config)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> config</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    request.interceptors.response.use(</span><br><span class="line">      response=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;响应拦截器response:&#x27;</span>, response)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> response</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装接口，放在/api目录下</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// get接口封装一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addExample</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 未传递数据直接get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;server&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayExample</span>(<span class="params">params</span>) </span>&#123; <span class="comment">// 传递数据get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        params <span class="comment">// ES6语法，对象内用params代替params: params</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">notRealDelayExample</span>(<span class="params">_id</span>) </span>&#123; <span class="comment">// 根据Id查询数据,该接口未写</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// post接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addApi</span>(<span class="params">payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;api&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;post&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// put接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">updateExample</span>(<span class="params">_id, payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123; <span class="comment">// 一般通过url来传id,通过data传递修改后的内容,但是只通过body传参也可以</span></span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;update/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;put&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// delete接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delExample</span>(<span class="params">_id</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;del/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;delete&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> neededData = <span class="string">&#x27;&#x27;</span> <span class="comment">// 需要渲染的data</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 调用接口，使用async/await来等待接口数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getAddExample</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> addExample().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDelayExample</span>(<span class="params">params</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> delayExample(params).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;await阻塞代码&#x27;</span>)</span></span><br><span class="line">        neededData = res</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;neededData:&#x27;</span>,neededData)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAddExample()</span><br><span class="line"><span class="javascript">    getDelayExample(<span class="string">&#x27;DelayData&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    addApi(<span class="string">&#x27;RequestBody&#x27;</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>

@@ -10,7 +10,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    前端优化实践 |  
+    客户端存储 |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-前端优化实践"
+  id="post-客户端存储"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,15 +56,15 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  前端优化实践
+  客户端存储
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/" class="article-date">
-  <time datetime="2021-04-21T00:29:54.000Z" itemprop="datePublished">2021-04-21</time>
+      <a href="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/" class="article-date">
+  <time datetime="2021-06-21T02:24:16.000Z" itemprop="datePublished">2021-06-21</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">830</span>
+            <span class="post-count">987</span>
         </span>
     </span>
 
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -99,80 +99,76 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="前端优化实践"><a href="#前端优化实践" class="headerlink" title="前端优化实践"></a>前端优化实践</h1><blockquote>
-<p>背景：因为我们接手维护的项目运行太过缓慢，于是下定决心好好优化一番</p>
+  <h1 id="客户端存储"><a href="#客户端存储" class="headerlink" title="客户端存储"></a>客户端存储</h1><p>注意如果想用HTML运行浏览器环境需要安装Live Server插件并运行该HTML文件</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><blockquote>
+<p>Cookie是客户端存储的一种方法，但这个方法可以与服务器通信。</p>
+<p>Cookie中存储的信息只对<code>被认可的接收者</code>开放，不被其他域访问。</p>
 </blockquote>
-<h2 id="去除未用部分"><a href="#去除未用部分" class="headerlink" title="去除未用部分"></a>去除未用部分</h2><blockquote>
-<p>在看完一遍项目结构以后，发现有很多未使用部分在项目内部</p>
-<p>虽然打包的时候webpack有shaking tree去除未使用部分，但是开发的时候仍然让人难以忍受</p>
-<p>去除无用部分后，通过lightHouse我们可以看到分数十分惨淡</p>
-</blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/1.jpg"></p>
-<h2 id="从webpack起步"><a href="#从webpack起步" class="headerlink" title="从webpack起步"></a>从webpack起步</h2><blockquote>
-<p>webpack主要是在打包速度方面提升速度</p>
-</blockquote>
-<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/2.jpg">build/webpack.base.conf.js</p>
-<h3 id="dll加速-amp-cdn加速"><a href="#dll加速-amp-cdn加速" class="headerlink" title="dll加速&amp;cdn加速"></a>dll加速&amp;cdn加速</h3><blockquote>
-<p>根据我原来的<a target="_blank" rel="noopener" href="https://dinnerchicke.github.io/2021/02/23/webpack%E4%BC%98%E5%8C%96/">webpack优化</a>即可，这里不再赘述</p>
-</blockquote>
-<h3 id="开启gzip压缩"><a href="#开启gzip压缩" class="headerlink" title="开启gzip压缩"></a>开启gzip压缩</h3><blockquote>
-<p>这个早已有实现，确保compression-webpack-plugin版本在1.1.2以下</p>
-</blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/4.jpg">config/index.js</p>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/7.jpg">build/webpack.prod.conf.js</p>
-<h3 id="生产环境关闭console"><a href="#生产环境关闭console" class="headerlink" title="生产环境关闭console"></a>生产环境关闭console</h3><blockquote>
-<p>虽然并不影响性能，但也算一个小tip，值得添加</p>
-</blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/6.jpg">build/webpack.prod.conf.js</p>
-<p>添加drop_dubugger/drop_console即可</p>
-<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><blockquote>
-<p>浏览器运行过程中会生成两棵树：</p>
-<ul>
-<li>CSSOM树</li>
-<li>DOM树</li>
-</ul>
-<p>浏览器运行流程：</p>
-</blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/5.jpg"></p>
-<h3 id="CSS和JS的加载顺序优化"><a href="#CSS和JS的加载顺序优化" class="headerlink" title="CSS和JS的加载顺序优化"></a>CSS和JS的加载顺序优化</h3><p>CSS渲染：</p>
 <blockquote>
-<p>只有当我们开始解析HTML的link、style标签时，CSS才登场，是因为避免让页面的css未加载就裸奔在用户面前</p>
-<p>所以我们应该将CSS放在head标签内以尽早渲染</p>
-</blockquote>
-<p>JS渲染：</p>
-<blockquote>
-<p>而JS会阻塞CSS渲染，比如我们在CSS渲染时进行DOM查询，会阻塞CSS。</p>
-<p>这就是为什么要避买在布局改变时做DOM查询。</p>
-</blockquote>
-<h3 id="从样式渲染开始"><a href="#从样式渲染开始" class="headerlink" title="从样式渲染开始"></a>从样式渲染开始</h3><p>刚刚入门的同学很可能学过以下的重置样式代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">	<span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是后来大家都不用它了，为什么呢？</p>
-<p>因为这个代码会带来很大的性能问题：<strong>它会遍历每一个元素</strong>，所以后面我们会使用cssReset或者normalize.css去重置默认样式</p>
-<p>对于样式渲染，有以下的建议：</p>
-<ul>
-<li>避免*通配符</li>
-<li>尽量通过继承实现</li>
-<li>少用标签选择器，可以使用类选择器代替</li>
-<li>减少嵌套：避免重排重绘</li>
-</ul>
-<h3 id="Js-昂贵的DOM操作"><a href="#Js-昂贵的DOM操作" class="headerlink" title="Js-昂贵的DOM操作"></a>Js-昂贵的DOM操作</h3><blockquote>
-<p>因为当布局改变的时候会触发<strong>重排</strong>，当如颜色等不改变布局的样式改变时会触发<strong>重绘</strong></p>
-<p>HTML渲染大致分为如下几步：</p>
+<p>Cookie限制：一般来说，遵守以下规则，就不会在任何浏览器中遇到问题；当然如果忽略兼容性，每个浏览器各不相同。</p>
 <ol>
-<li>HTML被HTML解析器解析成DOM Tree, css则被css解析器解析成CSSOM Tree。</li>
-<li>DOM Tree和CSSOM Tree解析完成后，被附加到一起，形成渲染树（Render Tree）。</li>
-<li>节点信息计算(重排)，这个过程被叫做Layout(Webkit)或者Reflow(Mozilla)。即根据渲染树计算每个节点的几何信息。</li>
-<li>渲染绘制(重绘)，这个过程被叫做(Painting 或者 Repaint)。即根据计算好的信息绘制整个页面。</li>
+<li>不超过300个cookie</li>
+<li>每个cookie不超过4096字节</li>
+<li>每个域不超过20个cookie</li>
+<li>每个域不超过81920字节</li>
 </ol>
 </blockquote>
 <blockquote>
-<p>这里可以看到，重排一定会导致重绘，重绘不一定导致重排。</p>
-<p>且重排重绘成本很高，也就是我们所说的<strong>DOM操作的成本很高</strong></p>
-<p>但是JS很快，所以能交给Js的就避免多次进行DOM操作</p>
+<p>Cookie组成：除了名称和值，其他都是告诉浏览器什么情况下会在请求中包含cookie，<code>不会发送给服务器</code></p>
+<ol>
+<li>名称：唯一标识cookie的名称，不区分大小写，会经过URL编码</li>
+<li>值：存储在cookie1里的字符串值，会经过URL编码</li>
+<li>域：cookie有效的域</li>
+<li>路径：请求URL包含这个路径才会把cookie发送给服务器</li>
+<li>过期时间</li>
+<li>安全标识：设置后只有SSL安全连接时才会把cookie发送给服务器</li>
+</ol>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 如添加1000个div</span><br><span class="line">&#x2F;&#x2F; 错误示范</span><br><span class="line">for(1000次循环)&#123;</span><br><span class="line">	document.body.appendChild(document.createElement(&#39;div&#39;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确示范</span><br><span class="line">for(1000次循环)&#123;</span><br><span class="line">	document.createElement(&#39;div&#39;)</span><br><span class="line">	添加到一个element中</span><br><span class="line">&#125;</span><br><span class="line">document.body.appendChild(结果元素)</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Cookie<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">setCookie</span>(<span class="params">cookieName,cookieValue,expiresDays</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</span></span><br><span class="line">      d.setTime(d.getTime()+(expiresDays*24*60*60*1000));</span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> expires = <span class="string">&quot;expires=&quot;</span>+d.toGMTString();</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.cookie = cookieName+<span class="string">&quot;=&quot;</span>+cookieValue+<span class="string">&quot;; &quot;</span>+expires; <span class="comment">// 键+值+时间</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">cookieName</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> name = cookieName + <span class="string">&quot;=&quot;</span>;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> cookieArr = <span class="built_in">document</span>.cookie.split(<span class="string">&#x27;;&#x27;</span>);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt; cookieArr.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> cookieItem = cookieArr[i].trim();</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (cookieItem.indexOf(name)==<span class="number">0</span>) &#123; <span class="keyword">return</span> cookieItem.substring(name.length,cookieItem.length); &#125;</span></span><br><span class="line">      &#125;</span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delCookie</span>(<span class="params">cookieName</span>) </span>&#123; <span class="comment">// 通过立即设置过期时间删除Cookie</span></span></span><br><span class="line"><span class="javascript">      setCookie(cookieName, <span class="string">&quot;&quot;</span>, <span class="number">-1</span>)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;Admin&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;Nike&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"><span class="javascript">    setCookie(<span class="string">&quot;lastName&quot;</span>,<span class="string">&quot;Mike&quot;</span>,<span class="number">30</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(getCookie(<span class="string">&quot;name&quot;</span>))</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.cookie)</span></span><br><span class="line"><span class="javascript">    delCookie(<span class="string">&quot;username&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.cookie)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>Cookie安全与适用性：</p>
+<p>因为CSRF跨站脚本攻击可能会通过插入脚本来窃取网站的Cookie来获取敏感信息，所以有了<code>HTTP-only</code>字段来限制cookie只能在服务器上读取。</p>
+<p>并且因为Cookie会与服务器通信，Cookie中保存大量信息可能会影响通信效率，所以Cookie并不是理想的存储大量数据的方式。Cookie应只保留必要信息，但Cookie存在的环境也不是安全的环境，所以也不要将敏感信息放入Cookie。</p>
+<p>因为Cookie不适合大容量存储的应用场景，因此其他的客户端存储技术出现了。</p>
+</blockquote>
+<h2 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h2><blockquote>
+<p>Web Storage定义了两个对象<code>localStorage(永久存储机制)</code>和<code>sessionStorage(跨会话存储机制)</code>，这两种浏览器存储API提供了在浏览器中不受页面刷新影响而影响存储数据的两种方式</p>
+</blockquote>
+<blockquote>
+<p>Storage类型的方法：可以认为是两个对象的基类，二者都继承它的方法</p>
+<ul>
+<li>clear():删除所有值，不在FireFox中实现</li>
+<li>getItem(name):取得给定name的值</li>
+<li>key(index):取得给定数值位置的名称</li>
+<li>removeItem(name):删除给定name的键值对</li>
+<li>setItem(name,value):设置给定name的值</li>
+</ul>
+</blockquote>
+<h3 id="SessionStorage对象-跨会话存储"><a href="#SessionStorage对象-跨会话存储" class="headerlink" title="SessionStorage对象(跨会话存储)"></a>SessionStorage对象(跨会话存储)</h3><blockquote>
+<p>sessionStorage对象只存储会话数据，数据只存储到浏览器关闭，<code>不受到刷新影响</code></p>
+<p>大小限制：5M</p>
+</blockquote>
+<h3 id="localStorage-持久化存储"><a href="#localStorage-持久化存储" class="headerlink" title="localStorage(持久化存储)"></a>localStorage(持久化存储)</h3><blockquote>
+<p>localStorage会保留到通过JavaScript删除或者用户清除浏览器缓存，<code>不受刷新、关闭窗口、或者重启浏览器影响</code></p>
+<p>大小限制：5M</p>
+</blockquote>
+<h3 id="存储事件"><a href="#存储事件" class="headerlink" title="存储事件"></a>存储事件</h3><blockquote>
+<p>Storage对象发生变化时会触发对应事件，使用属性或setItem()/removeItem()/clear()都会触发这个事件，有以下属性</p>
+<ul>
+<li>domain(存储变化对应的域)</li>
+<li>key(对应的键值)</li>
+<li>newValue(新值)</li>
+<li>oldValue(旧值)</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&quot;storage&quot;</span>,<span class="function"><span class="params">event</span>=&gt;</span>alert(<span class="string">&#x27;$&#123;event.domain&#125;&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="IndexDB"><a href="#IndexDB" class="headerlink" title="IndexDB"></a>IndexDB</h2><blockquote>
+<p>会出现兼容性问题，不赘述</p>
+</blockquote>
  
       <!-- reward -->
       
@@ -237,7 +233,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -250,19 +246,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/04/23/Js%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            Js常用内置对象方法
-          
-        </div>
-      </a>
     
-    
-      <a href="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/" class="article-nav-link">
+      <a href="/2021/06/08/Animation%E5%8A%A8%E7%94%BB/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Promise&amp;async&amp;await深入</div>
+        <div class="article-nav-title">Animation动画</div>
       </a>
     
   </nav>
