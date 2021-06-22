@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="baidu-site-verification" content="code-QdAXqd4Pi2" />
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    浏览器错误处理 |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/Logo.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-浏览器错误处理"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  浏览器错误处理
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" class="article-date">
+  <time datetime="2021-06-22T00:34:07.000Z" itemprop="datePublished">2021-06-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="浏览器错误处理"><a href="#浏览器错误处理" class="headerlink" title="浏览器错误处理"></a>浏览器错误处理</h1><h2 id="捕获错误"><a href="#捕获错误" class="headerlink" title="捕获错误"></a>捕获错误</h2><h3 id="try-catch捕获同步错误"><a href="#try-catch捕获同步错误" class="headerlink" title="try/catch捕获同步错误"></a>try/catch捕获同步错误</h3><blockquote>
+<p>try/catch是常用的<code>同步</code>捕获错误的方式，语法如下:</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="comment">// someError</span></span><br><span class="line">&#125;<span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  alert(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="错误类型"><a href="#错误类型" class="headerlink" title="错误类型"></a>错误类型</h4><blockquote>
+<p>ES6定义了以下错误类型：</p>
+<ul>
+<li><strong>EvalError</strong>：eval()参数发生错误时</li>
+<li><strong>RangeError</strong>：当数值变量或参数超出其有效范围时发生的错误</li>
+<li><strong>ReferenceError</strong>：找不到对象时发生</li>
+<li><strong>SyntaxError</strong>：语法错误</li>
+<li><strong>TypeError</strong>：当变量或参数不是有效类型</li>
+<li><strong>URIError</strong>：在encodeURI()或decodeURI()传递无效参数时发生的错误</li>
+</ul>
+</blockquote>
+<h4 id="推荐使用时机"><a href="#推荐使用时机" class="headerlink" title="推荐使用时机"></a>推荐使用时机</h4><blockquote>
+<p>try/catch最好用在自己<code>无法控制</code>的错误上。比如在使用他人维护的库函数时，有时会抛出无法预料的错误，这时就需要try/catch将该函数包裹起来，对可能的错误进行处理。</p>
+<p>如果你明确知道自己的函数会发生某种错误，那应该做的是进行条件判断处理而不是try/catch。</p>
+</blockquote>
+<h3 id="异步捕获错误"><a href="#异步捕获错误" class="headerlink" title="异步捕获错误"></a>异步捕获错误</h3><h4 id="Promise捕获错误"><a href="#Promise捕获错误" class="headerlink" title="Promise捕获错误"></a>Promise捕获错误</h4><blockquote>
+<p>在Promise中的异步错误无法被try/catch同步捕获，这时就需要使用异步捕获的方法</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Promise<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">Promise</span>.prototype)</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> name = <span class="literal">undefined</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">    .then(<span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span></span><br><span class="line"><span class="javascript">        name = <span class="string">&#x27;aaa&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(name)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">    &#125;,<span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是reject&#x27;</span>)</span></span><br><span class="line">    &#125;)</span><br><span class="line"><span class="javascript">    .then(<span class="function">()=&gt;</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">3</span>)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(name)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayedResolve</span>(<span class="params">str</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(str)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    delayedResolve(<span class="string">&#x27;p1&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p2&#x27;</span>))</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p3&#x27;</span>))</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p4&#x27;</span>))</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">&#x27;----------------------&#x27;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;同步错误&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是同步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(error) <span class="comment">// 同步错误捕获成功</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;异步错误&#x27;</span>))</span></span><br><span class="line"><span class="javascript">        <span class="comment">// .catch(reason=&gt;&#123; // 这样才能捕获异步错误, 注释以后浏览器报异步错误</span></span></span><br><span class="line"><span class="javascript">        <span class="comment">//   console.log(reason)</span></span></span><br><span class="line"><span class="javascript">        <span class="comment">// &#125;)</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(error) <span class="comment">// 异步错误捕获失败</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/1.jpg"></p>
+<p><img src="/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/2.jpg"></p>
+<h4 id="async-await捕获错误"><a href="#async-await捕获错误" class="headerlink" title="async/await捕获错误"></a>async/await捕获错误</h4><blockquote>
+<p>方法一：使用try/catch捕获错误</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PromiseStateMachine</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (data === <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        resolve(<span class="string">&#x27;PromiseStateMachine success&#x27;</span>)</span><br><span class="line">      &#125;, <span class="number">1000</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        reject(<span class="string">&#x27;PromiseStateMachine error&#x27;</span>)</span><br><span class="line">      &#125;, <span class="number">1000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="keyword">await</span> PromiseStateMachine(<span class="number">3</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(res)</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error, <span class="string">&#x27;捕获成功&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>方法二：.catch捕获错误</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> PromiseStateMachine(<span class="number">3</span>).then(<span class="function"><span class="params">r</span>=&gt;</span>r).catch(<span class="function"><span class="params">err</span>=&gt;</span><span class="built_in">console</span>.log(err, <span class="string">&#x27;捕获成功&#x27;</span>))</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>方法三：包装await的Promise对象</p>
+<p>平时开发中Axios也是使用类似这种方式对每次的请求包装，统一处理</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">awaitWrapper</span>(<span class="params">promise</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> promise.then(<span class="function"><span class="params">res</span>=&gt;</span><span class="built_in">console</span>.log(res))</span><br><span class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.log(err, <span class="string">&#x27;捕获成功&#x27;</span>))</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> awaitWrapper(PromiseStateMachine(<span class="number">3</span>))</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="抛出错误"><a href="#抛出错误" class="headerlink" title="抛出错误"></a>抛出错误</h2><blockquote>
+<p>与try/catch捕获错误对应的是抛出错误throw</p>
+<p><strong>捕获错误的目的是阻止浏览器以默认方式响应，抛出错误的目的是为错误提供有关其发生原因的说明</strong></p>
+<p>类似如下：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常用的自定义错误类型是Error、RangeError、ReferenceError、TypeError</span></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;some Error&quot;</span>)</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&quot;type Wrong&quot;</span>)</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RangeError</span>(<span class="string">&quot;break size&quot;</span>)</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>(<span class="string">&quot;object Except&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Error事件"><a href="#Error事件" class="headerlink" title="Error事件"></a>Error事件</h3><blockquote>
+<p>任何没有被try/catch的错误都会在window上触发error事件</p>
+<p><strong>经过测试，在Chrome上无效！</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onerror = <span class="function">(<span class="params">message, url, line</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(message)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 可以通过return false来阻止浏览器默认报告错误的行为，但是最好不要</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="错误处理策略"><a href="#错误处理策略" class="headerlink" title="错误处理策略"></a>错误处理策略</h2><blockquote>
+<p>前面谈了错误捕获，现在来谈谈如何处理错误</p>
+</blockquote>
+<h3 id="识别错误"><a href="#识别错误" class="headerlink" title="识别错误"></a>识别错误</h3><blockquote>
+<p>通常，大部分错误通过<code>静态代码分析器</code>就能找出，但是部分错误只有在<code>运行时</code>才会发现</p>
+</blockquote>
+<h4 id="类型转换错误"><a href="#类型转换错误" class="headerlink" title="类型转换错误"></a>类型转换错误</h4><blockquote>
+<p>通常在进行类型判断的时候出现，比如以下场景</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">2</span> == <span class="string">&quot;2&quot;</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">2</span> === <span class="string">&quot;2&quot;</span>) <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span> == <span class="literal">true</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span> === <span class="literal">true</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>所以推荐使用<code>严格相等(===)</code>和<code>严格不相等(!==)</code>来代替相等和不相等操作符</p>
+</blockquote>
+<h4 id="数据类型错误"><a href="#数据类型错误" class="headerlink" title="数据类型错误"></a>数据类型错误</h4><blockquote>
+<p>对于函数参数，为了确保函数正常运行，常常需要对其进行类型判断</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (url.indexOf(<span class="string">&quot;?&quot;</span>) &gt; <span class="number">-1</span>) <span class="comment">// 错误的方式，一旦传入不是字符串就会出错</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> url === <span class="string">&quot;string&quot;</span>) <span class="comment">// 正确的方式，先进行类型判断再进行indexOf操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> arr.sort === <span class="string">&#x27;function&#x27;</span>) <span class="comment">// 错误的方式，在类型检查时只检查特性</span></span><br><span class="line"><span class="keyword">if</span> (arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>) <span class="comment">// 正确的做法，对对象使用instanceof检查</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于类型检查，对<code>基本类型使用typeof</code>，对<code>对象使用instanceof</code></p>
+</blockquote>
+<h4 id="通信错误"><a href="#通信错误" class="headerlink" title="通信错误"></a>通信错误</h4><blockquote>
+<p>JavaScript与服务器通信时出错</p>
+<p>通常是URL格式或发送数据格式不对，这时候就需要encodeURIComponent()编码修复</p>
+<p>当然Ajax通信自身也会提供关于错误条件的更多信息</p>
+</blockquote>
+<h3 id="区分重大与非重大错误"><a href="#区分重大与非重大错误" class="headerlink" title="区分重大与非重大错误"></a>区分重大与非重大错误</h3><blockquote>
+<p>非重大错误：本质上，不用担心非重大错误</p>
+<ul>
+<li>不会影响用户的主要任务</li>
+<li>只会影响页面中某个部分</li>
+<li>可以恢复</li>
+<li>重复操作可能成功</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>重大错误具备以下特性：</p>
+<ul>
+<li>应用程序绝对无法继续运行</li>
+<li>错误严重影响了用户的主要目标</li>
+<li>会导致其他错误发生</li>
+</ul>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">客户端存储</div>
+      </a>
+    
+  </nav>
+
+  
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> CDX
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/Logo.svg" alt="CDX"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
