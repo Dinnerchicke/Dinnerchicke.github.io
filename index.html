@@ -190,6 +190,99 @@
 
     
     <article
+  id="post-迭代器"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/06/28/%E8%BF%AD%E4%BB%A3%E5%99%A8/"
+    >迭代器</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/28/%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="article-date">
+  <time datetime="2021-06-28T14:56:09.000Z" itemprop="datePublished">2021-06-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><blockquote>
+<p>迭代器本质上是一个函数，可以通过这个函数遍历特定数据结构的变量</p>
+<p>无需知道具体内容就可以遍历整个变量</p>
+</blockquote>
+<blockquote>
+<p>迭代器协议：</p>
+<ul>
+<li>next()：每次成功调用next都会返回一个IteratorResult对象</li>
+</ul>
+<p>IteratorResult包括：</p>
+<ul>
+<li>done：表示一个布尔值true/false，表示是否可以再次调用next</li>
+<li>value：表示当前的值</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>提前终止迭代器：</p>
+<ul>
+<li>利用return提前结束，但是并非所有的迭代器都是可关闭的</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代器就是一个函数，也叫迭代器生成函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Iterator</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> curIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> next = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      value: o[curIndex],</span><br><span class="line">      done: o.length == ++curIndex</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//返回迭代对象，该对象有next方法</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="keyword">let</span> oIt = Iterator(arr)</span><br><span class="line"><span class="built_in">console</span>.log(oIt)</span><br><span class="line"><span class="built_in">console</span>.log(oIt.next()) <span class="comment">// &#123;value:1,done:false&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(oIt.next()) <span class="comment">// &#123;value:2,done:false&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(oIt.next()) <span class="comment">// &#123;value: undefined, done: true&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(oIt.next()) <span class="comment">// &#123;value: undefined, done: true&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.prototype[<span class="built_in">Symbol</span>.iterator]) <span class="comment">// [Function: values]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="借用原型链实现迭代器"><a href="#借用原型链实现迭代器" class="headerlink" title="借用原型链实现迭代器"></a>借用原型链实现迭代器</h2><blockquote>
+<p>实现[Symbol.iterator]即可</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 借用原型链实现迭代器</span></span><br><span class="line"><span class="built_in">Object</span>.prototype[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> curIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> next = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      value: <span class="built_in">this</span>[curIndex],</span><br><span class="line">      done: <span class="built_in">this</span>.length == curIndex++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next,</span><br><span class="line">    <span class="keyword">return</span> () &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;执行return提前终止迭代器&#x27;</span>)</span><br><span class="line">      <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="number">0</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">  <span class="number">1</span>: <span class="string">&#x27;b&#x27;</span>,</span><br><span class="line">  <span class="number">2</span>: <span class="string">&#x27;c&#x27;</span>,</span><br><span class="line">  <span class="number">3</span>: <span class="string">&#x27;e&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> obj) &#123;</span><br><span class="line">  <span class="keyword">if</span> (item == <span class="string">&#x27;e&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="原生迭代器"><a href="#原生迭代器" class="headerlink" title="原生迭代器"></a>原生迭代器</h2><h3 id="数组迭代器"><a href="#数组迭代器" class="headerlink" title="数组迭代器"></a>数组迭代器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="keyword">let</span> arrEntires = arr.entries() <span class="comment">// entries对应键值对</span></span><br><span class="line"><span class="built_in">console</span>.log(arrEntires.next()) <span class="comment">// &#123;value: [0, 1], done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> arrKeys = arr.keys() <span class="comment">// 对于数组，索引值就是键值</span></span><br><span class="line"><span class="built_in">console</span>.log(arrKeys.next()) <span class="comment">// &#123;value: 0, done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> arrValues = arr.values() <span class="comment">// 从第一个值开始</span></span><br><span class="line"><span class="built_in">console</span>.log(arrValues.next()) <span class="comment">// &#123;value: 1, done: false&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// for...of 遍历默认迭代器接口是values</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item) <span class="comment">// [1,2,3]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里看到两个指向同一个函数</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.prototype[<span class="built_in">Symbol</span>.iterator])</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.prototype.values)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Set迭代器"><a href="#Set迭代器" class="headerlink" title="Set迭代器"></a>Set迭代器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="keyword">let</span> setEntires = set.entries() <span class="comment">// Set，键名与键值相同。</span></span><br><span class="line">setEntires.next() <span class="comment">//&#123;value: [1, 1], done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> setKeys = set.keys()</span><br><span class="line">setKeys.next() <span class="comment">//&#123;value: 1, done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> setValues = set.values()</span><br><span class="line">setValues.next() <span class="comment">//&#123;value: 1, done: false&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item) <span class="comment">// [1,2,3,4]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里看到两个指向同一个函数</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Set</span>.prototype[<span class="built_in">Symbol</span>.iterator])</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Set</span>.prototype.values)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Map迭代器"><a href="#Map迭代器" class="headerlink" title="Map迭代器"></a>Map迭代器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([ <span class="comment">// 自定义键值对</span></span><br><span class="line">  [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">  [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">])</span><br><span class="line"><span class="keyword">let</span> mapEntires = map.entries()</span><br><span class="line">mapEntires.next() <span class="comment">//&#123;value: [1, 2], done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> mapKeys = map.keys()</span><br><span class="line">mapKeys.next() <span class="comment">//&#123;value: 1, done: false&#125;</span></span><br><span class="line"><span class="keyword">let</span> mapValues = map.values()</span><br><span class="line">mapValues.next() <span class="comment">//&#123;value: 2, done: false&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> <span class="keyword">new</span> <span class="built_in">Map</span>([</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">    [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">  ])) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item) <span class="comment">// [1,2] [3,4]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里看到Map的iterator指向的是entries</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Map</span>.prototype[<span class="built_in">Symbol</span>.iterator])</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Map</span>.prototype.entries)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Map</span>.prototype.values)</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-浏览器错误处理"
   class="article article-type-post"
   itemscope
@@ -919,7 +1012,7 @@
 <p>为什么要分栈和堆？</p>
 <ul>
 <li>因为Js引擎需要栈保证上下文切换的效率，所以栈空间一般都不会设置太大</li>
-<li>而堆空间很大可以存放很多大数据，不过缺点是分配内存和回收内存都会占用一定的事件</li>
+<li>而堆空间很大可以存放很多大数据，不过缺点是分配内存和回收内存都会占用一定的时间</li>
 </ul>
 </blockquote>
 <blockquote>
@@ -995,7 +1088,7 @@
 <li>首先是标记过程，标记元素就是通过一组根元素开始，递归遍历这组元素，在这个遍历过程中能到达的元素就称为活动对象，否则为垃圾数据</li>
 <li>接下来对垃圾数据进行清除</li>
 <li>以上就是标记-清除算法，紧接着是标记-整理(Mark-Compact)算法，因为对一块内存进行多次执行标记后会产生大量不连续的内存碎片，故需要此算法。</li>
-<li>标记-整理算法过程是将所有可活动对象将一遍移动，然后直接清除掉边界以外的内存。</li>
+<li>标记-整理算法过程是将所有可活动对象向一边移动，然后直接清除掉边界以外的内存。</li>
 </ol>
 </blockquote>
 <p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
@@ -1004,7 +1097,7 @@
 <p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
 </blockquote>
 <blockquote>
-<p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成,，这个算法叫做增量标记算法。</p>
+<p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成，这个算法叫做增量标记算法。</p>
 </blockquote>
 <p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
 <h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
@@ -1195,132 +1288,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-面向实践的git指令集合"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/"
-    >面向实践的git指令集合</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/" class="article-date">
-  <time datetime="2021-04-26T12:17:19.000Z" itemprop="datePublished">2021-04-26</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/8.jpg"></p>
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/10.jpg"></p>
-<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/4.jpg"></p>
-<h2 id="git指令集合"><a href="#git指令集合" class="headerlink" title="git指令集合"></a>git指令集合</h2><h3 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add . <span class="comment"># 将workspace修改的内容提交到暂存区</span></span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span> <span class="comment"># 将暂存区的内容提交到版本库</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin [branchName] <span class="comment"># 将版本库内容提交到远程仓库</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="拉取合并代码"><a href="#拉取合并代码" class="headerlink" title="拉取合并代码"></a>拉取合并代码</h3><blockquote>
-<p>pull = fetch(拉取远程代码) + merge(合并代码)</p>
-<p>如果pull的当前分支名与远程分支名相同,则只需git pull即可,push同</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="创建并推送代码到新分支"><a href="#创建并推送代码到新分支" class="headerlink" title="创建并推送代码到新分支"></a>创建并推送代码到新分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建本地分支</span></span><br><span class="line">git checkout -b [branchName]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并推送代码到远程分支</span></span><br><span class="line">git push --set-upstream origin [branchName]</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3><blockquote>
-<p>冲突即多人开发时，修改了同一个文件</p>
-</blockquote>
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg">形式一：提交时</p>
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/11.jpg">形式二：拉取时</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin [branchName] <span class="comment"># 将远程仓库内容拉到本地workspace</span></span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin [branchName]</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
-<h3 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本,将HEAD指针指向上一个commitID</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到最新版本</span></span><br><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="回退到修改前的内容"><a href="#回退到修改前的内容" class="headerlink" title="回退到修改前的内容"></a>回退到修改前的内容</h3><blockquote>
-<p>比如我们改动了文件内容，但是写完后发现太混乱想重写，此时就需要回退到修改前</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改,此时已经可以发现修改内容已丢失</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 丢弃更改</span></span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="代码写到一半修改其他分支内容"><a href="#代码写到一半修改其他分支内容" class="headerlink" title="代码写到一半修改其他分支内容"></a>代码写到一半修改其他分支内容</h3><blockquote>
-<p>注意,如果创建了新的文件,在上一个提交时没有此文件,则此文件不会被暂存</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash -u <span class="comment"># 暂存新的文件</span></span><br><span class="line"></span><br><span class="line">git stash -a <span class="comment"># 暂存新的文件+.gitignore忽略的文件</span></span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>单一stash暂存情况</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看刚刚的暂存的修改</span></span><br><span class="line">git stash show</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...修改其他分支中，修改完成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出修改</span></span><br><span class="line">git pop</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>多stash情况</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git stash apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
-<h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先查看gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line"><span class="comment"># 一般来说只支持Maintainers</span></span><br><span class="line">git push -f origin [branchName]</span><br></pre></td></tr></table></figure>
-
-
-
-<p>强制覆盖本地</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获得更新</span></span><br><span class="line">git fetch --all</span><br><span class="line"><span class="comment"># 覆盖本地</span></span><br><span class="line">git reset --hard origin/[branchName] <span class="comment"># 这里可以为任意远程分支</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="删除远程-amp-本地分支"><a href="#删除远程-amp-本地分支" class="headerlink" title="删除远程&amp;本地分支"></a>删除远程&amp;本地分支</h3><blockquote>
-<p>需要在gitlab上将branch的保护状态去掉，不然会删除失败，推荐在gitlab上删除远程分支，本地删除本地分支</p>
-<p>修改保护状态路径,在gitlab上：”Settings” -&gt; “Repository” -&gt; “Protected branches”.</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除远程</span></span><br><span class="line">git push origin --delete [branchName] <span class="comment"># 远程分支名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除本地分支,因为删除远程分支时并不会把本地分支一并删除</span></span><br><span class="line"><span class="comment"># 注意删除本地分支时HEAD不能指向该分支,不然会删除失败</span></span><br><span class="line">git branch -D [branchName]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看现有分支</span></span><br><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
-
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
 
     </footer>
   </div>
