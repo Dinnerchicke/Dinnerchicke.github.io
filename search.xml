@@ -69,11 +69,149 @@
       </tags>
   </entry>
   <entry>
+    <title>深入理解同步与异步</title>
+    <url>/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/</url>
+    <content><![CDATA[<h1 id="深入理解同步与异步"><a href="#深入理解同步与异步" class="headerlink" title="深入理解同步与异步"></a>深入理解同步与异步</h1><h2 id="同步与异步的概念"><a href="#同步与异步的概念" class="headerlink" title="同步与异步的概念"></a>同步与异步的概念</h2><blockquote>
+<p>为什么要区分同步与异步？</p>
+<p>因为Js是单线程的，如果全都是同步任务的话，主线程就被<code>阻塞</code>了。比如发送一个AJAX请求，如果它是同步的话，那么在等待服务器响应的过程中整个主线程就被阻塞了，其他任务都无法被执行。</p>
+<p>就像人在散步的过程中，不可能全程只走路。不观察四周有没有认识的人、突然驶来的车。</p>
+</blockquote>
+<blockquote>
+<p>什么是同步函数？什么是异步函数？</p>
+<p>简单来说，同步函数按照顺序执行，且在执行后能<code>立即</code>获得结果。</p>
+<p>异步函数调用后马上返回，但是<code>不会马上返回结果</code>，调用者无需阻塞等待，当函数得到结果后会通过<code>回调函数</code>主动通知调用者。</p>
+</blockquote>
+<h2 id="消息队列与事件循环"><a href="#消息队列与事件循环" class="headerlink" title="消息队列与事件循环"></a>消息队列与事件循环</h2><blockquote>
+<p>从图中可知，主线程的所有任务都来自于消息队列(FIFO)。</p>
+<p>主线程通过事件循环机制来不断执行从消息队列中取出的任务</p>
+</blockquote>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/1.jpg"></p>
+<h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><blockquote>
+<p>什么是宏任务？</p>
+<p>宏任务即如下的任务(名称并没有什么实际意义)：</p>
+<ul>
+<li>渲染事件（如解析 DOM、计算布局、绘制）</li>
+<li>用户交互事件（如鼠标点击、滚动页面、放大缩小等）</li>
+<li>JavaScript 脚本执行事件</li>
+<li>网络请求完成、文件读写完成事件</li>
+</ul>
+<p>这些任务在消息队列上被取出在主线程上正常执行，我们把这些<code>消息队列中的任务</code>称为宏任务。</p>
+</blockquote>
+<h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><blockquote>
+<p>为什么会出现微任务？</p>
+<p>因为有的任务<code>实时性</code>要求较高。比如setTimeout里面的任务需要在设定的时间立即执行，但是主线程常常被其他任务占领，这个时候就需要微任务提高任务的优先级，在更精细的时间粒度对任务进行操作。</p>
+</blockquote>
+<blockquote>
+<p>什么是微任务？</p>
+<p>微任务就是需要<code>异步执行</code>的函数，执行时机是在<code>主函数执行结束后</code>，当前<code>宏任务结束之前</code></p>
+</blockquote>
+<blockquote>
+<p>微任务有什么？</p>
+<ul>
+<li>process.nextTick(Node)</li>
+<li>Promise.then()/reject()/catch()</li>
+<li>Object.Observe</li>
+<li>MutationObserver</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>微任务是如何被执行的？</p>
+<p>通过调用上述API会将微任务添加到微任务队列中。通常当宏任务中的JavaScript快执行结束，即准备退出执行上下文并清空调用栈时(这个时间点被称为检查点)，JavaScript引擎会检查执行上下文的微任务，然后按照顺序执行微任务队列。V8引擎执行微任务队列中的任务直到为空才结束，即执行微任务过程中产生的微任务会立即添加到队尾执行。</p>
+</blockquote>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/2.jpg"></p>
+<blockquote>
+<p>Tip：微任务与宏任务是绑定的，每个宏任务在执行时会创建自己的微任务队列</p>
+</blockquote>
+<h3 id="宏任务与微任务执行顺序"><a href="#宏任务与微任务执行顺序" class="headerlink" title="宏任务与微任务执行顺序"></a>宏任务与微任务执行顺序</h3><blockquote>
+<p>当宏任务为<code>同步任务</code>时，毫无疑问先执行宏任务</p>
+<p>当宏任务与微任务<code>同为异步任务</code>时，注意此时<code>先执行微任务再执行宏任务</code></p>
+</blockquote>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/3.jpg"></p>
+<h4 id="特别篇：Async-Await"><a href="#特别篇：Async-Await" class="headerlink" title="特别篇：Async/Await"></a>特别篇：Async/Await</h4><blockquote>
+<p>Async做了什么？</p>
+<ul>
+<li><p>如果你返回的不是promise，会自动用Promise.resolve()包装返回</p>
+</li>
+<li><p>如果你返回的是promise，则以返回的为准</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Await做了什么？</p>
+<ul>
+<li>如果右侧是函数，那么函数的返回值就是结果</li>
+<li>如果右侧是非函数，则表达式的结果就是其本身</li>
+</ul>
+<p>Tip：await还是会执行后面的函数，但是函数后的内容就会被阻塞</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 比如await会执行async2()，但是后面的内容async1 end就会被阻塞</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">&#x27;async1 start&#x27;</span> )</span><br><span class="line">    <span class="keyword">await</span> async2()</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">&#x27;async1 end&#x27;</span> )</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">&#x27;async2&#x27;</span> )</span><br><span class="line">&#125;</span><br><span class="line">async1()</span><br><span class="line"><span class="built_in">console</span>.log( <span class="string">&#x27;script start&#x27;</span> )</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="宏任务与微任务实战"><a href="#宏任务与微任务实战" class="headerlink" title="宏任务与微任务实战"></a>宏任务与微任务实战</h2><h3 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;script start&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;setTimeout&#x27;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;promise1&#x27;</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;promise2&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;script end&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>结果：script start、script end、promise1、promise2、setTimeout</p>
+<p>分析：</p>
+<ol>
+<li>首先执行宏任务的同步任务：script start、script end</li>
+<li>接下来执行微任务：当执行微任务时遇到新的微任务一起执行，故promise1、promise2</li>
+<li>最后执行异步宏任务的回调函数：setTimeout</li>
+</ol>
+</blockquote>
+<h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Promise1&#x27;</span>)  </span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;setTimeout2&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">0</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;setTimeout1&#x27;</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Promise2&#x27;</span>)    </span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>结果：Promise1、setTimeout1、Promise2、setTimeout2</p>
+<p>分析：</p>
+<ol>
+<li>没有同步任务，先执行微任务，即Promise1</li>
+<li>执行异步宏任务回调函数setTimeout1</li>
+<li>执行微任务：Promise2</li>
+<li>执行异步宏任务回调函数setTimeout2</li>
+</ol>
+</blockquote>
+<h3 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;4&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;6&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;7&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;10&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;11&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>结果：1，7，6，8，2，4，3，5，9，11，10，12</p>
+<p>分析；</p>
+<ol>
+<li>同步输出：1，7</li>
+<li>微任务：6，8</li>
+<li>异步宏任务setTimeout1：2，4。这里有个坑，setTimeout算一个宏任务，平时同步执行的话整个JavaScript算一个宏任务所以一直执行，这个setTimeout就不能一直执行到下一个。</li>
+<li>无同步任务，执行微任务：3，5</li>
+<li>异步宏任务setTimeout2：9，10</li>
+<li>微任务：10，12</li>
+</ol>
+</blockquote>
+<h3 id="第四题：Async-Await"><a href="#第四题：Async-Await" class="headerlink" title="第四题：Async/Await"></a>第四题：Async/Await</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;async1 start&quot;</span>);</span><br><span class="line">    <span class="keyword">await</span> async2();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;async1 end&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;async2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;script start&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;setTimeout&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">async1();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;promise1&quot;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;promise2&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;script end&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>结果：script start、async1 start、async2、promise1、script end、promise2、async1 end、setTimeout</p>
+<p>分析：</p>
+<ol>
+<li>同步：script start、async1 start、async2、promise1、script end</li>
+<li>微任务：promise2</li>
+<li>同步：async1 end、setTimeout</li>
+</ol>
+<p>Tip：最后一步这样理解：微任务执行完，async2语句结束，后面的代码不再被阻塞，所以直接打印async1 end</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PStudy</category>
+        <category>web-Design</category>
+      </categories>
+      <tags>
+        <tag>web-design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>迭代器</title>
     <url>/2021/06/28/%E8%BF%AD%E4%BB%A3%E5%99%A8/</url>
     <content><![CDATA[<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><blockquote>
-<p>迭代器本质上是一个函数，可以通过这个函数遍历特定数据结构的变量</p>
-<p>无需知道具体内容就可以遍历整个变量</p>
+<p>迭代器本质上是一个函数，可以通过这个函数遍历特定数据结构的对象</p>
+<p>迭代器模式：提供一种方法顺序访问一个聚合对象中的各种元素，而又不暴露该对象的内部表示。</p>
 </blockquote>
 <blockquote>
 <p>迭代器协议：</p>
@@ -82,7 +220,7 @@
 </ul>
 <p>IteratorResult包括：</p>
 <ul>
-<li>done：表示一个布尔值true/false，表示是否可以再次调用next</li>
+<li>done：表示是否可以再次调用next(值为true/false)</li>
 <li>value：表示当前的值</li>
 </ul>
 </blockquote>

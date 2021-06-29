@@ -81,6 +81,204 @@
     
     
     <article
+  id="post-Vue全家桶"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/"
+    >Vue全家桶</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="article-date">
+  <time datetime="2020-11-28T02:23:42.000Z" itemprop="datePublished">2020-11-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>对vue的查漏补缺</p>
+<h2 id="Base"><a href="#Base" class="headerlink" title="Base"></a>Base</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">    div &#123;&#123;msg&#125;&#125;</span><br><span class="line"><span class="comment">// 不需要操作dom直接将数据挂载到标签上</span></span><br><span class="line">script</span><br><span class="line">    <span class="keyword">var</span> vm=<span class="keyword">new</span> Vue(&#123;</span><br><span class="line">        el:<span class="string">&#x27;#app&#x27;</span>,<span class="comment">// 元素挂载位置，CSS选择器或者DOM元素</span></span><br><span class="line">        data: &#123;<span class="comment">// 模型数据</span></span><br><span class="line">            msg: <span class="string">&#x27;Hello Vue&#x27;</span><span class="comment">// 数据填充到标签里</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
+<li>v-text：填充纯文本</li>
+<li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
+<li>v-pre：填充原始信息，跳过编译过程</li>
+</ul>
+<h4 id="数据响应式"><a href="#数据响应式" class="headerlink" title="数据响应式"></a>数据响应式</h4><blockquote>
+<p>html5的响应式：样式随着屏幕变化变化</p>
+<p>数据响应式：数据变化导致页面内容变化</p>
+</blockquote>
+<ul>
+<li>数据绑定：将数据填充到标签中</li>
+<li>v-once：显示内容后不再具有响应式功能</li>
+<li>双向数据绑定：v-model,底层实现就是v-on和v-bind结合</li>
+</ul>
+<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><ul>
+<li>v-on：语法糖@</li>
+</ul>
+<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5><ul>
+<li>直接绑定函数名称@click=’say’</li>
+<li>调用函数@click=’say()’</li>
+</ul>
+<h5 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h5><ul>
+<li>@click=’say{“hi”,$event}’如果事件直接绑定函数名称，那么默认事件对象为事件函数的一个参数</li>
+<li>如果事件绑定函数调用，那么事件对象必须作为最后一个参数显式传递，且名称必须为$event</li>
+</ul>
+<h5 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h5><ul>
+<li>@click.stop阻止冒泡</li>
+<li>@click.prevent阻止默认行为</li>
+</ul>
+<h4 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h4><ul>
+<li>v-bind：缩写’:’</li>
+</ul>
+<h4 id="样式绑定"><a href="#样式绑定" class="headerlink" title="样式绑定"></a>样式绑定</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">：<span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;&#123;active:isActive&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">    isActive: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    handle()&#123;</span><br><span class="line">        <span class="built_in">this</span>.isActive=!<span class="built_in">this</span>.isActive</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
+<ul>
+<li>M(model)：模型数据</li>
+<li>V(view)：视图，模版，本质为DOM</li>
+<li>VM(View-Model)：控制逻辑，将Model和View结合</li>
+</ul>
+<blockquote>
+<p>从Model到View通过数据绑定，从View到Model通过事件监听的方式</p>
+</blockquote>
+<h3 id="vue常用特性"><a href="#vue常用特性" class="headerlink" title="vue常用特性"></a>vue常用特性</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(<span class="string">&#x27;focus&#x27;</span>&#123;</span><br><span class="line">	inserted: <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123; <span class="comment">// el是element的简写，表示指令绑定的元素</span></span><br><span class="line">	el.focus();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">input type=<span class="string">&quot;text&quot;</span> v-focus</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
+<blockquote>
+<p>监听器应用场景：执行异步或开销比较大的操作</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    firstName: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.fullName = val + <span class="string">&#x27;&#x27;</span> +<span class="built_in">this</span>.lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><blockquote>
+<p>组件化开发思想：</p>
+<ul>
+<li>标准：组件标准规范</li>
+<li>分治：不同功能封装到不同组件中</li>
+<li>重用：组件可以更换</li>
+<li>组合：组合新的产品</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
+<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
+<li>每个组件都是独立的</li>
+<li>组件模版必须是单个根元素</li>
+<li>组件命名推荐短横线-</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局组件注册语法</span></span><br><span class="line">Vue.component(<span class="string">&#x27;组件名称&#x27;</span>,&#123;</span><br><span class="line">	data: 组件数据,</span><br><span class="line">	template: 组件模块内容</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line">Vue.component(<span class="string">&#x27;button-counter&#x27;</span>,&#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template:<span class="string">&#x27;&lt;button v-on:click=&quot;count++&quot;&gt;点击了&#123;&#123;count&#125;&#125;次.&lt;/button&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">	button-counter /</span><br><span class="line">/div</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 局部组件注册</span></span><br><span class="line"><span class="comment">// 局部组件只能在注册他的父组件中使用</span></span><br><span class="line"><span class="keyword">var</span> ComponentA=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentB=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentC=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">&#x27;#app&#x27;</span></span><br><span class="line">    components: &#123;</span><br><span class="line">    <span class="string">&#x27;component-a&#x27;</span>:ComponentA,</span><br><span class="line">    <span class="string">&#x27;component-b&#x27;</span>:ComponentB,</span><br><span class="line">    <span class="string">&#x27;component-c&#x27;</span>:ComponentC</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件间数据交换"><a href="#组件间数据交换" class="headerlink" title="组件间数据交换"></a>组件间数据交换</h3><h4 id="组件间数据交互"><a href="#组件间数据交互" class="headerlink" title="组件间数据交互"></a>组件间数据交互</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件向子组件传值</span></span><br><span class="line"><span class="comment">// 组件内部通过props接收传递的值</span></span><br><span class="line">Vue.component(<span class="string">&#x27;menu-item&#x27;</span>,&#123;</span><br><span class="line">    props: [<span class="string">&#x27;title&#x27;</span>],<span class="comment">//props也要使用短横线形式-</span></span><br><span class="line">    <span class="comment">// props只允许父元素向子组件传值，单向数据流</span></span><br><span class="line">    template:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">menu-item title=<span class="string">&quot;来自父组件的数据&quot;</span></span><br><span class="line">menu-item :title=<span class="string">&quot;title&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件向父组件传值，通过自定义事件</span></span><br><span class="line">button @click=<span class="string">&#x27;$emit(&quot;enlarge-text&quot;,0.1)&#x27;</span><span class="comment">//子组件，自定义事件,携带一个值</span></span><br><span class="line">menu-item @enlarge-text=<span class="string">&#x27;handle($event)&#x27;</span><span class="comment">//父组件，绑定事件，通过$event获取值</span></span><br><span class="line"><span class="comment">// 使用js添加事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非父子组件通信，通过事件中心来触发和监听</span></span><br><span class="line"><span class="keyword">var</span> eventHub=<span class="keyword">new</span> Vue()</span><br><span class="line">eventHub.$on(<span class="string">&#x27;add-todo&#x27;</span>,addTodo)<span class="comment">//监听</span></span><br><span class="line">eventHub.$off(<span class="string">&#x27;add-todo&#x27;</span>)<span class="comment">//销毁</span></span><br><span class="line">eventHub.$emit(<span class="string">&#x27;add-todo&#x27;</span>,id)<span class="comment">//触发事件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件插槽"><a href="#组件插槽" class="headerlink" title="组件插槽"></a>组件插槽</h3><blockquote>
+<p>之前为数据交互，这里为模版的内容</p>
+<p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
+<p>购物车</p>
+<ul>
+<li>标题组件</li>
+<li>列表组件(再划分组件)</li>
+<li>结算组件</li>
+</ul>
+</blockquote>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
+<h2 id="前后端交互"><a href="#前后端交互" class="headerlink" title="前后端交互"></a>前后端交互</h2><blockquote>
+<p>Js异步效果</p>
+<ul>
+<li>定时任务</li>
+<li>Ajax</li>
+<li>事件函数</li>
+</ul>
+<p>多次异步结果分析：</p>
+<ul>
+<li>多次异步调用的结果顺序不确定</li>
+<li>异步调用结果如果存在依赖需要嵌套</li>
+</ul>
+</blockquote>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
+<li><p>async/await是ES7语法</p>
+</li>
+<li><p>async用于函数上，返回的是Promise实例对象</p>
+</li>
+<li><p>await用于async函数中</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单个请求</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">queryData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> ret=<span class="keyword">await</span> axios.get(<span class="string">&#x27;adata&#x27;</span>)</span><br><span class="line">	<span class="built_in">console</span>.log(ret.data)</span><br><span class="line">	<span class="keyword">return</span> ret.data</span><br><span class="line">&#125;</span><br><span class="line">queryData().then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><h4 id="click"><a href="#click" class="headerlink" title="@click"></a>@click</h4><p>提交时使用了()出现bug，自己探索了一下</p>
+<ul>
+<li><p>@click=this.函数名 正常提交时打印的是MouseEvent鼠标事件</p>
+</li>
+<li><p>@click=this.函数名()时会报错</p>
+</li>
+<li><p>@click=函数名() 没传参时是undefined</p>
+</li>
+<li><p>@click=函数名(参数)传的是正常参数</p>
+</li>
+</ul>
+<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/7.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-jsMdn"
   class="article article-type-post"
   itemscope
@@ -1739,232 +1937,6 @@
 <li>压缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称</li>
 <li>查询：tar -jtv -f filename.tar.bz2</li>
 <li>解查询：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</li>
-</ul>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="part-Linux的规划与安装"
-  class="article article-type-part"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/"
-    >Linux的规划与安装</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/" class="article-date">
-  <time datetime="2020-10-05T06:40:45.000Z" itemprop="datePublished">2020-10-05</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/">鸟哥的Linux私房菜</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Linux的规划与安装"><a href="#Linux的规划与安装" class="headerlink" title="Linux的规划与安装"></a>Linux的规划与安装</h1><p>linux版本号：</p>
-<ul>
-<li>奇数：开发板</li>
-<li>偶数：稳定版</li>
-</ul>
-<h2 id="计算机概论"><a href="#计算机概论" class="headerlink" title="计算机概论"></a>计算机概论</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>CPU里面含有两个主要的单元：<em>算逻单元</em>和<em>控制单元</em></p>
-<blockquote>
-<p>CPU里面的数据都是从内存里来的，也就是说，<em>输入单元-&gt;内存-&gt;CPU-&gt;内存-&gt;输出单元。</em></p>
-</blockquote>
-<p>CPU里面含有的指令集：</p>
-<table>
-<thead>
-<tr>
-<th>区别</th>
-<th>精简指令集(RISC)</th>
-<th>复杂指令集(CISC)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>特点</td>
-<td>指令运行时间很短，完成的操作也简单。</td>
-<td>指令运行时间长，指令数目多而且复杂。</td>
-</tr>
-<tr>
-<td>使用该架构的CPU</td>
-<td>ARM</td>
-<td>AMD、Intel、VIA</td>
-</tr>
-<tr>
-<td>实例</td>
-<td>手机、导航系统、网络设备(交换机、路由器)</td>
-<td>个人电脑</td>
-</tr>
-</tbody></table>
-<h4 id="CPU运行参数"><a href="#CPU运行参数" class="headerlink" title="CPU运行参数"></a>CPU运行参数</h4><p>CPU的频率表示CPU每秒钟可以进行的工作次数，频率目前仅能用来比较同款CPU的速度。</p>
-<p>CPU每次能够处理的数据量称为字长，64位代表CPU一次可以读写64bit的数据。</p>
-<p>早期CPU有南北桥，如今因为北桥限制频率问题，北桥被整合到CPU中。</p>
-<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h4><ul>
-<li>CPU具有向下兼容能力，如i7可以兼容i5</li>
-</ul>
-<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><img src="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/1.png" alt="image-20200526095428528"></p>
-<p>L2是与CPU频率相同的SRAM(静态随机存取内存)，被整合到CPU内部，其价格高，速度快，用于提示CPU运行性能，里面存放常用的程序或数据。</p>
-<h3 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h3><p>显卡影响屏幕分辨率和颜色深度。</p>
-<p>显卡通过GPU的控制芯片来与CPU、内存等通信。</p>
-<h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h3><p>机械硬盘的读取通过主轴马达让碟片转动，机械手臂读写来完成。</p>
-<p>固态硬盘则是用闪存做的大容量存储设备。</p>
-<h2 id="主机规划与磁盘分区"><a href="#主机规划与磁盘分区" class="headerlink" title="主机规划与磁盘分区"></a>主机规划与磁盘分区</h2><blockquote>
-<p><em>在Linux中，每个设备相当于一个文件</em>，几乎所有硬件设备都在/dev这个目录下</p>
-</blockquote>
-<h3 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h3><blockquote>
-<p>磁盘利用参考对照<em>柱面</em>或<em>扇区号码</em>来分区。</p>
-</blockquote>
-<p>整块磁盘的<em>第一个扇区</em>特别重要，它记录了磁盘的重要信息。</p>
-<p>扇区是磁盘的最小单位，如以前的磁盘的扇区为512字节，如今有4K的扇区</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>MBR</th>
-<th>GPT</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>安全性</td>
-<td>较低，仅有一个扇区记录区分信息</td>
-<td>较高，不仅前面有34个LBA，磁盘最后的34个LBA用来备份</td>
-</tr>
-<tr>
-<td>支持磁盘大小</td>
-<td>无法使用2.2TB以上的内容</td>
-<td>支持2.2TB以上</td>
-</tr>
-<tr>
-<td>引导程序区块大小</td>
-<td>较小，只有446字节</td>
-<td>较大，整个LBA0</td>
-</tr>
-</tbody></table>
-<h4 id="MBR-MS-DOS-分区表"><a href="#MBR-MS-DOS-分区表" class="headerlink" title="MBR(MS-DOS)分区表"></a>MBR(MS-DOS)分区表</h4><p>MBR第一个扇区的512字节通常会有这些：</p>
-<ul>
-<li>主引导记录：可以安装启动引导程序的地方，有446字节</li>
-<li>分区表：记录整块硬盘分区的状态，有64字节，最多仅能有四组记录区，每组记录区记录了该区段的起始与结束的柱面号码。</li>
-</ul>
-<p>分区表：</p>
-<p>​    分区表里的四组记录区称为主要(Primary)或扩展(Extended)分区</p>
-<ul>
-<li>主要分区：第一个扇区的64字节，可以被格式化</li>
-<li>扩展分区：记录额外扇区的分区信息，并不能格式化</li>
-<li>逻辑分区：扩展分区划分的分区，可以被格式化</li>
-</ul>
-<p>MBR的缺陷：</p>
-<ul>
-<li>操作系统无法使用2.2TB以上的磁盘容量</li>
-<li>MBR仅有一个区块，若被破坏，难以恢复</li>
-<li>MBR存放启动引导程序的区块仅446字节，无法存储较多的程序代码</li>
-</ul>
-<h5 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h5><ul>
-<li>逻辑分区号码：1-4分区是保留给主要/扩展分区，因此第一个逻辑分区是从5开始的</li>
-</ul>
-<h4 id="GPT磁盘分区表"><a href="#GPT磁盘分区表" class="headerlink" title="GPT磁盘分区表"></a>GPT磁盘分区表</h4><blockquote>
-<p>如今的扇区大小已经有4K，为了兼容以前的512字节，GPT大多使用所谓的逻辑区块地址(LBA)来处理。</p>
-</blockquote>
-<p>GPT模式结构：</p>
-<ul>
-<li>LBA0：存储第一阶段的启动引导程序</li>
-<li>LBA1：这个部分记录了分区表本身的位置和大小，同时记录了备份用的GPT分区，还放置了分区表的校验码</li>
-<li>LBA2-33：实际记录分区信息处</li>
-</ul>
-<h3 id="启动流程中的BIOS与UEFI启动检测程序"><a href="#启动流程中的BIOS与UEFI启动检测程序" class="headerlink" title="启动流程中的BIOS与UEFI启动检测程序"></a>启动流程中的BIOS与UEFI启动检测程序</h3><h4 id="BIOS启动流程"><a href="#BIOS启动流程" class="headerlink" title="BIOS启动流程"></a>BIOS启动流程</h4><p>如下：</p>
-<ol>
-<li>BIOS：启动主动执行的固件，会认识第一个可启动的设备</li>
-<li>MBR：第一个可启动设备的第一个扇区内的主引导记录块，内含启动引导代码</li>
-<li>启动引导程序(boot loader)：一个可读取内核文件来执行的软件</li>
-<li>内核文件：开始启动操作系统</li>
-</ol>
-<p>boot loader的主要任务如下：</p>
-<ul>
-<li>提供选项：用户可选择不同的启动选项，即多重引导到不同操作系统</li>
-<li>加载内核文件：直接指向可使用的程序区段来启动操作系统</li>
-<li>转交其他启动引导程序：将启动管理功能转交给其他启动引导程序负责，也与多重引导有关</li>
-</ul>
-<h5 id="Tips-2"><a href="#Tips-2" class="headerlink" title="Tips"></a>Tips</h5><ul>
-<li>启动扇区除了可以安装在MBR外，还可以安装在每个分区的启动扇区(boot loader)，这种特性才能造就“多重引导”</li>
-</ul>
-<h4 id="UEFI-BIOS"><a href="#UEFI-BIOS" class="headerlink" title="UEFI BIOS"></a>UEFI BIOS</h4><p>与传统BIOS对比：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>传统BIOS</th>
-<th>UEFI</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>硬件资源控制</td>
-<td>16位</td>
-<td>CPU保护模式</td>
-</tr>
-<tr>
-<td>扩充方式</td>
-<td>通过IRQ连接</td>
-<td>直接加载驱动程序</td>
-</tr>
-<tr>
-<td>第三方厂商支持</td>
-<td>较差</td>
-<td>较多且可支持多平台</td>
-</tr>
-<tr>
-<td>图形能力</td>
-<td>较差</td>
-<td>较好</td>
-</tr>
-<tr>
-<td>内置简化操作系统环境</td>
-<td>不支持</td>
-<td>支持</td>
-</tr>
-</tbody></table>
-<h2 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h2><ul>
-<li>目录树：/，即以根目录为主</li>
-<li>挂载：即利用一个目录当成进入点，将磁盘分区的数据放在该目录下，此目录称为挂载点</li>
-<li>swap分区：当物理内存不足时，将不常用数据放到swap分区，而将速度较快的物理内存留给需要的程序使用。且该分区不会挂载在根目录下</li>
-<li>每个账号都有自己的工作目录，如账号ccc，则此目录就在/home/ccc</li>
-</ul>
-<h3 id="Linux重要热键"><a href="#Linux重要热键" class="headerlink" title="Linux重要热键"></a>Linux重要热键</h3><ul>
-<li>Tab：具有命令补全与文件补齐的功能，按下第一次为<em>命令补全</em>，第二次为<em>文件补齐</em></li>
-<li>Ctrl+C：中断目前程序</li>
-<li>Ctrl+D：键盘输入结束</li>
-<li>Shift+Page UP/Page down：翻页</li>
-<li>命令–help：命令的基本用法与选项参数。</li>
-<li>man 命令：命令操作说明</li>
-<li>关机：shutdown</li>
-<li>重启：reboot</li>
 </ul>
  
       <!-- reward -->

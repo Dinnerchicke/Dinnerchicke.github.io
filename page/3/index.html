@@ -81,6 +81,101 @@
     
     
     <article
+  id="post-Webpack优化"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/"
+    >Webpack优化</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2021-02-23T08:24:29.000Z" itemprop="datePublished">2021-02-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
+<h2 id="小试牛刀-thread-loader"><a href="#小试牛刀-thread-loader" class="headerlink" title="小试牛刀(thread-loader)"></a>小试牛刀(thread-loader)</h2><p>肯定不会用现在的版本去测试，于是用个人项目<code>vue-template</code>去测试</p>
+<p>先上猛料，看看==多线程打包==如何，只能说差强人意吧</p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
+<p>还有因为这是vue-cli脚手架形成的，里面的配置项眼花缭乱，只能步步为营</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">cnpm i thread-loader -D</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置项</span></span><br><span class="line">&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;thread-loader&#x27;</span>,&#123;</span><br><span class="line">          loader:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;options&#x27;</span>: &#123;</span><br><span class="line">            <span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span> <span class="comment">// 加了这个并没有明显感到加快</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// loader: [&#x27;thread-loader&#x27;,&#x27;babel-loader&#x27;],</span></span><br><span class="line">        include: [resolve(<span class="string">&#x27;src&#x27;</span>), resolve(<span class="string">&#x27;test&#x27;</span>), resolve(<span class="string">&#x27;node_modules/webpack-dev-server/client&#x27;</span>)],</span><br><span class="line">        </span><br><span class="line">      &#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="深入探究-speed-measure-webpack-plugin-webpack-bundle-analyzer"><a href="#深入探究-speed-measure-webpack-plugin-webpack-bundle-analyzer" class="headerlink" title="深入探究(speed-measure-webpack-plugin/webpack-bundle-analyzer)"></a>深入探究(speed-measure-webpack-plugin/webpack-bundle-analyzer)</h2><h3 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h3><blockquote>
+<p>使用speed-measure-webpack-plugin来查看各模块用时</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev speed-measure-webpack-plugin <span class="comment">// 首先安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack文件内创建对象</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">&#x27;speed-measure-webpack-plugin&#x27;</span>); <span class="comment">//引入插件</span></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin(); <span class="comment">//创建插件对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(&#123; <span class="comment">// 用smp.wrap包注export</span></span><br><span class="line">  context: path.resolve(__dirname, <span class="string">&#x27;../&#x27;</span>),</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">&#x27;./src/main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
+<p>可以看到都是老大哥了，用时都超过1000ms</p>
+<h3 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h3><blockquote>
+<p>通过webpack-bundle-analyzer可以看到各个包的体积</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save-dev webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>);</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
+<p>可以发现echarts和element-ui占用的量最大，可以考虑用cdn来减少打包体积</p>
+<h2 id="dll打包-大大加快"><a href="#dll打包-大大加快" class="headerlink" title="dll打包(大大加快)"></a>dll打包(大大加快)</h2><blockquote>
+<p>根据打包体积的输出，可以看到主要有echarts、element-ui等包体积过大，于是准备用dll来加速打包过程</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -D add-asset-html-webpack-plugin@<span class="number">2.1</span><span class="number">.2</span> <span class="comment">// 安装插件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在build文件夹下创建新文件webpack.dll.conf.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line">		<span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line">		<span class="built_in">module</span>.exports = &#123;</span><br><span class="line">		  entry: &#123;</span><br><span class="line">		    vendor: [</span><br><span class="line">		      <span class="string">&#x27;vue&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;vue-router&#x27;</span> <span class="comment">// 打包列表</span></span><br><span class="line">		    ]</span><br><span class="line">		  &#125;,</span><br><span class="line">		  output: &#123;</span><br><span class="line">		    path: path.join(__dirname, <span class="string">&#x27;../static/js&#x27;</span>), <span class="comment">//放在项目的static/js目录下面</span></span><br><span class="line">		    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>, <span class="comment">//打包文件的名字</span></span><br><span class="line">		    library: <span class="string">&#x27;[name]_library&#x27;</span> <span class="comment">//可选 暴露出的全局变量名</span></span><br><span class="line">		    <span class="comment">// vendor.dll.js中暴露出的全局变量名。</span></span><br><span class="line">		    <span class="comment">// 主要是给DllPlugin中的name使用，</span></span><br><span class="line">		    <span class="comment">// 故这里需要和webpack.DllPlugin中的`name: &#x27;[name]_library&#x27;,`保持一致。</span></span><br><span class="line">		  &#125;,</span><br><span class="line">		  plugins: [</span><br><span class="line">		    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">		      path: path.join(__dirname, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;[name]-manifest.json&#x27;</span>), <span class="comment">//生成上文说到清单文件，放在当前build文件下面，这个看你自己想放哪里了。</span></span><br><span class="line">		      name: <span class="string">&#x27;[name]_library&#x27;</span>,</span><br><span class="line">		    &#125;),</span><br><span class="line">		  ]</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack.prod.conf.js下添加以下代码</span></span><br><span class="line"><span class="keyword">const</span> AddAssetHtmlPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);  <span class="comment">//在上面导入</span></span><br><span class="line">   <span class="keyword">new</span> webpack.DllReferencePlugin(&#123; <span class="comment">// 这是放在plugins里面的</span></span><br><span class="line">				context: path.resolve(__dirname, <span class="string">&#x27;..&#x27;</span>),</span><br><span class="line">				manifest: <span class="built_in">require</span>(<span class="string">&#x27;./vendor-manifest.json&#x27;</span>)</span><br><span class="line">				&#125;),</span><br><span class="line">				<span class="comment">//这个主要是将生成的vendor.dll.js文件加上hash值插入到页面中。</span></span><br><span class="line">				<span class="keyword">new</span> AddAssetHtmlPlugin([&#123;</span><br><span class="line">				filepath: path.resolve(__dirname, <span class="string">&#x27;../static/js/vendor.dll.js&#x27;</span>),</span><br><span class="line">				outputPath: utils.assetsPath(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">				publicPath: path.posix.join(config.build.assetsPublicPath, <span class="string">&#x27;static/js&#x27;</span>),</span><br><span class="line">				includeSourcemap: <span class="literal">false</span>,</span><br><span class="line">				hash: <span class="literal">true</span>,</span><br><span class="line">				&#125;]),</span><br><span class="line">       </span><br><span class="line"><span class="comment">// 在package.json里面添加指令</span></span><br><span class="line"><span class="string">&quot;dll&quot;</span>: <span class="string">&quot;webpack --config build/webpack.dll.conf.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行生成dll文件</span></span><br><span class="line">cnpm run dll</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打包</span></span><br><span class="line">cnpm run build</span><br></pre></td></tr></table></figure>
+
+<p>可以看到打包速度大大增加</p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
+<h3 id="一个大坑-element-ui"><a href="#一个大坑-element-ui" class="headerlink" title="一个大坑(element-ui)"></a>一个大坑(element-ui)</h3><blockquote>
+<p>在线上项目也改过后，发现element-ui的图表老是显示不出来，关掉打包加速发现正常了。把dll加速里面的element-ui移除发现正常了，在网上搜索一番后，element-ui部分决定不使用dll加速，应该使用cdn加速，具体配置如下</p>
+</blockquote>
+<p>webpack.base.conf.js</p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
+<p>项目根目录下index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/vue/2.5.2/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> Vue.config.productionTip=<span class="literal">false</span> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
+<p>webpack.dll.conf.js</p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
+<p>main.js:注释掉element-ui部分</p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
+<p>配置完成</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-Webpack基础配置"
   class="article article-type-post"
   itemscope
@@ -1086,204 +1181,6 @@
 <p>如果用户通过调试工具发出请求，此时拦截</p>
 <p>创建对应权限操作映射，通过axios拦截非权限操作</p>
 </blockquote>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-Vue全家桶"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/"
-    >Vue全家桶</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="article-date">
-  <time datetime="2020-11-28T02:23:42.000Z" itemprop="datePublished">2020-11-28</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>对vue的查漏补缺</p>
-<h2 id="Base"><a href="#Base" class="headerlink" title="Base"></a>Base</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">    div &#123;&#123;msg&#125;&#125;</span><br><span class="line"><span class="comment">// 不需要操作dom直接将数据挂载到标签上</span></span><br><span class="line">script</span><br><span class="line">    <span class="keyword">var</span> vm=<span class="keyword">new</span> Vue(&#123;</span><br><span class="line">        el:<span class="string">&#x27;#app&#x27;</span>,<span class="comment">// 元素挂载位置，CSS选择器或者DOM元素</span></span><br><span class="line">        data: &#123;<span class="comment">// 模型数据</span></span><br><span class="line">            msg: <span class="string">&#x27;Hello Vue&#x27;</span><span class="comment">// 数据填充到标签里</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
-<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
-<li>v-text：填充纯文本</li>
-<li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
-<li>v-pre：填充原始信息，跳过编译过程</li>
-</ul>
-<h4 id="数据响应式"><a href="#数据响应式" class="headerlink" title="数据响应式"></a>数据响应式</h4><blockquote>
-<p>html5的响应式：样式随着屏幕变化变化</p>
-<p>数据响应式：数据变化导致页面内容变化</p>
-</blockquote>
-<ul>
-<li>数据绑定：将数据填充到标签中</li>
-<li>v-once：显示内容后不再具有响应式功能</li>
-<li>双向数据绑定：v-model,底层实现就是v-on和v-bind结合</li>
-</ul>
-<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><ul>
-<li>v-on：语法糖@</li>
-</ul>
-<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5><ul>
-<li>直接绑定函数名称@click=’say’</li>
-<li>调用函数@click=’say()’</li>
-</ul>
-<h5 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h5><ul>
-<li>@click=’say{“hi”,$event}’如果事件直接绑定函数名称，那么默认事件对象为事件函数的一个参数</li>
-<li>如果事件绑定函数调用，那么事件对象必须作为最后一个参数显式传递，且名称必须为$event</li>
-</ul>
-<h5 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h5><ul>
-<li>@click.stop阻止冒泡</li>
-<li>@click.prevent阻止默认行为</li>
-</ul>
-<h4 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h4><ul>
-<li>v-bind：缩写’:’</li>
-</ul>
-<h4 id="样式绑定"><a href="#样式绑定" class="headerlink" title="样式绑定"></a>样式绑定</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">：<span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;&#123;active:isActive&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">    isActive: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    handle()&#123;</span><br><span class="line">        <span class="built_in">this</span>.isActive=!<span class="built_in">this</span>.isActive</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
-<ul>
-<li>M(model)：模型数据</li>
-<li>V(view)：视图，模版，本质为DOM</li>
-<li>VM(View-Model)：控制逻辑，将Model和View结合</li>
-</ul>
-<blockquote>
-<p>从Model到View通过数据绑定，从View到Model通过事件监听的方式</p>
-</blockquote>
-<h3 id="vue常用特性"><a href="#vue常用特性" class="headerlink" title="vue常用特性"></a>vue常用特性</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(<span class="string">&#x27;focus&#x27;</span>&#123;</span><br><span class="line">	inserted: <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123; <span class="comment">// el是element的简写，表示指令绑定的元素</span></span><br><span class="line">	el.focus();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">input type=<span class="string">&quot;text&quot;</span> v-focus</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
-<blockquote>
-<p>监听器应用场景：执行异步或开销比较大的操作</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    firstName: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.fullName = val + <span class="string">&#x27;&#x27;</span> +<span class="built_in">this</span>.lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><blockquote>
-<p>组件化开发思想：</p>
-<ul>
-<li>标准：组件标准规范</li>
-<li>分治：不同功能封装到不同组件中</li>
-<li>重用：组件可以更换</li>
-<li>组合：组合新的产品</li>
-</ul>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
-<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
-<li>每个组件都是独立的</li>
-<li>组件模版必须是单个根元素</li>
-<li>组件命名推荐短横线-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局组件注册语法</span></span><br><span class="line">Vue.component(<span class="string">&#x27;组件名称&#x27;</span>,&#123;</span><br><span class="line">	data: 组件数据,</span><br><span class="line">	template: 组件模块内容</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line">Vue.component(<span class="string">&#x27;button-counter&#x27;</span>,&#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template:<span class="string">&#x27;&lt;button v-on:click=&quot;count++&quot;&gt;点击了&#123;&#123;count&#125;&#125;次.&lt;/button&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div id=<span class="string">&quot;app&quot;</span></span><br><span class="line">	button-counter /</span><br><span class="line">/div</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 局部组件注册</span></span><br><span class="line"><span class="comment">// 局部组件只能在注册他的父组件中使用</span></span><br><span class="line"><span class="keyword">var</span> ComponentA=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentB=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"><span class="keyword">var</span> ComponentC=&#123;<span class="comment">/*...*/</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">&#x27;#app&#x27;</span></span><br><span class="line">    components: &#123;</span><br><span class="line">    <span class="string">&#x27;component-a&#x27;</span>:ComponentA,</span><br><span class="line">    <span class="string">&#x27;component-b&#x27;</span>:ComponentB,</span><br><span class="line">    <span class="string">&#x27;component-c&#x27;</span>:ComponentC</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="组件间数据交换"><a href="#组件间数据交换" class="headerlink" title="组件间数据交换"></a>组件间数据交换</h3><h4 id="组件间数据交互"><a href="#组件间数据交互" class="headerlink" title="组件间数据交互"></a>组件间数据交互</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件向子组件传值</span></span><br><span class="line"><span class="comment">// 组件内部通过props接收传递的值</span></span><br><span class="line">Vue.component(<span class="string">&#x27;menu-item&#x27;</span>,&#123;</span><br><span class="line">    props: [<span class="string">&#x27;title&#x27;</span>],<span class="comment">//props也要使用短横线形式-</span></span><br><span class="line">    <span class="comment">// props只允许父元素向子组件传值，单向数据流</span></span><br><span class="line">    template:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">menu-item title=<span class="string">&quot;来自父组件的数据&quot;</span></span><br><span class="line">menu-item :title=<span class="string">&quot;title&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件向父组件传值，通过自定义事件</span></span><br><span class="line">button @click=<span class="string">&#x27;$emit(&quot;enlarge-text&quot;,0.1)&#x27;</span><span class="comment">//子组件，自定义事件,携带一个值</span></span><br><span class="line">menu-item @enlarge-text=<span class="string">&#x27;handle($event)&#x27;</span><span class="comment">//父组件，绑定事件，通过$event获取值</span></span><br><span class="line"><span class="comment">// 使用js添加事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非父子组件通信，通过事件中心来触发和监听</span></span><br><span class="line"><span class="keyword">var</span> eventHub=<span class="keyword">new</span> Vue()</span><br><span class="line">eventHub.$on(<span class="string">&#x27;add-todo&#x27;</span>,addTodo)<span class="comment">//监听</span></span><br><span class="line">eventHub.$off(<span class="string">&#x27;add-todo&#x27;</span>)<span class="comment">//销毁</span></span><br><span class="line">eventHub.$emit(<span class="string">&#x27;add-todo&#x27;</span>,id)<span class="comment">//触发事件</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="组件插槽"><a href="#组件插槽" class="headerlink" title="组件插槽"></a>组件插槽</h3><blockquote>
-<p>之前为数据交互，这里为模版的内容</p>
-<p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
-<p>购物车</p>
-<ul>
-<li>标题组件</li>
-<li>列表组件(再划分组件)</li>
-<li>结算组件</li>
-</ul>
-</blockquote>
-<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
-<h2 id="前后端交互"><a href="#前后端交互" class="headerlink" title="前后端交互"></a>前后端交互</h2><blockquote>
-<p>Js异步效果</p>
-<ul>
-<li>定时任务</li>
-<li>Ajax</li>
-<li>事件函数</li>
-</ul>
-<p>多次异步结果分析：</p>
-<ul>
-<li>多次异步调用的结果顺序不确定</li>
-<li>异步调用结果如果存在依赖需要嵌套</li>
-</ul>
-</blockquote>
-<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
-<li><p>async/await是ES7语法</p>
-</li>
-<li><p>async用于函数上，返回的是Promise实例对象</p>
-</li>
-<li><p>await用于async函数中</p>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单个请求</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">queryData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> ret=<span class="keyword">await</span> axios.get(<span class="string">&#x27;adata&#x27;</span>)</span><br><span class="line">	<span class="built_in">console</span>.log(ret.data)</span><br><span class="line">	<span class="keyword">return</span> ret.data</span><br><span class="line">&#125;</span><br><span class="line">queryData().then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><h4 id="click"><a href="#click" class="headerlink" title="@click"></a>@click</h4><p>提交时使用了()出现bug，自己探索了一下</p>
-<ul>
-<li><p>@click=this.函数名 正常提交时打印的是MouseEvent鼠标事件</p>
-</li>
-<li><p>@click=this.函数名()时会报错</p>
-</li>
-<li><p>@click=函数名() 没传参时是undefined</p>
-</li>
-<li><p>@click=函数名(参数)传的是正常参数</p>
-</li>
-</ul>
-<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/7.jpg"></p>
  
       <!-- reward -->
       
