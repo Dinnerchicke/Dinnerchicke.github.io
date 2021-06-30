@@ -81,6 +81,102 @@
     
     
     <article
+  id="post-前端权限思路"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF/"
+    >前端权限思路</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/14/%E5%89%8D%E7%AB%AF%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF/" class="article-date">
+  <time datetime="2020-12-14T11:04:00.000Z" itemprop="datePublished">2020-12-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h1><p>此版本为权限的思路，实例请看《前端权限之路》</p>
+<h2 id="权限分类"><a href="#权限分类" class="headerlink" title="权限分类"></a>权限分类</h2><h3 id="后端权限"><a href="#后端权限" class="headerlink" title="后端权限"></a>后端权限</h3><p>后端获取用户状态方式：</p>
+<ul>
+<li>cookie</li>
+<li>session</li>
+<li>token</li>
+</ul>
+<p>后端权限设计RBAC(基于角色的权限控制，三者各一张表)：</p>
+<ul>
+<li>用户</li>
+<li>角色</li>
+<li>权限</li>
+</ul>
+<h2 id="前端权限意义"><a href="#前端权限意义" class="headerlink" title="前端权限意义"></a>前端权限意义</h2><ul>
+<li>降低非法操作可能性</li>
+<li>尽可能排除不必要请求</li>
+<li>提高用户体验</li>
+</ul>
+<h1 id="Vue的权限控制实现"><a href="#Vue的权限控制实现" class="headerlink" title="Vue的权限控制实现"></a>Vue的权限控制实现</h1><h2 id="侧边栏的控制"><a href="#侧边栏的控制" class="headerlink" title="侧边栏的控制"></a>侧边栏的控制</h2><ul>
+<li>不同用户展示不同的列表，根据后端传来的菜单信息v-for进行动态渲染</li>
+<li>前端自己渲染，判断用户类型进行渲染</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户登录后 后端传来的权限</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">500</span>,</span><br><span class="line">	<span class="string">&quot;rid&quot;</span>: <span class="number">0</span>,</span><br><span class="line">	<span class="string">&quot;username&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;mobile&quot;</span>: <span class="string">&quot;13999999999&quot;</span>,</span><br><span class="line">	<span class="string">&quot;email&quot;</span>: <span class="string">&quot;123999@qq.com&quot;</span>,</span><br><span class="line">	<span class="string">&quot;token&quot;</span>: <span class="string">&quot;Bearer</span></span><br><span class="line"><span class="string">	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1M</span></span><br><span class="line"><span class="string">	TI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHmtPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM&quot;</span></span><br><span class="line">    <span class="comment">// token,⽤于前端⽤户的状态保持</span></span><br><span class="line">&#125;,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [&#123; </span><br><span class="line">    <span class="comment">// rights:该⽤户具备的权限数据,⼀级权限就对应⼀级菜单,⼆级权限就对应⼆级菜单,存在vuex和sessionStorage中</span></span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">125</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-user&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">110</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⽤户列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;users&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">103</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-tijikongjian&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">111</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;⻆⾊列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;roles&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">101</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品管理&quot;</span>,</span><br><span class="line">	<span class="string">&quot;icon&quot;</span>: <span class="string">&quot;icon-shangpin&quot;</span>,</span><br><span class="line">	<span class="string">&quot;children&quot;</span>: [&#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">104</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品列表&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;goods&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">&quot;id&quot;</span>: <span class="number">121</span>,</span><br><span class="line">	<span class="string">&quot;authName&quot;</span>: <span class="string">&quot;商品分类&quot;</span>,</span><br><span class="line">	<span class="string">&quot;path&quot;</span>: <span class="string">&quot;categories&quot;</span>,</span><br><span class="line">	<span class="string">&quot;rights&quot;</span>: [<span class="string">&quot;view&quot;</span>, <span class="string">&quot;edit&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;delete&quot;</span>]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;],</span><br><span class="line">	<span class="string">&quot;meta&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;msg&quot;</span>: <span class="string">&quot;登录成功&quot;</span>,</span><br><span class="line">	<span class="string">&quot;status&quot;</span>: <span class="number">200</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="界面的控制"><a href="#界面的控制" class="headerlink" title="界面的控制"></a>界面的控制</h2><blockquote>
+<p>这部分使用路由导航守卫进行控制</p>
+<ul>
+<li>如果用户没有token则跳转login登陆</li>
+<li>如果用户没有权限则跳转404</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否登陆</span></span><br><span class="line">sessionStorage.setItem(<span class="string">&#x27;token&#x27;</span>, res.data.token)</span><br><span class="line"></span><br><span class="line"><span class="comment">//路由导航守卫</span></span><br><span class="line">router.beforEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (to.path === <span class="string">&#x27;/login&#x27;</span>) &#123;</span><br><span class="line">        next()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> token = sessionStorage.getItem(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span>(!token) &#123;</span><br><span class="line">            next(<span class="string">&#x27;/login&#x27;</span>)<span class="comment">// 没有token登陆</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next()<span class="comment">//后端测如果没有权限则返回404</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//动态路由 将要抽离的路由在router中移开</span></span><br><span class="line"><span class="keyword">const</span> userRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/users&#x27;</span>, <span class="attr">component</span>: Users &#125;</span><br><span class="line"><span class="keyword">const</span> categoryRule = &#123; <span class="attr">path</span>: <span class="string">&#x27;/categories&#x27;</span>, <span class="attr">component</span>: GoodsCate &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ruleMapping = &#123;</span><br><span class="line">    <span class="string">&#x27;users&#x27;</span>: userRule,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initDynamicRoutes</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 添加到登陆成功的逻辑中,登陆成功后渲染侧边栏</span></span><br><span class="line">    <span class="comment">// 还要添加到app.vue的created里面,以免用户刷新后权限消失</span></span><br><span class="line">    <span class="keyword">const</span> currentRoutes = router.options.routes <span class="comment">// 路由里面的可达页面</span></span><br><span class="line">    <span class="keyword">const</span> rightList = store.state.rightList</span><br><span class="line">    rightList.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;<span class="comment">// 遍历rightList里面的二级权限看看是否有权限，如果有的话则添加路由</span></span><br><span class="line">        item.children.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">            currentRoutes[<span class="number">2</span>].children.push(ruleMapping[item.path])</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    router.addRoutes(currentRoutes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="按钮的控制"><a href="#按钮的控制" class="headerlink" title="按钮的控制"></a>按钮的控制</h2><blockquote>
+<p>如果用户没有对应的权限则不展示某些按钮</p>
+<p>写入对应permission.js判断是否有权限，使用对应v-permission指令</p>
+</blockquote>
+<h2 id="请求拦截"><a href="#请求拦截" class="headerlink" title="请求拦截"></a>请求拦截</h2><blockquote>
+<p>如果用户通过调试工具发出请求，此时拦截</p>
+<p>创建对应权限操作映射，通过axios拦截非权限操作</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-Vue全家桶"
   class="article article-type-post"
   itemscope
@@ -1657,286 +1753,6 @@
 <ul>
 <li>保证内网安全：隐藏服务器信息</li>
 <li>负载均衡</li>
-</ul>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-Linux文件、目录与磁盘格式"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/"
-    >Linux文件、目录与磁盘格式</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/" class="article-date">
-  <time datetime="2020-10-05T06:47:37.000Z" itemprop="datePublished">2020-10-05</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a> / <a class="article-category-link" href="/categories/PStudy/devOps/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/">鸟哥的Linux私房菜</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Linux的文件权限与目录配置"><a href="#Linux的文件权限与目录配置" class="headerlink" title="Linux的文件权限与目录配置"></a>Linux的文件权限与目录配置</h1><p>r(读权限)：表示你可以查询该目录下的文件名，如ls指令</p>
-<p>w(写指令)：</p>
-<ul>
-<li>建立新的文件与目录</li>
-<li>删除已存在的文件或目录(不论权限如何，就算只有w也可以！！！)</li>
-<li>将已经存在的文件或目录进行更名</li>
-<li>移动该目录内的文件、目录位置</li>
-</ul>
-<p>x(执行权限)</p>
-<table>
-<thead>
-<tr>
-<th>组件</th>
-<th>内容</th>
-<th>r</th>
-<th>w</th>
-<th>x</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>文件</td>
-<td>详细数据data</td>
-<td>读到文件内容</td>
-<td>修改文件内容</td>
-<td>执行文件内容</td>
-</tr>
-<tr>
-<td>目录</td>
-<td>文件名</td>
-<td>读到文件名</td>
-<td>修改文件名</td>
-<td>进入该目录的权限</td>
-</tr>
-</tbody></table>
-<h2 id="Linux文件权限"><a href="#Linux文件权限" class="headerlink" title="Linux文件权限"></a>Linux文件权限</h2><p>使用命令ls -al，文件类型权限如下图-rw-r–r–.</p>
-<p><img src="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/1.jpg"></p>
-<p>第一个字符代表这个文件类型，常见的如下：</p>
-<ul>
-<li>[d]：目录</li>
-<li>[-]：文件</li>
-<li>[l]：链接文件</li>
-</ul>
-<p>接下来的三个为一组：</p>
-<ul>
-<li>第一组为文件拥有者可具备的权限：rw-表示读写权限，但不可执行</li>
-<li>第二组为加入此用户组账号的权限</li>
-<li>第三组为非本人且没有加入本用户组的其他账号的权限</li>
-</ul>
-<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><p>chgrp：修改文件所属用户组</p>
-<p>chown：修改文件拥有者，用此命令需要用数字指代权限，r=4，w=2，x=1，如rwx=7</p>
-<p>chmod：修改文件的权限</p>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>文件名之前多一个(.)，说明此文件为隐藏文件</li>
-<li>root不受系统的权限限制，所有无论文件权限是什么，默认root都可以读写</li>
-<li>通常开放的目录至少会具备rx这两个权限</li>
-<li>Linux的文件没有扩展名，一个文件能否被执行，与属性有关系，与文件名没关系</li>
-</ul>
-<h2 id="Linux目录配置–FHS"><a href="#Linux目录配置–FHS" class="headerlink" title="Linux目录配置–FHS"></a>Linux目录配置–FHS</h2><blockquote>
-<p>根目录(/)所在的分区应该越小越好，且应用程序所安装的软件最好不要与根目录放在同一个分区内</p>
-</blockquote>
-<h3 id="根目录下："><a href="#根目录下：" class="headerlink" title="根目录下："></a>根目录下：</h3><p>FHS要求必须要存在的目录：</p>
-<ul>
-<li>/bin：存放执行文件，此目录下放置的是单人维护模式下还能够使用的命令</li>
-<li>/boot：此目录放置启动会使用到的文件</li>
-<li>/dev：任何设备和接口设备都以文件形式存在于此目录</li>
-<li>/etc：系统内的配置文件几乎都放置在这个目录，FHS建议不要放置可执行文件在这个目录</li>
-<li>/lib：此目录放置的是启动时会用到的函数库</li>
-<li>/media：此目录放置的是可删除的设备，包括软盘、光盘、DVD等设备</li>
-<li>/mnt：暂时挂载某些额外的设备可以放在此目录</li>
-<li>/opt：第三方辅助软件放置的目录，如KDE桌面管理系统</li>
-<li>/run：系统启动后产生的各项信息</li>
-<li>/sbin：启动过程需要的，里面包括了启动、修复、还原系统所需要的命令</li>
-<li>/srv：一些网络服务启动后，这些服务所需要使用的数据目录</li>
-<li>/tmp：让一般用户或是正在执行的程序暂时放置文件的地方，这个目录任何人都能够存取</li>
-<li>/usr：后续介绍</li>
-<li>/var：后续介绍</li>
-</ul>
-<p>FHS建议可以存在的目录：</p>
-<ul>
-<li>/home：系统默认家目录</li>
-<li>/root：系统管理员的家目录</li>
-</ul>
-<h3 id="usr目录下："><a href="#usr目录下：" class="headerlink" title="usr目录下："></a>usr目录下：</h3><p><em>usr指的是UNIX Software Resource，即操作系统软件资源放置的目录，而不是user用户数据</em></p>
-<p>FHS要求必须要存在的目录：</p>
-<ul>
-<li>/usr/bin/：所有一般用户能够使用的命令都放在这里</li>
-<li>/usr/lib/：与/lib功能相同，/lib链接到此目录</li>
-<li>/usr/local/：管理员在本机安装自己下载的软件，建议安装到此目录</li>
-<li>/usr/sbin/：非系统正常运行所需要的系统命令</li>
-<li>/usr/share/：主要放置只读的数据文件，当然也包括共享文件</li>
-</ul>
-<p>FHS建议可以存在的目录：</p>
-<ul>
-<li>/usr/include/：C/C++等程序语言的头文件(header)与包含文件(include)放置处</li>
-<li>/usr/libexec/：某些不被一般用户常用的执行文件或脚本</li>
-<li>/usr/src/：一般源代码建议放置到这里</li>
-</ul>
-<h3 id="var目录下："><a href="#var目录下：" class="headerlink" title="var目录下："></a>var目录下：</h3><p><em>var目录主要针对经常性变动的文件</em></p>
-<p>​    FHS要求必须要存在的目录：</p>
-<ul>
-<li>/var/cache/：应用程序运行过程中的缓存</li>
-<li>/var/lib/：程序执行过程中，需要使用的数据文件放置的目录</li>
-<li>/var/lock/：给设备上锁</li>
-<li>/var/log/：日志文件</li>
-<li>/var/mail/：个人电子邮箱</li>
-<li>/var/run/：某些程序或是服务启动后，会将PID放到这个目录下</li>
-<li>/var/spool/：这个目录通常放置一些队列数据，即排队等待其他程序使用的数据</li>
-</ul>
-<h3 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>. ：代表当前目录，也可以用./表示</li>
-<li>.. ：代表上一层目录，也可以用../表示</li>
-<li>当出现找不到命令时，代表该命令不在环境变量$PATH目录下</li>
-</ul>
-<h1 id="Linux文件与目录管理"><a href="#Linux文件与目录管理" class="headerlink" title="Linux文件与目录管理"></a>Linux文件与目录管理</h1><p>有关命令：</p>
-<ul>
-<li>ls：查看文件与目录名称</li>
-<li>cp：复制;注意：在默认的条件下，cp的源文件与目标文件的权限不同，目标文件的拥有者是操作者本身</li>
-<li>rm：删除文件或目录</li>
-<li>mv：移动文件或目录，也可以修改文件名</li>
-</ul>
-<h2 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h2><ul>
-<li>cat：由第一行开始显示文件内容</li>
-<li>tac：从最后一行开始显示</li>
-<li>nl：显示时，同时输出行号</li>
-<li>more：一页一页显示文件内容</li>
-<li>less：与more类似，但是可以往前翻</li>
-<li>head：只看前几行</li>
-<li>tail：只看后几行</li>
-<li>od：以二进制的方式读取文件内容</li>
-<li>touch：修改文件时间或创建新文件</li>
-</ul>
-<h2 id="文件与目录的默认权限与隐藏权限"><a href="#文件与目录的默认权限与隐藏权限" class="headerlink" title="文件与目录的默认权限与隐藏权限"></a>文件与目录的默认权限与隐藏权限</h2><p>umask：查看文件默认权限，指的是该默认值需要减掉的权限，如umask0022，默认权限为7755</p>
-<p>chattr：配置文件隐藏属性</p>
-<p>lsattr：显示文件隐藏属性</p>
-<h3 id="文件特殊权限"><a href="#文件特殊权限" class="headerlink" title="文件特殊权限"></a>文件特殊权限</h3><p>SUID</p>
-<p>SGID</p>
-<p>SBIT</p>
-<h2 id="命令与文件查找"><a href="#命令与文件查找" class="headerlink" title="命令与文件查找"></a>命令与文件查找</h2><ul>
-<li><p>which：脚本文件查找，即查找执行文件</p>
-</li>
-<li><p>whereis：特定目录中查找文件</p>
-</li>
-<li><p>locate：依据/var/lib/mlocate内的数据库记录</p>
-</li>
-<li><p>find：常用查找</p>
-</li>
-</ul>
-<h1 id="Linux磁盘与文件管理系统"><a href="#Linux磁盘与文件管理系统" class="headerlink" title="Linux磁盘与文件管理系统"></a>Linux磁盘与文件管理系统</h1><h2 id="文件系统特性"><a href="#文件系统特性" class="headerlink" title="文件系统特性"></a>文件系统特性</h2><blockquote>
-<p>磁盘分区完毕后还需要格式化，因为每种操作系统所设置的文件属性/权限并不同，所以需要格式化以成为操作系统可以使用的</p>
-<p>文件系统通常会将文件权限(rwx)与文件属性(拥有者、用户组等)放在不同的区块，权限与属性放到inode中，实际数据则放置到数据区块中。</p>
-<p>而超级区块会记录整个文件系统的整体信息，包括inode与数据区块的总量、使用量、剩余量等。</p>
-<p>inode记录文件的属性，一个文件占用一个inode，同时记录此文件的数据所在的区块号码。</p>
-</blockquote>
-<p><em>inode记录的信息：</em></p>
-<ul>
-<li>该文件的读写属性(rwx)</li>
-<li>该文件的拥有者与用户组(owner、group)</li>
-<li>该文件大小</li>
-<li>该文件建立或状态改变的时间(ctime)</li>
-<li>最近一次读取时间(atime)</li>
-<li>最近修改时间(mtime)</li>
-<li>定义文件特性的标识(flag)</li>
-<li>该文件真正内容的指向(pointer)</li>
-</ul>
-<blockquote>
-<p>系统读取的文件时需要先找到inode，并分析inode所记录的权限与用户是否符合，若符合才能读取</p>
-</blockquote>
-<p><em>Superblock(超级区块)记录的信息：</em></p>
-<ul>
-<li>数据区块与inode的总量</li>
-<li>未使用与已使用的inode与数据区块数量</li>
-<li>数据库与inode的大小</li>
-<li>文件系统的挂载时间、最近一次写入数据的时间、最近一次检验磁盘的时间等文件系统相关信息</li>
-<li>一个有效位数值，若此文件系统被挂载，则为0，未挂载为1</li>
-</ul>
-<p><em>硬链接：</em></p>
-<blockquote>
-<p>一般一个文件，目录-&gt;文件名-&gt;inode-&gt;文件内容，硬链接则增加一个目录下文件名指向相同inode</p>
-<p>硬链接的限制：1.不能跨文件系统 2.不能链接目录</p>
-</blockquote>
-<p><em>符号链接：</em></p>
-<blockquote>
-<p>符号链接就是建立一个独立的文件，读取这个文件相当于读取这个文件指向的链接的文件名，相当于windows的快捷方式</p>
-</blockquote>
-<h2 id="磁盘分区、格式化检验与挂载"><a href="#磁盘分区、格式化检验与挂载" class="headerlink" title="磁盘分区、格式化检验与挂载"></a>磁盘分区、格式化检验与挂载</h2><p>在Linux系统中，当新增一个磁盘时，有以下操作需做：</p>
-<ol>
-<li>对磁盘进行划分，以建立磁盘分区</li>
-<li>对磁盘格式化，以建立文件系统</li>
-<li>检验文件系统</li>
-<li>建立挂载点，并挂载到挂载点</li>
-</ol>
-<p>挂载注意事项：</p>
-<ul>
-<li>单一文件系统不应该挂载在不同挂载点中</li>
-<li>单一目录不应该重复挂载多个文件系统</li>
-<li>作为挂载点的目录，理论上应该是已存在空目录</li>
-<li>根目录/是必须挂载的，而且一定要先于其他挂载点被挂载进来</li>
-<li>如若进行卸载，必须先将工作目录移到挂载点(及子目录)之外</li>
-</ul>
-<h1 id="压缩技术"><a href="#压缩技术" class="headerlink" title="压缩技术"></a>压缩技术</h1><p>原理：</p>
-<ul>
-<li>一种将文件中没有使用到的空间空出来，以让文件占用空间变小</li>
-<li>一种类似有100个1，压缩技术记录为100个1</li>
-</ul>
-<h2 id="Linux系统常见的压缩命令"><a href="#Linux系统常见的压缩命令" class="headerlink" title="Linux系统常见的压缩命令"></a>Linux系统常见的压缩命令</h2><table>
-<thead>
-<tr>
-<th></th>
-<th>gzip</th>
-<th>xz</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>压缩比</td>
-<td>较低</td>
-<td>高</td>
-</tr>
-<tr>
-<td>所用时间</td>
-<td>较短</td>
-<td>较长</td>
-</tr>
-</tbody></table>
-<h3 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h3><p>记住以下即可：</p>
-<ul>
-<li>压缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称</li>
-<li>查询：tar -jtv -f filename.tar.bz2</li>
-<li>解查询：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</li>
 </ul>
  
       <!-- reward -->
