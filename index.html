@@ -1040,57 +1040,6 @@
 
     
     <article
-  id="post-Axios源码分析"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/06/03/Axios%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"
-    >Axios源码分析</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/06/03/Axios%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date">
-  <time datetime="2021-06-03T06:36:04.000Z" itemprop="datePublished">2021-06-03</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Axios源码分析"><a href="#Axios源码分析" class="headerlink" title="Axios源码分析"></a>Axios源码分析</h1> 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
   id="post-浏览器中的页面循环系统"
   class="article article-type-post"
   itemscope
@@ -1240,6 +1189,189 @@
 <h3 id="Async-Await与协程"><a href="#Async-Await与协程" class="headerlink" title="Async/Await与协程"></a>Async/Await与协程</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">await</span> <span class="number">100</span></span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>)</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/12.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-design/" rel="tag">web-design</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
+  id="post-V8工作原理"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"
+    >V8工作原理</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
+  <time datetime="2021-06-02T02:17:10.000Z" itemprop="datePublished">2021-06-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/web-Design/">web-Design</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
+<blockquote>
+<p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
+<ul>
+<li>代码空间：存储可执行代码</li>
+<li>栈空间：存储执行上下文，原始类型被存储在里面</li>
+<li>堆空间：存储引用类型，将引用类型地址保留在栈空间中</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>为什么要分栈和堆？</p>
+<ul>
+<li>因为Js引擎需要栈保证上下文切换的效率，所以栈空间一般都不会设置太大</li>
+<li>而堆空间很大可以存放很多大数据，不过缺点是分配内存和回收内存都会占用一定的时间</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>闭包内存创建流程：</p>
+<ol>
+<li>当Js引擎发现内部函数引用了外部函数的变量时，即是闭包。</li>
+<li>于是在堆空间创建一个closure(函数名)的对象</li>
+<li>继续扫描，将引用的变量放入closure中</li>
+</ol>
+</blockquote>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><h3 id="调用栈的数据是如何回收的"><a href="#调用栈的数据是如何回收的" class="headerlink" title="调用栈的数据是如何回收的"></a>调用栈的数据是如何回收的</h3><blockquote>
+<p>通过记录当前执行状态的指针ESP来实现</p>
+<p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
+<h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
+<p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
+<p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
+</blockquote>
+<blockquote>
+<p>V8会把堆分为<code>新生代</code>和<code>老生代</code>两个区域，新生代中存放的是<code>生存时间短的对象</code>，老生代中存放的是<code>生存时间久的对象</code></p>
+<ul>
+<li>新生区通常只支持1-8M的容量，而老生区支持的容量就大很多</li>
+<li>新生区使用<code>副垃圾回收器</code>，老生区使用<code>主垃圾回收器</code></li>
+</ul>
+</blockquote>
+<h4 id="代际假说"><a href="#代际假说" class="headerlink" title="代际假说"></a>代际假说</h4><blockquote>
+<p>后续垃圾回收策略都是建立在该假说的基础上的</p>
+</blockquote>
+<blockquote>
+<p>代际假说特点：适用于大多数动态语言</p>
+<ol>
+<li>大部分对象在内存中存在的时间很短</li>
+<li>不死的对象，会活的更久</li>
+</ol>
+</blockquote>
+<h4 id="垃圾回收器的工作流程"><a href="#垃圾回收器的工作流程" class="headerlink" title="垃圾回收器的工作流程"></a>垃圾回收器的工作流程</h4><blockquote>
+<p>不论什么类型的垃圾回收器，都有一套共同的执行流程</p>
+<ol>
+<li>标记空间中活动对象和非活动对象，所谓活动就是还在使用的对象，非活动对象就是可以进行垃圾回收的对象</li>
+<li>回收非活动对象所占据的内存</li>
+<li>内存管理：因为一般来说，频繁回收对象以后，内存就会存在大量不连续空间，当内存中出现大量的内存碎片以后，如果需要分配较大连续内存的时候就会出现内存不足的情况(这一步其实是可选的，因为有的垃圾回收器不会产生内存碎片，比如副垃圾回收器)</li>
+</ol>
+</blockquote>
+<h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
+<p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
+<blockquote>
+<p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
+<p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
+<p>对象晋升策略：经过两次垃圾回收依然存活的对象，会被移动到老生区中</p>
+</blockquote>
+<blockquote>
+<p>垃圾回收过程：</p>
+<ol>
+<li>首先对对象区域的垃圾做标记</li>
+<li>标记完成后，就进入垃圾清理阶段，副垃圾回收器会把这些存活的对象复制到空闲区域中，同时它还会把这些对象有序排列起来，所以这个过程也就相当于完成了内存整理操作</li>
+<li>完成复制后，对象区域与 空闲区域交换，这样就完成了垃圾对象的回收操作。</li>
+</ol>
+</blockquote>
+<h4 id="主垃圾回收器"><a href="#主垃圾回收器" class="headerlink" title="主垃圾回收器"></a>主垃圾回收器</h4><blockquote>
+<p>标记清除(Mark-Sweep)算法：因为老生区的对象较大，故在老生区使用Scavenge算法进行垃圾回收将会花费大量时间，故使用标记-清除(Mark-Sweep)算法进行回收</p>
+<p>除了新生区的晋升对象，一些大的对象会直接被分配到老生区，因此老生区中的对象有两个特点：</p>
+<ol>
+<li>对象占用空间大</li>
+<li>对象存活时间长</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>标记清除算法流程：</p>
+<ol>
+<li>首先是标记过程，标记元素就是通过一组根元素开始，递归遍历这组元素，在这个遍历过程中能到达的元素就称为活动对象，否则为垃圾数据</li>
+<li>接下来对垃圾数据进行清除</li>
+<li>以上就是标记-清除算法，紧接着是标记-整理(Mark-Compact)算法，因为对一块内存进行多次执行标记后会产生大量不连续的内存碎片，故需要此算法。</li>
+<li>标记-整理算法过程是将所有可活动对象向一边移动，然后直接清除掉边界以外的内存。</li>
+</ol>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
+<h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
+<p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
+<p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
+</blockquote>
+<blockquote>
+<p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成，这个算法叫做增量标记算法。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
+<h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
+<p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
+<p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
+<p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
+<p>这段代码经过转义后生成的AST结构如下</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
+<h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
+<li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
+</ol>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
+<ol start="2">
+<li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
+</ol>
+<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><blockquote>
+<p>解释器的功能：有了AST和执行上下文后，接下来就用解释器(Ignition)，它会根据AST生成字节码，并解释执行字节码</p>
+<p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
+<p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
+<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
+<p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
+</blockquote>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
  
       <!-- reward -->
       
