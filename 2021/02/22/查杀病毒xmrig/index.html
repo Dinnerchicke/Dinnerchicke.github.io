@@ -109,9 +109,9 @@
 <p>也没忘了在Jenkins的workspace也删之</p>
 <p>也排查了一下crontab，没发现里面有被入侵的痕迹，都是正常的脚本</p>
 <h2 id="找到罪魁祸首"><a href="#找到罪魁祸首" class="headerlink" title="找到罪魁祸首"></a>找到罪魁祸首</h2><p>通过<code>ps -ef | grep xmrig </code>  指令找到了罪魁祸首</p>
-<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/1.jpg"></p>
+<p><img src="/.com//1.jpg"></p>
 <p>于是马上去<code>/root/c3pool/xmrig</code>目录下，果然发现了罪魁祸首，还明目张胆的叫miner，真是**呢，看了里面的代码比较简单</p>
-<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/2.jpg"></p>
+<p><img src="/.com//2.jpg"></p>
 <p>删除里面的文件，留了个心眼，不删除外部的文件，将c3pool文件夹用<code>sudo chmod 000 c3pool</code>指令锁了</p>
 <p>如果没有对应的处理代码，下次可能会被堵住</p>
 <h2 id="柳暗花明"><a href="#柳暗花明" class="headerlink" title="柳暗花明"></a>柳暗花明</h2><p>后来再次在workspace里面运行代码，发现还是会卡死，问题还是没解决</p>
@@ -121,7 +121,7 @@
 <p>用相同的手法，删除文件，将文件夹设为000权限</p>
 <p>终于，问题解决了，后端部署没问题了</p>
 <h2 id="问题依旧"><a href="#问题依旧" class="headerlink" title="问题依旧"></a>问题依旧</h2><p>但是在部署前端的时候还是有问题，还是会卡死。不能说惨不忍睹，只能说不忍直视。每次失败都要重启服务器，因为都会卡死</p>
-<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/3.jpg"></p>
+<p><img src="/.com//3.jpg"></p>
 <p>接下来难以直接排查，于是只能自己手动部署一遍看看问题出在哪，不过依照进程来看应该是build阶段出的问题</p>
 <p>手动<code>cnpm run build</code>，果然卡死了，百度了一下确实打包时间太久了，得优化webpack的打包</p>
 <p>等过些时日学习一下webpack吧，看来这个问题并不是xmrig引起的…</p>
@@ -229,7 +229,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2020-2021
+        2020-2022
         <i class="ri-heart-fill heart_icon"></i> CDX
       </li>
     </ul>

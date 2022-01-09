@@ -107,23 +107,23 @@
 <p>虽然打包的时候webpack有shaking tree去除未使用部分，但是开发的时候仍然让人难以忍受</p>
 <p>去除无用部分后，通过lightHouse我们可以看到分数十分惨淡</p>
 </blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/1.jpg"></p>
+<p><img src="/.com//1.jpg"></p>
 <h2 id="从webpack起步"><a href="#从webpack起步" class="headerlink" title="从webpack起步"></a>从webpack起步</h2><blockquote>
 <p>webpack主要是在打包速度方面提升速度</p>
 </blockquote>
-<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/2.jpg">build/webpack.base.conf.js</p>
+<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/.com//2.jpg">build/webpack.base.conf.js</p>
 <h3 id="dll加速-amp-cdn加速"><a href="#dll加速-amp-cdn加速" class="headerlink" title="dll加速&amp;cdn加速"></a>dll加速&amp;cdn加速</h3><blockquote>
 <p>根据我原来的<a target="_blank" rel="noopener" href="https://dinnerchicke.github.io/2021/02/23/webpack%E4%BC%98%E5%8C%96/">webpack优化</a>即可，这里不再赘述</p>
 </blockquote>
 <h3 id="开启gzip压缩"><a href="#开启gzip压缩" class="headerlink" title="开启gzip压缩"></a>开启gzip压缩</h3><blockquote>
 <p>这个早已有实现，确保compression-webpack-plugin版本在1.1.2以下</p>
 </blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/4.jpg">config/index.js</p>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/7.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/.com//4.jpg">config/index.js</p>
+<p><img src="/.com//7.jpg">build/webpack.prod.conf.js</p>
 <h3 id="生产环境关闭console"><a href="#生产环境关闭console" class="headerlink" title="生产环境关闭console"></a>生产环境关闭console</h3><blockquote>
 <p>虽然并不影响性能，但也算一个小tip，值得添加</p>
 </blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/6.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/.com//6.jpg">build/webpack.prod.conf.js</p>
 <p>添加drop_dubugger/drop_console即可</p>
 <h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><blockquote>
 <p>浏览器运行过程中会生成两棵树：</p>
@@ -133,7 +133,7 @@
 </ul>
 <p>浏览器运行流程：</p>
 </blockquote>
-<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/5.jpg"></p>
+<p><img src="/.com//5.jpg"></p>
 <h3 id="CSS和JS的加载顺序优化"><a href="#CSS和JS的加载顺序优化" class="headerlink" title="CSS和JS的加载顺序优化"></a>CSS和JS的加载顺序优化</h3><p>CSS渲染：</p>
 <blockquote>
 <p>只有当我们开始解析HTML的link、style标签时，CSS才登场，是因为避免让页面的css未加载就裸奔在用户面前</p>
@@ -277,7 +277,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2020-2021
+        2020-2022
         <i class="ri-heart-fill heart_icon"></i> CDX
       </li>
     </ul>

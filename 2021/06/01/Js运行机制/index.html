@@ -105,7 +105,7 @@
 <h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><blockquote>
 <p>一段代码经过编译后会生成<strong>执行上下文</strong>和<strong>可执行代码</strong></p>
 </blockquote>
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/1.png"></p>
+<p><img src="/.com//1.png"></p>
 <h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><blockquote>
 <p>创建执行上下文的情况</p>
 <ul>
@@ -128,7 +128,7 @@
 <li>addAll函数返回值，addAll函数被销毁</li>
 </ol>
 </blockquote>
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/2.png"></p>
+<p><img src="/.com//2.png"></p>
 <h2 id="作用域-scope"><a href="#作用域-scope" class="headerlink" title="作用域(scope)"></a>作用域(scope)</h2><blockquote>
 <p>作用域控制着变量和函数的可见性和生命周期</p>
 <ul>
@@ -150,17 +150,17 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line">      <span class="keyword">var</span> c = <span class="number">4</span></span><br><span class="line">      <span class="keyword">let</span> d = <span class="number">5</span></span><br><span class="line">      <span class="built_in">console</span>.log(a)</span><br><span class="line">      <span class="built_in">console</span>.log(b)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(b) </span><br><span class="line">    <span class="built_in">console</span>.log(c)</span><br><span class="line">    <span class="built_in">console</span>.log(d)</span><br><span class="line">&#125;   </span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/3.png"></p>
+<p><img src="/.com//3.png"></p>
 <h2 id="作用域链和闭包"><a href="#作用域链和闭包" class="headerlink" title="作用域链和闭包"></a>作用域链和闭包</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(myName)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myName = <span class="string">&quot; 极客邦 &quot;</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/4.png"></p>
+<p><img src="/.com//4.png"></p>
 <h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><blockquote>
 <p>词法作用域是指作用域是由代码中函数声明的位置来决定的，通过它能够预测代码在执行过程中如何查找标识符</p>
 </blockquote>
 <blockquote>
 <p>根据词法作用域，foo 和 bar 的上级作用域都是全局作用域，所以如果 foo 或者 bar 函数使用了一个它们没有定义的变量，那么它们会到全局作用域去查找。也就是说，词法作用域是代码阶段就决定好的，和函数是怎么调用的没有关系</p>
 </blockquote>
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/5.png"></p>
+<p><img src="/.com//5.png"></p>
 <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
 <p>在Js中，根据词法作用域规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经<strong>执行结束</strong>了，但是<strong>内部函数引用外部函数的变量</strong>依然保存在内存中，我们就把这些变量的集合称为闭包。</p>
 </blockquote>
@@ -181,7 +181,7 @@
 <li>当foo函数执行完成后，其</li>
 </ol>
 </blockquote>
-<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/6.png"></p>
+<p><img src="/.com//6.png"></p>
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><blockquote>
 <p>代码分为编译阶段和执行阶段</p>
 <p>编译阶段：</p>
@@ -298,7 +298,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2020-2021
+        2020-2022
         <i class="ri-heart-fill heart_icon"></i> CDX
       </li>
     </ul>

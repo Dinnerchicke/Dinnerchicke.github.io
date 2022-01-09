@@ -99,7 +99,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
+  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/.com//1.png"></p>
 <blockquote>
 <p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
 <ul>
@@ -127,7 +127,7 @@
 <p>通过记录当前执行状态的指针ESP来实现</p>
 <p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
+<p><img src="/.com//2.png"></p>
 <h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
 <p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
 <p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
@@ -160,7 +160,7 @@
 <h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
 <p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
+<p><img src="/.com//3.png"></p>
 <blockquote>
 <p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
 <p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
@@ -191,7 +191,7 @@
 <li>标记-整理算法过程是将所有可活动对象向一边移动，然后直接清除掉边界以外的内存。</li>
 </ol>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
+<p><img src="/.com//4.png"></p>
 <h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
 <p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
 <p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
@@ -199,25 +199,25 @@
 <blockquote>
 <p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成，这个算法叫做增量标记算法。</p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
+<p><img src="/.com//5.png"></p>
 <h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
 <p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
 <p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
 <p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
-<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<p><img src="/.com//6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/.com//6.png"></p>
 <h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
 <p>这段代码经过转义后生成的AST结构如下</p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
+<p><img src="/.com//7.png"></p>
 <h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
 <li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
 </ol>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
+<p><img src="/.com//8.png"></p>
 <ol start="2">
 <li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
 </ol>
@@ -226,11 +226,11 @@
 <p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
 <p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
+<p><img src="/.com//9.png"></p>
 <h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
 <p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
 </blockquote>
-<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
+<p><img src="/.com//10.png"></p>
  
       <!-- reward -->
       
@@ -335,7 +335,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2020-2021
+        2020-2022
         <i class="ri-heart-fill heart_icon"></i> CDX
       </li>
     </ul>
