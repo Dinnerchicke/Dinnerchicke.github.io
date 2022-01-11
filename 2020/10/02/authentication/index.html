@@ -99,7 +99,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/.com//1.png"></p>
+  <h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/Authentication/1.png"></p>
 <h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
 <ol>
 <li>登陆Post/login{“登陆信息”}</li>
@@ -108,7 +108,7 @@
 <li>服务器检查token，验证</li>
 <li>返回结果给浏览器</li>
 </ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户<em><strong>主动</strong></em>提供身份证明如账号密码、二维码等登陆信息</p>
 <p>服务器收到信息后与数据库进行比对</p>
 <h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
 <p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>

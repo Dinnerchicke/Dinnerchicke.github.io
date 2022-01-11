@@ -111,7 +111,7 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/.com//1.png"></p>
+  <h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
 <blockquote>
 <p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
 <ul>
@@ -139,7 +139,7 @@
 <p>通过记录当前执行状态的指针ESP来实现</p>
 <p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
 <h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
 <p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
 <p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
@@ -172,7 +172,7 @@
 <h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
 <p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
 <blockquote>
 <p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
 <p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
@@ -203,7 +203,7 @@
 <li>标记-整理算法过程是将所有可活动对象向一边移动，然后直接清除掉边界以外的内存。</li>
 </ol>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
 <h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
 <p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
 <p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
@@ -211,25 +211,25 @@
 <blockquote>
 <p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成，这个算法叫做增量标记算法。</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
 <h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
 <p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
 <p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
 <p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
 </blockquote>
-<p><img src="/.com//6.png"></p>
-<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
 <h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
 <p>这段代码经过转义后生成的AST结构如下</p>
 </blockquote>
-<p><img src="/.com//7.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
 <h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
 <li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
 </ol>
-<p><img src="/.com//8.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
 <ol start="2">
 <li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
 </ol>
@@ -238,11 +238,11 @@
 <p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
 <p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
 </blockquote>
-<p><img src="/.com//9.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
 <h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
 <p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
 </blockquote>
-<p><img src="/.com//10.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
  
       <!-- reward -->
       
@@ -300,7 +300,7 @@
 <h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><blockquote>
 <p>一段代码经过编译后会生成<strong>执行上下文</strong>和<strong>可执行代码</strong></p>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/1.png"></p>
 <h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><blockquote>
 <p>创建执行上下文的情况</p>
 <ul>
@@ -323,7 +323,7 @@
 <li>addAll函数返回值，addAll函数被销毁</li>
 </ol>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/2.png"></p>
 <h2 id="作用域-scope"><a href="#作用域-scope" class="headerlink" title="作用域(scope)"></a>作用域(scope)</h2><blockquote>
 <p>作用域控制着变量和函数的可见性和生命周期</p>
 <ul>
@@ -345,17 +345,17 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line">      <span class="keyword">var</span> c = <span class="number">4</span></span><br><span class="line">      <span class="keyword">let</span> d = <span class="number">5</span></span><br><span class="line">      <span class="built_in">console</span>.log(a)</span><br><span class="line">      <span class="built_in">console</span>.log(b)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(b) </span><br><span class="line">    <span class="built_in">console</span>.log(c)</span><br><span class="line">    <span class="built_in">console</span>.log(d)</span><br><span class="line">&#125;   </span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/3.png"></p>
 <h2 id="作用域链和闭包"><a href="#作用域链和闭包" class="headerlink" title="作用域链和闭包"></a>作用域链和闭包</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(myName)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myName = <span class="string">&quot; 极客邦 &quot;</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/4.png"></p>
 <h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><blockquote>
 <p>词法作用域是指作用域是由代码中函数声明的位置来决定的，通过它能够预测代码在执行过程中如何查找标识符</p>
 </blockquote>
 <blockquote>
 <p>根据词法作用域，foo 和 bar 的上级作用域都是全局作用域，所以如果 foo 或者 bar 函数使用了一个它们没有定义的变量，那么它们会到全局作用域去查找。也就是说，词法作用域是代码阶段就决定好的，和函数是怎么调用的没有关系</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/5.png"></p>
 <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
 <p>在Js中，根据词法作用域规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经<strong>执行结束</strong>了，但是<strong>内部函数引用外部函数的变量</strong>依然保存在内存中，我们就把这些变量的集合称为闭包。</p>
 </blockquote>
@@ -376,7 +376,7 @@
 <li>当foo函数执行完成后，其</li>
 </ol>
 </blockquote>
-<p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/6.png"></p>
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><blockquote>
 <p>代码分为编译阶段和执行阶段</p>
 <p>编译阶段：</p>
@@ -440,10 +440,10 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/.com//7.jpg"></p>
-<p><img src="/.com//8.jpg"></p>
-<p><img src="/.com//10.jpg"></p>
-<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/.com//4.jpg"></p>
+  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/8.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/10.jpg"></p>
+<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/4.jpg"></p>
 <h2 id="git指令集合"><a href="#git指令集合" class="headerlink" title="git指令集合"></a>git指令集合</h2><h3 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add . <span class="comment"># 将workspace修改的内容提交到暂存区</span></span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span> <span class="comment"># 将暂存区的内容提交到版本库</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin [branchName] <span class="comment"># 将版本库内容提交到远程仓库</span></span><br></pre></td></tr></table></figure>
 
 
@@ -463,11 +463,11 @@
 <h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3><blockquote>
 <p>冲突即多人开发时，修改了同一个文件</p>
 </blockquote>
-<p><img src="/.com//1.jpg">形式一：提交时</p>
-<p><img src="/.com//11.jpg">形式二：拉取时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg">形式一：提交时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/11.jpg">形式二：拉取时</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin [branchName] <span class="comment"># 将远程仓库内容拉到本地workspace</span></span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin [branchName]</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//2.jpg">合并冲突</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
 <h3 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本,将HEAD指针指向上一个commitID</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到最新版本</span></span><br><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
@@ -498,7 +498,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git stash apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.jpg">暂存列表</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
 <h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先查看gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line"><span class="comment"># 一般来说只支持Maintainers</span></span><br><span class="line">git push -f origin [branchName]</span><br></pre></td></tr></table></figure>
 
@@ -795,23 +795,23 @@
 <p>虽然打包的时候webpack有shaking tree去除未使用部分，但是开发的时候仍然让人难以忍受</p>
 <p>去除无用部分后，通过lightHouse我们可以看到分数十分惨淡</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/1.jpg"></p>
 <h2 id="从webpack起步"><a href="#从webpack起步" class="headerlink" title="从webpack起步"></a>从webpack起步</h2><blockquote>
 <p>webpack主要是在打包速度方面提升速度</p>
 </blockquote>
-<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/.com//2.jpg">build/webpack.base.conf.js</p>
+<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/2.jpg">build/webpack.base.conf.js</p>
 <h3 id="dll加速-amp-cdn加速"><a href="#dll加速-amp-cdn加速" class="headerlink" title="dll加速&amp;cdn加速"></a>dll加速&amp;cdn加速</h3><blockquote>
 <p>根据我原来的<a target="_blank" rel="noopener" href="https://dinnerchicke.github.io/2021/02/23/webpack%E4%BC%98%E5%8C%96/">webpack优化</a>即可，这里不再赘述</p>
 </blockquote>
 <h3 id="开启gzip压缩"><a href="#开启gzip压缩" class="headerlink" title="开启gzip压缩"></a>开启gzip压缩</h3><blockquote>
 <p>这个早已有实现，确保compression-webpack-plugin版本在1.1.2以下</p>
 </blockquote>
-<p><img src="/.com//4.jpg">config/index.js</p>
-<p><img src="/.com//7.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/4.jpg">config/index.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/7.jpg">build/webpack.prod.conf.js</p>
 <h3 id="生产环境关闭console"><a href="#生产环境关闭console" class="headerlink" title="生产环境关闭console"></a>生产环境关闭console</h3><blockquote>
 <p>虽然并不影响性能，但也算一个小tip，值得添加</p>
 </blockquote>
-<p><img src="/.com//6.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/6.jpg">build/webpack.prod.conf.js</p>
 <p>添加drop_dubugger/drop_console即可</p>
 <h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><blockquote>
 <p>浏览器运行过程中会生成两棵树：</p>
@@ -821,7 +821,7 @@
 </ul>
 <p>浏览器运行流程：</p>
 </blockquote>
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/5.jpg"></p>
 <h3 id="CSS和JS的加载顺序优化"><a href="#CSS和JS的加载顺序优化" class="headerlink" title="CSS和JS的加载顺序优化"></a>CSS和JS的加载顺序优化</h3><p>CSS渲染：</p>
 <blockquote>
 <p>只有当我们开始解析HTML的link、style标签时，CSS才登场，是因为避免让页面的css未加载就裸奔在用户面前</p>
@@ -951,7 +951,7 @@
 <blockquote>
 <p>可以通过Promise.prototype查看Promise上的方法</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/1.jpg"></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
@@ -1087,7 +1087,7 @@
 <li>浏览器端/node 端都可以使用</li>
 </ol>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/2.jpg"></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.19.0/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> request = axios.create(&#123;</span></span><br><span class="line"><span class="javascript">      baseURL: <span class="string">&#x27;http://localhost:9010/&#x27;</span></span></span><br><span class="line">    &#125;)</span><br><span class="line">    request.interceptors.request.use(</span><br><span class="line">      config=&gt;&#123;</span><br><span class="line"><span class="javascript">        config[<span class="string">&#x27;token&#x27;</span>] = <span class="string">&#x27;config&#x27;</span> <span class="comment">// 请求头内添加字段向后端发送token</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;请求拦截器config:&#x27;</span>, config)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> config</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    request.interceptors.response.use(</span><br><span class="line">      response=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;响应拦截器response:&#x27;</span>, response)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> response</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装接口，放在/api目录下</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// get接口封装一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addExample</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 未传递数据直接get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;server&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayExample</span>(<span class="params">params</span>) </span>&#123; <span class="comment">// 传递数据get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        params <span class="comment">// ES6语法，对象内用params代替params: params</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">notRealDelayExample</span>(<span class="params">_id</span>) </span>&#123; <span class="comment">// 根据Id查询数据,该接口未写</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// post接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addApi</span>(<span class="params">payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;api&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;post&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// put接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">updateExample</span>(<span class="params">_id, payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123; <span class="comment">// 一般通过url来传id,通过data传递修改后的内容,但是只通过body传参也可以</span></span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;update/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;put&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// delete接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delExample</span>(<span class="params">_id</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;del/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;delete&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> neededData = <span class="string">&#x27;&#x27;</span> <span class="comment">// 需要渲染的data</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 调用接口，使用async/await来等待接口数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getAddExample</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> addExample().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDelayExample</span>(<span class="params">params</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> delayExample(params).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;await阻塞代码&#x27;</span>)</span></span><br><span class="line">        neededData = res</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;neededData:&#x27;</span>,neededData)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAddExample()</span><br><span class="line"><span class="javascript">    getDelayExample(<span class="string">&#x27;DelayData&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    addApi(<span class="string">&#x27;RequestBody&#x27;</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
  
@@ -1154,7 +1154,7 @@
 <p>执行顺序：</p>
 <ol>
 <li>按顺序执行代码，遇到宏任务放入宏任务队列中，微任务放入微任务队列中</li>
-<li>执行完宏任务队列后，检查是否有微任务，并执行所有微任务有**<em>新的微任务也执</em>行**直到清空微任务队列</li>
+<li>执行完宏任务队列后，检查是否有微任务，并执行所有微任务有<strong><em>新的微任务也执</em>行</strong>直到清空微任务队列</li>
 <li>检查是否需要UI渲染，如果需要就执行，否则返回1</li>
 </ol>
 <p>Tips：</p>
@@ -1682,11 +1682,11 @@
 <li>抽象不应该依赖细节(实现类)，细节应该依赖抽象</li>
 </ul>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/1.jpg"></p>
 <h3 id="层次化"><a href="#层次化" class="headerlink" title="层次化"></a>层次化</h3><blockquote>
 <p>高层通过依赖抽象服务接口来获取服务，底层通过依赖高层声明的抽象接口来实现服务</p>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/2.jpg"></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 违反DIP</span></span><br><span class="line"><span class="keyword">let</span> peopleBreakDIP = &#123;</span><br><span class="line">  eatShit: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 高层依赖底层，吃的必须是shit</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;当回老八&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(peopleBreakDIP.eatShit())</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遵守DIP</span></span><br><span class="line"><span class="keyword">let</span> peopleObeyDIP = &#123;</span><br><span class="line">  eatSomething: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 高层依赖抽象，吃啥都可以</span></span><br><span class="line">    <span class="comment">// 吃啥好</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">peopleObeyDIP.eatSomething = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 底层实现高层抽象,还是同一个撤硕</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;同一个撤硕&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(peopleObeyDIP.eatSomething())</span><br></pre></td></tr></table></figure>
 
 
@@ -1703,7 +1703,7 @@
 <p>高层仅调用Command的do()接口即可，底层仅实现Command的do()即可</p>
 <p>Active Object配合Command使用多线程</p>
 </blockquote>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/3.jpg"></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Command = &#123; <span class="comment">// 命令</span></span><br><span class="line">  commandList: [], <span class="comment">// 抽象指令列表</span></span><br><span class="line">  insert: <span class="function"><span class="keyword">function</span> (<span class="params">fun</span>) </span>&#123; <span class="comment">// 添加指令</span></span><br><span class="line">    <span class="built_in">this</span>.commandList.push(fun)</span><br><span class="line">  &#125;,</span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 运行所有指令</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.commandList.length; i++) &#123;</span><br><span class="line">      <span class="built_in">this</span>.commandList[i].execute()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> commandDraw = &#123; <span class="comment">// 原子指令</span></span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;draw&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> commandArea = &#123; <span class="comment">// 原子指令</span></span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;area&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Command.insert(commandDraw)</span><br><span class="line">Command.insert(commandArea)</span><br><span class="line">Command.execute()</span><br></pre></td></tr></table></figure>
 
 

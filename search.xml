@@ -3,7 +3,7 @@
   <entry>
     <title>comShell</title>
     <url>/2020/10/06/comShell/</url>
-    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><p><img src="/.com//1.jpg"></p>
+    <content><![CDATA[<h1 id="Shell常用指令"><a href="#Shell常用指令" class="headerlink" title="Shell常用指令"></a>Shell常用指令</h1><p><img src="/2020/10/06/comShell/1.jpg"></p>
 <h2 id="文件及命令"><a href="#文件及命令" class="headerlink" title="文件及命令"></a>文件及命令</h2><ul>
 <li>cat 显示文件内容</li>
 <li>cd ..返回上级目录 cd ../..返回上两级目录</li>
@@ -72,7 +72,7 @@
     <title>数据监控与前端埋点</title>
     <url>/2022/01/09/%E6%95%B0%E6%8D%AE%E7%9B%91%E6%8E%A7%E4%B8%8E%E5%89%8D%E7%AB%AF%E5%9F%8B%E7%82%B9/</url>
     <content><![CDATA[<p>埋个小坑，以后遇到再继续填</p>
-<p><img src="/.com//%E6%95%B0%E6%8D%AE%E5%9F%8B%E7%82%B9.png" alt="数据埋点"></p>
+<p><img src="/2022/01/09/%E6%95%B0%E6%8D%AE%E7%9B%91%E6%8E%A7%E4%B8%8E%E5%89%8D%E7%AB%AF%E5%9F%8B%E7%82%B9/%E6%95%B0%E6%8D%AE%E5%9F%8B%E7%82%B9.png" alt="数据埋点"></p>
 ]]></content>
   </entry>
   <entry>
@@ -134,7 +134,7 @@
 </blockquote>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> func1Closure = <span class="string">&#x27;func1Closure&#x27;</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> other1 = <span class="string">&#x27;other1&#x27;</span>;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">func2</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> func2Closure = <span class="string">&#x27;func2Closure&#x27;</span>;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> other2 = <span class="string">&#x27;other2&#x27;</span>;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(func1Closure)</span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">func3</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> other3 = <span class="string">&#x27;other3&#x27;</span>;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(func2Closure)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> func3Closure = <span class="string">&#x27;func3Closure&#x27;</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> func3;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> func2;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> func2 = func();</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> func3 = func2();</span></span><br><span class="line">  func3()</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/06/30/%E4%BD%9C%E7%94%A8%E5%9F%9F/1.jpg"></p>
 <blockquote>
 <p>Tips：</p>
 <ul>
@@ -168,7 +168,7 @@
 <p>从图中可知，主线程的所有任务都来自于消息队列(FIFO)。</p>
 <p>主线程通过事件循环机制来不断执行从消息队列中取出的任务</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/1.jpg"></p>
 <h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><blockquote>
 <p>什么是宏任务？</p>
 <p>宏任务即如下的任务(名称并没有什么实际意义)：</p>
@@ -201,7 +201,7 @@
 <p>微任务是如何被执行的？</p>
 <p>通过调用上述API会将微任务添加到微任务队列中。通常当宏任务中的JavaScript快执行结束，即准备退出执行上下文并清空调用栈时(这个时间点被称为检查点)，JavaScript引擎会检查执行上下文的微任务，然后按照顺序执行微任务队列。V8引擎执行微任务队列中的任务直到为空才结束，即执行微任务过程中产生的微任务会立即添加到队尾执行。</p>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/2.jpg"></p>
 <blockquote>
 <p>Tip：微任务与宏任务是绑定的，每个宏任务在执行时会创建自己的微任务队列</p>
 </blockquote>
@@ -209,7 +209,7 @@
 <p>当宏任务为<code>同步任务</code>时，毫无疑问先执行宏任务</p>
 <p>当宏任务与微任务<code>同为异步任务</code>时，注意此时<code>先执行微任务再执行宏任务</code></p>
 </blockquote>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/3.jpg"></p>
 <h4 id="特别篇：Async-Await"><a href="#特别篇：Async-Await" class="headerlink" title="特别篇：Async/Await"></a>特别篇：Async/Await</h4><blockquote>
 <p>Async做了什么？</p>
 <ul>
@@ -373,8 +373,8 @@
 </blockquote>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Promise<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">Promise</span>.prototype)</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> name = <span class="literal">undefined</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">    .then(<span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span></span><br><span class="line"><span class="javascript">        name = <span class="string">&#x27;aaa&#x27;</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(name)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">    &#125;,<span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是reject&#x27;</span>)</span></span><br><span class="line">    &#125;)</span><br><span class="line"><span class="javascript">    .then(<span class="function">()=&gt;</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="number">3</span>)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(name)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayedResolve</span>(<span class="params">str</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(str)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, 1000);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    delayedResolve(<span class="string">&#x27;p1&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p2&#x27;</span>))</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p3&#x27;</span>))</span></span><br><span class="line"><span class="javascript">      .then(<span class="function">()=&gt;</span>delayedResolve(<span class="string">&#x27;p4&#x27;</span>))</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">&#x27;----------------------&#x27;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;同步错误&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是同步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(error) <span class="comment">// 同步错误捕获成功</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;异步错误&#x27;</span>))</span></span><br><span class="line"><span class="javascript">        <span class="comment">// .catch(reason=&gt;&#123; // 这样才能捕获异步错误, 注释以后浏览器报异步错误</span></span></span><br><span class="line"><span class="javascript">        <span class="comment">//   console.log(reason)</span></span></span><br><span class="line"><span class="javascript">        <span class="comment">// &#125;)</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">Promise</span>.resolve(<span class="string">&#x27;test&#x27;</span>)</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">&#x27;我是异步错误执行后的指令&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(error) <span class="comment">// 异步错误捕获失败</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//1.jpg"></p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/1.jpg"></p>
+<p><img src="/2021/06/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/2.jpg"></p>
 <h4 id="async-await捕获错误"><a href="#async-await捕获错误" class="headerlink" title="async/await捕获错误"></a>async/await捕获错误</h4><blockquote>
 <p>方法一：使用try/catch捕获错误</p>
 </blockquote>
@@ -500,11 +500,11 @@
 <blockquote>
 <p>在Network网络请求里可以看到Cookie在请求头里被发送到服务端</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/1.jpg"></p>
 <blockquote>
 <p>在Application里面也可以看到Cookie的内容</p>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/2.jpg"></p>
 <blockquote>
 <p>Cookie安全与适用性：</p>
 <p>因为CSRF跨站脚本攻击可能会通过插入脚本来窃取网站的Cookie来获取敏感信息，所以有了<code>HTTP-only</code>字段来限制cookie只能在服务器上读取。</p>
@@ -530,14 +530,14 @@
 </blockquote>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>SessionStorage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    sessionStorage.setItem(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;sessionItem&quot;</span>) <span class="comment">// setItem()赋值</span></span></span><br><span class="line"><span class="javascript">    sessionStorage.clear() <span class="comment">// clear()删除</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    sessionStorage.setItem(<span class="string">&quot;策略&quot;</span>, <span class="string">&quot;跨会话存储&quot;</span>)</span></span><br><span class="line"><span class="javascript">    sessionStorage.setItem(<span class="string">&quot;消失时间&quot;</span>, <span class="string">&quot;浏览器关闭&quot;</span>)</span></span><br><span class="line"><span class="javascript">    sessionStorage.setItem(<span class="string">&quot;大小&quot;</span>, <span class="string">&quot;5M&quot;</span>)</span></span><br><span class="line"><span class="javascript">    sessionStorage.test = <span class="string">&quot;推荐使用API而不是直接赋值&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(sessionStorage.getItem(<span class="string">&quot;test&quot;</span>)) <span class="comment">// getItem()获得Item值</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(sessionStorage.key(<span class="number">2</span>)) <span class="comment">// 根据索引获得该位置的键名，注意不是键值</span></span></span><br><span class="line"><span class="javascript">    sessionStorage.removeItem(<span class="string">&quot;test&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(sessionStorage)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/3.jpg"></p>
 <h3 id="localStorage-持久化存储"><a href="#localStorage-持久化存储" class="headerlink" title="localStorage(持久化存储)"></a>localStorage(持久化存储)</h3><blockquote>
 <p>localStorage会保留到通过JavaScript删除或者用户清除浏览器缓存，<code>不受刷新、关闭窗口、或者重启浏览器影响</code></p>
 <p>大小限制：5M</p>
 </blockquote>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>localStorage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.setItem(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;localItem&quot;</span>) <span class="comment">// setItem()赋值</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.clear() <span class="comment">// clear()删除</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.setItem(<span class="string">&quot;策略&quot;</span>, <span class="string">&quot;跨会话存储&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.setItem(<span class="string">&quot;消失时间&quot;</span>, <span class="string">&quot;浏览器关闭&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.setItem(<span class="string">&quot;大小&quot;</span>, <span class="string">&quot;5M&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.test = <span class="string">&quot;推荐使用API而不是直接赋值&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">localStorage</span>.getItem(<span class="string">&quot;test&quot;</span>)) <span class="comment">// getItem()获得Item值</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">localStorage</span>.key(<span class="number">2</span>)) <span class="comment">// 根据索引获得该位置的键名，注意不是键值</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">localStorage</span>.removeItem(<span class="string">&quot;test&quot;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">localStorage</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//4.jpg"></p>
+<p><img src="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/4.jpg"></p>
 <h3 id="存储事件"><a href="#存储事件" class="headerlink" title="存储事件"></a>存储事件</h3><blockquote>
 <p>Storage对象发生变化时会触发对应事件，使用属性或setItem()/removeItem()/clear()都会触发这个事件，有以下属性</p>
 <ul>
@@ -554,7 +554,7 @@
 
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>storageEvent-Get<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;del&quot;</span>&gt;</span></span><br><span class="line">    删除localStorageItem</span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 第二个页面触发事件，注意触发后要回到第一个页面查看</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="built_in">localStorage</span>)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.getElementById(<span class="string">&#x27;del&#x27;</span>).onclick = <span class="function">() =&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">localStorage</span>.removeItem(<span class="built_in">localStorage</span>.key(<span class="number">1</span>))</span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2021/06/21/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/5.jpg"></p>
 <h2 id="IndexDB"><a href="#IndexDB" class="headerlink" title="IndexDB"></a>IndexDB</h2><blockquote>
 <p>类似MySQL的NoSQL数据库，但会出现兼容性问题，不推荐使用，故不赘述</p>
 </blockquote>
@@ -591,17 +591,17 @@
 <li>HTML解析器会动态接收字节流并将其解析为DOM</li>
 </ol>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/1.png"></p>
 <h3 id="字节流转换为DOM的流程"><a href="#字节流转换为DOM的流程" class="headerlink" title="字节流转换为DOM的流程"></a>字节流转换为DOM的流程</h3><blockquote>
 <p>第一阶段：通过<code>分词器</code>将字节流转换为Token，上述的HTML代码转换为Token如下</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/2.png"></p>
 <h3 id="Token解析为DOM-DOM添加到DOM树"><a href="#Token解析为DOM-DOM添加到DOM树" class="headerlink" title="Token解析为DOM/DOM添加到DOM树"></a>Token解析为DOM/DOM添加到DOM树</h3><blockquote>
 <p>第二/三阶段：这两个阶段是同步进行的，将Token解析为DOM节点的同时将其添加到DOM树中</p>
 <p>HTML解析器维护了一个Token栈结构，具体实现如Mustache模板引擎<a href="https://git.io/JYv3A">https://git.io/JYv3A</a></p>
 <p>算法实现即使用栈结构对tag进行判断，将其闭合输出为DOM</p>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/3.png"></p>
 <h2 id="JavaScript是如何影响DOM树构建的"><a href="#JavaScript是如何影响DOM树构建的" class="headerlink" title="JavaScript是如何影响DOM树构建的"></a>JavaScript是如何影响DOM树构建的</h2><blockquote>
 <p>引入JavaScript会阻塞DOM：假如在DOM中插入一段JavaScript脚本，解析到JavaScript时，渲染引擎检测到这是一段脚本，此时HTML会<code>暂停DOM的解析</code>，因为接下来可能要修改已生成的DOM。执行这段脚本以后，继续解析后序的内容，直至生成最终的DOM。</p>
 <p>因为Js可能操作样式，所以如果代码里<code>引用了外部的CSS文件</code>，那么在执行Js之前，还需要<code>等待外部CSS文件下载完成</code>，并解析生成CSSOM对象后，才执行Js脚本。</p>
@@ -621,7 +621,7 @@
 <li>在接收到HTML数据后的解析过程中，HTML预解析器识别出有CSS、Js文件需要下载，同时发起请求，且这个过程是并行的</li>
 </ul>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/4.png"></p>
 <h2 id="影响页面展示的因素及优化策略"><a href="#影响页面展示的因素及优化策略" class="headerlink" title="影响页面展示的因素及优化策略"></a>影响页面展示的因素及优化策略</h2><blockquote>
 <p>从发起URL请求到首次显示页面的内容，在视觉上经历的三个阶段：</p>
 <ol>
@@ -639,7 +639,7 @@
 <li>对于大CSS文件，可以通过媒体查询属性将其拆分为多个不同用途的CSS文件，在特定场景下才会加载的特定CSS文件</li>
 </ul>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/5.png"></p>
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="为什么CSS动画比JavaScript高效"><a href="#为什么CSS动画比JavaScript高效" class="headerlink" title="为什么CSS动画比JavaScript高效"></a>为什么CSS动画比JavaScript高效</h3><blockquote>
 <p>因为CSS动画中的合成阶段是使用分层线程完成的，并不会占据主线程，所以比JavaScript高效</p>
 </blockquote>
@@ -661,7 +661,7 @@
 <h3 id="单线程处理"><a href="#单线程处理" class="headerlink" title="单线程处理"></a>单线程处理</h3><blockquote>
 <p>如果使用单线程顺序执行任务的话，显而易见并不能持续的执行任务，当任务执行完后就会退出线程</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/2.png"></p>
 <h3 id="循环处理任务"><a href="#循环处理任务" class="headerlink" title="循环处理任务"></a>循环处理任务</h3><blockquote>
 <p>引入循环机制：</p>
 <ol>
@@ -669,15 +669,15 @@
 <li>可以通过事件来等待用户输入，输入完成后激活线程</li>
 </ol>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/3.png"></p>
 <h3 id="引入多线程模型"><a href="#引入多线程模型" class="headerlink" title="引入多线程模型"></a>引入多线程模型</h3><blockquote>
 <p>当出现多线程时，情况就不一样了</p>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/4.png"></p>
 <blockquote>
 <p>线程需要接收其他线程传来的数据，一个通用的模式就是使用<code>消息队列</code>，先进先出的队列</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/5.png"></p>
 <blockquote>
 <p>从图中可知：</p>
 <ul>
@@ -685,11 +685,11 @@
 <li>其他线程会向消息队列的队尾推送任务以供主线程执行</li>
 </ul>
 </blockquote>
-<p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/6.png"></p>
 <h3 id="引入跨进程通信-IPC-模型"><a href="#引入跨进程通信-IPC-模型" class="headerlink" title="引入跨进程通信(IPC)模型"></a>引入跨进程通信(IPC)模型</h3><blockquote>
 <p>从图中可以看出，IO线程会处理其他进程传来的IPC内容，然后提交到消息队列执行</p>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/1.png"></p>
 <h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><blockquote>
 <p>随着浏览器的发展，消息队列这种粗时间粒度的任务已经不能胜任部分需求，所以出现了<code>微任务</code>，在实时性和效率之间做一个权衡</p>
 </blockquote>
@@ -707,7 +707,7 @@
 <p>但是宏任务例如settimeout，想延迟xms后执行，但是往往可能会被插入很多系统级的任务，导致不会在我们预期的时间执行回调函数。</p>
 <p>故宏任务的时间粒度不能满足一些高实时性的需求，所以就有了微任务。</p>
 </blockquote>
-<p><img src="/.com//7.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/7.png"></p>
 <h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><blockquote>
 <p>微任务(microtask)：</p>
 <ol>
@@ -731,8 +731,8 @@
 <blockquote>
 <p>该示意图是在执行一个 ParseHTML 的宏任务，在执行过程中，遇到了 JavaScript 脚本，那么就暂停解析流程，进入到 JavaScript 的执行环境。从图中可以看到，全局上下文中包含了微任务列表。</p>
 </blockquote>
-<p><img src="/.com//8.png"></p>
-<p><img src="/.com//9.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/8.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/9.png"></p>
 <blockquote>
 <p>结论：</p>
 <ul>
@@ -756,11 +756,11 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">genDemo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第一段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第二段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第三段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 执行结束 &quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 0&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> gen = genDemo()</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 1&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 2&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 3&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 4&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//10.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/10.png"></p>
 <blockquote>
 <p>父协程和gen协程切换调用栈</p>
 </blockquote>
-<p><img src="/.com//11.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/11.png"></p>
 <blockquote>
 <p>在JavaScript中，生成器就是协程的一种实现方式</p>
 </blockquote>
@@ -773,7 +773,7 @@
 
 <h3 id="Async-Await与协程"><a href="#Async-Await与协程" class="headerlink" title="Async/Await与协程"></a>Async/Await与协程</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">await</span> <span class="number">100</span></span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>)</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//12.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/12.png"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -786,7 +786,7 @@
   <entry>
     <title>V8工作原理</title>
     <url>/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/.com//1.png"></p>
+    <content><![CDATA[<h1 id="V8工作原理"><a href="#V8工作原理" class="headerlink" title="V8工作原理"></a>V8工作原理</h1><h2 id="栈与堆：数据如何存储"><a href="#栈与堆：数据如何存储" class="headerlink" title="栈与堆：数据如何存储"></a>栈与堆：数据如何存储</h2><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/1.png"></p>
 <blockquote>
 <p>在JavaScript执行过程中，主要有三种类型内存空间：</p>
 <ul>
@@ -814,7 +814,7 @@
 <p>通过记录当前执行状态的指针ESP来实现</p>
 <p>当showName函数执行结束后，ESP向下移动，上面的showName的执行上下文虽然依然存在，但是已经是无效的了，下次有新的上下文会覆盖掉这块内容</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/2.png"></p>
 <h3 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h3><blockquote>
 <p>从上面<code>栈中的数据是如何回收的</code>可以知道调用栈是通过移动指针ESP来实现的</p>
 <p>但是<code>堆</code>中的对象依然占用着空间，要回收堆中的垃圾数据，就要用到垃圾回收机制了</p>
@@ -847,7 +847,7 @@
 <h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><blockquote>
 <p>新生代中用Scavenge算法来处理，即把新生代空间对半划分为<code>对象区域</code>和<code>空闲区域</code></p>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/3.png"></p>
 <blockquote>
 <p>操作时机：新加入的对象<code>都会存放到对象区域</code>，当对象区域快被写满时，就要执行一次GC</p>
 <p>新生区较小：因为新生区经常要进行操作，如果新生区设置太大则需要大量时间，所以新生区一般会设置的比较小</p>
@@ -878,7 +878,7 @@
 <li>标记-整理算法过程是将所有可活动对象向一边移动，然后直接清除掉边界以外的内存。</li>
 </ol>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/4.png"></p>
 <h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><blockquote>
 <p> 由于Js是运行在主线程上的，一旦执行垃圾回收算法，就需要将正在执行的Js脚本暂停下来，待垃圾回收完毕后再执行脚本，这种行为叫做<code>全停顿</code></p>
 <p>全停顿的影响：在新生代垃圾回收中，空间较小，所以全停顿影响不大。但是在老生代垃圾回收中，如果在执行垃圾回收过程中占用主线程过久，这个时间主线程是不能做其他事情的。</p>
@@ -886,25 +886,25 @@
 <blockquote>
 <p>增量标记(Incremental Marking)算法解决卡顿：V8将标记过程分为一个个子标记过程和Js脚本<code>交替进行</code>，直到标记完成，这个算法叫做增量标记算法。</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/5.png"></p>
 <h2 id="编译器和解释器：V8如何执行一段Js代码"><a href="#编译器和解释器：V8如何执行一段Js代码" class="headerlink" title="编译器和解释器：V8如何执行一段Js代码"></a>编译器和解释器：V8如何执行一段Js代码</h2><blockquote>
 <p>编译器和解释器存在的原因：机器不能直接理解我们所写的代码，所以在执行程序之前需要将我们所写的代码“翻译”成机器能读懂的机器语言，按语言的执行流程，可以把语言划分为<code>编译型语言</code>和<code>解释型语言</code></p>
 <p>编译型语言：编译型语言在程序执行之前需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行时就可以直接运行该二进制文件了，如C/C++/GO</p>
 <p>解释型语言：解释型语言编写的程序在每次运行都要通过解释器对程序进行动态解释和执行，比如Python/Go </p>
 </blockquote>
-<p><img src="/.com//6.png"></p>
-<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
+<h3 id="V8是如何执行一段Js代码的"><a href="#V8是如何执行一段Js代码的" class="headerlink" title="V8是如何执行一段Js代码的"></a>V8是如何执行一段Js代码的</h3><p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/6.png"></p>
 <h4 id="生成抽象语法树-AST-和执行上下文"><a href="#生成抽象语法树-AST-和执行上下文" class="headerlink" title="生成抽象语法树(AST)和执行上下文"></a>生成抽象语法树(AST)和执行上下文</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line">myName = <span class="string">&quot;geektime&quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。Eslint也是。</p>
 <p>这段代码经过转义后生成的AST结构如下</p>
 </blockquote>
-<p><img src="/.com//7.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/7.png"></p>
 <h5 id="生成AST"><a href="#生成AST" class="headerlink" title="生成AST"></a>生成AST</h5><ol>
 <li>分词(tokenize)，又称词法分析：其作用是将一行行源代码拆成一个个token(语法上不能拆分的最小单位)</li>
 </ol>
-<p><img src="/.com//8.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/8.png"></p>
 <ol start="2">
 <li>解析(parse)，又称为语法分析，其作用是将上一步生成的token数据根据语法规则转化为AST，如果源码不符合语法规则则会抛出“语法错误”</li>
 </ol>
@@ -913,11 +913,11 @@
 <p> 出现原因：原来是直接将AST转换为机器码的，刚开始效果很好，但是随着小内存手机上运行Chrome需求的出现，内存占用的问题就出来了。</p>
 <p>为什么字节码能解决内存占用问题：字节码就是介于AST和机器码之间的代码，但是与特定类型的机器码无关，字节码需要解释器转化为机器码后才能使用。由下图可知使用字节码可以减少系统的内存使用。</p>
 </blockquote>
-<p><img src="/.com//9.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/9.png"></p>
 <h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><blockquote>
 <p>获得字节码后进入执行阶段，如果有一段第一次执行的字节码，解释器会逐条解释执行，在执行字节码的过程中，如果一段代码被<code>执行多次</code>，这种代码就称为<code>热点代码</code>，后台的编译器TurboFan就会把该段热点的字节码编译为高效的机器码， 然后再次执行这段代码时，只要执行编译后的机器码就行，这就大大提升了代码的执行效率。</p>
 </blockquote>
-<p><img src="/.com//10.png"></p>
+<p><img src="/2021/06/02/V8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/10.png"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -936,7 +936,7 @@
 <h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><blockquote>
 <p>一段代码经过编译后会生成<strong>执行上下文</strong>和<strong>可执行代码</strong></p>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/1.png"></p>
 <h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><blockquote>
 <p>创建执行上下文的情况</p>
 <ul>
@@ -959,7 +959,7 @@
 <li>addAll函数返回值，addAll函数被销毁</li>
 </ol>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/2.png"></p>
 <h2 id="作用域-scope"><a href="#作用域-scope" class="headerlink" title="作用域(scope)"></a>作用域(scope)</h2><blockquote>
 <p>作用域控制着变量和函数的可见性和生命周期</p>
 <ul>
@@ -981,17 +981,17 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line">      <span class="keyword">var</span> c = <span class="number">4</span></span><br><span class="line">      <span class="keyword">let</span> d = <span class="number">5</span></span><br><span class="line">      <span class="built_in">console</span>.log(a)</span><br><span class="line">      <span class="built_in">console</span>.log(b)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(b) </span><br><span class="line">    <span class="built_in">console</span>.log(c)</span><br><span class="line">    <span class="built_in">console</span>.log(d)</span><br><span class="line">&#125;   </span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/3.png"></p>
 <h2 id="作用域链和闭包"><a href="#作用域链和闭包" class="headerlink" title="作用域链和闭包"></a>作用域链和闭包</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(myName)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myName = <span class="string">&quot; 极客邦 &quot;</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/4.png"></p>
 <h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><blockquote>
 <p>词法作用域是指作用域是由代码中函数声明的位置来决定的，通过它能够预测代码在执行过程中如何查找标识符</p>
 </blockquote>
 <blockquote>
 <p>根据词法作用域，foo 和 bar 的上级作用域都是全局作用域，所以如果 foo 或者 bar 函数使用了一个它们没有定义的变量，那么它们会到全局作用域去查找。也就是说，词法作用域是代码阶段就决定好的，和函数是怎么调用的没有关系</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/5.png"></p>
 <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
 <p>在Js中，根据词法作用域规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经<strong>执行结束</strong>了，但是<strong>内部函数引用外部函数的变量</strong>依然保存在内存中，我们就把这些变量的集合称为闭包。</p>
 </blockquote>
@@ -1012,7 +1012,7 @@
 <li>当foo函数执行完成后，其</li>
 </ol>
 </blockquote>
-<p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/01/Js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/6.png"></p>
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><blockquote>
 <p>代码分为编译阶段和执行阶段</p>
 <p>编译阶段：</p>
@@ -1037,10 +1037,10 @@
   <entry>
     <title>面向实践的git指令集合</title>
     <url>/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/.com//7.jpg"></p>
-<p><img src="/.com//8.jpg"></p>
-<p><img src="/.com//10.jpg"></p>
-<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/.com//4.jpg"></p>
+    <content><![CDATA[<h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/8.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/10.jpg"></p>
+<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/4.jpg"></p>
 <h2 id="git指令集合"><a href="#git指令集合" class="headerlink" title="git指令集合"></a>git指令集合</h2><h3 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add . <span class="comment"># 将workspace修改的内容提交到暂存区</span></span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span> <span class="comment"># 将暂存区的内容提交到版本库</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin [branchName] <span class="comment"># 将版本库内容提交到远程仓库</span></span><br></pre></td></tr></table></figure>
 
 
@@ -1060,11 +1060,11 @@
 <h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3><blockquote>
 <p>冲突即多人开发时，修改了同一个文件</p>
 </blockquote>
-<p><img src="/.com//1.jpg">形式一：提交时</p>
-<p><img src="/.com//11.jpg">形式二：拉取时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg">形式一：提交时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/11.jpg">形式二：拉取时</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin [branchName] <span class="comment"># 将远程仓库内容拉到本地workspace</span></span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin [branchName]</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//2.jpg">合并冲突</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
 <h3 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本,将HEAD指针指向上一个commitID</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到最新版本</span></span><br><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
@@ -1095,7 +1095,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git stash apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.jpg">暂存列表</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
 <h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 需要先查看gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line"><span class="comment"># 一般来说只支持Maintainers</span></span><br><span class="line">git push -f origin [branchName]</span><br></pre></td></tr></table></figure>
 
@@ -1315,23 +1315,23 @@
 <p>虽然打包的时候webpack有shaking tree去除未使用部分，但是开发的时候仍然让人难以忍受</p>
 <p>去除无用部分后，通过lightHouse我们可以看到分数十分惨淡</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/1.jpg"></p>
 <h2 id="从webpack起步"><a href="#从webpack起步" class="headerlink" title="从webpack起步"></a>从webpack起步</h2><blockquote>
 <p>webpack主要是在打包速度方面提升速度</p>
 </blockquote>
-<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/.com//2.jpg">build/webpack.base.conf.js</p>
+<h3 id="开启babel缓存"><a href="#开启babel缓存" class="headerlink" title="开启babel缓存"></a>开启babel缓存</h3><p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/2.jpg">build/webpack.base.conf.js</p>
 <h3 id="dll加速-amp-cdn加速"><a href="#dll加速-amp-cdn加速" class="headerlink" title="dll加速&amp;cdn加速"></a>dll加速&amp;cdn加速</h3><blockquote>
 <p>根据我原来的<a href="https://dinnerchicke.github.io/2021/02/23/webpack%E4%BC%98%E5%8C%96/">webpack优化</a>即可，这里不再赘述</p>
 </blockquote>
 <h3 id="开启gzip压缩"><a href="#开启gzip压缩" class="headerlink" title="开启gzip压缩"></a>开启gzip压缩</h3><blockquote>
 <p>这个早已有实现，确保compression-webpack-plugin版本在1.1.2以下</p>
 </blockquote>
-<p><img src="/.com//4.jpg">config/index.js</p>
-<p><img src="/.com//7.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/4.jpg">config/index.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/7.jpg">build/webpack.prod.conf.js</p>
 <h3 id="生产环境关闭console"><a href="#生产环境关闭console" class="headerlink" title="生产环境关闭console"></a>生产环境关闭console</h3><blockquote>
 <p>虽然并不影响性能，但也算一个小tip，值得添加</p>
 </blockquote>
-<p><img src="/.com//6.jpg">build/webpack.prod.conf.js</p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/6.jpg">build/webpack.prod.conf.js</p>
 <p>添加drop_dubugger/drop_console即可</p>
 <h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><blockquote>
 <p>浏览器运行过程中会生成两棵树：</p>
@@ -1341,7 +1341,7 @@
 </ul>
 <p>浏览器运行流程：</p>
 </blockquote>
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2021/04/21/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/5.jpg"></p>
 <h3 id="CSS和JS的加载顺序优化"><a href="#CSS和JS的加载顺序优化" class="headerlink" title="CSS和JS的加载顺序优化"></a>CSS和JS的加载顺序优化</h3><p>CSS渲染：</p>
 <blockquote>
 <p>只有当我们开始解析HTML的link、style标签时，CSS才登场，是因为避免让页面的css未加载就裸奔在用户面前</p>
@@ -1432,7 +1432,7 @@
 <blockquote>
 <p>可以通过Promise.prototype查看Promise上的方法</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/1.jpg"></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Promise可以通过new实例化，创建时需要传入executor函数作为参数</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// exector执行器内部，作用如下：</span></span><br><span class="line">    <span class="comment">// 	1.初始化Promise的行为</span></span><br><span class="line">    <span class="comment">// 	2.控制状态的最终转换:如resolve,reject</span></span><br><span class="line">	<span class="keyword">if</span>(...)&#123;</span><br><span class="line">       resolve() <span class="comment">// 成功回调</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject() <span class="comment">// 失败回调</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;成功!&#x27;</span>,value)</span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;失败!&#x27;</span>,reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
@@ -1568,7 +1568,7 @@
 <li>浏览器端/node 端都可以使用</li>
 </ol>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/04/15/Promise&async&await%E6%B7%B1%E5%85%A5/2.jpg"></p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.19.0/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> request = axios.create(&#123;</span></span><br><span class="line"><span class="javascript">      baseURL: <span class="string">&#x27;http://localhost:9010/&#x27;</span></span></span><br><span class="line">    &#125;)</span><br><span class="line">    request.interceptors.request.use(</span><br><span class="line">      config=&gt;&#123;</span><br><span class="line"><span class="javascript">        config[<span class="string">&#x27;token&#x27;</span>] = <span class="string">&#x27;config&#x27;</span> <span class="comment">// 请求头内添加字段向后端发送token</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;请求拦截器config:&#x27;</span>, config)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> config</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    request.interceptors.response.use(</span><br><span class="line">      response=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;响应拦截器response:&#x27;</span>, response)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> response</span></span><br><span class="line">      &#125;,</span><br><span class="line">      error=&gt;&#123;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装接口，放在/api目录下</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// get接口封装一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addExample</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 未传递数据直接get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;server&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delayExample</span>(<span class="params">params</span>) </span>&#123; <span class="comment">// 传递数据get请求</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        params <span class="comment">// ES6语法，对象内用params代替params: params</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">notRealDelayExample</span>(<span class="params">_id</span>) </span>&#123; <span class="comment">// 根据Id查询数据,该接口未写</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;delay/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;get&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// post接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addApi</span>(<span class="params">payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;api&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;post&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// put接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">updateExample</span>(<span class="params">_id, payload</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123; <span class="comment">// 一般通过url来传id,通过data传递修改后的内容,但是只通过body传参也可以</span></span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;update/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;put&#x27;</span>,</span></span><br><span class="line">        data: payload</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="comment">// delete接口的一般形式</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">delExample</span>(<span class="params">_id</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> request(&#123;</span></span><br><span class="line"><span class="javascript">        url: <span class="string">&#x27;del/&#x27;</span> + _id,</span></span><br><span class="line"><span class="javascript">        method: <span class="string">&#x27;delete&#x27;</span></span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> neededData = <span class="string">&#x27;&#x27;</span> <span class="comment">// 需要渲染的data</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 调用接口，使用async/await来等待接口数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getAddExample</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> addExample().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDelayExample</span>(<span class="params">params</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">await</span> delayExample(params).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;await阻塞代码&#x27;</span>)</span></span><br><span class="line">        neededData = res</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">&#x27;neededData:&#x27;</span>,neededData)</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAddExample()</span><br><span class="line"><span class="javascript">    getDelayExample(<span class="string">&#x27;DelayData&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    addApi(<span class="string">&#x27;RequestBody&#x27;</span>)</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
@@ -1596,7 +1596,7 @@
 <p>执行顺序：</p>
 <ol>
 <li>按顺序执行代码，遇到宏任务放入宏任务队列中，微任务放入微任务队列中</li>
-<li>执行完宏任务队列后，检查是否有微任务，并执行所有微任务有**<em>新的微任务也执</em>行**直到清空微任务队列</li>
+<li>执行完宏任务队列后，检查是否有微任务，并执行所有微任务有<strong><em>新的微任务也执</em>行</strong>直到清空微任务队列</li>
 <li>检查是否需要UI渲染，如果需要就执行，否则返回1</li>
 </ol>
 <p>Tips：</p>
@@ -2007,11 +2007,11 @@
 <li>抽象不应该依赖细节(实现类)，细节应该依赖抽象</li>
 </ul>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/1.jpg"></p>
 <h3 id="层次化"><a href="#层次化" class="headerlink" title="层次化"></a>层次化</h3><blockquote>
 <p>高层通过依赖抽象服务接口来获取服务，底层通过依赖高层声明的抽象接口来实现服务</p>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/2.jpg"></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 违反DIP</span></span><br><span class="line"><span class="keyword">let</span> peopleBreakDIP = &#123;</span><br><span class="line">  eatShit: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 高层依赖底层，吃的必须是shit</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;当回老八&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(peopleBreakDIP.eatShit())</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遵守DIP</span></span><br><span class="line"><span class="keyword">let</span> peopleObeyDIP = &#123;</span><br><span class="line">  eatSomething: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 高层依赖抽象，吃啥都可以</span></span><br><span class="line">    <span class="comment">// 吃啥好</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">peopleObeyDIP.eatSomething = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 底层实现高层抽象,还是同一个撤硕</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;同一个撤硕&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.writeln(peopleObeyDIP.eatSomething())</span><br></pre></td></tr></table></figure>
 
 
@@ -2028,7 +2028,7 @@
 <p>高层仅调用Command的do()接口即可，底层仅实现Command的do()即可</p>
 <p>Active Object配合Command使用多线程</p>
 </blockquote>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/03/03/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/3.jpg"></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> Command = &#123; <span class="comment">// 命令</span></span><br><span class="line">  commandList: [], <span class="comment">// 抽象指令列表</span></span><br><span class="line">  insert: <span class="function"><span class="keyword">function</span> (<span class="params">fun</span>) </span>&#123; <span class="comment">// 添加指令</span></span><br><span class="line">    <span class="built_in">this</span>.commandList.push(fun)</span><br><span class="line">  &#125;,</span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 运行所有指令</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.commandList.length; i++) &#123;</span><br><span class="line">      <span class="built_in">this</span>.commandList[i].execute()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> commandDraw = &#123; <span class="comment">// 原子指令</span></span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;draw&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> commandArea = &#123; <span class="comment">// 原子指令</span></span><br><span class="line">  execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;area&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Command.insert(commandDraw)</span><br><span class="line">Command.insert(commandArea)</span><br><span class="line">Command.execute()</span><br></pre></td></tr></table></figure>
 
 
@@ -2350,7 +2350,7 @@
     <content><![CDATA[<h1 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h1><p>因为前端项目打包时间实在是太久了，而且由于太大了，每次都会把服务器搞宕机，看了一下webpack的教程，来解决一下打包问题。</p>
 <h2 id="小试牛刀-thread-loader"><a href="#小试牛刀-thread-loader" class="headerlink" title="小试牛刀(thread-loader)"></a>小试牛刀(thread-loader)</h2><p>肯定不会用现在的版本去测试，于是用个人项目<code>vue-template</code>去测试</p>
 <p>先上猛料，看看==多线程打包==如何，只能说差强人意吧</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/1.jpg"></p>
 <p>还有因为这是vue-cli脚手架形成的，里面的配置项眼花缭乱，只能步步为营</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">cnpm i thread-loader -D</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置项</span></span><br><span class="line">&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;thread-loader&#x27;</span>,&#123;</span><br><span class="line">          loader:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;options&#x27;</span>: &#123;</span><br><span class="line">            <span class="comment">// 第二次构建时会读取之前的缓存</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span> <span class="comment">// 加了这个并没有明显感到加快</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// loader: [&#x27;thread-loader&#x27;,&#x27;babel-loader&#x27;],</span></span><br><span class="line">        include: [resolve(<span class="string">&#x27;src&#x27;</span>), resolve(<span class="string">&#x27;test&#x27;</span>), resolve(<span class="string">&#x27;node_modules/webpack-dev-server/client&#x27;</span>)],</span><br><span class="line">        </span><br><span class="line">      &#125;,</span><br></pre></td></tr></table></figure>
 
@@ -2361,14 +2361,14 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install --save-dev speed-measure-webpack-plugin <span class="comment">// 首先安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack文件内创建对象</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">&#x27;speed-measure-webpack-plugin&#x27;</span>); <span class="comment">//引入插件</span></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin(); <span class="comment">//创建插件对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(&#123; <span class="comment">// 用smp.wrap包注export</span></span><br><span class="line">  context: path.resolve(__dirname, <span class="string">&#x27;../&#x27;</span>),</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">&#x27;./src/main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/2.jpg"></p>
 <p>可以看到都是老大哥了，用时都超过1000ms</p>
 <h3 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h3><blockquote>
 <p>通过webpack-bundle-analyzer可以看到各个包的体积</p>
 </blockquote>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install --save-dev webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>);</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/3.jpg"></p>
 <p>可以发现echarts和element-ui占用的量最大，可以考虑用cdn来减少打包体积</p>
 <h2 id="dll打包-大大加快"><a href="#dll打包-大大加快" class="headerlink" title="dll打包(大大加快)"></a>dll打包(大大加快)</h2><blockquote>
 <p>根据打包体积的输出，可以看到主要有echarts、element-ui等包体积过大，于是准备用dll来加速打包过程</p>
@@ -2376,20 +2376,20 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">cnpm install -D add-asset-html-webpack-plugin@<span class="number">2.1</span><span class="number">.2</span> <span class="comment">// 安装插件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在build文件夹下创建新文件webpack.dll.conf.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line">		<span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line">		<span class="built_in">module</span>.exports = &#123;</span><br><span class="line">		  entry: &#123;</span><br><span class="line">		    vendor: [</span><br><span class="line">		      <span class="string">&#x27;vue&#x27;</span>,</span><br><span class="line">		      <span class="string">&#x27;vue-router&#x27;</span> <span class="comment">// 打包列表</span></span><br><span class="line">		    ]</span><br><span class="line">		  &#125;,</span><br><span class="line">		  output: &#123;</span><br><span class="line">		    path: path.join(__dirname, <span class="string">&#x27;../static/js&#x27;</span>), <span class="comment">//放在项目的static/js目录下面</span></span><br><span class="line">		    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>, <span class="comment">//打包文件的名字</span></span><br><span class="line">		    library: <span class="string">&#x27;[name]_library&#x27;</span> <span class="comment">//可选 暴露出的全局变量名</span></span><br><span class="line">		    <span class="comment">// vendor.dll.js中暴露出的全局变量名。</span></span><br><span class="line">		    <span class="comment">// 主要是给DllPlugin中的name使用，</span></span><br><span class="line">		    <span class="comment">// 故这里需要和webpack.DllPlugin中的`name: &#x27;[name]_library&#x27;,`保持一致。</span></span><br><span class="line">		  &#125;,</span><br><span class="line">		  plugins: [</span><br><span class="line">		    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">		      path: path.join(__dirname, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;[name]-manifest.json&#x27;</span>), <span class="comment">//生成上文说到清单文件，放在当前build文件下面，这个看你自己想放哪里了。</span></span><br><span class="line">		      name: <span class="string">&#x27;[name]_library&#x27;</span>,</span><br><span class="line">		    &#125;),</span><br><span class="line">		  ]</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack.prod.conf.js下添加以下代码</span></span><br><span class="line"><span class="keyword">const</span> AddAssetHtmlPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);  <span class="comment">//在上面导入</span></span><br><span class="line">   <span class="keyword">new</span> webpack.DllReferencePlugin(&#123; <span class="comment">// 这是放在plugins里面的</span></span><br><span class="line">				context: path.resolve(__dirname, <span class="string">&#x27;..&#x27;</span>),</span><br><span class="line">				manifest: <span class="built_in">require</span>(<span class="string">&#x27;./vendor-manifest.json&#x27;</span>)</span><br><span class="line">				&#125;),</span><br><span class="line">				<span class="comment">//这个主要是将生成的vendor.dll.js文件加上hash值插入到页面中。</span></span><br><span class="line">				<span class="keyword">new</span> AddAssetHtmlPlugin([&#123;</span><br><span class="line">				filepath: path.resolve(__dirname, <span class="string">&#x27;../static/js/vendor.dll.js&#x27;</span>),</span><br><span class="line">				outputPath: utils.assetsPath(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">				publicPath: path.posix.join(config.build.assetsPublicPath, <span class="string">&#x27;static/js&#x27;</span>),</span><br><span class="line">				includeSourcemap: <span class="literal">false</span>,</span><br><span class="line">				hash: <span class="literal">true</span>,</span><br><span class="line">				&#125;]),</span><br><span class="line">       </span><br><span class="line"><span class="comment">// 在package.json里面添加指令</span></span><br><span class="line"><span class="string">&quot;dll&quot;</span>: <span class="string">&quot;webpack --config build/webpack.dll.conf.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行生成dll文件</span></span><br><span class="line">cnpm run dll</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打包</span></span><br><span class="line">cnpm run build</span><br></pre></td></tr></table></figure>
 
 <p>可以看到打包速度大大增加</p>
-<p><img src="/.com//4.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/4.jpg"></p>
 <h3 id="一个大坑-element-ui"><a href="#一个大坑-element-ui" class="headerlink" title="一个大坑(element-ui)"></a>一个大坑(element-ui)</h3><blockquote>
 <p>在线上项目也改过后，发现element-ui的图表老是显示不出来，关掉打包加速发现正常了。把dll加速里面的element-ui移除发现正常了，在网上搜索一番后，element-ui部分决定不使用dll加速，应该使用cdn加速，具体配置如下</p>
 </blockquote>
 <p>webpack.base.conf.js</p>
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/5.jpg"></p>
 <p>项目根目录下index.html</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/vue/2.5.2/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> Vue.config.productionTip=<span class="literal">false</span> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//6.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/6.jpg"></p>
 <p>webpack.dll.conf.js</p>
-<p><img src="/.com//7.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/7.jpg"></p>
 <p>main.js:注释掉element-ui部分</p>
-<p><img src="/.com//8.jpg"></p>
+<p><img src="/2021/02/23/Webpack%E4%BC%98%E5%8C%96/8.jpg"></p>
 <p>配置完成</p>
 ]]></content>
       <categories>
@@ -2558,9 +2558,9 @@
 <p>也没忘了在Jenkins的workspace也删之</p>
 <p>也排查了一下crontab，没发现里面有被入侵的痕迹，都是正常的脚本</p>
 <h2 id="找到罪魁祸首"><a href="#找到罪魁祸首" class="headerlink" title="找到罪魁祸首"></a>找到罪魁祸首</h2><p>通过<code>ps -ef | grep xmrig </code>  指令找到了罪魁祸首</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/1.jpg"></p>
 <p>于是马上去<code>/root/c3pool/xmrig</code>目录下，果然发现了罪魁祸首，还明目张胆的叫miner，真是**呢，看了里面的代码比较简单</p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/2.jpg"></p>
 <p>删除里面的文件，留了个心眼，不删除外部的文件，将c3pool文件夹用<code>sudo chmod 000 c3pool</code>指令锁了</p>
 <p>如果没有对应的处理代码，下次可能会被堵住</p>
 <h2 id="柳暗花明"><a href="#柳暗花明" class="headerlink" title="柳暗花明"></a>柳暗花明</h2><p>后来再次在workspace里面运行代码，发现还是会卡死，问题还是没解决</p>
@@ -2570,7 +2570,7 @@
 <p>用相同的手法，删除文件，将文件夹设为000权限</p>
 <p>终于，问题解决了，后端部署没问题了</p>
 <h2 id="问题依旧"><a href="#问题依旧" class="headerlink" title="问题依旧"></a>问题依旧</h2><p>但是在部署前端的时候还是有问题，还是会卡死。不能说惨不忍睹，只能说不忍直视。每次失败都要重启服务器，因为都会卡死</p>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/02/22/%E6%9F%A5%E6%9D%80%E7%97%85%E6%AF%92xmrig/3.jpg"></p>
 <p>接下来难以直接排查，于是只能自己手动部署一遍看看问题出在哪，不过依照进程来看应该是build阶段出的问题</p>
 <p>手动<code>cnpm run build</code>，果然卡死了，百度了一下确实打包时间太久了，得优化webpack的打包</p>
 <p>等过些时日学习一下webpack吧，看来这个问题并不是xmrig引起的…</p>
@@ -2702,7 +2702,7 @@
 <p>如果用 Vue/React 技术栈，并且不使用 <code>v-html</code>/<code>dangerouslySetInnerHTML</code> 功能，就在前端 render 阶段避免 <code>innerHTML</code>、<code>outerHTML</code> 的 XSS 隐患。</p>
 <p>DOM 中的内联事件监听器，如 <code>location</code>、<code>onclick</code>、<code>onerror</code>、<code>onload</code>、<code>onmouseover</code> 等，标签的 <code>href</code> 属性，JavaScript 的 <code>eval()</code>、<code>setTimeout()</code>、<code>setInterval()</code> 等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。</p>
 <h3 id="反射型-xss"><a href="#反射型-xss" class="headerlink" title="反射型 xss"></a>反射型 xss</h3><blockquote>
-<p>反射型xss也称为非持久性xss，是现在**<em>最容易出现**</em>的一种xss漏洞。发出请求时，xss代码出现在url中，最后提交给服务器，服务器解析后响应xss代码，最后浏览器执行</p>
+<p>反射型xss也称为非持久性xss，是现在<em><strong>最容易出现</strong></em>的一种xss漏洞。发出请求时，xss代码出现在url中，最后提交给服务器，服务器解析后响应xss代码，最后浏览器执行</p>
 </blockquote>
 <p>反射型 XSS 的攻击步骤：</p>
 <ol>
@@ -2720,13 +2720,7 @@
 
 <h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><ul>
 <li><p>httpOnly：在cookie中设置httpOnly</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// koa</span></span><br><span class="line">  ctx.cookies.set(name, value, &#123;</span><br><span class="line">      httpOnly: <span class="literal">true</span> <span class="comment">// 默认为 true</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// koa</span></span><br><span class="line">  ctx.cookies.set(name, value, &#123;</span><br><span class="line">      httpOnly: <span class="literal">true</span> <span class="comment">// 默认为 true</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure></li>
 <li><p>输入检查：对邮箱、电话号码、用户名、密码等按照规定格式输入。前后端都要检查，因为可以绕过直接访问接口。</p>
 <ol>
 <li>HTML 转义是非常复杂的，在不同的情况下要采用不同的转义规则。如果采用了错误的转义规则，很有可能会埋下 XSS 隐患。</li>
@@ -2734,19 +2728,14 @@
 </ol>
 </li>
 <li><p>对于链接跳转，如a href=”xxx” 或 location.href=”xxx”，要检验其内容，禁止以 javascript:开头的链接，和其他非法的 scheme。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">http://xxx/?redirect_to=javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line">http://xxx/?redirect_to=%20javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        sessionStorage.setItem(<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;session内容&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 直接获取session内容</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(sessionStorage.getItem(&#x27;a&#x27;))&quot;</span>&gt;</span>XSS<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">http://xxx/?redirect_to=javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line">http://xxx/?redirect_to=%20javascript:alert(&#x27;XSS&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        sessionStorage.setItem(<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;session内容&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 直接获取session内容</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(sessionStorage.getItem(&#x27;a&#x27;))&quot;</span>&gt;</span>XSS<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>HtmlEncode：某些情况下，不能对用户进行严格过滤，这时候需要对标签进行转换</p>
 </li>
 </ul>
-<ul>
-<li>HtmlEncode：某些情况下，不能对用户进行严格过滤，这时候需要对标签进行转换</li>
-</ul>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/1.jpg"></p>
 <ul>
 <li><p>JavaScriptEncode：对下列字符加上反斜杠</p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/2.jpg"></p>
 </li>
 </ul>
 <h3 id="XSS注入方法"><a href="#XSS注入方法" class="headerlink" title="XSS注入方法"></a>XSS注入方法</h3><ul>
@@ -2775,7 +2764,7 @@
 <li>利用已通过认证的用户权限更新设定信息等</li>
 <li>利用已通过认证的用户权限购买商品</li>
 </ul>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/02/06/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/3.jpg"></p>
 <h3 id="CSRF攻击流程与特点"><a href="#CSRF攻击流程与特点" class="headerlink" title="CSRF攻击流程与特点"></a>CSRF攻击流程与特点</h3><p>一个典型的CSRF攻击有着如下的流程：</p>
 <ul>
 <li><a href="http://受害者登录a.com/">受害者登录a.com</a>，并保留了登录凭证（Cookie）。</li>
@@ -2850,40 +2839,40 @@
   <entry>
     <title>Chrome-DevTools</title>
     <url>/2021/02/05/Chrome-DevTools/</url>
-    <content><![CDATA[<h1 id="Chrome-DevTools"><a href="#Chrome-DevTools" class="headerlink" title="Chrome-DevTools"></a>Chrome-DevTools</h1><h2 id="通过节点截图获取DOM元素"><a href="#通过节点截图获取DOM元素" class="headerlink" title="通过节点截图获取DOM元素"></a>通过节点截图获取DOM元素</h2><p><img src="/.com//1.jpg"></p>
-<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><h3 id="在控制台中使用上次操作的值"><a href="#在控制台中使用上次操作的值" class="headerlink" title="在控制台中使用上次操作的值"></a>在控制台中使用上次操作的值</h3><p><img src="/.com//2.jpg"></p>
+    <content><![CDATA[<h1 id="Chrome-DevTools"><a href="#Chrome-DevTools" class="headerlink" title="Chrome-DevTools"></a>Chrome-DevTools</h1><h2 id="通过节点截图获取DOM元素"><a href="#通过节点截图获取DOM元素" class="headerlink" title="通过节点截图获取DOM元素"></a>通过节点截图获取DOM元素</h2><p><img src="/2021/02/05/Chrome-DevTools/1.jpg"></p>
+<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><h3 id="在控制台中使用上次操作的值"><a href="#在控制台中使用上次操作的值" class="headerlink" title="在控制台中使用上次操作的值"></a>在控制台中使用上次操作的值</h3><p><img src="/2021/02/05/Chrome-DevTools/2.jpg"></p>
 <h3 id="x-获取元素"><a href="#x-获取元素" class="headerlink" title="$x()/$()/?()获取元素"></a>$x()/$()/?()获取元素</h3><p><code>$()</code> - 返回满足指定 CSS 规则的第一个元素，此方法为 document.querySelector()的简化。</p>
 <p><code>?()</code> - 返回满足指定 CSS 规则的所有元素，此方法为 querySelectorAll()的简化。</p>
 <p><code>$x()</code> - 返回满足指定 XPath 的所有元素。</p>
-<p><img src="/.com//12.jpg"></p>
-<h3 id="获取最近5个审查元素选中过的DOM节点"><a href="#获取最近5个审查元素选中过的DOM节点" class="headerlink" title="获取最近5个审查元素选中过的DOM节点"></a>获取最近5个审查元素选中过的DOM节点</h3><p><img src="/.com//11.jpg"></p>
-<h3 id="keys-values"><a href="#keys-values" class="headerlink" title="keys()/values()"></a>keys()/values()</h3><p><img src="/.com//13.jpg"></p>
-<h3 id="copy-Save-global-variable"><a href="#copy-Save-global-variable" class="headerlink" title="copy()/Save global variable()"></a>copy()/Save global variable()</h3><p><img src="/.com//14.jpg"></p>
-<h3 id="console-log-warn-error"><a href="#console-log-warn-error" class="headerlink" title="console.log/warn/error()"></a>console.log/warn/error()</h3><p><img src="/.com//5.jpg"></p>
-<h3 id="console-time-console-timeEnd"><a href="#console-time-console-timeEnd" class="headerlink" title="console.time(),console.timeEnd()"></a>console.time(),console.timeEnd()</h3><p><img src="/.com//6.jpg"></p>
-<h3 id="console-count"><a href="#console-count" class="headerlink" title="console.count()"></a>console.count()</h3><p><img src="/.com//7.jpg"></p>
-<h3 id="console-trace"><a href="#console-trace" class="headerlink" title="console.trace()"></a>console.trace()</h3><p><img src="/.com//8.jpg"></p>
-<h3 id="console-group"><a href="#console-group" class="headerlink" title="console.group()"></a>console.group()</h3><p><img src="/.com//9.jpg"></p>
-<p><img src="/.com//10.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/12.jpg"></p>
+<h3 id="获取最近5个审查元素选中过的DOM节点"><a href="#获取最近5个审查元素选中过的DOM节点" class="headerlink" title="获取最近5个审查元素选中过的DOM节点"></a>获取最近5个审查元素选中过的DOM节点</h3><p><img src="/2021/02/05/Chrome-DevTools/11.jpg"></p>
+<h3 id="keys-values"><a href="#keys-values" class="headerlink" title="keys()/values()"></a>keys()/values()</h3><p><img src="/2021/02/05/Chrome-DevTools/13.jpg"></p>
+<h3 id="copy-Save-global-variable"><a href="#copy-Save-global-variable" class="headerlink" title="copy()/Save global variable()"></a>copy()/Save global variable()</h3><p><img src="/2021/02/05/Chrome-DevTools/14.jpg"></p>
+<h3 id="console-log-warn-error"><a href="#console-log-warn-error" class="headerlink" title="console.log/warn/error()"></a>console.log/warn/error()</h3><p><img src="/2021/02/05/Chrome-DevTools/5.jpg"></p>
+<h3 id="console-time-console-timeEnd"><a href="#console-time-console-timeEnd" class="headerlink" title="console.time(),console.timeEnd()"></a>console.time(),console.timeEnd()</h3><p><img src="/2021/02/05/Chrome-DevTools/6.jpg"></p>
+<h3 id="console-count"><a href="#console-count" class="headerlink" title="console.count()"></a>console.count()</h3><p><img src="/2021/02/05/Chrome-DevTools/7.jpg"></p>
+<h3 id="console-trace"><a href="#console-trace" class="headerlink" title="console.trace()"></a>console.trace()</h3><p><img src="/2021/02/05/Chrome-DevTools/8.jpg"></p>
+<h3 id="console-group"><a href="#console-group" class="headerlink" title="console.group()"></a>console.group()</h3><p><img src="/2021/02/05/Chrome-DevTools/9.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/10.jpg"></p>
 <h3 id="任意编辑网页内文本"><a href="#任意编辑网页内文本" class="headerlink" title="任意编辑网页内文本"></a>任意编辑网页内文本</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.contentEditable=<span class="string">&quot;true&quot;</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/3.jpg"></p>
 <h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><h3 id="递增-递减CSS属性值"><a href="#递增-递减CSS属性值" class="headerlink" title="递增/递减CSS属性值"></a>递增/递减CSS属性值</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* 增量0.1</span><br><span class="line">  * Windows： Alt +向上和Alt +向下</span><br><span class="line">* 增量1</span><br><span class="line">  * Windows：向上+向下</span><br><span class="line">* 增量10</span><br><span class="line">  * Windows：shift+向上和shift+向下</span><br><span class="line">* 递增100</span><br><span class="line">  * Windows： Ctrl +向上和Ctrl +向下</span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="取色"><a href="#取色" class="headerlink" title="取色"></a>取色</h3><p><img src="/.com//25.jpg"></p>
+<h3 id="取色"><a href="#取色" class="headerlink" title="取色"></a>取色</h3><p><img src="/2021/02/05/Chrome-DevTools/25.jpg"></p>
 <h3 id="css调试"><a href="#css调试" class="headerlink" title="css调试"></a>css调试</h3><p>选择元素状态</p>
-<p><img src="/.com//15.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/15.jpg"></p>
 <p>computed样式跳转</p>
-<p><img src="/.com//16.jpg"></p>
-<h3 id="选中元素按H隐藏-按删除键删除"><a href="#选中元素按H隐藏-按删除键删除" class="headerlink" title="选中元素按H隐藏/按删除键删除"></a>选中元素按H隐藏/按删除键删除</h3><p><img src="/.com//17.jpg"></p>
-<h2 id="NetWork"><a href="#NetWork" class="headerlink" title="NetWork"></a>NetWork</h2><p><img src="/.com//18.jpg"></p>
-<p><img src="/.com//19.jpg"></p>
-<h3 id="Request-Table"><a href="#Request-Table" class="headerlink" title="Request Table"></a>Request Table</h3><p><img src="/.com//23.jpg"></p>
-<h3 id="单个资源的Timing标签"><a href="#单个资源的Timing标签" class="headerlink" title="单个资源的Timing标签"></a>单个资源的Timing标签</h3><p><img src="/.com//21.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/16.jpg"></p>
+<h3 id="选中元素按H隐藏-按删除键删除"><a href="#选中元素按H隐藏-按删除键删除" class="headerlink" title="选中元素按H隐藏/按删除键删除"></a>选中元素按H隐藏/按删除键删除</h3><p><img src="/2021/02/05/Chrome-DevTools/17.jpg"></p>
+<h2 id="NetWork"><a href="#NetWork" class="headerlink" title="NetWork"></a>NetWork</h2><p><img src="/2021/02/05/Chrome-DevTools/18.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/19.jpg"></p>
+<h3 id="Request-Table"><a href="#Request-Table" class="headerlink" title="Request Table"></a>Request Table</h3><p><img src="/2021/02/05/Chrome-DevTools/23.jpg"></p>
+<h3 id="单个资源的Timing标签"><a href="#单个资源的Timing标签" class="headerlink" title="单个资源的Timing标签"></a>单个资源的Timing标签</h3><p><img src="/2021/02/05/Chrome-DevTools/21.jpg"></p>
 <ul>
 <li><code>Queuing</code> (排队)</li>
 </ul>
@@ -2921,8 +2910,8 @@
 <li><p><code>Reading Push</code> - 浏览器正在读取之前收到的本地数据</p>
 </li>
 </ul>
-<p><img src="/.com//20.jpg"></p>
-<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p><img src="/.com//22.jpg"></p>
+<p><img src="/2021/02/05/Chrome-DevTools/20.jpg"></p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p><img src="/2021/02/05/Chrome-DevTools/22.jpg"></p>
 <ul>
 <li><code>requests</code> 查看请求的总数量 </li>
 <li><code>transferred</code> 查看请求的总大小</li>
@@ -2931,9 +2920,9 @@
 <li>DOMContentLoaded 时间</li>
 <li>load 时间</li>
 </ul>
-<h3 id="选择网络速度"><a href="#选择网络速度" class="headerlink" title="选择网络速度"></a>选择网络速度</h3><p><img src="/.com//4.jpg"></p>
-<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p><img src="/.com//25.jpg"></p>
-<h2 id="Render实时检测网页变化"><a href="#Render实时检测网页变化" class="headerlink" title="Render实时检测网页变化"></a>Render实时检测网页变化</h2><p><img src="/.com//26.jpg"></p>
+<h3 id="选择网络速度"><a href="#选择网络速度" class="headerlink" title="选择网络速度"></a>选择网络速度</h3><p><img src="/2021/02/05/Chrome-DevTools/4.jpg"></p>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p><img src="/2021/02/05/Chrome-DevTools/25.jpg"></p>
+<h2 id="Render实时检测网页变化"><a href="#Render实时检测网页变化" class="headerlink" title="Render实时检测网页变化"></a>Render实时检测网页变化</h2><p><img src="/2021/02/05/Chrome-DevTools/26.jpg"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -3085,7 +3074,7 @@
 
 
 
-<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/.com//1.jpg"></p>
+<h3 id="模版语法"><a href="#模版语法" class="headerlink" title="模版语法"></a>模版语法</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/1.jpg"></p>
 <h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="数据绑定指令"><a href="#数据绑定指令" class="headerlink" title="数据绑定指令"></a>数据绑定指令</h4><ul>
 <li>v-text：填充纯文本</li>
 <li>v-html：填充HTML片段；但存在安全问题、本网站内部数据可以使用，来自第三方的数据不可以用</li>
@@ -3124,7 +3113,7 @@
 
 
 
-<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/.com//2.jpg"></p>
+<h3 id="MVVM设计思想"><a href="#MVVM设计思想" class="headerlink" title="MVVM设计思想"></a>MVVM设计思想</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/2.jpg"></p>
 <ul>
 <li>M(model)：模型数据</li>
 <li>V(view)：视图，模版，本质为DOM</li>
@@ -3137,7 +3126,7 @@
 
 
 
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/.com//3.jpg"></p>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/3.jpg"></p>
 <blockquote>
 <p>监听器应用场景：执行异步或开销比较大的操作</p>
 </blockquote>
@@ -3154,7 +3143,7 @@
 <li>组合：组合新的产品</li>
 </ul>
 </blockquote>
-<p><img src="/.com//4.jpg"></p>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/4.jpg"></p>
 <h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><ul>
 <li>每个组件都是独立的</li>
 <li>组件模版必须是单个根元素</li>
@@ -3176,7 +3165,7 @@
 <p>之前为数据交互，这里为模版的内容</p>
 <p>简而言之：组件插槽是调用模版，插槽内的数据是可自定义传入的</p>
 </blockquote>
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/5.jpg"></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//组件插槽</span></span><br><span class="line">Vue.component(<span class="string">&#x27;alert-box&#x27;</span>,&#123;</span><br><span class="line">    template:<span class="string">`</span></span><br><span class="line"><span class="string">	div class=&quot;demo-alert-box&quot;</span></span><br><span class="line"><span class="string">	strong Error! strong</span></span><br><span class="line"><span class="string">	slot slot</span></span><br><span class="line"><span class="string">	div`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">alert-box <span class="comment">//如果传递了内容则用内容，否则使用slot默认内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具名插槽</span></span><br><span class="line">slot name=<span class="string">&quot;header&quot;</span><span class="comment">//插槽定义</span></span><br><span class="line">h1 slot=<span class="string">&quot;header&quot;</span><span class="comment">//插槽内容</span></span><br></pre></td></tr></table></figure>
 
 
@@ -3189,7 +3178,7 @@
 <li>结算组件</li>
 </ul>
 </blockquote>
-<p><img src="/.com//6.jpg"></p>
+<p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/6.jpg"></p>
 <h2 id="前后端交互"><a href="#前后端交互" class="headerlink" title="前后端交互"></a>前后端交互</h2><blockquote>
 <p>Js异步效果</p>
 <ul>
@@ -3226,7 +3215,7 @@
 <li><p>@click=函数名(参数)传的是正常参数</p>
 </li>
 </ul>
-<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/.com//7.jpg"></p>
+<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="/2020/11/28/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/7.jpg"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -3405,7 +3394,7 @@
 <li>渲染引擎：用来解析HTML与CSS，俗称内核，如chrome的blink</li>
 <li>JS引擎：也称为JS解释器，用来读取网页中Js代码，对其处理后执行，如chrome的v8</li>
 </ul>
-<h3 id="JS组成"><a href="#JS组成" class="headerlink" title="JS组成"></a>JS组成</h3><p><img src="/.com//1.jpg"></p>
+<h3 id="JS组成"><a href="#JS组成" class="headerlink" title="JS组成"></a>JS组成</h3><p><img src="/2020/11/10/Js-pink/1.jpg"></p>
 <ul>
 <li>ECMAScript：规定js的编程语法和基础核心知识</li>
 <li>BOM：浏览器对象模型，可以与浏览器窗口进行互动的对象结构，通过BOM可以操作浏览器窗口，如弹出框，跳转等</li>
@@ -3414,7 +3403,7 @@
 <h2 id="Web-APIs"><a href="#Web-APIs" class="headerlink" title="Web APIs"></a>Web APIs</h2><blockquote>
 <p>主要学BOM和DOM</p>
 </blockquote>
-<h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><h4 id="DOM简介"><a href="#DOM简介" class="headerlink" title="DOM简介"></a>DOM简介</h4><p><img src="/.com//2.jpg"></p>
+<h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><h4 id="DOM简介"><a href="#DOM简介" class="headerlink" title="DOM简介"></a>DOM简介</h4><p><img src="/2020/11/10/Js-pink/2.jpg"></p>
 <ul>
 <li>文档：一个页面就是一个文档，在DOM中使用document表示</li>
 <li>元素：页面中所有标签都是元素，DOM中使用element表示</li>
@@ -3487,7 +3476,7 @@
 
 
 <p>tab栏切换的本质是隐藏和显示</p>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2020/11/10/Js-pink/3.jpg"></p>
 <h4 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h4><blockquote>
 <p>利用父子兄弟节点关系获取元素</p>
 <p>逻辑性较强，但兼容性较差</p>
@@ -3545,7 +3534,7 @@
 <p>function fn(){</p>
 <p>​    …//不能使用默认函数的方式，里面的fn不用加小括号<br>​            removeEventListener(type,fn)</p>
 <p>}</p>
-<h4 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h4><p><img src="/.com//4.jpg"></p>
+<h4 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h4><p><img src="/2020/11/10/Js-pink/4.jpg"></p>
 <ul>
 <li>捕获阶段</li>
 <li>当前目标阶段</li>
@@ -3695,7 +3684,7 @@
 <p>mouseenter只会经过自身盒子触发，mouseover鼠标经过自身和子盒子都会触发</p>
 </blockquote>
 <h4 id="js轮播图"><a href="#js轮播图" class="headerlink" title="js轮播图"></a>js轮播图</h4><p>点击滚动</p>
-<p><img src="/.com//5.jpg"></p>
+<p><img src="/2020/11/10/Js-pink/5.jpg"></p>
 <h4 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h4><blockquote>
 <p>只能存储字符串，可以将对象JSON.stringfy()编码后存储</p>
 </blockquote>
@@ -3729,7 +3718,7 @@
 <p>CSS:层叠样式表，同样是标记语言</p>
 </blockquote>
 <h2 id="CSS简介"><a href="#CSS简介" class="headerlink" title="CSS简介"></a>CSS简介</h2><p>CSS构成：选择器以及一条或多条声明</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2020/11/06/C3/1.jpg"></p>
 <p>注释:/* */</p>
 <h3 id="CSS代码风格"><a href="#CSS代码风格" class="headerlink" title="CSS代码风格"></a>CSS代码风格</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">//展开风格</span><br><span class="line"><span class="selector-tag">h3</span>&#123;</span><br><span class="line">	color: pink;//属性值前面，冒号后面有个空格</span><br><span class="line">	<span class="selector-tag">font-size</span>: 20<span class="selector-tag">px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -3758,7 +3747,7 @@
 
 
 <h2 id="Chrome调试工具"><a href="#Chrome调试工具" class="headerlink" title="Chrome调试工具"></a>Chrome调试工具</h2><p>右边CSS可以暂时改变样式，CSS里面样式前面黄色感叹号被划掉代表样式有问题</p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2020/11/06/C3/2.jpg"></p>
 <h2 id="Emmet语法"><a href="#Emmet语法" class="headerlink" title="Emmet语法"></a>Emmet语法</h2><h3 id="快速生成html"><a href="#快速生成html" class="headerlink" title="快速生成html"></a>快速生成html</h3><ul>
 <li>生成标签：直接输入标签名，按tab即可</li>
 <li>生成多个相同标签：输入标签名*n即可，如div*3</li>
@@ -3878,7 +3867,7 @@
 <h2 id="CSS盒子模型"><a href="#CSS盒子模型" class="headerlink" title="CSS盒子模型"></a>CSS盒子模型</h2><blockquote>
 <p>HTML中的布局元素可以当成盒子，封装周边的元素，包括边框，外边距，内边距和实际内容</p>
 </blockquote>
-<img src="/.com//3.jpg" style="zoom: 67%;">
+<img src="/2020/11/06/C3/3.jpg" style="zoom: 67%;">
 
 <h3 id="边框-border"><a href="#边框-border" class="headerlink" title="边框(border)"></a>边框(border)</h3><p>组成：</p>
 <ul>
@@ -3983,9 +3972,9 @@
 </ul>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span>&#123;</span><br><span class="line">	<span class="attribute">position</span>:relative;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="/.com//4.jpg" alt="原位置" style="zoom: 33%;">
+<img src="/2020/11/06/C3/4.jpg" alt="原位置" style="zoom: 33%;">
 
-<img src="/.com//5.jpg" alt="相对定位后" style="zoom: 33%;">
+<img src="/2020/11/06/C3/5.jpg" alt="相对定位后" style="zoom: 33%;">
 
 <h4 id="绝对定位-重要"><a href="#绝对定位-重要" class="headerlink" title="绝对定位(重要)"></a>绝对定位(重要)</h4><ul>
 <li>绝对定位时元素在移动位置时，相对于它祖先元素来说的</li>
@@ -4088,7 +4077,7 @@
 <li>icomoon</li>
 <li>iconfont</li>
 </ul>
-<h3 id="CSS三角"><a href="#CSS三角" class="headerlink" title="CSS三角"></a>CSS三角</h3><img src="/.com//6.jpg" style="zoom: 67%;">
+<h3 id="CSS三角"><a href="#CSS三角" class="headerlink" title="CSS三角"></a>CSS三角</h3><img src="/2020/11/06/C3/6.jpg" style="zoom: 67%;">
 
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">fontsize</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -4127,7 +4116,7 @@
 
 
 <h4 id="行内块巧妙运用"><a href="#行内块巧妙运用" class="headerlink" title="行内块巧妙运用"></a>行内块巧妙运用</h4><p>分页码</p>
-<h4 id="CSS三角巧妙运用"><a href="#CSS三角巧妙运用" class="headerlink" title="CSS三角巧妙运用"></a>CSS三角巧妙运用</h4><p><img src="/.com//7.jpg"></p>
+<h4 id="CSS三角巧妙运用"><a href="#CSS三角巧妙运用" class="headerlink" title="CSS三角巧妙运用"></a>CSS三角巧妙运用</h4><p><img src="/2020/11/06/C3/7.jpg"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -4209,7 +4198,7 @@
     <title>Nodejs数据泄漏</title>
     <url>/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</url>
     <content><![CDATA[<h1 id="Nodejs内存泄漏"><a href="#Nodejs内存泄漏" class="headerlink" title="Nodejs内存泄漏"></a>Nodejs内存泄漏</h1><h2 id="第一部分：寻找原因"><a href="#第一部分：寻找原因" class="headerlink" title="第一部分：寻找原因"></a>第一部分：寻找原因</h2><p>前几天老是发现后台挂了，去检查nohup.out文件发现报了JS内存泄漏</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2020/10/22/Nodejs%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/1.jpg"></p>
 <p>一运行20m以后就到100%CPU，node使用的CPU一直在增加，是node内存泄漏的标志</p>
 <p>由于前后端都是用基于JS，所以先得排查是前端还是后端的问题</p>
 <p>前端把nginx停了以后，发现CPU还是增长，所以应该不是前端问题</p>
@@ -4253,7 +4242,7 @@
 <li>去除了三年和&lt;100%的基金</li>
 </ul>
 <p>部分结果展示：</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2020/10/20/crawl-Fund/1.jpg"></p>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>python：3.8</p>
 <p>工具：Spyder</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getL</span>():</span></span><br><span class="line">    url=<span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx?op=ph&amp;dt=kf&amp;ft=zs&amp;rs=&amp;gs=0&amp;sc=1nzf&amp;st=desc&amp;sd=2019-10-18&amp;ed=2020-10-20&amp;qdii=|&amp;tabSubtype=,,,,,&amp;pi=1&amp;pn=10000&amp;dx=1&amp;v=0.9486377750883621&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">               <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36&#x27;</span></span><br><span class="line">           &#125;</span><br><span class="line">    html=requests.get(url,headers=headers)</span><br><span class="line">    html.encoding=<span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    text=html.text</span><br><span class="line">    funds=[]<span class="comment">#基金列表</span></span><br><span class="line">    datas=eval(re.findall(<span class="string">&#x27;\[.*?\]&#x27;</span>,text,re.S)[<span class="number">0</span>])<span class="comment">#[]找到基金信息</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        funds.append(data)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;funds.csv&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&#x27;基金代码,基金名称,名字缩写,日期,单位净值,累计净值,日增长率,近一周,近一月,近三月,近六月,近一年,近两年,近三年,今年来,成立来,1,2,3,4,手续费,5,6,7,8\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> fund <span class="keyword">in</span> funds:</span><br><span class="line">            f.write(fund+<span class="string">&#x27;\n&#x27;</span>)<span class="comment">#写入文件</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)<span class="comment">#读取csv文件</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日期&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)<span class="comment">#去除列</span></span><br><span class="line">    DataDF.drop(<span class="string">&#x27;日增长率&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一周&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近一月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近三月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;近六月&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;今年来&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;1&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;2&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;3&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;4&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;5&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;6&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;7&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;8&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.drop(<span class="string">&#x27;名字缩写&#x27;</span>,axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近一年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近两年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;近三年&#x27;</span>].replace(<span class="string">&#x27;-[0-9]*.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF[<span class="string">&#x27;累计净值&#x27;</span>].replace(<span class="string">&#x27;0.[0-9]*&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    add= <span class="keyword">lambda</span> x,y,z:float(x)+float(y)+float(z)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>] = DataDF.apply(<span class="keyword">lambda</span> x:add(x[<span class="string">&#x27;近一年&#x27;</span>],x[<span class="string">&#x27;近两年&#x27;</span>],x[<span class="string">&#x27;近三年&#x27;</span>]),axis=<span class="number">1</span>)</span><br><span class="line">    DataDF.sort_values(by=<span class="string">&#x27;三年和&#x27;</span>,ascending=<span class="literal">False</span>,inplace=<span class="literal">True</span>)<span class="comment">#排序</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut</span>():</span><span class="comment">#在getL()里面replace不了不知道为什么</span></span><br><span class="line">    fileNameStr = <span class="string">&#x27;funds.csv&#x27;</span></span><br><span class="line">    DataDF = pd.read_csv(fileNameStr,encoding = <span class="string">&quot;gbk&quot;</span>,dtype = str)</span><br><span class="line">    DataDF[<span class="string">&#x27;三年和&#x27;</span>].replace(<span class="string">&#x27;^[0-9]&#123;1&#125;[0-9]&#123;1&#125;.&#123;1&#125;[0-9]*$&#x27;</span>,np.nan,regex=<span class="literal">True</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">    DataDF.dropna(how=<span class="string">&#x27;any&#x27;</span>,inplace=<span class="literal">True</span>)<span class="comment">#去除整行有缺失值的</span></span><br><span class="line">    DataDF.to_csv(<span class="string">&#x27;funds.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>,index=<span class="literal">False</span>, line_terminator=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    getL()</span><br><span class="line">    cut()</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
@@ -4303,7 +4292,7 @@
 <li>跨平台</li>
 <li>稳定</li>
 </ul>
-<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/.com//1.jpg"></p>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
 <p>特点：</p>
 <ul>
 <li>访问原来无法访问的资源，如Google</li>
@@ -4312,7 +4301,7 @@
 <li>记录用户访问记录</li>
 </ul>
 <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2020/10/07/nginx/2.jpg"></p>
 <p>特点：</p>
 <ul>
 <li>保证内网安全：隐藏服务器信息</li>
@@ -4365,7 +4354,7 @@
 </tr>
 </tbody></table>
 <h2 id="Linux文件权限"><a href="#Linux文件权限" class="headerlink" title="Linux文件权限"></a>Linux文件权限</h2><p>使用命令ls -al，文件类型权限如下图-rw-r–r–.</p>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2020/10/05/Linux%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F/1.jpg"></p>
 <p>第一个字符代表这个文件类型，常见的如下：</p>
 <ul>
 <li>[d]：目录</li>
@@ -4612,7 +4601,7 @@
 <h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h4><ul>
 <li>CPU具有向下兼容能力，如i7可以兼容i5</li>
 </ul>
-<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><img src="/.com//1.png" alt="image-20200526095428528"></p>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><img src="/2020/10/05/Linux%E7%9A%84%E8%A7%84%E5%88%92%E4%B8%8E%E5%AE%89%E8%A3%85/1.png" alt="image-20200526095428528"></p>
 <p>L2是与CPU频率相同的SRAM(静态随机存取内存)，被整合到CPU内部，其价格高，速度快，用于提示CPU运行性能，里面存放常用的程序或数据。</p>
 <h3 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h3><p>显卡影响屏幕分辨率和颜色深度。</p>
 <p>显卡通过GPU的控制芯片来与CPU、内存等通信。</p>
@@ -4778,7 +4767,7 @@
 <li>将PE安装到U盘上，将系统镜像ISO放到U盘，这次使用的是16G的u盘，微PE格式化U盘，第一次使用exFAT格式格式化失败了，第二次用NTFS才成功，可能因为原格式是NTFS的</li>
 <li>接下来将U盘插入主机，重启电脑按Alt(即苹果的options)，进入u盘系统</li>
 <li>因为可以将mac os抹除，而且原mac os分区老是失败，故直接将硬盘重新分区，用diskgenius格式化</li>
-<li><strong><em>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</em></strong></li>
+<li><em><strong>此时为重点！：因为win10、win8是GPT分区的，而win7是MBR分区的，所以此时需要将硬盘格式转化为MBR分区才能装上win7！然后重建主引导记录</strong></em></li>
 <li>分了一个C一个D盘均为NTFS格式，紧接着使用ghost一键安装win7</li>
 <li>因为前几次老是引导出错，所以在结束以后修复了一下引导，成功！</li>
 <li>重启电脑，按Alt进入新出现的硬盘图标下面写着windows</li>
@@ -4802,7 +4791,7 @@
 <p>H：色相，颜色的名字，如红色色相</p>
 <p>S：饱和度</p>
 <p>B：明度</p>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/2.jpg"></p>
 <p>红色0°，蓝色240°，绿色120°</p>
 <h3 id="色相搭配"><a href="#色相搭配" class="headerlink" title="色相搭配"></a>色相搭配</h3><p>同类色搭配</p>
 <p>以0°为基准，夹角在15°以内的颜色视为同类色，取出三个颜色形成同类色搭配</p>
@@ -4820,7 +4809,7 @@
 <li><p>明度：亮度</p>
 </li>
 </ul>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2020/10/03/%E8%89%B2%E5%BD%A9/3.png"></p>
 <p>白色调</p>
 <p>优点：素雅，文艺，干净，极简</p>
 <p>缺点：乏味，单调</p>
@@ -4872,7 +4861,7 @@
   <entry>
     <title>Authentication</title>
     <url>/2020/10/02/Authentication/</url>
-    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/.com//1.png"></p>
+    <content><![CDATA[<h1 id="认证中心"><a href="#认证中心" class="headerlink" title="认证中心"></a>认证中心</h1><p><img src="/2020/10/02/Authentication/1.png"></p>
 <h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p>认证中心简而言之用于身份识别</p>
 <ol>
 <li>登陆Post/login{“登陆信息”}</li>
@@ -4881,7 +4870,7 @@
 <li>服务器检查token，验证</li>
 <li>返回结果给浏览器</li>
 </ol>
-<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户**<em>主动**</em>提供身份证明如账号密码、二维码等登陆信息</p>
+<h3 id="创建Token"><a href="#创建Token" class="headerlink" title="创建Token"></a>创建Token</h3><p>在最初登陆阶段，需要用户<em><strong>主动</strong></em>提供身份证明如账号密码、二维码等登陆信息</p>
 <p>服务器收到信息后与数据库进行比对</p>
 <h4 id="传输密码"><a href="#传输密码" class="headerlink" title="传输密码"></a>传输密码</h4><p>在用户注册时，会将用户密码加密，再存储到数据库中，此过程<em>不可逆</em>。如MD5算法即将密码生成hash值，一个hash值可以对应多个密码。</p>
 <p>而验证过程则是对前端传来的密码再次进行加密，比对值是否相同。因为前端传输过程中密码也可能被截获，故传给后端前需要再加密一次。</p>
@@ -4934,7 +4923,7 @@
 <p>\w 匹配包括下划线的任何单词字符</p>
 <p>\W 匹配任何非单词字符</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2020/10/01/comRegEx/1.jpg"></p>
 ]]></content>
       <categories>
         <category>PStudy</category>
@@ -5014,19 +5003,19 @@
 <p>  我们可以通过app.config从Application实例上获取到config对象，也可以在Controller，Service，Helper的实例上通过this.config获取到config对象。</p>
 <h2 id="基本骨架"><a href="#基本骨架" class="headerlink" title="基本骨架"></a>基本骨架</h2><h3 id="（1）简述"><a href="#（1）简述" class="headerlink" title="（1）简述"></a>（1）简述</h3><p>egg.js是以koa为底层的企业级应用解决方案。</p>
 <h3 id="（2）简单层级关系"><a href="#（2）简单层级关系" class="headerlink" title="（2）简单层级关系"></a><strong>（2）简单层级关系</strong></h3><p>MVC(Model View Controller)是一种软件设计模式，早年间Controller层的代码量巨大</p>
-<p><img src="/.com//1.png" alt="img"></p>
+<p><img src="/2020/10/01/Eggjs/1.png" alt="img"></p>
 <p>后来分化出了Controller层的部分代码Service</p>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2020/10/01/Eggjs/2.png"></p>
 <p>View:作为视图部分</p>
 <p>Controller:作为控制器层，控制用户界面(View)的数据流转途径，主要行为包含接受用户请求、发送请求至业务层(Service)、获取业务层(Service)数据响应，将相应数据发送至用户界面(View)，或生成响应的模板界面发送至用户。</p>
 <p>Service:作为业务处理层部分，主要负责收集及对数据进行相应的运算处理，主要行为包含收集控制器请求数据、数据有效性验证、运算、请求数据模型(Model)、接受数据模型(Model)响应消息、响应结果至控制器等;</p>
 <p>Model:作为数据模型层部分，主要用于数据持久化(OUT)、查询持久化数据(IN)、常见行为如对数据库进行操作、缓存数据库等。</p>
-<h3 id="（3）路由-Router"><a href="#（3）路由-Router" class="headerlink" title="（3）路由(Router)"></a><strong>（3）路由(Router)</strong></h3><p><img src="/.com//3.png"></p>
+<h3 id="（3）路由-Router"><a href="#（3）路由-Router" class="headerlink" title="（3）路由(Router)"></a><strong>（3）路由(Router)</strong></h3><p><img src="/2020/10/01/Eggjs/3.png"></p>
 <p>路由主要用于对数据流进行指引，并处理请求转发。</p>
 <p>注:多WAN口路由器即具有多个广域网口的路由器</p>
 <p>LAN接口即局域网接口</p>
 <p>在Web进行前后端交互的过程中，路由起到了通过URL地址定位控制器函数的作用，即定位静态资源(无论是接口数据、页面。图片等其他文件)。如app/controller/home.ts中存在函数a()和b()，我们约定了跳转”<a href="http://luv-ui.com/a&quot;%E5%88%99%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0a();%E8%B7%B3%E8%BD%AC&quot;http://luv-ui.com/b&quot;%E5%88%99%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0b()%E3%80%82%E8%BF%99%E6%98%AFweb%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8-%E8%B7%AF%E7%94%B1%E7%9A%84%E5%B8%B8%E8%A7%81%E8%A1%A8%E7%8E%B0%E6%89%8B%E6%AE%B5">http://luv-ui.com/a&quot;则执行函数a();跳转&quot;http://luv-ui.com/b&quot;则执行函数b()。这是web应用中的控制器-路由的常见表现手段</a></p>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2020/10/01/Eggjs/4.png"></p>
 <h3 id="（4）内置对象"><a href="#（4）内置对象" class="headerlink" title="（4）内置对象"></a><strong>（4）内置对象</strong></h3><p>1.由Koa继承的对象:Application、Context、Request、Response</p>
 <p>2.Egg自己扩展的对象:Controller、Service、Helper、Config、Logger</p>
 <h4 id="（4-1）应用过程-Controller"><a href="#（4-1）应用过程-Controller" class="headerlink" title="（4.1）应用过程-Controller"></a><strong>（4.1）应用过程-Controller</strong></h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; Context, Controller &#125; from &#39;egg&#39;; </span><br><span class="line">export default class HomeController extends Controller &#123;    constructor(ctx: Context) &#123;        super(ctx);        &#x2F;&#x2F; do something    </span><br><span class="line">&#125;        &#x2F;&#x2F; 具体的请求函数    </span><br><span class="line">public async foo() &#123;        const &#123; ctx &#125; &#x3D; this; &#x2F;&#x2F; this 代表当前 Controller 对象本身        const &#123; code &#125; &#x3D; ctx.query; &#x2F;&#x2F; 获取 Get 请求中的参数 code        </span><br><span class="line">ctx.body &#x3D; await ctx.service.home.foo( code ); </span><br><span class="line">&#x2F;&#x2F; 异步调用 Service 对象中的相应业务处理,并将结果对调用者响应    </span><br><span class="line">&#125; &#125;</span><br></pre></td></tr></table></figure>
@@ -5034,9 +5023,9 @@
 <p>ctx对象中包含service对象，囊括了所有app/service/层级下的service继承类</p>
 <h4 id="（4-2）应用过程-Service"><a href="#（4-2）应用过程-Service" class="headerlink" title="（4.2）应用过程-Service"></a><strong>（4.2）应用过程-Service</strong></h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; Context, Service &#125; from &#39;egg&#39;; </span><br><span class="line">export default class HomeService extends Service &#123;    constructor(ctx: Context) &#123;        super(ctx);&#x2F;&#x2F; do something    </span><br><span class="line">&#125;        &#x2F;&#x2F; 具体的业务处理函数    </span><br><span class="line">public async foo( code: string ) &#123;        </span><br><span class="line">const &#123; ctx &#125; &#x3D; this; &#x2F;&#x2F; this 代表当前 Service 对象本身        </span><br><span class="line">const where &#x3D; &#123; code &#125;;        </span><br><span class="line">return await ctx.model.user.findAll(&#123;where&#125;); </span><br><span class="line">&#x2F;&#x2F; 通过 Model(数据模型) 部分获取静态资源    </span><br><span class="line">&#125; &#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//5.png" alt="img"></p>
+<p><img src="/2020/10/01/Eggjs/5.png" alt="img"></p>
 <h3 id="（5）配置-Config"><a href="#（5）配置-Config" class="headerlink" title="（5）配置(Config)"></a><strong>（5）配置(Config)</strong></h3><p>  配置文件返回的是一个object对象，可以覆盖框架的一些配置</p>
-<p><img src="/.com//6.png" alt="img"></p>
+<p><img src="/2020/10/01/Eggjs/6.png" alt="img"></p>
 <h2 id="路由-Router"><a href="#路由-Router" class="headerlink" title="路由(Router)"></a>路由(Router)</h2><p>  Router主要用来描述和请求URL和具体承担执行动作的Controller的对应关系。框架约定了app/router.js文件用于统一所有路由规则。</p>
 <p>  通过统一配置，我们可以更方便查看全局的路由规则。</p>
 <p><strong>如何定义Router</strong></p>
@@ -5046,7 +5035,7 @@
 <p>  路由的完整定义主要包括五个部分:</p>
 <p>  1)verb-用户触发动作，支持get，post等所有HTTP方法</p>
 <ul>
-<li><p>router.head - HEAD</p>
+<li><p>  router.head - HEAD</p>
 </li>
 <li><p>router.options - OPTIONS</p>
 </li>
@@ -5181,7 +5170,7 @@
 </ul>
 <p><strong>使用场景</strong></p>
 <ul>
-<li>复杂数据的处理，比如调用数据库信息还要经过计算返回给用户</li>
+<li>  复杂数据的处理，比如调用数据库信息还要经过计算返回给用户</li>
 <li>第三方服务的调用，比如GitHib信息获取等</li>
 </ul>
 <p><strong>属性</strong></p>

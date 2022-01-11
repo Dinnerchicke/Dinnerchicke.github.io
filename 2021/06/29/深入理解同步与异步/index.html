@@ -113,7 +113,7 @@
 <p>从图中可知，主线程的所有任务都来自于消息队列(FIFO)。</p>
 <p>主线程通过事件循环机制来不断执行从消息队列中取出的任务</p>
 </blockquote>
-<p><img src="/.com//1.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/1.jpg"></p>
 <h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><blockquote>
 <p>什么是宏任务？</p>
 <p>宏任务即如下的任务(名称并没有什么实际意义)：</p>
@@ -146,7 +146,7 @@
 <p>微任务是如何被执行的？</p>
 <p>通过调用上述API会将微任务添加到微任务队列中。通常当宏任务中的JavaScript快执行结束，即准备退出执行上下文并清空调用栈时(这个时间点被称为检查点)，JavaScript引擎会检查执行上下文的微任务，然后按照顺序执行微任务队列。V8引擎执行微任务队列中的任务直到为空才结束，即执行微任务过程中产生的微任务会立即添加到队尾执行。</p>
 </blockquote>
-<p><img src="/.com//2.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/2.jpg"></p>
 <blockquote>
 <p>Tip：微任务与宏任务是绑定的，每个宏任务在执行时会创建自己的微任务队列</p>
 </blockquote>
@@ -154,7 +154,7 @@
 <p>当宏任务为<code>同步任务</code>时，毫无疑问先执行宏任务</p>
 <p>当宏任务与微任务<code>同为异步任务</code>时，注意此时<code>先执行微任务再执行宏任务</code></p>
 </blockquote>
-<p><img src="/.com//3.jpg"></p>
+<p><img src="/2021/06/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/3.jpg"></p>
 <h4 id="特别篇：Async-Await"><a href="#特别篇：Async-Await" class="headerlink" title="特别篇：Async/Await"></a>特别篇：Async/Await</h4><blockquote>
 <p>Async做了什么？</p>
 <ul>

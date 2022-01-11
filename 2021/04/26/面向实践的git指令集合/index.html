@@ -99,10 +99,10 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/.com//7.jpg"></p>
-<p><img src="/.com//8.jpg"></p>
-<p><img src="/.com//10.jpg"></p>
-<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/.com//4.jpg"></p>
+  <h1 id="面向实践的git指令集合"><a href="#面向实践的git指令集合" class="headerlink" title="面向实践的git指令集合"></a>面向实践的git指令集合</h1><h2 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h2><h3 id="工作区-amp-暂存区-amp-版本库"><a href="#工作区-amp-暂存区-amp-版本库" class="headerlink" title="工作区&amp;暂存区&amp; 版本库"></a>工作区&amp;暂存区&amp; 版本库</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/7.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/8.jpg"></p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/10.jpg"></p>
+<h3 id="操作图示集合"><a href="#操作图示集合" class="headerlink" title="操作图示集合"></a>操作图示集合</h3><p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/4.jpg"></p>
 <h2 id="git指令集合"><a href="#git指令集合" class="headerlink" title="git指令集合"></a>git指令集合</h2><h3 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add . <span class="comment"># 将workspace修改的内容提交到暂存区</span></span><br><span class="line">git commit -m <span class="string">&quot;提交信息&quot;</span> <span class="comment"># 将暂存区的内容提交到版本库</span></span><br><span class="line"><span class="comment"># 如果本地分支名与远程分支名相同，直接git push即可</span></span><br><span class="line">git push origin [branchName] <span class="comment"># 将版本库内容提交到远程仓库</span></span><br></pre></td></tr></table></figure>
 
 
@@ -122,11 +122,11 @@
 <h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3><blockquote>
 <p>冲突即多人开发时，修改了同一个文件</p>
 </blockquote>
-<p><img src="/.com//1.jpg">形式一：提交时</p>
-<p><img src="/.com//11.jpg">形式二：拉取时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/1.jpg">形式一：提交时</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/11.jpg">形式二：拉取时</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先传修改</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line"><span class="comment"># 拉取修改</span></span><br><span class="line">git pull origin [branchName] <span class="comment"># 将远程仓库内容拉到本地workspace</span></span><br><span class="line"><span class="comment"># 然后在Vscode里面选择更改内容,如下图</span></span><br><span class="line"><span class="comment"># 再次上传</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;信息&quot;</span></span><br><span class="line">git push origin [branchName]</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//2.jpg">合并冲突</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/2.jpg">合并冲突</p>
 <h3 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 回到上一个版本,将HEAD指针指向上一个commitID</span></span><br><span class="line">git reset --hard <span class="string">&quot;HEAD^&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到指定版本</span></span><br><span class="line">git reset --hard 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到最新版本</span></span><br><span class="line">git pull origin [branchName]</span><br></pre></td></tr></table></figure>
 
 
@@ -157,7 +157,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂存当前修改</span></span><br><span class="line">git stash save 暂存名1</span><br><span class="line">git stash save 暂存名2</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看暂存列表</span></span><br><span class="line">git stash list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择对应暂存</span></span><br><span class="line">git stash apply stash@&#123;暂存名&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对应暂存</span></span><br><span class="line">git stash drop stash@&#123;暂存名&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//3.jpg">暂存列表</p>
+<p><img src="/2021/04/26/%E9%9D%A2%E5%90%91%E5%AE%9E%E8%B7%B5%E7%9A%84git%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88/3.jpg">暂存列表</p>
 <h3 id="强制推送到远程-amp-覆盖本地-不推荐"><a href="#强制推送到远程-amp-覆盖本地-不推荐" class="headerlink" title="强制推送到远程&amp;覆盖本地(不推荐)"></a>强制推送到远程&amp;覆盖本地(不推荐)</h3><p>强制推送到远程(发生冲突时),<strong>不推荐此方法！！！会导致代码被随意改动</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先查看gitlab的protected状态</span></span><br><span class="line"><span class="comment"># &quot;Settings&quot; -&gt; &quot;Repository&quot; -&gt; &quot;Protected branches&quot;.</span></span><br><span class="line"><span class="comment"># 一般来说只支持Maintainers</span></span><br><span class="line">git push -f origin [branchName]</span><br></pre></td></tr></table></figure>
 

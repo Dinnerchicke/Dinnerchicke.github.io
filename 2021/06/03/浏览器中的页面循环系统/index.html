@@ -105,7 +105,7 @@
 <h3 id="单线程处理"><a href="#单线程处理" class="headerlink" title="单线程处理"></a>单线程处理</h3><blockquote>
 <p>如果使用单线程顺序执行任务的话，显而易见并不能持续的执行任务，当任务执行完后就会退出线程</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/2.png"></p>
 <h3 id="循环处理任务"><a href="#循环处理任务" class="headerlink" title="循环处理任务"></a>循环处理任务</h3><blockquote>
 <p>引入循环机制：</p>
 <ol>
@@ -113,15 +113,15 @@
 <li>可以通过事件来等待用户输入，输入完成后激活线程</li>
 </ol>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/3.png"></p>
 <h3 id="引入多线程模型"><a href="#引入多线程模型" class="headerlink" title="引入多线程模型"></a>引入多线程模型</h3><blockquote>
 <p>当出现多线程时，情况就不一样了</p>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/4.png"></p>
 <blockquote>
 <p>线程需要接收其他线程传来的数据，一个通用的模式就是使用<code>消息队列</code>，先进先出的队列</p>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/5.png"></p>
 <blockquote>
 <p>从图中可知：</p>
 <ul>
@@ -129,11 +129,11 @@
 <li>其他线程会向消息队列的队尾推送任务以供主线程执行</li>
 </ul>
 </blockquote>
-<p><img src="/.com//6.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/6.png"></p>
 <h3 id="引入跨进程通信-IPC-模型"><a href="#引入跨进程通信-IPC-模型" class="headerlink" title="引入跨进程通信(IPC)模型"></a>引入跨进程通信(IPC)模型</h3><blockquote>
 <p>从图中可以看出，IO线程会处理其他进程传来的IPC内容，然后提交到消息队列执行</p>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/1.png"></p>
 <h2 id="宏任务与微任务"><a href="#宏任务与微任务" class="headerlink" title="宏任务与微任务"></a>宏任务与微任务</h2><blockquote>
 <p>随着浏览器的发展，消息队列这种粗时间粒度的任务已经不能胜任部分需求，所以出现了<code>微任务</code>，在实时性和效率之间做一个权衡</p>
 </blockquote>
@@ -151,7 +151,7 @@
 <p>但是宏任务例如settimeout，想延迟xms后执行，但是往往可能会被插入很多系统级的任务，导致不会在我们预期的时间执行回调函数。</p>
 <p>故宏任务的时间粒度不能满足一些高实时性的需求，所以就有了微任务。</p>
 </blockquote>
-<p><img src="/.com//7.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/7.png"></p>
 <h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><blockquote>
 <p>微任务(microtask)：</p>
 <ol>
@@ -175,8 +175,8 @@
 <blockquote>
 <p>该示意图是在执行一个 ParseHTML 的宏任务，在执行过程中，遇到了 JavaScript 脚本，那么就暂停解析流程，进入到 JavaScript 的执行环境。从图中可以看到，全局上下文中包含了微任务列表。</p>
 </blockquote>
-<p><img src="/.com//8.png"></p>
-<p><img src="/.com//9.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/8.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/9.png"></p>
 <blockquote>
 <p>结论：</p>
 <ul>
@@ -200,11 +200,11 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">genDemo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第一段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第二段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 开始执行第三段 &quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot; 执行结束 &quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;generator 2&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 0&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> gen = genDemo()</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 1&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 2&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 3&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(gen.next().value)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;main 4&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//10.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/10.png"></p>
 <blockquote>
 <p>父协程和gen协程切换调用栈</p>
 </blockquote>
-<p><img src="/.com//11.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/11.png"></p>
 <blockquote>
 <p>在JavaScript中，生成器就是协程的一种实现方式</p>
 </blockquote>
@@ -217,7 +217,7 @@
 
 <h3 id="Async-Await与协程"><a href="#Async-Await与协程" class="headerlink" title="Async/Await与协程"></a>Async/Await与协程</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">await</span> <span class="number">100</span></span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>)</span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//12.png"></p>
+<p><img src="/2021/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/12.png"></p>
  
       <!-- reward -->
       

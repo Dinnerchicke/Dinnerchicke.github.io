@@ -108,17 +108,17 @@
 <li>HTML解析器会动态接收字节流并将其解析为DOM</li>
 </ol>
 </blockquote>
-<p><img src="/.com//1.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/1.png"></p>
 <h3 id="字节流转换为DOM的流程"><a href="#字节流转换为DOM的流程" class="headerlink" title="字节流转换为DOM的流程"></a>字节流转换为DOM的流程</h3><blockquote>
 <p>第一阶段：通过<code>分词器</code>将字节流转换为Token，上述的HTML代码转换为Token如下</p>
 </blockquote>
-<p><img src="/.com//2.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/2.png"></p>
 <h3 id="Token解析为DOM-DOM添加到DOM树"><a href="#Token解析为DOM-DOM添加到DOM树" class="headerlink" title="Token解析为DOM/DOM添加到DOM树"></a>Token解析为DOM/DOM添加到DOM树</h3><blockquote>
 <p>第二/三阶段：这两个阶段是同步进行的，将Token解析为DOM节点的同时将其添加到DOM树中</p>
 <p>HTML解析器维护了一个Token栈结构，具体实现如Mustache模板引擎<a target="_blank" rel="noopener" href="https://git.io/JYv3A">https://git.io/JYv3A</a></p>
 <p>算法实现即使用栈结构对tag进行判断，将其闭合输出为DOM</p>
 </blockquote>
-<p><img src="/.com//3.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/3.png"></p>
 <h2 id="JavaScript是如何影响DOM树构建的"><a href="#JavaScript是如何影响DOM树构建的" class="headerlink" title="JavaScript是如何影响DOM树构建的"></a>JavaScript是如何影响DOM树构建的</h2><blockquote>
 <p>引入JavaScript会阻塞DOM：假如在DOM中插入一段JavaScript脚本，解析到JavaScript时，渲染引擎检测到这是一段脚本，此时HTML会<code>暂停DOM的解析</code>，因为接下来可能要修改已生成的DOM。执行这段脚本以后，继续解析后序的内容，直至生成最终的DOM。</p>
 <p>因为Js可能操作样式，所以如果代码里<code>引用了外部的CSS文件</code>，那么在执行Js之前，还需要<code>等待外部CSS文件下载完成</code>，并解析生成CSSOM对象后，才执行Js脚本。</p>
@@ -138,7 +138,7 @@
 <li>在接收到HTML数据后的解析过程中，HTML预解析器识别出有CSS、Js文件需要下载，同时发起请求，且这个过程是并行的</li>
 </ul>
 </blockquote>
-<p><img src="/.com//4.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/4.png"></p>
 <h2 id="影响页面展示的因素及优化策略"><a href="#影响页面展示的因素及优化策略" class="headerlink" title="影响页面展示的因素及优化策略"></a>影响页面展示的因素及优化策略</h2><blockquote>
 <p>从发起URL请求到首次显示页面的内容，在视觉上经历的三个阶段：</p>
 <ol>
@@ -156,7 +156,7 @@
 <li>对于大CSS文件，可以通过媒体查询属性将其拆分为多个不同用途的CSS文件，在特定场景下才会加载的特定CSS文件</li>
 </ul>
 </blockquote>
-<p><img src="/.com//5.png"></p>
+<p><img src="/2021/06/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B5%E9%9D%A2%E7%9B%B8%E5%85%B3/5.png"></p>
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="为什么CSS动画比JavaScript高效"><a href="#为什么CSS动画比JavaScript高效" class="headerlink" title="为什么CSS动画比JavaScript高效"></a>为什么CSS动画比JavaScript高效</h3><blockquote>
 <p>因为CSS动画中的合成阶段是使用分层线程完成的，并不会占据主线程，所以比JavaScript高效</p>
 </blockquote>
