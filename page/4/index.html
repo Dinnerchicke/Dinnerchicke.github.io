@@ -81,6 +81,102 @@
     
     
     <article
+  id="post-go服务器部署"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/03/go%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/"
+    >go服务器部署</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/03/go%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/" class="article-date">
+  <time datetime="2021-01-03T05:13:25.000Z" itemprop="datePublished">2021-01-03</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="go服务器部署"><a href="#go服务器部署" class="headerlink" title="go服务器部署"></a>go服务器部署</h1><ol>
+<li>从官网下载Go语言安装包：<a target="_blank" rel="noopener" href="https://studygolang.com/dl">https://studygolang.com/dl</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;studygolang.com&#x2F;dl&#x2F;golang&#x2F;go1.15.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>解压安装包到指定目录</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf go1.15.linux-amd64.tar.gz -C &#x2F;opt</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>将包复制到/usr/local</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r go &#x2F;usr&#x2F;local</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在当前用户目录创建go目录</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir go</span><br><span class="line">mkdir goprogram</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>设置环境变量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">export GOROOT&#x3D;&#x2F;usr&#x2F;local&#x2F;go</span><br><span class="line">export GOPATH&#x3D;&#x2F;home&#x2F;ubuntu&#x2F;goprogram</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;go&#x2F;bin</span><br><span class="line">export GO111MODULE&#x3D;on</span><br><span class="line">export GOPROXY&#x3D;https:&#x2F;&#x2F;goproxy.io</span><br><span class="line"></span><br><span class="line">#先进入root用户</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">#查看go环境</span><br><span class="line">go env</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>在开发目录下创建文件夹</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;ubuntu&#x2F;go&#x2F;program</span><br><span class="line">mkdir bin</span><br><span class="line">mkdir src</span><br><span class="line">mkdir pkg</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>编写go文件并运行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cd bin</span><br><span class="line">vim hello.go</span><br><span class="line"></span><br><span class="line">package main</span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">func main()&#123;</span><br><span class="line">    fmt.Println(&quot;hello,world!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#退出后,直接运行</span><br><span class="line">go run hello.go</span><br><span class="line"></span><br><span class="line">#使用go build生成可执行文件</span><br><span class="line">go build hello.go</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>服务器端部署</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#将源代码拷贝到服务器,服务器上编译</span><br><span class="line">go build main.go</span><br><span class="line">#而后将生成可执行文件main</span><br><span class="line">#执行文件</span><br><span class="line">nohup .&#x2F;main &amp;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>go常用命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#编译并把编译好的结果移到$GOPATH&#x2F;pkg或者$GOPATH&#x2F;bin</span><br><span class="line">go install</span><br><span class="line"></span><br><span class="line">#编译</span><br><span class="line">go build</span><br><span class="line">-o:指定输出文件名,可以带上路径 go build -O out main.go</span><br><span class="line">-i 安装相应的包,编译+go install</span><br><span class="line">-v 打印出来正在编译的包名</span><br><span class="line"></span><br><span class="line">#安装第三方包</span><br><span class="line">go get</span><br><span class="line">-d 只下载不安装</span><br><span class="line">-u 强制使用网络去更新包和它的依赖包</span><br><span class="line">-v 显示执行的命令</span><br><span class="line"></span><br><span class="line">#移除当前源码包和关联源码包里面编译生成的文件</span><br><span class="line">go clean</span><br><span class="line"></span><br><span class="line">#格式化代码</span><br><span class="line">go fmt</span><br><span class="line"></span><br><span class="line">#编译并运行go程序</span><br><span class="line">go run</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Experience/" rel="tag">Experience</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+   
+</article>
+
+    
+    <article
   id="post-前端权限思路"
   class="article article-type-post"
   itemscope
@@ -1682,78 +1778,6 @@
 
 
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>当时写了几个小时吧，还是很有意思的，简而言之就是对标签内容的获取然后下载</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-   
-</article>
-
-    
-    <article
-  id="post-nginx"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/07/nginx/"
-    >nginx</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/07/nginx/" class="article-date">
-  <time datetime="2020-10-07T02:45:38.000Z" itemprop="datePublished">2020-10-07</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PStudy/">PStudy</a> / <a class="article-category-link" href="/categories/PStudy/devOps/">devOps</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>高并发多连接</li>
-<li>生态好</li>
-<li>跨平台</li>
-<li>稳定</li>
-</ul>
-<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p><img src="/2020/10/07/nginx/1.jpg"></p>
-<p>特点：</p>
-<ul>
-<li>访问原来无法访问的资源，如Google</li>
-<li>可以做缓存</li>
-<li>客户端认证</li>
-<li>记录用户访问记录</li>
-</ul>
-<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理服务器将客户端发给服务器的请求按照一定规则分发给后端服务器</p>
-<p><img src="/2020/10/07/nginx/2.jpg"></p>
-<p>特点：</p>
-<ul>
-<li>保证内网安全：隐藏服务器信息</li>
-<li>负载均衡</li>
-</ul>
  
       <!-- reward -->
       
